@@ -275,6 +275,7 @@ public class Game extends Canvas {
 				for (int s=p+1;s<entities.size();s++) {
 					Entity me = entities.get(p);
 					Entity him = entities.get(s);
+					if (removeList.contains(me) || removeList.contains(him)) continue;
 					
 					if (me.collidesWith(him)) {
 						me.collidedWith(him);
