@@ -35,6 +35,8 @@ import entities.ShotEntity;
  * @author Kevin Glass
  */
 public class Game extends Canvas {
+	private static final long serialVersionUID = 1L; // corrige un warning
+
 	/** The stragey that allows us to use accelerate page flipping */
 	private BufferStrategy strategy;
 	
