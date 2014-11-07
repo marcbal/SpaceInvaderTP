@@ -5,8 +5,13 @@ import java.util.ArrayList;
 
 import base.Game;
 
+/**
+ * This class generate levels, it's an abstract class
+ */
 public abstract class Level {
 	
+	/**Game where the level is*/
+	private Game game;
 	
 	/**Number of row for the table*/
 	private int row;
@@ -32,7 +37,9 @@ public abstract class Level {
 	/**Position of thefirst ennemy (int the top left)*/
 	private Position pos;
 	
-	public Level(int r, int l, String s, int spLR, int spTB,  Position p) {
+	public Level(Game g, int r, int l, String s, int spLR, int spTB,  Position p) {
+		
+		game = g;
 		row = r;
 		line = l;
 		sprite = s;
@@ -45,12 +52,12 @@ public abstract class Level {
 	 * The function generate a table of ennemies
 	 * @param g the game where ennemies are
 	 */
-	public ArrayList<Entity> generateLevel(Game g) {
+	public ArrayList<Entity> generateLevel() {
 		nbCount = 0;
 		SquadList = new ArrayList<Entity>();
 		for (int r=0;r<row;r++) {
 			for (int l=0;l<line;l++) {
-				Entity alien = new AlienEntity(g,sprite,pos.getX()+(line*spaceLR),pos.getY()+row*spaceTB);
+				Entity alien = new AlienEntity(game,sprite,pos.getX()+(l*spaceLR),pos.getY()+r*spaceTB);
 				SquadList.add(alien);
 				nbCount++;
 			}
@@ -65,8 +72,8 @@ public abstract class Level {
 	/** This function remove 1 at nbCount when called */
 	public boolean hasOneDestroyed() {
 		
-		//Si nbCount est déjà à 0
-		if(nbCount==0) return false;
+		//If the last alien as been killed
+		if(nbCount==1) return false;
 		
 		nbCount--;
 		return true;

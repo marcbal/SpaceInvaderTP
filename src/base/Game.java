@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import misc.*;
 import entities.*;
 
 /**
@@ -54,8 +55,6 @@ public class Game extends Canvas {
 	private long lastFire = 0;
 	/** The interval between our players shot (ms) */
 	private long firingInterval = 0;
-	/** The number of aliens left on the screen */
-	private int alienCount;
 	
 	/** The message to display which waiting for a key press */
 	private String message = "";
@@ -69,6 +68,16 @@ public class Game extends Canvas {
 	private boolean firePressed = false;
 	/** True if game logic needs to be applied this loop, normally as a result of a game event */
 	private boolean logicRequiredThisLoop = false;
+	/**Number of row for enenmies*/
+	private int row = 3;
+	/**Number of line for ennemies*/
+	private int line = 10;
+	/**Position for the first Alien*/
+	private Position pos = new Position(100,50);
+	/**Space between aliens*/
+	private int space = 50;
+	/**The level is generate below*/
+	private Level l;
 	
 	/**
 	 * Construct our game and set it running.
@@ -144,15 +153,9 @@ public class Game extends Canvas {
 		ship = new ShipEntity(this,"sprites/ship.gif",370,550);
 		entities.add(ship);
 		
-		// create a block of aliens (3 rows, by 10 aliens, spaced evenly)
-		alienCount = 0;
-		for (int row=0;row<3;row++) {
-			for (int x=0;x<10;x++) {
-				Entity alien = new AlienEntity(this,"sprites/alien.gif",100+(x*50),(50)+row*30);
-				entities.add(alien);
-				alienCount++;
-			}
-		}
+		// create block of aliens, with the arguments
+		l = new Alien(this, row, line, space, space, pos);
+		entities.addAll(l.generateLevel());
 	}
 	
 	/**
@@ -195,10 +198,9 @@ public class Game extends Canvas {
 	 * Notification that an alien has been killed
 	 */
 	public void notifyAlienKilled() {
-		// reduce the alient count, if there are none left, the player has won!
-		alienCount--;
 		
-		if (alienCount == 0) {
+		//If the lastt alien as been killed
+		if (!l.hasOneDestroyed()) {
 			notifyWin();
 		}
 		
