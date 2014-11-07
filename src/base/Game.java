@@ -41,6 +41,8 @@ public class Game extends Canvas {
 	/** True if the game is currently "running", i.e. the game loop is looping */
 	private boolean gameRunning = true;
 	
+	private float fps = 60;
+	
 	/** The list of all the entities that exist in our game */
 	private ArrayList<Entity> entities = new ArrayList<Entity>();
 	
@@ -154,7 +156,7 @@ public class Game extends Canvas {
 		entities.add(ship);
 		
 		// create block of aliens, with the arguments
-		l = new Marc(this, row, line, space, space, pos);
+		l = new LevelMaxime(this, row, line, space, space, pos);
 		entities.addAll(l.generateLevel());
 	}
 	
@@ -243,15 +245,15 @@ public class Game extends Canvas {
 	 * <p>
 	 */
 	public void gameLoop() {
-		long lastLoopTime = System.currentTimeMillis();
 		
 		// keep looping round til the game ends
 		while (gameRunning) {
+			long loop_start = System.nanoTime();
 			// work out how long its been since the last update, this
 			// will be used to calculate how far the entities should
 			// move this loop
-			long delta = System.currentTimeMillis() - lastLoopTime;
-			lastLoopTime = System.currentTimeMillis();
+			long delta = (long) (1/fps*1000000000);
+			
 			
 			// Get hold of a graphics context for the accelerated 
 			// surface and blank it out
@@ -329,10 +331,7 @@ public class Game extends Canvas {
 				tryToFire();
 			}
 			
-			// finally pause for a bit. Note: this should run us at about
-			// 100 fps but on windows this might vary each loop due to
-			// a bad implementation of timer
-			try { Thread.sleep(10); } catch (Exception e) {}
+			try { Thread.sleep((delta-(System.nanoTime()-loop_start))/1000000); } catch (Exception e) {}
 		}
 	}
 	

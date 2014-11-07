@@ -56,8 +56,8 @@ public abstract class Entity {
 	 */
 	public void move(long delta) {
 		// update the location of the entity based on move speeds
-		x += (delta * dx) / 1000;
-		y += (delta * dy) / 1000;
+		x += (delta * dx) / 1000000000;
+		y += (delta * dy) / 1000000000;
 	}
 	
 	/**
@@ -150,7 +150,7 @@ public abstract class Entity {
 	public abstract void collidedWith(Entity other);
 	
 	/**
-	 * Une entité a un nom, utile pour savoir si une collision viens d'un tire amis ou non
+	 * Une entitÃ© a un nom, utile pour savoir si une collision viens d'un tire amis ou non
 	 * @return
 	 */
 }
