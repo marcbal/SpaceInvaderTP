@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 import entities.AlienEntity;
 import entities.Entity;
 import entities.ShipEntity;
-import entities.ShotEntity;
+import entities.AlliedShotEntity;
 
 /**
  * The main hook of our game. This class with both act as a manager
@@ -228,7 +228,7 @@ public class Game extends Canvas {
 		
 		// if we waited long enough, create the shot entity, and record the time.
 		lastFire = System.currentTimeMillis();
-		ShotEntity shot = new ShotEntity(this,"sprites/shot.gif",ship.getX()+10,ship.getY()-30);
+		AlliedShotEntity shot = new AlliedShotEntity(this,"sprites/shot.gif",ship.getX()+10,ship.getY()-30);
 		entities.add(shot);
 	}
 	
