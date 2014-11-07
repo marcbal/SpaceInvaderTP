@@ -2,12 +2,7 @@ package entities;
 
 import base.Game;
 
-/**
- * An entity representing a shot fired by the player's ship
- * 
- * @author Kevin Glass
- */
-public class AlliedShotEntity extends Entity {
+public class AllyShotEntity  extends ShotEntity{
 	/** The vertical speed at which the players shot moves */
 	private double moveSpeed = -300;
 	/** The game in which this entity exists */
@@ -23,8 +18,8 @@ public class AlliedShotEntity extends Entity {
 	 * @param x The initial x location of the shot
 	 * @param y The initial y location of the shot
 	 */
-	public AlliedShotEntity(Game game,String sprite,int x,int y) {
-		super(sprite,x,y);
+	public AllyShotEntity(Game game,String sprite,int x,int y) {
+		super(game, sprite,x,y);
 		
 		this.game = game;
 		

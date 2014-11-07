@@ -14,10 +14,7 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import entities.AlienEntity;
-import entities.Entity;
-import entities.ShipEntity;
-import entities.AlliedShotEntity;
+import entities.*;
 
 /**
  * The main hook of our game. This class with both act as a manager
@@ -228,7 +225,7 @@ public class Game extends Canvas {
 		
 		// if we waited long enough, create the shot entity, and record the time.
 		lastFire = System.currentTimeMillis();
-		AlliedShotEntity shot = new AlliedShotEntity(this,"sprites/shot.gif",ship.getX()+10,ship.getY()-30);
+		ShotEntity shot = new AllyShotEntity(this,"sprites/shot.gif",ship.getX()+10,ship.getY()-30);
 		entities.add(shot);
 	}
 	
@@ -448,5 +445,6 @@ public class Game extends Canvas {
 		// return until the game has finished running. Hence we are
 		// using the actual main thread to run the game.
 		g.gameLoop();
+		
 	}
 }
