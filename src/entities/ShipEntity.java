@@ -52,9 +52,9 @@ public class ShipEntity extends Entity {
 	 * @param other The entity with which the ship has collided
 	 */
 	public void collidedWith(Entity other) {
-		// if its an alien, notify the game that the player
+		// if its an alien or a shoot, notify the game that the player
 		// is dead
-		if (other instanceof AlienEntity) {
+		if (other instanceof AlienEntity || other instanceof EnnemyShotEntity) {
 			game.notifyDeath();
 		}
 	}
@@ -63,5 +63,9 @@ public class ShipEntity extends Entity {
     public void doLogic() {
         // FIXME Auto-generated method stub
         
+    }
+    
+    public String getName() {
+    	return "ship";
     }
 }

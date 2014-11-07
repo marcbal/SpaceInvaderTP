@@ -53,6 +53,10 @@ public abstract class ShotEntity extends Entity {
 	 * @parma other The other entity with which we've collided
 	 */
 	public void collidedWith(Entity other) {
+		//Prevent Allyshot
+		if(this instanceof AllyShotEntity && other instanceof ShipEntity) return;
+		if(this instanceof EnnemyShotEntity && other instanceof AlienEntity) return;
+		
 		// prevents double kills, if we've already hit something,
 		// don't collide
 		if (used) {

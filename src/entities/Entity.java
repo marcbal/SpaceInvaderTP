@@ -148,4 +148,9 @@ public abstract class Entity {
 	 * @param other The entity with which this entity collided.
 	 */
 	public abstract void collidedWith(Entity other);
+	
+	/**
+	 * Une entité a un nom, utile pour savoir si une collision viens d'un tire amis ou non
+	 * @return
+	 */
 }

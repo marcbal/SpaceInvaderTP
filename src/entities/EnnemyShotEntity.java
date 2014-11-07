@@ -2,6 +2,11 @@ package entities;
 
 import base.Game;
 
+/**
+ * An entity representing a ennemy shot
+ * @author Maxime
+ *
+ */
 public class EnnemyShotEntity extends ShotEntity {
 	/** The vertical speed at which the players shot moves */
 	private double moveSpeed = 300;
