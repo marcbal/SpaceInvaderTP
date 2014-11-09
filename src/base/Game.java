@@ -156,7 +156,7 @@ public class Game extends Canvas {
 		entities.add(ship);
 		
 		// create block of aliens, with the arguments
-		l = new LevelMaxime(this, row, line, space, space, pos);
+		l = new LevelAlien(this, row, line, space, space, pos);
 		entities.addAll(l.generateLevel());
 	}
 	
