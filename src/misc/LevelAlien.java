@@ -6,10 +6,9 @@ import entities.*;
 import base.Game;
 
 public class LevelAlien extends Level {
-
 		
-	public LevelAlien(Game g, int r, int l, int spLR, int spTB, Position p) {
-		super(g, r, l, "sprites/alien.gif", spLR, spTB, p);
+	public LevelAlien(Game g) {
+		super(g, 3, 10, "sprites/alien.gif", 50, 50, new Position(100,50));
 	}
 
 	@Override

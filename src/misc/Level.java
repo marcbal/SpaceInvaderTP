@@ -22,6 +22,9 @@ public abstract class Level {
 	/**Path for the skin of the squad*/
 	protected String sprite;
 	
+	/** Position of the first alien in the top left*/
+	protected Position pos;
+	
 	/**Distance between each entities left and right*/
 	protected int spaceLR;
 	
@@ -33,9 +36,6 @@ public abstract class Level {
 	
 	/**Array to generating squad*/
 	ArrayList<Entity> SquadList;
-	
-	/**Position of thefirst ennemy (int the top left)*/
-	protected Position pos;
 	
 	public Level(Game g, int r, int l, String s, int spLR, int spTB,  Position p) {
 		
