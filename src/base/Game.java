@@ -203,10 +203,7 @@ public class Game extends Canvas {
 		// if there are still some aliens left then they all need to get faster, so
 		// speed up all the existing aliens
 		for(Entity entity : entities) {
-		    if (entity instanceof AlienEntity) {
-				// speed up by 2%
-				entity.setHorizontalMovement(entity.getHorizontalMovement() * 1.02);
-			}
+		    entity.setNotifyAlienKilled();
 		}
 	}
 	

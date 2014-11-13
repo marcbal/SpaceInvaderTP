@@ -149,6 +149,19 @@ public abstract class Entity {
 	 */
 	public abstract void collidedWith(Entity other);
 	
+	
+	/**
+	 * Prends en charge l'évènement lorsqu'une entité se fait tuer
+	 * 
+	 */
+	
+	public void setNotifyAlienKilled()
+	{
+		// rien
+		// implémenté dans une sous-classe si nécessaire
+	}
+	
+	
 	/**
 	 * Une entité a un nom, utile pour savoir si une collision viens d'un tire amis ou non
 	 * @return

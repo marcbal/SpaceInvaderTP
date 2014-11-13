@@ -74,4 +74,13 @@ public class AlienEntity extends Entity {
 	public void collidedWith(Entity other) {
 		// collisions with aliens are handled elsewhere
 	}
+	
+	
+	
+	
+	@Override
+	public void setNotifyAlienKilled()
+	{
+		setHorizontalMovement(getHorizontalMovement() * 1.02);
+	}
 }
