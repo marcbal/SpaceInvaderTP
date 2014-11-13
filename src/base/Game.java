@@ -257,6 +257,9 @@ public class Game extends Canvas {
 			// Supprimer les entités touchées
 			entitiesManager.removeCollided(entities, removeList);
 
+			//Si les entités rencontre un bord ou atteingnent le bas de l'écran 
+			//(comportement modifiable dans les classes
+			//du package entity)
 			entitiesManager.doEntityLogic(entities);
 			
 			// if we're waiting for an "any key" press then draw the 

@@ -31,9 +31,8 @@ public class EntitiesManager {
 		    for(Entity entity : entities) {
 				entity.doLogic();
 			}
+			logicRequiredThisLoop = false;
 		}
-		
-		logicRequiredThisLoop = false;
 	}
 	
 	public void collisionChecker(ArrayList<Entity> entities, ArrayList<Entity> removeList) {
