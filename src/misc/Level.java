@@ -11,31 +11,31 @@ import base.Game;
 public abstract class Level {
 	
 	/**Game where the level is*/
-	private Game game;
+	protected Game game;
 	
 	/**Number of row for the table*/
-	private int row;
+	protected int row;
 	
 	/**Number of line of the table*/
-	private int line;
+	protected int line;
 	
 	/**Path for the skin of the squad*/
-	private String sprite;
+	protected String sprite;
 	
 	/**Distance between each entities left and right*/
-	private int spaceLR;
+	protected int spaceLR;
 	
 	/**Distance between each entities top and bottom*/
-	private int spaceTB;
+	protected int spaceTB;
 	
 	/**Numeber of entities in the squad*/
-	private int nbCount;
+	protected int nbCount;
 	
 	/**Array to generating squad*/
 	ArrayList<Entity> SquadList;
 	
 	/**Position of thefirst ennemy (int the top left)*/
-	private Position pos;
+	protected Position pos;
 	
 	public Level(Game g, int r, int l, String s, int spLR, int spTB,  Position p) {
 		
@@ -52,18 +52,7 @@ public abstract class Level {
 	 * The function generate a table of ennemies
 	 * @param g the game where ennemies are
 	 */
-	public ArrayList<Entity> generateLevel() {
-		nbCount = 0;
-		SquadList = new ArrayList<Entity>();
-		for (int r=0;r<row;r++) {
-			for (int l=0;l<line;l++) {
-				Entity alien = new AlienEntity(game,sprite,pos.getX()+(l*spaceLR),pos.getY()+r*spaceTB);
-				SquadList.add(alien);
-				nbCount++;
-			}
-		}
-		return SquadList;
-	}
+	public abstract ArrayList<Entity> generateLevel();
 	
 	public int getCount() {
 		return nbCount;

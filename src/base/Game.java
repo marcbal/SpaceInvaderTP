@@ -43,6 +43,9 @@ public class Game extends Canvas {
 	
 	private float fps = 60;
 	
+	/** actual level of the game */
+	private int level = 1;
+	
 	/** The list of all the entities that exist in our game */
 	private ArrayList<Entity> entities = new ArrayList<Entity>();
 	
