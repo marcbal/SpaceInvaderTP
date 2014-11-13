@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import entities.AlienEntity;
 import entities.Entity;
-import base.Game;
+import base.EntitiesManager;
 
 /**
  * Class which made appear the horrible explosive Maxime !!
@@ -12,8 +12,8 @@ import base.Game;
  */
 public class LevelMaxime extends Level {
 
-	public LevelMaxime(Game g) {
-		super(g, 4, 10,"sprites/max.jpg", 50, 50, new Position(100, 50));
+	public LevelMaxime(EntitiesManager entitiesManager) {
+		super(entitiesManager, 4, 10,"sprites/max.jpg", 50, 50, new Position(100, 50));
 	}
 	
 	@Override
@@ -22,7 +22,7 @@ public class LevelMaxime extends Level {
 		SquadList = new ArrayList<Entity>();
 		for (int r=0;r<row;r++) {
 			for (int l=0;l<line;l++) {
-				Entity alien = new AlienEntity(game,sprite,pos.getX()+(l*spaceLR),pos.getY()+r*spaceTB);
+				Entity alien = new AlienEntity(entitiesManager,sprite,pos.getX()+(l*spaceLR),pos.getY()+r*spaceTB);
 				SquadList.add(alien);
 				nbCount++;
 			}

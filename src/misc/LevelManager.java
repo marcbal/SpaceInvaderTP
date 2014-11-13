@@ -3,21 +3,21 @@ package misc;
 import java.util.ArrayList;
 import java.util.List;
 
-import base.Game;
+import base.EntitiesManager;
 
 public class LevelManager {
 	
 	
 	private List<Level> levels = new ArrayList<Level>();
 	
-	private Game game;
+	private EntitiesManager entitiesManager;
 	
 	private int currentLevel = 0;
 	
 	
 	
-	public LevelManager(Game g) {
-		game = g;
+	public LevelManager(EntitiesManager eM) {
+		entitiesManager = eM;
 		
 		
 		initLevels();
@@ -29,9 +29,9 @@ public class LevelManager {
 	{
 
 		// génération des niveaux prédéfinis
-		levels.add(new LevelAlien(game));
-		levels.add(new LevelMarc(game));
-		levels.add(new LevelMaxime(game));
+		levels.add(new LevelAlien(entitiesManager));
+		levels.add(new LevelMarc(entitiesManager));
+		levels.add(new LevelMaxime(entitiesManager));
 		
 	}
 	

@@ -11,6 +11,7 @@ import entities.Entity;
  */
 public class EntitiesManager {
 	
+	public boolean logicRequiredThisLoop;
 	//Méthode déssinant les entités
 	public void draw(ArrayList<Entity> entities, Graphics2D g) {
 		// cycle round drawing all the entities we have in the game
@@ -26,9 +27,13 @@ public class EntitiesManager {
 	
 	//Fonction agissant si un ennemi atteint un bord (par exemple)
 	public void doEntityLogic(ArrayList<Entity> entities) {
-	    for(Entity entity : entities) {
-			entity.doLogic();
+		if(logicRequiredThisLoop) {
+		    for(Entity entity : entities) {
+				entity.doLogic();
+			}
 		}
+		
+		logicRequiredThisLoop = false;
 	}
 	
 	public void collisionChecker(ArrayList<Entity> entities, ArrayList<Entity> removeList) {
@@ -53,5 +58,14 @@ public class EntitiesManager {
 		// remove any entity that has been marked for clear up
 		entities.removeAll(removeList);
 		removeList.clear();
+	}
+	
+	/**
+	 * Notification from a game entity that the logic of the game
+	 * should be run at the next opportunity (normally as a result of some
+	 * game event)
+	 */
+	public void updateLogic() {
+		logicRequiredThisLoop = true;
 	}
 }

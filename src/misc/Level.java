@@ -3,15 +3,14 @@ import entities.*;
 
 import java.util.ArrayList;
 
-import base.Game;
+import base.EntitiesManager;
 
 /**
  * This class generate levels, it's an abstract class
  */
 public abstract class Level {
 	
-	/**Game where the level is*/
-	protected Game game;
+	protected EntitiesManager entitiesManager;
 	
 	/**Number of row for the table*/
 	protected int row;
@@ -37,9 +36,9 @@ public abstract class Level {
 	/**Array to generating squad*/
 	ArrayList<Entity> SquadList;
 	
-	public Level(Game g, int r, int l, String s, int spLR, int spTB,  Position p) {
+	public Level(EntitiesManager eM, int r, int l, String s, int spLR, int spTB,  Position p) {
 		
-		game = g;
+		entitiesManager = eM;
 		row = r;
 		line = l;
 		sprite = s;

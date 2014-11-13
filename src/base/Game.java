@@ -43,11 +43,11 @@ public class Game extends Canvas {
 	
 	private float fps = 60;
 	
-	/** The Level Manager */
-	private LevelManager levelManager = new LevelManager(this);
-	
 	/** Gestion des entités */
 	private EntitiesManager entitiesManager = new EntitiesManager();
+	
+	/** gestion des niveaux */
+	private LevelManager levelManager = new LevelManager(entitiesManager);
 	
 	/** The list of all the entities that exist in our game */
 	private ArrayList<Entity> entities = new ArrayList<Entity>();
@@ -74,8 +74,6 @@ public class Game extends Canvas {
 	private boolean rightPressed = false;
 	/** True if we are firing */
 	private boolean firePressed = false;
-	/** True if game logic needs to be applied this loop, normally as a result of a game event */
-	private boolean logicRequiredThisLoop = false;
 	
 	/**
 	 * Construct our game and set it running.
@@ -154,15 +152,6 @@ public class Game extends Canvas {
 		// create block of aliens, with the arguments
 		
 		entities.addAll(levelManager.getCurrentLevel().generateLevel());
-	}
-	
-	/**
-	 * Notification from a game entity that the logic of the game
-	 * should be run at the next opportunity (normally as a result of some
-	 * game event)
-	 */
-	public void updateLogic() {
-		logicRequiredThisLoop = true;
 	}
 	
 	/**
@@ -268,11 +257,7 @@ public class Game extends Canvas {
 			// Supprimer les entités touchées
 			entitiesManager.removeCollided(entities, removeList);
 
-			//Gestion des collisions avec les bords ou le vaisseau
-			if (logicRequiredThisLoop) {
-				entitiesManager.doEntityLogic(entities);
-				logicRequiredThisLoop = false;
-			}
+			entitiesManager.doEntityLogic(entities);
 			
 			// if we're waiting for an "any key" press then draw the 
 			// current message 

@@ -1,5 +1,6 @@
 package entities;
 
+import base.EntitiesManager;
 import base.Game;
 
 /**
@@ -13,6 +14,8 @@ public class AlienEntity extends Entity {
 	/** The game in which the entity exists */
 	private Game game;
 	
+	private EntitiesManager entititesManager = new EntitiesManager();
+	
 	/**
 	 * Create a new alien entity
 	 * 
@@ -21,10 +24,10 @@ public class AlienEntity extends Entity {
 	 * @param x The intial x location of this alien
 	 * @param y The intial y location of this alient
 	 */
-	public AlienEntity(Game game,String ref,int x,int y) {
+	public AlienEntity(EntitiesManager entitiesManager,String ref,int x,int y) {
 		super(ref,x,y);
 		
-		this.game = game;
+		this.entititesManager = entitiesManager;
 		dx = -moveSpeed;
 	}
 
@@ -37,12 +40,12 @@ public class AlienEntity extends Entity {
 		// if we have reached the left hand side of the screen and
 		// are moving left then request a logic update 
 		if ((dx < 0) && (x < 10)) {
-			game.updateLogic();
+			entititesManager.updateLogic();
 		}
 		// and vice vesa, if we have reached the right hand side of 
 		// the screen and are moving right, request a logic update
 		if ((dx > 0) && (x > 750)) {
-			game.updateLogic();
+			entititesManager.updateLogic();
 		}
 		
 		// proceed with normal move
