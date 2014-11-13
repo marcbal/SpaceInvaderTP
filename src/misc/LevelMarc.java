@@ -12,8 +12,8 @@ import base.Game;
  */
 public class LevelMarc extends Level {
 
-	public LevelMarc(Game g, int r, int l, int spLR, int spTB, Position p) {
-		super(g, r, l,"sprites/marcbal.jpg", spLR, spTB, p);
+	public LevelMarc(Game g) {
+		super(g, 4, 10,"sprites/marc.jpg", 50, 50, new Position(100, 50));
 	}
 
 	@Override

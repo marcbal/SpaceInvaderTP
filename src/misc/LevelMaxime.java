@@ -12,8 +12,8 @@ import base.Game;
  */
 public class LevelMaxime extends Level {
 
-	public LevelMaxime(Game g, int r, int l, int spLR, int spTB, Position p) {
-		super(g, r, l,"sprites/max.jpg", spLR, spTB, p);
+	public LevelMaxime(Game g) {
+		super(g, 4, 10,"sprites/max.jpg", 50, 50, new Position(100, 50));
 	}
 	
 	@Override

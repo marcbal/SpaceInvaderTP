@@ -42,12 +42,8 @@ public class Game extends Canvas {
 	private boolean gameRunning = true;
 	
 	private float fps = 60;
-	
-	/** actual level of the game */
-	private int level = 1;
-	
-	/** Nombre maximum de niveaux */
-	private int levelMax = 1;
+	/** The Level Manager */
+	private LevelManager levelManager = new LevelManager(this);
 	
 	/** The list of all the entities that exist in our game */
 	private ArrayList<Entity> entities = new ArrayList<Entity>();
@@ -76,8 +72,6 @@ public class Game extends Canvas {
 	private boolean firePressed = false;
 	/** True if game logic needs to be applied this loop, normally as a result of a game event */
 	private boolean logicRequiredThisLoop = false;
-	/**The level is generate below*/
-	private Level l;
 	
 	/**
 	 * Construct our game and set it running.
@@ -154,8 +148,8 @@ public class Game extends Canvas {
 		entities.add(ship);
 		
 		// create block of aliens, with the arguments
-		l = new LevelAlien(this);
-		entities.addAll(l.generateLevel());
+		
+		entities.addAll(levelManager.getCurrentLevel().generateLevel());
 	}
 	
 	/**
@@ -182,7 +176,7 @@ public class Game extends Canvas {
 	 */
 	public void notifyDeath() {
 		message = "Oh no! They got you, try again?";
-		level = 1; // Retour au premier niveau
+		levelManager.goToFirstLevel();
 		waitingForKeyPress = true;
 	}
 	
@@ -192,7 +186,7 @@ public class Game extends Canvas {
 	 */
 	public void notifyWin() {
 		message = "Well done! You Win!";
-		if(level<levelMax) level++; //On avance au niveau suivant si il y en a un
+		levelManager.goToNextLevel();
 		waitingForKeyPress = true;
 	}
 	
@@ -202,7 +196,7 @@ public class Game extends Canvas {
 	public void notifyAlienKilled() {
 		
 		//If the lastt alien as been killed
-		if (!l.hasOneDestroyed()) {
+		if (!levelManager.getCurrentLevel().hasOneDestroyed()) {
 			notifyWin();
 		}
 		
