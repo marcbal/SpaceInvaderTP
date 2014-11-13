@@ -46,6 +46,9 @@ public class Game extends Canvas {
 	/** actual level of the game */
 	private int level = 1;
 	
+	/** Nombre maximum de niveaux */
+	private int levelMax = 1;
+	
 	/** The list of all the entities that exist in our game */
 	private ArrayList<Entity> entities = new ArrayList<Entity>();
 	
@@ -59,7 +62,7 @@ public class Game extends Canvas {
 	/** The time at which last fired a shot */
 	private long lastFire = 0;
 	/** The interval between our players shot (ms) */
-	private long firingInterval = 0;
+	private long firingInterval = 300;
 	
 	/** The message to display which waiting for a key press */
 	private String message = "";
@@ -73,14 +76,6 @@ public class Game extends Canvas {
 	private boolean firePressed = false;
 	/** True if game logic needs to be applied this loop, normally as a result of a game event */
 	private boolean logicRequiredThisLoop = false;
-	/**Number of row for enenmies*/
-	private int row = 3;
-	/**Number of line for ennemies*/
-	private int line = 10;
-	/**Position for the first Alien*/
-	private Position pos = new Position(100,50);
-	/**Space between aliens*/
-	private int space = 50;
 	/**The level is generate below*/
 	private Level l;
 	
@@ -187,6 +182,7 @@ public class Game extends Canvas {
 	 */
 	public void notifyDeath() {
 		message = "Oh no! They got you, try again?";
+		level = 1; // Retour au premier niveau
 		waitingForKeyPress = true;
 	}
 	
@@ -196,6 +192,7 @@ public class Game extends Canvas {
 	 */
 	public void notifyWin() {
 		message = "Well done! You Win!";
+		if(level<levelMax) level++; //On avance au niveau suivant si il y en a un
 		waitingForKeyPress = true;
 	}
 	
