@@ -42,8 +42,12 @@ public class Game extends Canvas {
 	private boolean gameRunning = true;
 	
 	private float fps = 60;
+	
 	/** The Level Manager */
 	private LevelManager levelManager = new LevelManager(this);
+	
+	/** Gestion des entités */
+	private EntitiesManager entitiesManager = new EntitiesManager();
 	
 	/** The list of all the entities that exist in our game */
 	private ArrayList<Entity> entities = new ArrayList<Entity>();
@@ -195,7 +199,7 @@ public class Game extends Canvas {
 	 */
 	public void notifyAlienKilled() {
 		
-		//If the lastt alien as been killed
+		//If the last alien as been killed
 		if (!levelManager.getCurrentLevel().hasOneDestroyed()) {
 			notifyWin();
 		}
@@ -265,30 +269,16 @@ public class Game extends Canvas {
 			// brute force collisions, compare every entity against
 			// every other entity. If any of them collide notify 
 			// both entities that the collision has occured
-			for (int p=0;p<entities.size();p++) {
-				for (int s=p+1;s<entities.size();s++) {
-					Entity me = entities.get(p);
-					Entity him = entities.get(s);
-					if (removeList.contains(me) || removeList.contains(him)) continue;
-					
-					if (me.collidesWith(him)) {
-						me.collidedWith(him);
-						him.collidedWith(me);
-					}
-				}
-			}
+            entitiesManager.collisionChecker(entities, removeList);
 			
 			// remove any entity that has been marked for clear up
-			entities.removeAll(removeList);
-			removeList.clear();
+			entitiesManager.removeCollided(entities, removeList);
 
 			// if a game event has indicated that game logic should
 			// be resolved, cycle round every entity requesting that
 			// their personal logic should be considered.
 			if (logicRequiredThisLoop) {
-			    for(Entity entity : entities) {
-					entity.doLogic();
-				}
+				entitiesManager.doEntityLogic(entities, logicRequiredThisLoop);
 				
 				logicRequiredThisLoop = false;
 			}
