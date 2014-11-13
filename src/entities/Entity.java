@@ -3,6 +3,7 @@ package entities;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
+import base.Game;
 import base.Sprite;
 import base.SpriteStore;
 
@@ -34,6 +35,10 @@ public abstract class Entity {
 	private Rectangle me = new Rectangle();
 	/** The rectangle used for other entities during collision resolution */
 	private Rectangle him = new Rectangle();
+	/** Points de vie restants pour l'entité courante. Par défaut, tué en un coup */
+	protected int life = 1;
+	/** Points de dégat (seulement pour les entités de tir) */
+	protected int degat = 0;
 	
 	/**
 	 * Construct a entity based on a sprite image and a location.
@@ -159,6 +164,21 @@ public abstract class Entity {
 	{
 		// rien
 		// implémenté dans une sous-classe si nécessaire
+	}
+	
+	
+	public boolean receiveDegat(ShotEntity shot, Game g)
+	{
+		if (life == 0) // c'est le cas si this est un tir
+			return false;
+		
+		life -= shot.degat;
+		if (life <= 0)
+		{
+			g.removeEntity(this);
+			return true;
+		}
+		return false;
 	}
 	
 	

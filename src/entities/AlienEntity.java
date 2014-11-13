@@ -24,11 +24,13 @@ public class AlienEntity extends Entity {
 	 * @param x The intial x location of this alien
 	 * @param y The intial y location of this alient
 	 */
-	public AlienEntity(EntitiesManager entitiesManager,String ref,int x,int y) {
+	public AlienEntity(EntitiesManager entitiesManager,String ref,int x,int y, int l) {
 		super(ref,x,y);
 		
 		this.entititesManager = entitiesManager;
 		dx = -moveSpeed;
+		
+		life = l;
 	}
 
 	/**

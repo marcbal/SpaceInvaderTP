@@ -19,9 +19,31 @@ public class EnnemyShotEntity extends ShotEntity {
 	 * @param x The initial x location of the shot
 	 * @param y The initial y location of the shot
 	 */
-	public EnnemyShotEntity(Game game,String sprite,int x,int y) {
-		super(game, sprite,x,y);
+	public EnnemyShotEntity(Game game,String sprite,int x,int y, int d) {
+		super(game, sprite,x,y,d);
 		
 		dy = moveSpeed;
+	}
+	
+	
+	@Override
+	public void collidedWith(Entity other) {
+		// prevents double kills, if we've already hit something,
+		// don't collide
+		if (used) {
+			return;
+		}
+		
+		// if we've hit an alien, kill it!
+		if (other instanceof ShipEntity) {
+			// remove the affected entities
+			game.removeEntity(this);
+			// other prends les dégats donnés par le tir
+			if (other.receiveDegat(this, game))
+				// notify the game that the alien has been killed
+				game.notifyAlienKilled();
+			
+			used = true;
+		}
 	}
 }

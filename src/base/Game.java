@@ -62,7 +62,7 @@ public class Game extends Canvas {
 	/** The time at which last fired a shot */
 	private long lastFire = 0;
 	/** The interval between our players shot (ms) */
-	private long firingInterval = 300;
+	private long firingInterval = 200;
 	
 	/** The message to display which waiting for a key press */
 	private String message = "";
@@ -213,7 +213,7 @@ public class Game extends Canvas {
 		
 		// if we waited long enough, create the shot entity, and record the time.
 		lastFire = System.currentTimeMillis();
-		ShotEntity shot = new AllyShotEntity(this,"sprites/shot.gif",ship.getX()+10,ship.getY()-30);
+		ShotEntity shot = new AllyShotEntity(this,"sprites/shot.gif",ship.getX()+10,ship.getY()-30, 1);
 		entities.add(shot);
 	}
 	
