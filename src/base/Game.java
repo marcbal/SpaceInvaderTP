@@ -249,37 +249,28 @@ public class Game extends Canvas {
 			// move this loop
 			long delta = (long) (1/fps*1000000000);
 			
-			
 			// Get hold of a graphics context for the accelerated 
 			// surface and blank it out
 			Graphics2D g = (Graphics2D) strategy.getDrawGraphics();
 			g.setColor(Color.black);
 			g.fillRect(0,0,800,600);
 			
-			// cycle round asking each entity to move itself
-			if (!waitingForKeyPress) {
-				for(Entity entity : entities)
-					entity.move(delta);
-			}
+			//Déplacer les entités
+			if (!waitingForKeyPress)
+				entitiesManager.moveEntity(entities, delta);
 			
-			// cycle round drawing all the entities we have in the game
-            for(Entity entity : entities)
-				entity.draw(g);
+			//Afficher les entités
+            entitiesManager.draw(entities, g);
 			
-			// brute force collisions, compare every entity against
-			// every other entity. If any of them collide notify 
-			// both entities that the collision has occured
+            //Vérifier si il y a eu des collisions
             entitiesManager.collisionChecker(entities, removeList);
 			
-			// remove any entity that has been marked for clear up
+			// Supprimer les entités touchées
 			entitiesManager.removeCollided(entities, removeList);
 
-			// if a game event has indicated that game logic should
-			// be resolved, cycle round every entity requesting that
-			// their personal logic should be considered.
+			//Gestion des collisions avec les bords ou le vaisseau
 			if (logicRequiredThisLoop) {
-				entitiesManager.doEntityLogic(entities, logicRequiredThisLoop);
-				
+				entitiesManager.doEntityLogic(entities);
 				logicRequiredThisLoop = false;
 			}
 			

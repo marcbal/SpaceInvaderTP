@@ -25,7 +25,7 @@ public class EntitiesManager {
 	}
 	
 	//Fonction agissant si un ennemi atteint un bord (par exemple)
-	public void doEntityLogic(ArrayList<Entity> entities, boolean logicRequiredThisLoop) {
+	public void doEntityLogic(ArrayList<Entity> entities) {
 	    for(Entity entity : entities) {
 			entity.doLogic();
 		}
