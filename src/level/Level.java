@@ -1,8 +1,9 @@
-package misc;
+package level;
 import entities.*;
 
 import java.util.ArrayList;
 
+import misc.Position;
 import base.EntitiesManager;
 
 /**
@@ -60,11 +61,9 @@ public abstract class Level {
 	/** This function remove 1 at nbCount when called */
 	public boolean hasOneDestroyed() {
 		
-		//If the last alien as been killed
-		if(nbCount==1) return false;
-		
 		nbCount--;
-		return true;
+		
+		return (nbCount>0);
 	}
 	
 	public boolean isFinished() {

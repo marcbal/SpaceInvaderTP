@@ -1,8 +1,9 @@
-package misc;
+package level;
 
 import java.util.ArrayList;
 
-import entities.AlienEntity;
+import misc.Position;
+import entities.EntityEnnemy;
 import entities.Entity;
 import base.EntitiesManager;
 
@@ -22,7 +23,7 @@ public class LevelMarc extends Level {
 		SquadList = new ArrayList<Entity>();
 		for (int r=0;r<row;r++) {
 			for (int l=0;l<line;l++) {
-				Entity alien = new AlienEntity(entitiesManager,sprite,pos.getX()+(l*spaceLR),pos.getY()+r*spaceTB, 4);
+				Entity alien = new EntityEnnemy(entitiesManager,sprite,pos.getX()+(l*spaceLR),pos.getY()+r*spaceTB, 4);
 				SquadList.add(alien);
 				nbCount++;
 			}

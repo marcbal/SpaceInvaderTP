@@ -146,7 +146,7 @@ public class Game extends Canvas {
 	 */
 	private void initEntities() {
 		// create the player ship and place it roughly in the center of the screen
-		ship = new ShipEntity(this,"sprites/ship.gif",370,550);
+		ship = new EntityShip(this,"sprites/ship.gif",370,550);
 		entities.add(ship);
 		
 		// create block of aliens, with the arguments
@@ -213,7 +213,7 @@ public class Game extends Canvas {
 		
 		// if we waited long enough, create the shot entity, and record the time.
 		lastFire = System.currentTimeMillis();
-		ShotEntity shot = new AllyShotEntity(this,"sprites/shot.gif",ship.getX()+10,ship.getY()-30, 1);
+		EntityShot shot = new EntityShotFromAlly(this,"sprites/shot.gif",ship.getX()+10,ship.getY()-30, 1);
 		entities.add(shot);
 	}
 	

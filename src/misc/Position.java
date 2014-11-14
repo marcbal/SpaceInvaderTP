@@ -1,10 +1,10 @@
 package misc;
 
 public class Position {
-	/** Coordinates position in X on the screen */
+	/** Horizontal position from the left of the screen */
 	protected int x;
 	
-	/** Coordinates position in Y on the screen */
+	/** Vertical position from the top of the screen */
 	protected int y;
 	
 	/**
@@ -18,7 +18,7 @@ public class Position {
 	}
 	
 	/**
-	 * Constructor by default
+	 * Default constructor
 	 */
 	public Position() {
 		this(0,0);

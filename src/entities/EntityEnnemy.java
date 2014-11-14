@@ -8,7 +8,7 @@ import base.Game;
  * 
  * @author Kevin Glass
  */
-public class AlienEntity extends Entity {
+public class EntityEnnemy extends Entity {
 	/** The speed at which the alient moves horizontally */
 	private double moveSpeed = 75;
 	/** The game in which the entity exists */
@@ -24,7 +24,7 @@ public class AlienEntity extends Entity {
 	 * @param x The intial x location of this alien
 	 * @param y The intial y location of this alient
 	 */
-	public AlienEntity(EntitiesManager entitiesManager,String ref,int x,int y, int l) {
+	public EntityEnnemy(EntitiesManager entitiesManager,String ref,int x,int y, int l) {
 		super(ref,x,y);
 		
 		this.entititesManager = entitiesManager;

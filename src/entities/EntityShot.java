@@ -7,7 +7,7 @@ import base.Game;
  * 
  * @author Kevin Glass
  */
-public abstract class ShotEntity extends Entity {
+public abstract class EntityShot extends Entity {
 	/** The vertical speed at which the players shot moves */
 	private double moveSpeed;
 	/** The game in which this entity exists */
@@ -23,7 +23,7 @@ public abstract class ShotEntity extends Entity {
 	 * @param x The initial x location of the shot
 	 * @param y The initial y location of the shot
 	 */
-	public ShotEntity(Game game,String sprite,int x,int y, int d) {
+	public EntityShot(Game game,String sprite,int x,int y, int d) {
 		super(sprite,x,y);
 		
 		this.game = game;

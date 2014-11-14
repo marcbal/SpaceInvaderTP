@@ -3,13 +3,13 @@ package entities;
 import base.Game;
 
 /**
- * An entity representing a ennemy shot
+ * An entity representing an Ally shot
  * @author Maxime
  *
  */
-public class EnnemyShotEntity extends ShotEntity {
+public class EntityShotFromAlly  extends EntityShot{
 	/** The vertical speed at which the players shot moves */
-	private double moveSpeed = 300;
+	private double moveSpeed = -300;
 	
 	/**
 	 * Create a new shot from the player
@@ -19,7 +19,7 @@ public class EnnemyShotEntity extends ShotEntity {
 	 * @param x The initial x location of the shot
 	 * @param y The initial y location of the shot
 	 */
-	public EnnemyShotEntity(Game game,String sprite,int x,int y, int d) {
+	public EntityShotFromAlly(Game game,String sprite,int x,int y, int d) {
 		super(game, sprite,x,y,d);
 		
 		dy = moveSpeed;
@@ -35,14 +35,14 @@ public class EnnemyShotEntity extends ShotEntity {
 		}
 		
 		// if we've hit an alien, kill it!
-		if (other instanceof ShipEntity) {
+		if (other instanceof EntityEnnemy) {
+			
 			// remove the affected entities
 			game.removeEntity(this);
 			// other prends les dégats donnés par le tir
 			if (other.receiveDegat(this, game))
 				// notify the game that the alien has been killed
 				game.notifyAlienKilled();
-			
 			used = true;
 		}
 	}

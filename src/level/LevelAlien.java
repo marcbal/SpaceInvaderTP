@@ -1,7 +1,8 @@
-package misc;
+package level;
 
 import java.util.ArrayList;
 
+import misc.Position;
 import entities.*;
 import base.EntitiesManager;
 
@@ -17,7 +18,7 @@ public class LevelAlien extends Level {
 		SquadList = new ArrayList<Entity>();
 		for (int r=0;r<row;r++) {
 			for (int l=0;l<line;l++) {
-				Entity alien = new AlienEntity(entitiesManager,sprite,pos.getX()+(l*spaceLR),pos.getY()+r*spaceTB, 1);
+				Entity alien = new EntityEnnemy(entitiesManager,sprite,pos.getX()+(l*spaceLR),pos.getY()+r*spaceTB, 1);
 				SquadList.add(alien);
 				nbCount++;
 			}

@@ -167,7 +167,7 @@ public abstract class Entity {
 	}
 	
 	
-	public boolean receiveDegat(ShotEntity shot, Game g)
+	public boolean receiveDegat(EntityShot shot, Game g)
 	{
 		if (life == 0) // c'est le cas si this est un tir
 			return false;

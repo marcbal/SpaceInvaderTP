@@ -1,9 +1,12 @@
-package misc;
+package base;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import base.EntitiesManager;
+import level.Level;
+import level.LevelAlien;
+import level.LevelMarc;
+import level.LevelMaxime;
 
 public class LevelManager {
 	

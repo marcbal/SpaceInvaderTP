@@ -7,7 +7,7 @@ import base.Game;
  * 
  * @author Kevin Glass
  */
-public class ShipEntity extends Entity {
+public class EntityShip extends Entity {
 	/** The game in which the ship exists */
 	private Game game;
 	
@@ -19,7 +19,7 @@ public class ShipEntity extends Entity {
 	 * @param x The initial x location of the player's ship
 	 * @param y The initial y location of the player's ship
 	 */
-	public ShipEntity(Game game,String ref,int x,int y) {
+	public EntityShip(Game game,String ref,int x,int y) {
 		super(ref,x,y);
 		
 		this.game = game;
@@ -54,7 +54,7 @@ public class ShipEntity extends Entity {
 	public void collidedWith(Entity other) {
 		// if its an alien or a shoot, notify the game that the player
 		// is dead
-		if (other instanceof AlienEntity || other instanceof EnnemyShotEntity) {
+		if (other instanceof EntityEnnemy || other instanceof EntityShotFromEnnemy) {
 			game.notifyDeath();
 		}
 	}
