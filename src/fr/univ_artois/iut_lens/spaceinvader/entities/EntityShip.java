@@ -18,7 +18,7 @@ public class EntityShip extends Entity {
 	 * @param x The initial x location of the player's ship
 	 * @param y The initial y location of the player's ship
 	 */
-	public EntityShip(String ref,int x,int y, EntitiesManager eM) {
+	public EntityShip(String ref,double x,double y, EntitiesManager eM) {
 		super(ref,x,y,eM);
 	}
 	

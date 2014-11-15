@@ -19,7 +19,7 @@ public abstract class EntityShot extends Entity {
 	 * @param x The initial x location of the shot
 	 * @param y The initial y location of the shot
 	 */
-	public EntityShot(String sprite,int x,int y, int d, EntitiesManager eM) {
+	public EntityShot(String sprite,double x,double y, int d, EntitiesManager eM) {
 		super(sprite,x,y,eM);
 		
 		degat = d;

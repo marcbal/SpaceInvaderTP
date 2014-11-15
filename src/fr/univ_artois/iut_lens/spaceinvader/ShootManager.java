@@ -9,7 +9,7 @@ import fr.univ_artois.iut_lens.spaceinvader.entities.*;
 public class ShootManager {
 	
 	//Générer un tire
-	public Entity getShoot(Game g, EntitiesManager eM, int x, int y, int i) {
+	public Entity getShoot(Game g, EntitiesManager eM, double x, double y, int i) {
 		
 		//tir normal
 		if(i == 0) return new EntityShotFromAlly(g, "sprites/shot.gif", x, y, eM);

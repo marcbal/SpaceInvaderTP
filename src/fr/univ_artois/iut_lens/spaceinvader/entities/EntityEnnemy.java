@@ -19,9 +19,9 @@ public class EntityEnnemy extends Entity {
 	 * @param x The intial x location of this alien
 	 * @param y The intial y location of this alient
 	 */
-	public EntityEnnemy(String ref,int x,int y, int l, EntitiesManager eM) {
+	public EntityEnnemy(String ref,double x,double y, int l, EntitiesManager eM) {
 		super(ref,x,y,eM);
-		speed.setX((int)-moveSpeed);
+		speed.setX(-moveSpeed);
 		
 		life = l;
 	}

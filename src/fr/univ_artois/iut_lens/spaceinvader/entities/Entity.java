@@ -42,7 +42,7 @@ public abstract class Entity {
  	 * @param x The initial x location of this entity
 	 * @param y The initial y location of this entity
 	 */
-	public Entity(String ref,int x,int y, EntitiesManager eM) {
+	public Entity(String ref,double x,double y, EntitiesManager eM) {
 		this.sprite = SpriteStore.get().getSprite(ref);
 		position = new Position(x, y);
 		entitiesManager = eM;
@@ -56,8 +56,8 @@ public abstract class Entity {
 	 */
 	public void move(long delta) {
 		// update the location of the entity based on move speeds
-		position.setX(position.getX()+(int)((delta * speed.getX()) / 1000000000));
-		position.setY(position.getY()+(int)((delta * speed.getY()) / 1000000000));
+		position.setX(position.getX()+((delta * speed.getX()) / 1000000000));
+		position.setY(position.getY()+((delta * speed.getY()) / 1000000000));
 	}
 	
 	/**
@@ -66,7 +66,7 @@ public abstract class Entity {
 	 * @param dx The horizontal speed of this entity (pixels/sec)
 	 */
 	public void setHorizontalMovement(double dx) {
-		speed.setX((int)dx);
+		speed.setX(dx);
 	}
 
 	/**
@@ -102,7 +102,7 @@ public abstract class Entity {
 	 * @param g The graphics context on which to draw
 	 */
 	public void draw(Graphics g) {
-		sprite.draw(g,position.getX(),position.getY());
+		sprite.draw(g,(int)position.getX(),(int)position.getY());
 	}
 	
 	/**
@@ -110,7 +110,7 @@ public abstract class Entity {
 	 * 
 	 * @return The x location of this entity
 	 */
-	public int getX() {
+	public double getX() {
 		return position.getX();
 	}
 
@@ -119,7 +119,7 @@ public abstract class Entity {
 	 * 
 	 * @return The y location of this entity
 	 */
-	public int getY() {
+	public double getY() {
 		return position.getY();
 	}
 	
@@ -135,7 +135,7 @@ public abstract class Entity {
 	
 	public Rectangle getBoundingBox()
 	{
-		return new Rectangle(position.getX(), position.getY(), sprite.getWidth(), sprite.getHeight());
+		return new Rectangle((int)position.getX(), (int)position.getY(), sprite.getWidth(), sprite.getHeight());
 	}
 	
 	/**

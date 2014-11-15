@@ -2,17 +2,17 @@ package fr.univ_artois.iut_lens.spaceinvader.util;
 
 public class Position {
 	/** Horizontal position from the left of the screen */
-	protected int x;
+	private double x;
 	
 	/** Vertical position from the top of the screen */
-	protected int y;
+	private double y;
 	
 	/**
 	 * Constructor to set position
 	 * @param x Coordinates left to right
 	 * @param y Coordinates up to down
 	 */
-	public Position(int x, int y) {
+	public Position(double x, double y) {
 		this.x = x;
 		this.y = y;
 	}
@@ -24,19 +24,19 @@ public class Position {
 		this(0,0);
 	}
 	
-	public void setX(int x) {
+	public void setX(double x) {
 		this.x = x;
 	}
 	
-	public void setY(int y) {
+	public void setY(double y) {
 		this.y = y;
 	}
 	
-	public int getX() {
+	public double getX() {
 		return x;
 	}
 	
-	public int getY()  {
+	public double getY()  {
 		return y;
 	}
 }
