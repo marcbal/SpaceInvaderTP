@@ -13,7 +13,7 @@ public class LevelAlien extends Level {
 		super(entitiesManager,
 				3,
 				10,
-				"sprites/alien.gif",
+				"sprites/alien_spaceship_by_animot-d5t4j611.png",
 				50,
 				50,
 				new Position(100,50),
