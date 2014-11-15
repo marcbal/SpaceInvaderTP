@@ -47,10 +47,9 @@ public class Game extends Canvas {
 	/** gestion des niveaux */
 	private LevelManager levelManager = new LevelManager(entitiesManager);
 	
-	/** The entity representing the player */
-	private Entity ship;
-	/** The speed at which the player's ship should move (pixels/sec) */
-	private double moveSpeed = 300;
+	/** gestion du vaisseau */
+	private ShipManager shipManager = new ShipManager(this, entitiesManager);
+	
 	/** The time at which last fired a shot */
 	private long lastFire = 0;
 	/** The interval between our players shot (ms) */
@@ -165,9 +164,9 @@ public class Game extends Canvas {
 		// update the movement appropraitely
 		
 		if ((leftPressed) && (!rightPressed)) {
-			ship.setHorizontalMovement(-moveSpeed);
+			shipManager.moveShip(-1);
 		} else if ((rightPressed) && (!leftPressed)) {
-			ship.setHorizontalMovement(moveSpeed);
+			shipManager.moveShip(1);
 		}
 		
 		// if we're pressing fire, attempt to fire
@@ -194,7 +193,7 @@ public class Game extends Canvas {
 			entitiesManager.doCollisions();
 			
 			// rÃ©initialiser le dÃ©placement du vaisseau
-			ship.setHorizontalMovement(0);
+			shipManager.moveShip(0);
 		}
 		
 	}
@@ -238,9 +237,8 @@ public class Game extends Canvas {
 	 */
 	private void startLevel() {
 		entitiesManager.getEntitiesList().clear();
-		// create the player ship and place it roughly in the center of the screen
-		ship = new EntityShip(this,"sprites/ship.gif",370,550,entitiesManager);
-		entitiesManager.getEntitiesList().add(ship);
+		// Placer le vaisseau préalablement créer dans le tableau des entités
+		entitiesManager.getEntitiesList().add(shipManager.getShip());
 		
 		// create block of aliens, with the arguments
 		
@@ -303,7 +301,7 @@ public class Game extends Canvas {
 		
 		// if we waited long enough, create the shot entity, and record the time.
 		lastFire = System.currentTimeMillis();
-		EntityShot shot = new EntityShotFromAlly(this,"sprites/shot.gif",ship.getX()+10,ship.getY()-30, 1, entitiesManager);
+		EntityShot shot = new EntityShotFromAlly(this,"sprites/shot.gif",shipManager.getShip().getX()+10,shipManager.getShip().getY()-30, 1, entitiesManager);
 		entitiesManager.getEntitiesList().add(shot);
 	}
 	/**
