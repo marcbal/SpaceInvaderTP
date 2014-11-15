@@ -1,5 +1,6 @@
 package entities;
 
+import base.EntitiesManager;
 import base.Game;
 
 /**
@@ -23,8 +24,8 @@ public abstract class EntityShot extends Entity {
 	 * @param x The initial x location of the shot
 	 * @param y The initial y location of the shot
 	 */
-	public EntityShot(Game game,String sprite,int x,int y, int d) {
-		super(sprite,x,y);
+	public EntityShot(Game game,String sprite,int x,int y, int d, EntitiesManager eM) {
+		super(sprite,x,y,eM);
 		
 		this.game = game;
 		
@@ -44,7 +45,7 @@ public abstract class EntityShot extends Entity {
 		
 		// if we shot off the screen, remove ourselfs
 		if (y < -100) {
-			game.removeEntity(this);
+			entitiesManager.removeEntity(this);
 		}
 	}
 	

@@ -3,7 +3,7 @@ package entities;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
-import base.Game;
+import base.EntitiesManager;
 import base.Sprite;
 import base.SpriteStore;
 
@@ -40,6 +40,8 @@ public abstract class Entity {
 	/** Points de dégat (seulement pour les entités de tir) */
 	protected int degat = 0;
 	
+	protected EntitiesManager entitiesManager;
+	
 	/**
 	 * Construct a entity based on a sprite image and a location.
 	 * 
@@ -47,10 +49,11 @@ public abstract class Entity {
  	 * @param x The initial x location of this entity
 	 * @param y The initial y location of this entity
 	 */
-	public Entity(String ref,int x,int y) {
+	public Entity(String ref,int x,int y, EntitiesManager eM) {
 		this.sprite = SpriteStore.get().getSprite(ref);
 		this.x = x;
 		this.y = y;
+		entitiesManager = eM;
 	}
 	
 	/**
@@ -167,7 +170,7 @@ public abstract class Entity {
 	}
 	
 	
-	public boolean receiveDegat(EntityShot shot, Game g)
+	public boolean receiveDegat(EntityShot shot)
 	{
 		if (life == 0) // c'est le cas si this est un tir
 			return false;
@@ -175,7 +178,7 @@ public abstract class Entity {
 		life -= shot.degat;
 		if (life <= 0)
 		{
-			g.removeEntity(this);
+			entitiesManager.removeEntity(this);
 			return true;
 		}
 		return false;

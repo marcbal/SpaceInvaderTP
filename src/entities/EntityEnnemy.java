@@ -14,8 +14,6 @@ public class EntityEnnemy extends Entity {
 	/** The game in which the entity exists */
 	private Game game;
 	
-	private EntitiesManager entititesManager = new EntitiesManager();
-	
 	/**
 	 * Create a new alien entity
 	 * 
@@ -24,10 +22,8 @@ public class EntityEnnemy extends Entity {
 	 * @param x The intial x location of this alien
 	 * @param y The intial y location of this alient
 	 */
-	public EntityEnnemy(EntitiesManager entitiesManager,String ref,int x,int y, int l) {
-		super(ref,x,y);
-		
-		this.entititesManager = entitiesManager;
+	public EntityEnnemy(String ref,int x,int y, int l, EntitiesManager eM) {
+		super(ref,x,y,eM);
 		dx = -moveSpeed;
 		
 		life = l;
@@ -42,12 +38,12 @@ public class EntityEnnemy extends Entity {
 		// if we have reached the left hand side of the screen and
 		// are moving left then request a logic update 
 		if ((dx < 0) && (x < 10)) {
-			entititesManager.updateLogic();
+			entitiesManager.updateLogic();
 		}
 		// and vice vesa, if we have reached the right hand side of 
 		// the screen and are moving right, request a logic update
 		if ((dx > 0) && (x > 750)) {
-			entititesManager.updateLogic();
+			entitiesManager.updateLogic();
 		}
 		
 		// proceed with normal move

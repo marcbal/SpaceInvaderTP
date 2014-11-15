@@ -1,5 +1,6 @@
 package entities;
 
+import base.EntitiesManager;
 import base.Game;
 
 /**
@@ -19,8 +20,8 @@ public class EntityShip extends Entity {
 	 * @param x The initial x location of the player's ship
 	 * @param y The initial y location of the player's ship
 	 */
-	public EntityShip(Game game,String ref,int x,int y) {
-		super(ref,x,y);
+	public EntityShip(Game game,String ref,int x,int y, EntitiesManager eM) {
+		super(ref,x,y,eM);
 		
 		this.game = game;
 	}

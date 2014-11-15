@@ -1,5 +1,6 @@
 package entities;
 
+import base.EntitiesManager;
 import base.Game;
 
 /**
@@ -19,8 +20,8 @@ public class EntityShotFromEnnemy extends EntityShot {
 	 * @param x The initial x location of the shot
 	 * @param y The initial y location of the shot
 	 */
-	public EntityShotFromEnnemy(Game game,String sprite,int x,int y, int d) {
-		super(game, sprite,x,y,d);
+	public EntityShotFromEnnemy(Game game,String sprite,int x,int y, int d, EntitiesManager eM) {
+		super(game, sprite,x,y,d,eM);
 		
 		dy = moveSpeed;
 	}
@@ -37,9 +38,9 @@ public class EntityShotFromEnnemy extends EntityShot {
 		// if we've hit an alien, kill it!
 		if (other instanceof EntityShip) {
 			// remove the affected entities
-			game.removeEntity(this);
+			entitiesManager.removeEntity(this);
 			// other prends les dégats donnés par le tir
-			if (other.receiveDegat(this, game))
+			if (other.receiveDegat(this))
 				// notify the game that the alien has been killed
 				game.notifyAlienKilled();
 			
