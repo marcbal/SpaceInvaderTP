@@ -1,12 +1,12 @@
-package base;
+package fr.univ_artois.iut_lens.spaceinvader;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import level.Level;
-import level.LevelAlien;
-import level.LevelMarc;
-import level.LevelMaxime;
+import fr.univ_artois.iut_lens.spaceinvader.levels.Level;
+import fr.univ_artois.iut_lens.spaceinvader.levels.LevelAlien;
+import fr.univ_artois.iut_lens.spaceinvader.levels.LevelMarc;
+import fr.univ_artois.iut_lens.spaceinvader.levels.LevelMaxime;
 
 public class LevelManager {
 	

@@ -1,7 +1,7 @@
-package entities;
+package fr.univ_artois.iut_lens.spaceinvader.entities;
 
-import base.EntitiesManager;
-import base.Game;
+import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
+import fr.univ_artois.iut_lens.spaceinvader.Game;
 
 /**
  * An entity representing a ennemy shot

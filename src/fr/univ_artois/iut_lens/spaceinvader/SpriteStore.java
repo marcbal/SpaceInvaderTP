@@ -1,4 +1,4 @@
-package base;
+package fr.univ_artois.iut_lens.spaceinvader;
 
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;

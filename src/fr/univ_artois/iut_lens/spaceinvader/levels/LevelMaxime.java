@@ -1,11 +1,11 @@
-package level;
+package fr.univ_artois.iut_lens.spaceinvader.levels;
 
 import java.util.ArrayList;
 
-import misc.Position;
-import entities.EntityEnnemy;
-import entities.Entity;
-import base.EntitiesManager;
+import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
+import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
+import fr.univ_artois.iut_lens.spaceinvader.entities.EntityEnnemy;
+import fr.univ_artois.iut_lens.spaceinvader.util.Position;
 
 /**
  * Class which made appear the horrible explosive Maxime !!

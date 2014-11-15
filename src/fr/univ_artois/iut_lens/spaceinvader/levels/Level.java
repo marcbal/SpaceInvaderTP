@@ -1,10 +1,9 @@
-package level;
-import entities.*;
+package fr.univ_artois.iut_lens.spaceinvader.levels;
+import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
+import fr.univ_artois.iut_lens.spaceinvader.entities.*;
+import fr.univ_artois.iut_lens.spaceinvader.util.Position;
 
 import java.util.ArrayList;
-
-import misc.Position;
-import base.EntitiesManager;
 
 /**
  * This class generate levels, it's an abstract class
