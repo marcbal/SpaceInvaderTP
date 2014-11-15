@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
+import fr.univ_artois.iut_lens.spaceinvader.entities.EntityEnnemy;
 
 /**
  * Cette classe sert juste à gérer les entitées
@@ -14,8 +15,6 @@ public class EntitiesManager {
 
 	private List<Entity> entities = new ArrayList<Entity>();
 	private List<Entity> removeList = new ArrayList<Entity>();
-	
-	private boolean logicRequiredThisLoop = false;
 	
 	
 	
@@ -27,20 +26,20 @@ public class EntitiesManager {
 	}
 	
 	//Fonction permettant déplacer les entités
-	public void moveEntities(long delta) {
+	public void moveEntities(long delta, LevelManager levelMan) {
+		
+		levelMan.getCurrentLevel().getCurrentStrategyMove().performMove(delta, this);
+		
 		for(Entity entity : entities)
+		{
+	    	if (entity instanceof EntityEnnemy)
+	    		continue; // géré par la stratégie de déplacement
 			entity.move(delta);
-	}
-	
-	//Fonction agissant si un ennemi atteint un bord (par exemple)
-	public void doEntitiesLogic() {
-		if(logicRequiredThisLoop) {
-		    for(Entity entity : entities) {
-				entity.doLogic();
-			}
-			logicRequiredThisLoop = false;
 		}
 	}
+	
+	
+	
 	
 	public void doCollisions() {
 		// brute force collisions, compare every entity against
@@ -61,15 +60,6 @@ public class EntitiesManager {
 		// remove any entity that has been marked for clear up
 		entities.removeAll(removeList);
 		removeList.clear();
-	}
-	
-	/**
-	 * Notification from a game entity that the logic of the game
-	 * should be run at the next opportunity (normally as a result of some
-	 * game event)
-	 */
-	public void updateLogic() {
-		logicRequiredThisLoop = true;
 	}
 	
 	

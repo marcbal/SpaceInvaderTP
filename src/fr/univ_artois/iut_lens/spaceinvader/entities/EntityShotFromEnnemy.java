@@ -10,7 +10,7 @@ import fr.univ_artois.iut_lens.spaceinvader.Game;
  */
 public class EntityShotFromEnnemy extends EntityShot {
 	/** The vertical speed at which the players shot moves */
-	private double moveSpeed = 300;
+	private int moveSpeed = 300;
 	
 	/**
 	 * Create a new shot from the player
@@ -21,9 +21,9 @@ public class EntityShotFromEnnemy extends EntityShot {
 	 * @param y The initial y location of the shot
 	 */
 	public EntityShotFromEnnemy(Game game,String sprite,int x,int y, EntitiesManager eM) {
-		super(game, sprite,x,y,1,eM);
+		super(sprite,x,y,1,eM);
 		
-		dy = moveSpeed;
+		speed.setY(moveSpeed);
 	}
 	
 	
@@ -42,7 +42,7 @@ public class EntityShotFromEnnemy extends EntityShot {
 			// other prends les dégats donnés par le tir
 			if (other.receiveDegat(this))
 				// notify the game that the alien has been killed
-				game.notifyAlienKilled();
+				Game.gameInstance.notifyAlienKilled();
 			
 			used = true;
 		}

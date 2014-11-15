@@ -1,7 +1,6 @@
 package fr.univ_artois.iut_lens.spaceinvader.entities;
 
 import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
-import fr.univ_artois.iut_lens.spaceinvader.Game;
 
 /**
  * An entity which represents one of our space invader aliens.
@@ -11,8 +10,6 @@ import fr.univ_artois.iut_lens.spaceinvader.Game;
 public class EntityEnnemy extends Entity {
 	/** The speed at which the alient moves horizontally */
 	private double moveSpeed = 75;
-	/** The game in which the entity exists */
-	private Game game;
 	
 	/**
 	 * Create a new alien entity
@@ -24,7 +21,7 @@ public class EntityEnnemy extends Entity {
 	 */
 	public EntityEnnemy(String ref,int x,int y, int l, EntitiesManager eM) {
 		super(ref,x,y,eM);
-		dx = -moveSpeed;
+		speed.setX((int)-moveSpeed);
 		
 		life = l;
 	}
@@ -35,36 +32,10 @@ public class EntityEnnemy extends Entity {
 	 * @param delta The time that has elapsed since last move
 	 */
 	public void move(long delta) {
-		// if we have reached the left hand side of the screen and
-		// are moving left then request a logic update 
-		if ((dx < 0) && (x < 10)) {
-			entitiesManager.updateLogic();
-		}
-		// and vice vesa, if we have reached the right hand side of 
-		// the screen and are moving right, request a logic update
-		if ((dx > 0) && (x > 750)) {
-			entitiesManager.updateLogic();
-		}
+		// les mouvements sont calculés dans le strategyMoveEnnemy;
 		
 		// proceed with normal move
 		super.move(delta);
-	}
-	
-	/**
-	 * Update the game logic related to aliens
-	 */
-
-	public void doLogic() {
-		// swap over horizontal movement and move down the
-		// screen a bit
-		dx = -dx;
-		y += 10;
-		
-		// if we've reached the bottom of the screen then the player
-		// dies
-		if (y > 570) {
-			game.notifyDeath();
-		}
 	}
 	
 	/**

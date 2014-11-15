@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.Sprite;
 import fr.univ_artois.iut_lens.spaceinvader.SpriteStore;
+import fr.univ_artois.iut_lens.spaceinvader.util.Position;
 
 /**
  * An entity represents any element that appears in the game. The
@@ -22,19 +23,11 @@ import fr.univ_artois.iut_lens.spaceinvader.SpriteStore;
  */
 public abstract class Entity {
 	/** The current x location of this entity */ 
-	protected double x;
-	/** The current y location of this entity */
-	protected double y;
+	protected Position position = new Position();
 	/** The sprite that represents this entity */
 	protected Sprite sprite;
 	/** The current speed of this entity horizontally (pixels/sec) */
-	protected double dx;
-	/** The current speed of this entity vertically (pixels/sec) */
-	protected double dy;
-	/** The rectangle used for this entity during collisions  resolution */
-	private Rectangle me = new Rectangle();
-	/** The rectangle used for other entities during collision resolution */
-	private Rectangle him = new Rectangle();
+	protected Position speed = new Position();
 	/** Points de vie restants pour l'entité courante. Par défaut, tué en un coup */
 	protected int life = 1;
 	/** Points de dégat (seulement pour les entités de tir) */
@@ -51,8 +44,7 @@ public abstract class Entity {
 	 */
 	public Entity(String ref,int x,int y, EntitiesManager eM) {
 		this.sprite = SpriteStore.get().getSprite(ref);
-		this.x = x;
-		this.y = y;
+		position = new Position(x, y);
 		entitiesManager = eM;
 	}
 	
@@ -64,8 +56,8 @@ public abstract class Entity {
 	 */
 	public void move(long delta) {
 		// update the location of the entity based on move speeds
-		x += (delta * dx) / 1000000000;
-		y += (delta * dy) / 1000000000;
+		position.setX(position.getX()+(int)((delta * speed.getX()) / 1000000000));
+		position.setY(position.getY()+(int)((delta * speed.getY()) / 1000000000));
 	}
 	
 	/**
@@ -74,7 +66,7 @@ public abstract class Entity {
 	 * @param dx The horizontal speed of this entity (pixels/sec)
 	 */
 	public void setHorizontalMovement(double dx) {
-		this.dx = dx;
+		speed.setX((int)dx);
 	}
 
 	/**
@@ -83,7 +75,7 @@ public abstract class Entity {
 	 * @param dx The vertical speed of this entity (pixels/sec)
 	 */
 	public void setVerticalMovement(double dy) {
-		this.dy = dy;
+		speed.setY((int)dy);
 	}
 	
 	/**
@@ -92,7 +84,7 @@ public abstract class Entity {
 	 * @return The horizontal speed of this entity (pixels/sec)
 	 */
 	public double getHorizontalMovement() {
-		return dx;
+		return speed.getX();
 	}
 
 	/**
@@ -101,7 +93,7 @@ public abstract class Entity {
 	 * @return The vertical speed of this entity (pixels/sec)
 	 */
 	public double getVerticalMovement() {
-		return dy;
+		return speed.getY();
 	}
 	
 	/**
@@ -110,14 +102,8 @@ public abstract class Entity {
 	 * @param g The graphics context on which to draw
 	 */
 	public void draw(Graphics g) {
-		sprite.draw(g,(int) x,(int) y);
+		sprite.draw(g,position.getX(),position.getY());
 	}
-	
-	/**
-	 * Do the logic associated with this entity. This method
-	 * will be called periodically based on game events
-	 */
-	public abstract void doLogic();
 	
 	/**
 	 * Get the x location of this entity
@@ -125,7 +111,7 @@ public abstract class Entity {
 	 * @return The x location of this entity
 	 */
 	public int getX() {
-		return (int) x;
+		return position.getX();
 	}
 
 	/**
@@ -134,7 +120,7 @@ public abstract class Entity {
 	 * @return The y location of this entity
 	 */
 	public int getY() {
-		return (int) y;
+		return position.getY();
 	}
 	
 	/**
@@ -144,10 +130,12 @@ public abstract class Entity {
 	 * @return True if the entities collide with each other
 	 */
 	public boolean collidesWith(Entity other) {
-		me.setBounds((int) x,(int) y,sprite.getWidth(),sprite.getHeight());
-		him.setBounds((int) other.x,(int) other.y,other.sprite.getWidth(),other.sprite.getHeight());
-
-		return me.intersects(him);
+		return getBoundingBox().intersects(other.getBoundingBox());
+	}
+	
+	public Rectangle getBoundingBox()
+	{
+		return new Rectangle(position.getX(), position.getY(), sprite.getWidth(), sprite.getHeight());
 	}
 	
 	/**
@@ -183,6 +171,10 @@ public abstract class Entity {
 		}
 		return false;
 	}
+	
+	
+	public Position getPosition() { return position; }
+	public Position getSpeed() { return speed; }
 	
 	
 	/**

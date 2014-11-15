@@ -1,6 +1,7 @@
 package fr.univ_artois.iut_lens.spaceinvader.levels;
 import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.entities.*;
+import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy_move_strategy.StrategyMoveEnnemy;
 import fr.univ_artois.iut_lens.spaceinvader.util.Position;
 
 import java.util.ArrayList;
@@ -11,6 +12,9 @@ import java.util.ArrayList;
 public abstract class Level {
 	
 	protected EntitiesManager entitiesManager;
+	
+	
+	protected StrategyMoveEnnemy strategyMove;
 	
 	/**Number of row for the table*/
 	protected int row;
@@ -36,7 +40,7 @@ public abstract class Level {
 	/**Array to generating squad*/
 	ArrayList<Entity> SquadList;
 	
-	public Level(EntitiesManager eM, int r, int l, String s, int spLR, int spTB,  Position p) {
+	public Level(EntitiesManager eM, int r, int l, String s, int spLR, int spTB,  Position p, StrategyMoveEnnemy stratMove) {
 		
 		entitiesManager = eM;
 		row = r;
@@ -45,6 +49,8 @@ public abstract class Level {
 		spaceLR = spLR;
 		spaceTB = spTB;
 		pos = p;
+		
+		strategyMove = stratMove;
 	}
 	
 	/**
@@ -67,5 +73,10 @@ public abstract class Level {
 	
 	public boolean isFinished() {
 		return nbCount==0;
+	}
+	
+	public StrategyMoveEnnemy getCurrentStrategyMove()
+	{
+		return strategyMove;
 	}
 }

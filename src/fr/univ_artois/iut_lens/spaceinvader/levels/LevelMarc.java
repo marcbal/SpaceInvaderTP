@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.entities.EntityEnnemy;
+import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy_move_strategy.StrategyMoveEnnemyNormal;
 import fr.univ_artois.iut_lens.spaceinvader.util.Position;
 
 /**
@@ -14,7 +15,14 @@ import fr.univ_artois.iut_lens.spaceinvader.util.Position;
 public class LevelMarc extends Level {
 
 	public LevelMarc(EntitiesManager entitiesManager) {
-		super(entitiesManager, 4, 10,"sprites/marc.jpg", 50, 50, new Position(100, 50));
+		super(entitiesManager,
+				4,
+				10,
+				"sprites/marc.jpg",
+				50,
+				50,
+				new Position(100, 50),
+				new StrategyMoveEnnemyNormal());
 	}
 
 	@Override

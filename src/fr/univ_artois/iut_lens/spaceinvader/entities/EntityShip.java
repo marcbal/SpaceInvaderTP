@@ -9,21 +9,17 @@ import fr.univ_artois.iut_lens.spaceinvader.Game;
  * @author Kevin Glass
  */
 public class EntityShip extends Entity {
-	/** The game in which the ship exists */
-	private Game game;
 	
 	/**
 	 * Create a new entity to represent the players ship
 	 *  
-	 * @param game The game in which the ship is being created
+	 * @param gameInstance The game in which the ship is being created
 	 * @param ref The reference to the sprite to show for the ship
 	 * @param x The initial x location of the player's ship
 	 * @param y The initial y location of the player's ship
 	 */
-	public EntityShip(Game game,String ref,int x,int y, EntitiesManager eM) {
+	public EntityShip(String ref,int x,int y, EntitiesManager eM) {
 		super(ref,x,y,eM);
-		
-		this.game = game;
 	}
 	
 	/**
@@ -35,12 +31,12 @@ public class EntityShip extends Entity {
 	public void move(long delta) {
 		// if we're moving left and have reached the left hand side
 		// of the screen, don't move
-		if ((dx < 0) && (x < 10)) {
+		if ((speed.getX() < 0) && (position.getX() < 10)) {
 			return;
 		}
 		// if we're moving right and have reached the right hand side
 		// of the screen, don't move
-		if ((dx > 0) && (x > 750)) {
+		if ((speed.getX() > 0) && (position.getX() > 750)) {
 			return;
 		}
 		
@@ -56,17 +52,7 @@ public class EntityShip extends Entity {
 		// if its an alien or a shoot, notify the game that the player
 		// is dead
 		if (other instanceof EntityEnnemy || other instanceof EntityShotFromEnnemy) {
-			game.notifyDeath();
+			Game.gameInstance.notifyDeath();
 		}
 	}
-
-    @Override
-    public void doLogic() {
-        // FIXME Auto-generated method stub
-        
-    }
-    
-    public String getName() {
-    	return "ship";
-    }
 }

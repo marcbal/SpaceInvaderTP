@@ -1,7 +1,6 @@
 package fr.univ_artois.iut_lens.spaceinvader.entities;
 
 import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
-import fr.univ_artois.iut_lens.spaceinvader.Game;
 
 /**
  * An entity representing a shot fired by the player's ship
@@ -9,10 +8,6 @@ import fr.univ_artois.iut_lens.spaceinvader.Game;
  * @author Kevin Glass
  */
 public abstract class EntityShot extends Entity {
-	/** The vertical speed at which the players shot moves */
-	private double moveSpeed;
-	/** The game in which this entity exists */
-	protected Game game;
 	/** True if this shot has been "used", i.e. its hit something */
 	protected boolean used = false;
 	
@@ -24,12 +19,8 @@ public abstract class EntityShot extends Entity {
 	 * @param x The initial x location of the shot
 	 * @param y The initial y location of the shot
 	 */
-	public EntityShot(Game game,String sprite,int x,int y, int d, EntitiesManager eM) {
+	public EntityShot(String sprite,int x,int y, int d, EntitiesManager eM) {
 		super(sprite,x,y,eM);
-		
-		this.game = game;
-		
-		dy = moveSpeed;
 		
 		degat = d;
 	}
@@ -44,7 +35,7 @@ public abstract class EntityShot extends Entity {
 		super.move(delta);
 		
 		// if we shot off the screen, remove ourselfs
-		if (y < -100) {
+		if (position.getY() < -100) {
 			entitiesManager.removeEntity(this);
 		}
 	}
@@ -58,10 +49,4 @@ public abstract class EntityShot extends Entity {
 	public void collidedWith(Entity other) {
 		
 	}
-
-    @Override
-    public void doLogic() {
-        // FIXME Auto-generated method stub
-        
-    }
 }

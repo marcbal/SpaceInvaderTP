@@ -11,8 +11,6 @@ import fr.univ_artois.iut_lens.spaceinvader.entities.*;
  *
  */
 public class ShipManager {
-	
-	private Game game;
 	private EntitiesManager entitiesManager;
 	
 	private Entity ship;
@@ -24,9 +22,8 @@ public class ShipManager {
 	private int actualShipType = 0;  //Type de vaisseau actuel
 	
 	
-	public ShipManager(Game g, EntitiesManager eM) {
+	public ShipManager(EntitiesManager eM) {
 		init();
-		this.game = g;
 		this.entitiesManager = eM;
 	}
 	
@@ -55,7 +52,7 @@ public class ShipManager {
 	
 	//Retourner le vaisseau actuel
 	public Entity getShip() {
-		ship = new EntityShip(game, "sprites/"+ shipType.get(actualShipType), 370, 540, entitiesManager); //Cr�ation d'un vaisseau et insertion dans la gestion des entit�s (collision etc...)
+		ship = new EntityShip("sprites/"+ shipType.get(actualShipType), 370, 540, entitiesManager); //Cr�ation d'un vaisseau et insertion dans la gestion des entit�s (collision etc...)
 		return ship;
 	}
 	

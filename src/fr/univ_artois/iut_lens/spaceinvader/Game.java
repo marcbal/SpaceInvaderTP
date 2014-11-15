@@ -32,6 +32,8 @@ import fr.univ_artois.iut_lens.spaceinvader.entities.*;
  */
 public class Game extends Canvas {
 	private static final long serialVersionUID = 1L; // corrige un warning
+	
+	public static Game gameInstance;
 
 	/** The stragey that allows us to use accelerate page flipping */
 	private BufferStrategy bufferStrategy;
@@ -48,7 +50,7 @@ public class Game extends Canvas {
 	private LevelManager levelManager = new LevelManager(entitiesManager);
 	
 	/** gestion du vaisseau */
-	private ShipManager shipManager = new ShipManager(this, entitiesManager);
+	private ShipManager shipManager = new ShipManager(entitiesManager);
 	
 	/** The message to display which waiting for a key press */
 	private String message = "";
@@ -65,6 +67,7 @@ public class Game extends Canvas {
 	 * Construct our game and set it running.
 	 */
 	public Game() {
+		gameInstance = this;
 		// create a frame to contain our game
 		JFrame container = new JFrame("Mega Space Invader");
 		
@@ -170,12 +173,7 @@ public class Game extends Canvas {
 		if (!waitingForKeyPress)
 		{
 			//Déplacer les entités
-			entitiesManager.moveEntities(delta);
-
-			//Si les entités rencontre un bord ou atteingnent le bas de l'écran 
-			//(comportement modifiable dans les classes
-			//du package entity)
-			entitiesManager.doEntitiesLogic();
+			entitiesManager.moveEntities(delta,levelManager);
 			
 			//Vérifier si il y a eu des collisions
 			//Supprimer les entités tués

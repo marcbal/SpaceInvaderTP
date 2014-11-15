@@ -4,12 +4,20 @@ import java.util.ArrayList;
 
 import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.entities.*;
+import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy_move_strategy.StrategyMoveEnnemyNormal;
 import fr.univ_artois.iut_lens.spaceinvader.util.Position;
 
 public class LevelAlien extends Level {
 		
 	public LevelAlien(EntitiesManager entitiesManager) {
-		super(entitiesManager, 3, 10, "sprites/alien.gif", 50, 50, new Position(100,50));
+		super(entitiesManager,
+				3,
+				10,
+				"sprites/alien.gif",
+				50,
+				50,
+				new Position(100,50),
+				new StrategyMoveEnnemyNormal());
 	}
 
 	@Override
