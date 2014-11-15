@@ -11,9 +11,10 @@ import fr.univ_artois.iut_lens.spaceinvader.entities.*;
 public class ShipManager {
 	
 	private Entity ship;
-	private double moveSpeed = 300; // Vitesse de déplacement du vaisseau
+	private double moveSpeed = 300; // Vitesse de dï¿½placement du vaisseau
 	private long lastFire = 0; //Dernier tir du vaisseau
 	private long fireInterval = 200; //Intervalle de temps pour lequel le vaisseau peut tirer
+	private ShootManager shootManager  = new ShootManager();
 	
 	public ShipManager(Game game, EntitiesManager eM) {
 		ship = new EntityShip(game, "sprites/ship.gif", 370, 550, eM); //Crï¿½ation d'un vaisseau et insertion dans la gestion des entitï¿½s (collision etc...)
@@ -43,6 +44,6 @@ public class ShipManager {
 		if(actualTime - lastFire < fireInterval) return; //L'interval de tir est trop court
 		
 		lastFire = actualTime;
-		eM.getEntitiesList().add(new EntityShotFromAlly(g,"sprites/shot.gif",ship.getX()+10,ship.getY()-30, 1, eM));
+		eM.getEntitiesList().add(shootManager.getShoot(g, eM, ship.getX(), ship.getY(), 0));
 	}
 }

@@ -20,8 +20,8 @@ public class EntityShotFromAlly  extends EntityShot{
 	 * @param x The initial x location of the shot
 	 * @param y The initial y location of the shot
 	 */
-	public EntityShotFromAlly(Game game,String sprite,int x,int y, int d, EntitiesManager eM) {
-		super(game, sprite,x,y,d,eM);
+	public EntityShotFromAlly(Game game,String sprite,int x,int y, EntitiesManager eM) {
+		super(game, sprite,x,y,1,eM);
 		
 		dy = moveSpeed;
 	}
