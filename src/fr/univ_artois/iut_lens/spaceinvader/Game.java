@@ -1,4 +1,4 @@
-package base;
+package fr.univ_artois.iut_lens.spaceinvader;
 
 import java.awt.Canvas;
 import java.awt.Color;
@@ -13,7 +13,7 @@ import java.awt.image.BufferStrategy;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import entities.*;
+import fr.univ_artois.iut_lens.spaceinvader.entities.*;
 
 /**
  * The main hook of our game. This class with both act as a manager

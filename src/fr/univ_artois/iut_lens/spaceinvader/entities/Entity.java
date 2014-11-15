@@ -1,11 +1,11 @@
-package entities;
+package fr.univ_artois.iut_lens.spaceinvader.entities;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
-import base.EntitiesManager;
-import base.Sprite;
-import base.SpriteStore;
+import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
+import fr.univ_artois.iut_lens.spaceinvader.Sprite;
+import fr.univ_artois.iut_lens.spaceinvader.SpriteStore;
 
 /**
  * An entity represents any element that appears in the game. The

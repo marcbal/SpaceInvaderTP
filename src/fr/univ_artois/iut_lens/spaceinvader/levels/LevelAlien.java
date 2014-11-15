@@ -1,10 +1,10 @@
-package level;
+package fr.univ_artois.iut_lens.spaceinvader.levels;
 
 import java.util.ArrayList;
 
-import misc.Position;
-import entities.*;
-import base.EntitiesManager;
+import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
+import fr.univ_artois.iut_lens.spaceinvader.entities.*;
+import fr.univ_artois.iut_lens.spaceinvader.util.Position;
 
 public class LevelAlien extends Level {
 		

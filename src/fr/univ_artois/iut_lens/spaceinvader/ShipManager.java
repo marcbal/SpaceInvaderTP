@@ -1,31 +1,36 @@
-package base;
+package fr.univ_artois.iut_lens.spaceinvader;
 
-import entities.*;
+import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
+import fr.univ_artois.iut_lens.spaceinvader.entities.EntityShip;
 
 /**
  * 
- * Classe à part car le ship a ses propres contrôles
- * Elle n'hérites pas d'autre classe
+ * Classe ï¿½ part car le ship a ses propres contrï¿½les
+ * Elle n'hï¿½rites pas d'autre classe
  *
  */
 public class ShipManager {
 	
 	private Entity ship;
+<<<<<<< HEAD:src/base/ShipManager.java
 	private double moveSpeed = 300; // Vitesse de déplacement du vaisseau
 	private long lastFire = 0; //Dernier tir du vaisseau
 	private long fireInterval = 200; //Intervalle de temps pour lequel le vaisseau peut tirer
+=======
+	private double moveSpeed = 300; // Vitesse de dï¿½placement du vaisseau
+>>>>>>> origin/master:src/fr/univ_artois/iut_lens/spaceinvader/ShipManager.java
 	
 	public ShipManager(Game game, EntitiesManager eM) {
-		ship = new EntityShip(game, "sprites/ship.gif", 370, 550, eM); //Création d'un vaisseau et insertion dans la gestion des entités (collision etc...)
+		ship = new EntityShip(game, "sprites/ship.gif", 370, 550, eM); //Crï¿½ation d'un vaisseau et insertion dans la gestion des entitï¿½s (collision etc...)
 	}
 	
 	public void moveShip(int i) {
 		
-		//Si la commande est -1 on va à gauche
+		//Si la commande est -1 on va ï¿½ gauche
 		if(i == -1)
 			ship.setHorizontalMovement(-moveSpeed);
 		
-		//Si la commande est 1  on va à droite
+		//Si la commande est 1  on va ï¿½ droite
 		if(i == 1)
 			ship.setHorizontalMovement(moveSpeed);
 		

@@ -1,4 +1,4 @@
-package misc;
+package fr.univ_artois.iut_lens.spaceinvader.util;
 
 public class Position {
 	/** Horizontal position from the left of the screen */

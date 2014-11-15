@@ -1,10 +1,10 @@
-package base;
+package fr.univ_artois.iut_lens.spaceinvader;
 
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import entities.Entity;
+import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
 
 /**
  * Cette classe sert juste à gérer les entitées
