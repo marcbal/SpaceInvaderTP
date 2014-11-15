@@ -1,7 +1,6 @@
 package fr.univ_artois.iut_lens.spaceinvader;
 
-import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
-import fr.univ_artois.iut_lens.spaceinvader.entities.EntityShip;
+import fr.univ_artois.iut_lens.spaceinvader.entities.*;
 
 /**
  * 
@@ -12,13 +11,9 @@ import fr.univ_artois.iut_lens.spaceinvader.entities.EntityShip;
 public class ShipManager {
 	
 	private Entity ship;
-<<<<<<< HEAD:src/base/ShipManager.java
 	private double moveSpeed = 300; // Vitesse de déplacement du vaisseau
 	private long lastFire = 0; //Dernier tir du vaisseau
 	private long fireInterval = 200; //Intervalle de temps pour lequel le vaisseau peut tirer
-=======
-	private double moveSpeed = 300; // Vitesse de dï¿½placement du vaisseau
->>>>>>> origin/master:src/fr/univ_artois/iut_lens/spaceinvader/ShipManager.java
 	
 	public ShipManager(Game game, EntitiesManager eM) {
 		ship = new EntityShip(game, "sprites/ship.gif", 370, 550, eM); //Crï¿½ation d'un vaisseau et insertion dans la gestion des entitï¿½s (collision etc...)
