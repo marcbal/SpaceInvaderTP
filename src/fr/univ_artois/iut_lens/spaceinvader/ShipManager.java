@@ -1,5 +1,7 @@
 package fr.univ_artois.iut_lens.spaceinvader;
 
+import java.util.ArrayList;
+
 import fr.univ_artois.iut_lens.spaceinvader.entities.*;
 
 /**
@@ -10,13 +12,31 @@ import fr.univ_artois.iut_lens.spaceinvader.entities.*;
  */
 public class ShipManager {
 	
-	private Entity ship;
-	private double moveSpeed = 300; // Vitesse de d�placement du vaisseau
-	private long lastFire = 0; //Dernier tir du vaisseau
-	private long fireInterval = 200; //Intervalle de temps pour lequel le vaisseau peut tirer
+	private Game game;
+	private EntitiesManager entitiesManager;
 	
-	public ShipManager(Game game, EntitiesManager eM) {
-		ship = new EntityShip(game, "sprites/ship.gif", 370, 550, eM); //Cr�ation d'un vaisseau et insertion dans la gestion des entit�s (collision etc...)
+	private Entity ship;
+	private double moveSpeed = 300; // Vitesse de d�placement du vaisseau
+	private long lastFire = 0; //Dernier tir du vaisseau
+	private long fireInterval = 200; //Intervalle de temps par défaut pour lequel le vaisseau peut tirer
+	private ShootManager shootManager  = new ShootManager(); //Gestionnaire de tire du vaisseau
+	private ArrayList<String> shipType = new ArrayList<String>(); //Type of ship (ref)
+	private int actualShipType = 0;  //Type de vaisseau actuel
+	
+	
+	public ShipManager(Game g, EntitiesManager eM) {
+		init();
+		this.game = g;
+		this.entitiesManager = eM;
+	}
+	
+	/**
+	 * initialise les différents vaisseaux
+	 */
+	public void init() {
+		shipType.add("defaultship.png");
+		shipType.add("spaceship1.png");
+		shipType.add("supership1.png");
 	}
 	
 	public void moveShip(int i) {
@@ -35,6 +55,7 @@ public class ShipManager {
 	
 	//Retourner le vaisseau actuel
 	public Entity getShip() {
+		ship = new EntityShip(game, "sprites/"+ shipType.get(actualShipType), 370, 540, entitiesManager); //Cr�ation d'un vaisseau et insertion dans la gestion des entit�s (collision etc...)
 		return ship;
 	}
 	
@@ -42,7 +63,28 @@ public class ShipManager {
 	public void tryToShoot(Long actualTime, EntitiesManager eM, Game g) {
 		if(actualTime - lastFire < fireInterval) return; //L'interval de tir est trop court
 		
-		lastFire = actualTime;
-		eM.getEntitiesList().add(new EntityShotFromAlly(g,"sprites/shot.gif",ship.getX()+10,ship.getY()-30, 1, eM));
+		lastFire = actualTime; //On met le dernier tire au temps actuel
+		
+		if(actualShipType==0) { //Si on est dans le premier vaisseau
+			if(fireInterval>200) fireInterval=200; //L'intervale de tire est réduit au minumum à 200 
+			eM.getEntitiesList().add(shootManager.getShoot(g, eM, ship.getX()+27-5, ship.getY(), 0));
+		}
+		if(actualShipType==1) { //Si on est dans le premier vaisseau
+			if(fireInterval>100) fireInterval=100; //L'intervale de tire est réduit au minumum à 100 
+			eM.getEntitiesList().add(shootManager.getShoot(g, eM, ship.getX()+20-5, ship.getY(), 0));
+			eM.getEntitiesList().add(shootManager.getShoot(g, eM, ship.getX()+20+5, ship.getY(), 0));
+		}
+		if(actualShipType==2) { //Si on est dans le premier vaisseau
+			if(fireInterval>50) fireInterval=50; //L'intervale de tire est réduit au minumum à 50 
+			eM.getEntitiesList().add(shootManager.getShoot(g, eM, ship.getX()+30-12, ship.getY(), 0));
+			eM.getEntitiesList().add(shootManager.getShoot(g, eM, ship.getX()+30-6, ship.getY(), 0));
+			eM.getEntitiesList().add(shootManager.getShoot(g, eM, ship.getX()+30, ship.getY(), 0));
+			eM.getEntitiesList().add(shootManager.getShoot(g, eM, ship.getX()+30+6, ship.getY(), 0));
+			eM.getEntitiesList().add(shootManager.getShoot(g, eM, ship.getX()+2012, ship.getY(), 0));
+		}
+	}
+	
+	public void increaseShipType() {
+		if(actualShipType<shipType.size()-1) actualShipType++;
 	}
 }

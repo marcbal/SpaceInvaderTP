@@ -226,7 +226,7 @@ public class Game extends Canvas {
 	 */
 	private void startLevel() {
 		entitiesManager.getEntitiesList().clear();
-		// Placer le vaisseau préalablement créer dans le tableau des entités
+		// Placer le vaisseau prï¿½alablement crï¿½er dans le tableau des entitï¿½s
 		entitiesManager.getEntitiesList().add(shipManager.getShip());
 		
 		// create block of aliens, with the arguments
@@ -253,8 +253,10 @@ public class Game extends Canvas {
 	 * are dead.
 	 */
 	public void notifyWin() {
+		entitiesManager.getEntitiesList().clear(); //nettoie l'Ã©cran du vaisseau
 		message = "Well done! You Win!";
 		levelManager.goToNextLevel();
+		shipManager.increaseShipType(); //Evolution du vaisseau
 		waitingForKeyPress = true;
 	}
 	
