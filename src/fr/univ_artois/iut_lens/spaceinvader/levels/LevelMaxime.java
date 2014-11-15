@@ -6,6 +6,8 @@ import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.entities.EntityEnnemy;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy_move_strategy.StrategyMoveEnnemyNormal;
+import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy_move_strategy.StrategyMoveEnnemyRandom;
+import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy_move_strategy.StrategyMoveEnnemyUltimatePowerOfGodEndOfTheWorldOhMyGoshShutTheFuckUpThisIsTheEnd;
 import fr.univ_artois.iut_lens.spaceinvader.util.Position;
 
 /**
@@ -23,6 +25,8 @@ public class LevelMaxime extends Level {
 				50,
 				new Position(100, 50),
 				new StrategyMoveEnnemyNormal());
+		
+		strategyMove = new StrategyMoveEnnemyUltimatePowerOfGodEndOfTheWorldOhMyGoshShutTheFuckUpThisIsTheEnd();
 	}
 	
 	@Override
@@ -31,12 +35,11 @@ public class LevelMaxime extends Level {
 		SquadList = new ArrayList<Entity>();
 		for (int r=0;r<row;r++) {
 			for (int l=0;l<line;l++) {
-				Entity alien = new EntityEnnemy(sprite,pos.getX()+(l*spaceLR),pos.getY()+r*spaceTB, 15,entitiesManager);
+				Entity alien = new EntityEnnemy(sprite,pos.getX()+(l*spaceLR),pos.getY()+r*spaceTB, 20,entitiesManager);
 				SquadList.add(alien);
 				nbCount++;
 			}
 		}
 		return SquadList;
 	}
-
 }
