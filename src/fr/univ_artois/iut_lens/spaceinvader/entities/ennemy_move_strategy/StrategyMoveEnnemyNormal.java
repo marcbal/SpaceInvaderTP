@@ -7,14 +7,11 @@ import fr.univ_artois.iut_lens.spaceinvader.entities.EntityEnnemy;
 
 public class StrategyMoveEnnemyNormal extends StrategyMoveEnnemy {
 
-
-	// true when a ennemy collide on the border
-	private boolean changerDirection = false;
-	
-
-	
 	@Override
 	public void performMove(long delta, EntitiesManager entMan) {
+		
+		boolean changerDirection = false;
+		
 		
 		for(Entity entity : entMan.getEntitiesList())
 	    	if (entity instanceof EntityEnnemy)
