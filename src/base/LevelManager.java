@@ -33,8 +33,8 @@ public class LevelManager {
 
 		// génération des niveaux prédéfinis
 		levels.add(new LevelAlien(entitiesManager));
-		levels.add(new LevelMaxime(entitiesManager));
 		levels.add(new LevelMarc(entitiesManager));
+		levels.add(new LevelMaxime(entitiesManager));
 		
 	}
 	

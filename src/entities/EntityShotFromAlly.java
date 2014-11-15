@@ -10,7 +10,7 @@ import base.Game;
  */
 public class EntityShotFromAlly  extends EntityShot{
 	/** The vertical speed at which the players shot moves */
-	private double moveSpeed = -300;
+	private double moveSpeed = -3000;
 	
 	/**
 	 * Create a new shot from the player

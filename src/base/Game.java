@@ -50,11 +50,6 @@ public class Game extends Canvas {
 	/** gestion du vaisseau */
 	private ShipManager shipManager = new ShipManager(this, entitiesManager);
 	
-	/** The time at which last fired a shot */
-	private long lastFire = 0;
-	/** The interval between our players shot (ms) */
-	private long firingInterval = 200;
-	
 	/** The message to display which waiting for a key press */
 	private String message = "";
 	/** True if we're holding up game play until a key has been pressed */
@@ -151,12 +146,6 @@ public class Game extends Canvas {
 		}
 	}
 	
-	
-	
-	
-
-	
-	
 	private void handleEvent()
 	{
 		// resolve the movement of the ship. First assume the ship 
@@ -171,7 +160,7 @@ public class Game extends Canvas {
 		
 		// if we're pressing fire, attempt to fire
 		if (firePressed) {
-			tryToFire();
+			shipManager.tryToShoot(System.currentTimeMillis(), entitiesManager, this);
 		}
 	}
 	
@@ -286,24 +275,6 @@ public class Game extends Canvas {
 		}
 	}
 	
-	
-	
-	/**
-	 * Attempt to fire a shot from the player. Its called "try"
-	 * since we must first check that the player can fire at this 
-	 * point, i.e. has he/she waited long enough between shots
-	 */
-	public void tryToFire() {
-		// check that we have waiting long enough to fire
-		if (System.currentTimeMillis() - lastFire < firingInterval) {
-			return;
-		}
-		
-		// if we waited long enough, create the shot entity, and record the time.
-		lastFire = System.currentTimeMillis();
-		EntityShot shot = new EntityShotFromAlly(this,"sprites/shot.gif",shipManager.getShip().getX()+10,shipManager.getShip().getY()-30, 1, entitiesManager);
-		entitiesManager.getEntitiesList().add(shot);
-	}
 	/**
 	 * A class to handle keyboard input from the user. The class
 	 * handles both dynamic input during game play, i.e. left/right 
@@ -399,12 +370,7 @@ public class Game extends Canvas {
 				System.exit(0);
 			}
 		}
-	}
-	
-	
-	
-	
-	
+	}	
 	
 	/**
 	 * The entry point into the game. We'll simply create an
