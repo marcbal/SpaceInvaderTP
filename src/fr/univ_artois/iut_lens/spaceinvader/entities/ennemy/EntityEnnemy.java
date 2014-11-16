@@ -1,6 +1,7 @@
-package fr.univ_artois.iut_lens.spaceinvader.entities;
+package fr.univ_artois.iut_lens.spaceinvader.entities.ennemy;
 
 import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
+import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
 
 /**
  * An entity which represents one of our space invader aliens.

@@ -1,10 +1,9 @@
-package fr.univ_artois.iut_lens.spaceinvader.entities.ennemy_move_strategy;
+package fr.univ_artois.iut_lens.spaceinvader.entities.ennemy;
 
 import java.util.Random;
 
 import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
-import fr.univ_artois.iut_lens.spaceinvader.entities.EntityEnnemy;
 
 public class StrategyMoveEnnemyUltimatePowerOfGodEndOfTheWorldOhMyGoshShutTheFuckUpThisIsTheEnd extends StrategyMoveEnnemy {
 	

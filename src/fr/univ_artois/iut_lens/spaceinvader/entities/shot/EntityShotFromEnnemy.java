@@ -1,7 +1,9 @@
-package fr.univ_artois.iut_lens.spaceinvader.entities;
+package fr.univ_artois.iut_lens.spaceinvader.entities.shot;
 
 import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.Game;
+import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
+import fr.univ_artois.iut_lens.spaceinvader.entities.ship.EntityShip;
 import fr.univ_artois.iut_lens.spaceinvader.util.Position;
 
 /**

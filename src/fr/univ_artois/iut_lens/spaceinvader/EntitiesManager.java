@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
-import fr.univ_artois.iut_lens.spaceinvader.entities.EntityEnnemy;
+import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.EntityEnnemy;
 
 /**
  * Cette classe sert juste à gérer les entitées

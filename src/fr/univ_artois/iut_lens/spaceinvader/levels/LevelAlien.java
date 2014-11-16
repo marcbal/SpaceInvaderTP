@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.entities.*;
-import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy_move_strategy.StrategyMoveEnnemyNormal;
+import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.StrategyMoveEnnemyNormal;
+import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.EntityEnnemy;
 import fr.univ_artois.iut_lens.spaceinvader.util.Position;
 
 public class LevelAlien extends Level {

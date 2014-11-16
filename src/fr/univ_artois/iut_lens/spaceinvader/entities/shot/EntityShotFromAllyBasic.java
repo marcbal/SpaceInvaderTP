@@ -1,4 +1,4 @@
-package fr.univ_artois.iut_lens.spaceinvader.entities;
+package fr.univ_artois.iut_lens.spaceinvader.entities.shot;
 
 import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.util.Position;

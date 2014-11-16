@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
-import fr.univ_artois.iut_lens.spaceinvader.entities.EntityEnnemy;
-import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy_move_strategy.StrategyMoveEnnemyNormal;
-import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy_move_strategy.StrategyMoveEnnemyRandom;
+import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.EntityEnnemy;
+import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.StrategyMoveEnnemyNormal;
+import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.StrategyMoveEnnemyRandom;
 import fr.univ_artois.iut_lens.spaceinvader.util.Position;
 
 /**
@@ -44,7 +44,7 @@ public class LevelMarc extends Level {
 		
 		boolean ret = super.hasOneDestroyed();
 		
-		if (nbCount == 30)
+		if (nbCount == 40)
 			strategyMove = new StrategyMoveEnnemyRandom();
 		
 		return ret;

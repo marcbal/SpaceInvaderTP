@@ -1,14 +1,18 @@
-package fr.univ_artois.iut_lens.spaceinvader.entities;
+package fr.univ_artois.iut_lens.spaceinvader.entities.ship;
 
 import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.Game;
+import fr.univ_artois.iut_lens.spaceinvader.SpriteStore;
+import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
+import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.EntityEnnemy;
+import fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromEnnemy;
 
 /**
  * The entity that represents the players ship
  * 
  * @author Kevin Glass
  */
-public class EntityShip extends Entity {
+public abstract class EntityShip extends Entity {
 	
 	/**
 	 * Create a new entity to represent the players ship
@@ -18,8 +22,11 @@ public class EntityShip extends Entity {
 	 * @param x The initial x location of the player's ship
 	 * @param y The initial y location of the player's ship
 	 */
-	public EntityShip(String ref,double x,double y, EntitiesManager eM) {
-		super(ref,x,y,eM);
+	public EntityShip(String ref, EntitiesManager eM) {
+		super(ref,
+				800/2-SpriteStore.get().getSprite(ref).getWidth()/2,
+				600-SpriteStore.get().getSprite(ref).getHeight(),
+				eM);
 	}
 	
 	/**

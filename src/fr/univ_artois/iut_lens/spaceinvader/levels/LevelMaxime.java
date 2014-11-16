@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
-import fr.univ_artois.iut_lens.spaceinvader.entities.EntityEnnemy;
-import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy_move_strategy.StrategyMoveEnnemyUltimatePowerOfGodEndOfTheWorldOhMyGoshShutTheFuckUpThisIsTheEnd;
+import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.EntityEnnemy;
+import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.StrategyMoveEnnemyUltimatePowerOfGodEndOfTheWorldOhMyGoshShutTheFuckUpThisIsTheEnd;
 import fr.univ_artois.iut_lens.spaceinvader.util.Position;
 
 /**

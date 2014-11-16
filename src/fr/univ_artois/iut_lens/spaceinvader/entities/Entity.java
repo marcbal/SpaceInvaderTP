@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 
 import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
+import fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShot;
 import fr.univ_artois.iut_lens.spaceinvader.Sprite;
 import fr.univ_artois.iut_lens.spaceinvader.SpriteStore;
 import fr.univ_artois.iut_lens.spaceinvader.util.Position;
@@ -161,7 +162,7 @@ public abstract class Entity {
 		if (life == 0) // c'est le cas si this est un tir
 			return false;
 		
-		life -= shot.degat;
+		life -= shot.getDegat();
 		if (life <= 0)
 		{
 			entitiesManager.removeEntity(this);
