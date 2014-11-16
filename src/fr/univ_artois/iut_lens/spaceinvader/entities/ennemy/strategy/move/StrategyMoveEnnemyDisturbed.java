@@ -6,7 +6,7 @@ import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.EntityEnnemy;
 
-public class StrategyMoveEnnemyUltimatePowerOfGod extends StrategyMoveEnnemy {
+public class StrategyMoveEnnemyDisturbed extends StrategyMoveEnnemy {
 	
 	private int countOfDeath;
 	
