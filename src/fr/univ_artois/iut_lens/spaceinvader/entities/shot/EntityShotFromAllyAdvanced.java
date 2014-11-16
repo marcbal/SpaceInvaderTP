@@ -7,7 +7,7 @@ public class EntityShotFromAllyAdvanced extends EntityShotFromAlly {
 
 	public EntityShotFromAllyAdvanced(Vector2d p, Vector2d s,
 			EntitiesManager eM) {
-		super("sprites/shot2.gif", p, 2, s, eM);
+		super("sprites/shot2_blue.gif", p, 2, s, eM);
 		
 	}
 

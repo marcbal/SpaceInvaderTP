@@ -21,11 +21,10 @@ public class LevelMarc extends Level {
 				7,
 				10,
 				"sprites/marc.jpg",
-				50,
-				50,
+				new Vector2d(50, 50),
 				new Vector2d(50, 50),
 				new StrategyMoveEnnemyNormal(),
-				new StrategyShotEnnemyBasic());
+				new StrategyShotEnnemyBasic(1000));
 	}
 
 	@Override
@@ -34,7 +33,7 @@ public class LevelMarc extends Level {
 		SquadList = new ArrayList<Entity>();
 		for (int r=0;r<row;r++) {
 			for (int l=0;l<line;l++) {
-				Entity alien = new EntityEnnemy(sprite,new Vector2d(pos.x+(l*spaceLR),pos.y+r*spaceTB), 5,entitiesManager);
+				Entity alien = new EntityEnnemy(sprite,new Vector2d(pos.x+(l*space.x),pos.y+r*space.y), 5,entitiesManager);
 				SquadList.add(alien);
 				nbCount++;
 			}

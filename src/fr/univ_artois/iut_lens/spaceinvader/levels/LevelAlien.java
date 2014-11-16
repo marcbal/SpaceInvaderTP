@@ -16,11 +16,10 @@ public class LevelAlien extends Level {
 				3,
 				10,
 				"sprites/alien_spaceship_by_animot-d5t4j611.png",
-				50,
-				100,
+				new Vector2d(50,100),
 				new Vector2d(100,50),
 				new StrategyMoveEnnemyNormal(),
-				new StrategyShotEnnemyBasic());
+				new StrategyShotEnnemyBasic(3000));
 	}
 
 	@Override
@@ -29,7 +28,7 @@ public class LevelAlien extends Level {
 		SquadList = new ArrayList<Entity>();
 		for (int r=0;r<row;r++) {
 			for (int l=0;l<line;l++) {
-				Entity alien = new EntityEnnemy(sprite,new Vector2d(pos.x+(l*spaceLR),pos.y+r*spaceTB), 1,entitiesManager);
+				Entity alien = new EntityEnnemy(sprite,new Vector2d(pos.x+(l*space.x),pos.y+r*space.y), 1,entitiesManager);
 				SquadList.add(alien);
 				nbCount++;
 			}

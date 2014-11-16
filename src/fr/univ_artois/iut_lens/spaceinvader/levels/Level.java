@@ -18,7 +18,7 @@ public abstract class Level {
 	
 	protected StrategyMoveEnnemy strategyMove;
 	
-	protected StrategyShotEnemy strategyShot;
+	protected StrategyShotEnnemy strategyShot;
 	
 	/**Number of row for the table*/
 	protected int row;
@@ -32,11 +32,8 @@ public abstract class Level {
 	/** Position of the first alien in the top left*/
 	protected Vector2d pos;
 	
-	/**Distance between each entities left and right*/
-	protected int spaceLR;
-	
-	/**Distance between each entities top and bottom*/
-	protected int spaceTB;
+	/**Distance between each entities*/
+	protected Vector2d space;
 	
 	/**Numeber of entities in the squad*/
 	protected int nbCount;
@@ -44,14 +41,13 @@ public abstract class Level {
 	/**Array to generating squad*/
 	ArrayList<Entity> SquadList;
 	
-	public Level(EntitiesManager eM, int r, int l, String s, int spLR, int spTB,  Vector2d p, StrategyMoveEnnemy stratMove, StrategyShotEnemy stratShot) {
+	public Level(EntitiesManager eM, int r, int l, String s, Vector2d sp,  Vector2d p, StrategyMoveEnnemy stratMove, StrategyShotEnnemy stratShot) {
 		
 		entitiesManager = eM;
 		row = r;
 		line = l;
 		sprite = s;
-		spaceLR = spLR;
-		spaceTB = spTB;
+		space = sp;
 		pos = p;
 		
 		strategyMove = stratMove;
@@ -85,7 +81,7 @@ public abstract class Level {
 		return strategyMove;
 	}
 	
-	public StrategyShotEnemy getCurrentStrategyShot() {
+	public StrategyShotEnnemy getCurrentStrategyShot() {
 		return strategyShot;
 	}
 }

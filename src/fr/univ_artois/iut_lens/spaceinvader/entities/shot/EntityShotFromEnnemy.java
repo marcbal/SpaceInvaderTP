@@ -22,7 +22,7 @@ public class EntityShotFromEnnemy extends EntityShot {
 	 * @param y The initial y location of the shot
 	 */
 	public EntityShotFromEnnemy(Vector2d p, Vector2d s, EntitiesManager eM) {
-		super("sprites/shot2.gif",p,1,s,eM);
+		super("sprites/shot_red.gif",p,1,s,eM);
 	}
 	
 	

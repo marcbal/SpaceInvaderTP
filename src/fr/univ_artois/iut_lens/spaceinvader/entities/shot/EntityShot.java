@@ -41,7 +41,7 @@ public abstract class EntityShot extends Entity {
 		super.move(delta);
 		
 		// if we shot off the screen, remove ourselfs
-		if (position.y < -100) {
+		if (position.y < -100 || position.y > 700 || position.x < -100 || position.x > 900) {
 			entitiesManager.removeEntity(this);
 		}
 	}

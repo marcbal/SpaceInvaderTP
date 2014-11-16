@@ -20,11 +20,10 @@ public class LevelMaxime extends Level {
 				5,
 				10,
 				"sprites/max.jpg",
-				50,
-				50,
+				new Vector2d(50, 50),
 				new Vector2d(100, 50),
 				new StrategyMoveEnnemyUltimatePowerOfGod(),
-				new StrategyShotEnnemyBasic());
+				new StrategyShotEnnemyBasic(1500));
 		
 	}
 	
@@ -34,7 +33,7 @@ public class LevelMaxime extends Level {
 		SquadList = new ArrayList<Entity>();
 		for (int r=0;r<row;r++) {
 			for (int l=0;l<line;l++) {
-				Entity alien = new EntityEnnemy(sprite,new Vector2d(pos.x+(l*spaceLR),pos.y+r*spaceTB), 20,entitiesManager);
+				Entity alien = new EntityEnnemy(sprite,new Vector2d(pos.x+(l*space.x),pos.y+r*space.y), 20,entitiesManager);
 				SquadList.add(alien);
 				nbCount++;
 			}
