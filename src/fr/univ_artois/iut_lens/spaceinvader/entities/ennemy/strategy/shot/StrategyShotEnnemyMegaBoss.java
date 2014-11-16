@@ -48,9 +48,5 @@ public class StrategyShotEnnemyMegaBoss extends StrategyShotEnnemy {
 									entMan));
 			}
 		}
-		
-		
-		
 	}
-
 }

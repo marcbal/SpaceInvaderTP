@@ -2,6 +2,7 @@ package fr.univ_artois.iut_lens.spaceinvader.entities.ship;
 
 import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromAllyBasic;
+import fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromAllyComplex;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
 public class EntityShipDefault extends EntityShip {
@@ -18,8 +19,7 @@ public class EntityShipDefault extends EntityShip {
 		lastFireTime = currentTime; //On met le dernier tire au temps actuel
 		
 		entitiesManager.getEntitiesList().add(new EntityShotFromAllyBasic(new Vector2d(position.x+getBoundingBox().width/2-5, position.y), new Vector2d(0, -500), entitiesManager));
-
-		
+		//entitiesManager.getEntitiesList().add(new EntityShotFromAllyComplex(new Vector2d(position.x+getBoundingBox().width/2-5, position.y), entitiesManager, 1000));
 	}
 
 }

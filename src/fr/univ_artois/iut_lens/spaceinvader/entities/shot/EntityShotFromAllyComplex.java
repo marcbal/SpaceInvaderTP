@@ -8,18 +8,17 @@ import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
 public class EntityShotFromAllyComplex extends EntityShotFromAlly {
 
-	int i = 0;
-	public EntityShotFromAllyComplex(String sprite, Vector2d p, EntitiesManager eM) {
-		super(sprite, p, 100, new Vector2d(0, -150), eM);
+	double i = 0;
+	int split; //Ecart entre chaque tir
+	public EntityShotFromAllyComplex(Vector2d p, EntitiesManager eM, int s) {
+		super("sprites/ComplexShot.png", p, 100, 50, new Vector2d(0, -150), eM);
+		split = s;
 	}
 	
 	public void move(long delta) {
 		super.move(delta);
-		i = (i+1)%41;
-		if(i==20) {
-			speed.y = -speed.y;
-		}
-		// A terminer
+		entitiesManager.getEntitiesList().add(new EntityShotFromAllyBasic(position, new Vector2d(Math.cos(i)*300,Math.sin(i)*300), entitiesManager));
+		i += Math.PI/split;
 	}
 	
 	@Override
