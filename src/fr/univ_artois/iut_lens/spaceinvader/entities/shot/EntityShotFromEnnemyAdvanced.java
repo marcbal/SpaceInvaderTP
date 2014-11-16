@@ -6,7 +6,7 @@ import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 public class EntityShotFromEnnemyAdvanced extends EntityShotFromEnnemy {
 
 	public EntityShotFromEnnemyAdvanced(Vector2d p, Vector2d s, EntitiesManager eM) {
-		super("sprites/shot2_red.gif", p, 2, 4, s, eM);
+		super("sprites/shot2_red.gif", p, 2, 5, s, eM);
 	}
 
 }

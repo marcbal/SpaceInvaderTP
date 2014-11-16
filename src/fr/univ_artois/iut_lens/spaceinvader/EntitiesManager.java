@@ -38,7 +38,7 @@ public class EntitiesManager {
 		
 		levelMan.getCurrentLevel().getCurrentStrategyMove().performMove(delta, this);
 		
-		for(Entity entity : entities)
+		for(Entity entity : entities.toArray(new Entity[1]))
 		{
 	    	if (entity instanceof EntityEnnemy)
 	    		continue; // géré par la stratégie de déplacement
