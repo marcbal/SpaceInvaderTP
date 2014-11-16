@@ -10,7 +10,7 @@ public class EntityShotFromAllyComplex extends EntityShotFromAlly {
 
 	int i = 0;
 	public EntityShotFromAllyComplex(String sprite, Vector2d p, EntitiesManager eM) {
-		super(sprite, p, 100, new Vector2d(0, -150), eM);
+		super(sprite, p, 100, 50, new Vector2d(0, -150), eM);
 	}
 	
 	public void move(long delta) {

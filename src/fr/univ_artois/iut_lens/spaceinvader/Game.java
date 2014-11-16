@@ -68,6 +68,9 @@ public class Game extends Canvas {
 	/** True if we are firing */
 	private boolean firePressed = false;
 	
+	
+	private Sprite background = SpriteStore.get().getSprite("sprites/background.jpg");
+	
 	/**
 	 * Construct our game and set it running.
 	 */
@@ -183,7 +186,7 @@ public class Game extends Canvas {
 			//Déplacer les entités
 			entitiesManager.moveEntities(delta,levelManager);
 			
-			//G�n�rer des bonus
+			//G�n�rer des bonus
 			bonusManager.performBonus();
 			
 			//Vérifier si il y a eu des collisions
@@ -206,7 +209,8 @@ public class Game extends Canvas {
 		// surface and blank it out
 		Graphics2D g = (Graphics2D) bufferStrategy.getDrawGraphics();
 		g.setColor(Color.black);
-		g.fillRect(0,0,800,600);
+		
+		background.draw(g, 0, 0);
 
 		//Afficher les entités
         entitiesManager.draw(g);
