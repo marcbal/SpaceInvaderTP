@@ -17,12 +17,12 @@ public class LevelMarc extends Level {
 
 	public LevelMarc(EntitiesManager entitiesManager) {
 		super(entitiesManager,
-				4,
-				10,
+				5,
+				15,
 				"sprites/marc.jpg",
 				50,
 				50,
-				new Position(100, 50),
+				new Position(50, 50),
 				new StrategyMoveEnnemyNormal());
 	}
 
@@ -44,7 +44,7 @@ public class LevelMarc extends Level {
 		
 		boolean ret = super.hasOneDestroyed();
 		
-		if (nbCount == 10)
+		if (nbCount == 30)
 			strategyMove = new StrategyMoveEnnemyRandom();
 		
 		return ret;

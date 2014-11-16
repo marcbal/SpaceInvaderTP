@@ -20,7 +20,7 @@ public class StrategyMoveEnnemyUltimatePowerOfGodEndOfTheWorldOhMyGoshShutTheFuc
 	    	if (entity instanceof EntityEnnemy){
 	    		// direction courante de cet EntityEnnemy
 	    		char leftRight = (entity.getSpeed().getX() < 0)?'l':'r';
-	    		char upDown = (r.nextInt(50)<=5)?'u':'d';
+	    		char upDown = (r.nextInt(50)<=3)?'u':'d';
 	    		
 	    		char newLeftRight = leftRight;
 	    		char newUpDown = upDown;
@@ -59,8 +59,8 @@ public class StrategyMoveEnnemyUltimatePowerOfGodEndOfTheWorldOhMyGoshShutTheFuc
 			countOfDeath = 0;
 			for(Entity entity : entMan.getEntitiesList()) {
 				if(entity instanceof EntityEnnemy) {
-					entity.getSpeed().setX(entity.getSpeed().getX()+30);
-					entity.getSpeed().setY(entity.getSpeed().getY()+30);
+					entity.getSpeed().setX(entity.getSpeed().getX()+10);
+					entity.getSpeed().setY(entity.getSpeed().getY()+10);
 				}
 				
 			}

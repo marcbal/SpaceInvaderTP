@@ -51,7 +51,7 @@ public class ShipManager {
 	}
 	
 	//Retourner le vaisseau actuel
-	public Entity getShip() {
+	public Entity newShip() {
 		ship = new EntityShip("sprites/"+ shipType.get(actualShipType), 370, 540, entitiesManager); //Cr�ation d'un vaisseau et insertion dans la gestion des entit�s (collision etc...)
 		return ship;
 	}

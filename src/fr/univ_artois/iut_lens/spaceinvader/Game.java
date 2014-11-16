@@ -225,7 +225,7 @@ public class Game extends Canvas {
 	private void startLevel() {
 		entitiesManager.getEntitiesList().clear();
 		// Placer le vaisseau pr�alablement cr�er dans le tableau des entit�s
-		entitiesManager.getEntitiesList().add(shipManager.getShip());
+		entitiesManager.getEntitiesList().add(shipManager.newShip());
 		
 		// create block of aliens, with the arguments
 		
@@ -243,6 +243,8 @@ public class Game extends Canvas {
 	public void notifyDeath() {
 		message = "Oh no! They got you, try again?";
 		levelManager.goToFirstLevel();
+		shipManager = new ShipManager(entitiesManager);
+		shipManager.newShip();
 		waitingForKeyPress = true;
 	}
 	

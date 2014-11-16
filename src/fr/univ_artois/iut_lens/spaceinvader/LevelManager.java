@@ -30,7 +30,7 @@ public class LevelManager {
 	
 	private void initLevels()
 	{
-
+		levels.clear();
 		// génération des niveaux prédéfinis
 		levels.add(new LevelAlien(entitiesManager));
 		levels.add(new LevelMarc(entitiesManager));
