@@ -3,6 +3,7 @@ package fr.univ_artois.iut_lens.spaceinvader;
 import java.util.ArrayList;
 
 import fr.univ_artois.iut_lens.spaceinvader.entities.*;
+import fr.univ_artois.iut_lens.spaceinvader.util.Position;
 
 /**
  * 
@@ -63,20 +64,19 @@ public class ShipManager {
 		
 		if(actualShipType==0) { //Si on est dans le premier vaisseau
 			if(fireInterval>200) fireInterval=200; //L'intervale de tire est réduit au minumum à 200 
-			eM.getEntitiesList().add(new EntityShotFromAllyBasic(ship.getX()+ship.getBoundingBox().width/2-5, ship.getY(), eM));
+			eM.getEntitiesList().add(new EntityShotFromAllyBasic(ship.getX()+ship.getBoundingBox().width/2-5, ship.getY(), new Position(0, -500), eM));
 		}
 		if(actualShipType==1) { //Si on est dans le premier vaisseau
 			if(fireInterval>100) fireInterval=100; //L'intervale de tire est réduit au minumum à 100 
-			eM.getEntitiesList().add(new EntityShotFromAllyBasic(ship.getX()+ship.getBoundingBox().width/2-10, ship.getY(), eM));
-			eM.getEntitiesList().add(new EntityShotFromAllyBasic(ship.getX()+ship.getBoundingBox().width/2, ship.getY(), eM));
+			eM.getEntitiesList().add(new EntityShotFromAllyBasic(ship.getX()+ship.getBoundingBox().width/2-10, ship.getY(), new Position(-100, -1000), eM));
+			eM.getEntitiesList().add(new EntityShotFromAllyBasic(ship.getX()+ship.getBoundingBox().width/2, ship.getY(), new Position(100, -1000), eM));
 		}
 		if(actualShipType==2) { //Si on est dans le premier vaisseau
 			if(fireInterval>50) fireInterval=50; //L'intervale de tire est réduit au minumum à 50 
-			eM.getEntitiesList().add(new EntityShotFromAllyBasic(ship.getX()+ship.getBoundingBox().width/2-25, ship.getY(), eM));
-			eM.getEntitiesList().add(new EntityShotFromAllyBasic(ship.getX()+ship.getBoundingBox().width/2-15, ship.getY(), eM));
-			eM.getEntitiesList().add(new EntityShotFromAllyBasic(ship.getX()+ship.getBoundingBox().width/2-5, ship.getY(), eM));
-			eM.getEntitiesList().add(new EntityShotFromAllyBasic(ship.getX()+ship.getBoundingBox().width/2+5, ship.getY(), eM));
-			eM.getEntitiesList().add(new EntityShotFromAllyBasic(ship.getX()+ship.getBoundingBox().width/2+15, ship.getY(), eM));
+			eM.getEntitiesList().add(new EntityShotFromAllyAdvanced(ship.getX()+ship.getBoundingBox().width/2-20, ship.getY(), new Position(0, -300), eM));
+			eM.getEntitiesList().add(new EntityShotFromAllyBasic(ship.getX()+ship.getBoundingBox().width/2-10, ship.getY(), new Position(-150, -1000), eM));
+			eM.getEntitiesList().add(new EntityShotFromAllyBasic(ship.getX()+ship.getBoundingBox().width/2, ship.getY(), new Position(150, -1000), eM));
+			eM.getEntitiesList().add(new EntityShotFromAllyAdvanced(ship.getX()+ship.getBoundingBox().width/2+10, ship.getY(), new Position(0, -300), eM));
 		}
 	}
 	

@@ -1,7 +1,10 @@
 package fr.univ_artois.iut_lens.spaceinvader.entities;
 
+import java.awt.Point;
+
 import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.Game;
+import fr.univ_artois.iut_lens.spaceinvader.util.Position;
 
 /**
  * An entity representing an Ally shot
@@ -10,20 +13,18 @@ import fr.univ_artois.iut_lens.spaceinvader.Game;
  */
 public abstract class EntityShotFromAlly  extends EntityShot{
 	/** The vertical speed at which the players shot moves */
-	private int moveSpeed = -3000;
 	
 	/**
 	 * Create a new shot from the player
 	 * 
-	 * @param game The game in which the shot has been created
 	 * @param sprite The sprite representing this shot
 	 * @param x The initial x location of the shot
 	 * @param y The initial y location of the shot
+	 * @param d Degats
+	 * @param s Speed vector
 	 */
-	public EntityShotFromAlly(String sprite,double x,double y, int d, EntitiesManager eM) {
-		super(sprite,x,y,d,eM);
-		
-		speed.setY(moveSpeed);
+	public EntityShotFromAlly(String sprite,double x,double y, int d, Position s, EntitiesManager eM) {
+		super(sprite,x,y,d,s,eM);
 	}
 	
 	

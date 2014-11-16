@@ -17,8 +17,8 @@ public class LevelMarc extends Level {
 
 	public LevelMarc(EntitiesManager entitiesManager) {
 		super(entitiesManager,
-				5,
-				15,
+				7,
+				10,
 				"sprites/marc.jpg",
 				50,
 				50,

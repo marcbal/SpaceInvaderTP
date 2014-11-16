@@ -2,6 +2,7 @@ package fr.univ_artois.iut_lens.spaceinvader.entities;
 
 import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.Game;
+import fr.univ_artois.iut_lens.spaceinvader.util.Position;
 
 /**
  * An entity representing a ennemy shot
@@ -20,8 +21,8 @@ public class EntityShotFromEnnemy extends EntityShot {
 	 * @param x The initial x location of the shot
 	 * @param y The initial y location of the shot
 	 */
-	public EntityShotFromEnnemy(Game game,String sprite,double x,double y, EntitiesManager eM) {
-		super(sprite,x,y,1,eM);
+	public EntityShotFromEnnemy(Game game,String sprite,double x,double y, Position s, EntitiesManager eM) {
+		super(sprite,x,y,1,s,eM);
 		
 		speed.setY(moveSpeed);
 	}

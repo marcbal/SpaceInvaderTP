@@ -16,7 +16,7 @@ public class LevelMaxime extends Level {
 
 	public LevelMaxime(EntitiesManager entitiesManager) {
 		super(entitiesManager,
-				4,
+				5,
 				10,
 				"sprites/max.jpg",
 				50,

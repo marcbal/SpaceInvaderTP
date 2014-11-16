@@ -1,6 +1,7 @@
 package fr.univ_artois.iut_lens.spaceinvader.entities;
 
 import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
+import fr.univ_artois.iut_lens.spaceinvader.util.Position;
 
 /**
  * An entity representing a shot fired by the player's ship
@@ -21,10 +22,12 @@ public abstract class EntityShot extends Entity {
 	 * @param x The initial x location of the shot
 	 * @param y The initial y location of the shot
 	 */
-	public EntityShot(String sprite,double x,double y, int d, EntitiesManager eM) {
+	public EntityShot(String sprite,double x,double y, int d, Position s, EntitiesManager eM) {
 		super(sprite,x,y,eM);
 		
 		degat = d;
+		
+		speed = s;
 	}
 
 	/**
