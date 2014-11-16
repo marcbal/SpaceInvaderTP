@@ -34,6 +34,8 @@ public class Game extends Canvas {
 	private static final long serialVersionUID = 1L; // corrige un warning
 	
 	public static Game gameInstance;
+	
+	private static long currentNanoTime = 0;
 
 	/** The stragey that allows us to use accelerate page flipping */
 	private BufferStrategy bufferStrategy;
@@ -134,10 +136,11 @@ public class Game extends Canvas {
 	 */
 	public void gameLoop() {
 		
+		long delta = (long) (1/fps*1000000000);
 		// keep looping round til the game ends
 		while (gameRunning) {
 			long loop_start = System.nanoTime();
-			long delta = (long) (1/fps*1000000000);
+			currentNanoTime += delta;
 			
 			handleEvent();
 			
@@ -163,7 +166,7 @@ public class Game extends Canvas {
 		
 		// if we're pressing fire, attempt to fire
 		if (firePressed) {
-			shipManager.tryToShoot(System.currentTimeMillis(), entitiesManager, this);
+			shipManager.tryToShoot(getCurrentNanoTime()/1000000, entitiesManager, this);
 		}
 	}
 	
@@ -276,6 +279,11 @@ public class Game extends Canvas {
 		    entity.setNotifyAlienKilled();
 		}
 	}
+	
+	
+	
+	public static long getCurrentNanoTime() { return currentNanoTime; }
+	
 	
 	/**
 	 * A class to handle keyboard input from the user. The class
