@@ -21,8 +21,8 @@ public class EntityShotFromEnnemy extends EntityShot {
 	 * @param x The initial x location of the shot
 	 * @param y The initial y location of the shot
 	 */
-	public EntityShotFromEnnemy(Vector2d p, Vector2d s, EntitiesManager eM) {
-		super("sprites/shot_red.gif",p,1,s,eM);
+	public EntityShotFromEnnemy(String sprite, Vector2d p, int d, Vector2d s,  EntitiesManager eM) {
+		super(sprite, p, d, s, eM);
 	}
 	
 	
