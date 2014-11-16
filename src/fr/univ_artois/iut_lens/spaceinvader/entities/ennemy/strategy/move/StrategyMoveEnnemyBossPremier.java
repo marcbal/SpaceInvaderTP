@@ -6,7 +6,7 @@ import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.EntityEnnemy;
 
-public class StrategyMoveEnnemyUltimatePowerOfGod extends StrategyMoveEnnemy {
+public class StrategyMoveEnnemyBossPremier extends StrategyMoveEnnemy {
 	
 	private int countOfDeath;
 	
@@ -32,17 +32,17 @@ public class StrategyMoveEnnemyUltimatePowerOfGod extends StrategyMoveEnnemy {
 	    			leftRight = 'r';
 	    		// and vice vesa, if we have reached the right hand side of 
 	    		// the screen and are moving right, request a logic update
-	    		else if (leftRight == 'r' && (entity.getPosition().x > 750))
+	    		else if (leftRight == 'r' && (entity.getPosition().x > 600))
 	    			leftRight= 'l';
 	    		// sinon, on essaye de lui faire changer de direction, si on a de la chance
-	    		else if (r.nextInt(10)<=1) // 1 chance sur 10
+	    		else if (r.nextInt(1000)<=1) // 1 chance sur 10
 	    			leftRight = (leftRight == 'l')?'r':'l';
 	    		
-	    		if(upDown == 'd' && (entity.getPosition().y>570))
+	    		if(upDown == 'd' && (entity.getPosition().y>300))
 	    			upDown = 'u';
 	    		else if(upDown=='u' && (entity.getPosition().y<30))
 	    			upDown = 'd';
-	    		else if(r.nextInt(15)<=1)
+	    		else if(r.nextInt(1000)<=1)
 	    			newUpDown = (upDown=='u')?'d':'u';
 	    			
 	    		
@@ -63,8 +63,8 @@ public class StrategyMoveEnnemyUltimatePowerOfGod extends StrategyMoveEnnemy {
 			countOfDeath = 0;
 			for(Entity entity : entMan.getEntitiesList()) {
 				if(entity instanceof EntityEnnemy) {
-					entity.getSpeed().x+=20;
-					entity.getSpeed().y+=20;
+					entity.getSpeed().x+=1;
+					entity.getSpeed().y+=1;
 				}
 				
 			}

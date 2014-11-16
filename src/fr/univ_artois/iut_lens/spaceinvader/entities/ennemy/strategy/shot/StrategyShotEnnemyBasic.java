@@ -5,7 +5,7 @@ import java.util.Random;
 import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.entities.*;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.EntityEnnemy;
-import fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromEnnemy;
+import fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromEnnemyBasic;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
 public class StrategyShotEnnemyBasic extends StrategyShotEnnemy {
@@ -29,7 +29,7 @@ public class StrategyShotEnnemyBasic extends StrategyShotEnnemy {
 			if (entity instanceof EntityEnnemy)
 			{
 				if (r.nextInt(scarcity)==0)
-					entMan.getEntitiesList().add(new EntityShotFromEnnemy(new Vector2d(entity.getPosition().x+entity.getBoundingBox().width/2, entity.getPosition().y+entity.getBoundingBox().height), new Vector2d(0, 200), entMan));
+					entMan.getEntitiesList().add(new EntityShotFromEnnemyBasic(new Vector2d(entity.getPosition().x+entity.getBoundingBox().width/2, entity.getPosition().y+entity.getBoundingBox().height), new Vector2d(0, 200), entMan));
 			}
 		}
 	}

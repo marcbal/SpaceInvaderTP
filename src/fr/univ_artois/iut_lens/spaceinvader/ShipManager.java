@@ -17,6 +17,7 @@ public class ShipManager {
 	private List<EntityShip> ships = new ArrayList<EntityShip>();
 	
 	private int actualShip = 0;  //Type de vaisseau actuel
+	private int newShip = actualShip;
 	
 	
 	public ShipManager(EntitiesManager eM) {
@@ -42,7 +43,32 @@ public class ShipManager {
 		getCurrentShip().tryToShoot(currentTime);
 	}
 	
+	//Faire évoluer le vaisseau
 	public void increaseShipType() {
-		if(actualShip<ships.size()-1) actualShip++;
+		//On vérifie qu'il ne soit pas déjà égal au max
+		if(newShip<ships.size()-1) newShip++;
+	}
+	
+	//Faire régrésser le vaisseau
+	public void decreaseShipType() {
+		//On verifie qu'il ne soit pas déjà égale  à 0
+		if(newShip>0) newShip--;
+	}
+	
+	public int getActualShip() {
+		return actualShip;
+	}
+	
+	public int getNewShip() {
+		return newShip;
+	}
+	
+	public void makeItEvolve() {
+		if(newShip!= actualShip) {
+			entitiesManager.removeEntity(ships.get(actualShip));
+			entitiesManager.getEntitiesList().add(ships.get(newShip));
+			actualShip = newShip;
+		}
 	}
 }
+
