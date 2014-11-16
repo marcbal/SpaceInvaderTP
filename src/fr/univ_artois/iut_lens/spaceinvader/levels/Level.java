@@ -2,7 +2,7 @@ package fr.univ_artois.iut_lens.spaceinvader.levels;
 
 import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.entities.*;
-import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.StrategyMoveEnnemy;
+import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.move.StrategyMoveEnnemy;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
 import java.util.ArrayList;

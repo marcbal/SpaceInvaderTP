@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.EntityEnnemy;
-import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.StrategyMoveEnnemyUltimatePowerOfGod;
+import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.move.StrategyMoveEnnemyUltimatePowerOfGod;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
 /**

@@ -1,8 +1,9 @@
-package fr.univ_artois.iut_lens.spaceinvader.entities.ennemy;
+package fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.move;
 
 import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.Game;
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
+import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.EntityEnnemy;
 
 public class StrategyMoveEnnemyNormal extends StrategyMoveEnnemy {
 

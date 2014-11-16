@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.EntityEnnemy;
-import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.StrategyMoveEnnemyNormal;
-import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.StrategyMoveEnnemyRandom;
+import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.move.StrategyMoveEnnemyNormal;
+import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.move.StrategyMoveEnnemyRandom;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
 /**
