@@ -54,6 +54,9 @@ public class Game extends Canvas {
 	/** gestion du vaisseau */
 	private ShipManager shipManager = new ShipManager(entitiesManager);
 	
+	/** gestion des bonus */
+	private BonusManager bonusManager = new BonusManager(entitiesManager, shipManager);
+	
 	/** The message to display which waiting for a key press */
 	private String message = "";
 	/** True if we're holding up game play until a key has been pressed */
@@ -180,6 +183,9 @@ public class Game extends Canvas {
 			//Déplacer les entités
 			entitiesManager.moveEntities(delta,levelManager);
 			
+			//G�n�rer des bonus
+			bonusManager.performBonus();
+			
 			//Vérifier si il y a eu des collisions
 			//Supprimer les entités tués
 			entitiesManager.doCollisions();
@@ -262,7 +268,7 @@ public class Game extends Canvas {
 		entitiesManager.getEntitiesList().clear(); //nettoie l'écran du vaisseau
 		message = "Well done! You Win!";
 		levelManager.goToNextLevel();
-		shipManager.increaseShipType(); //Evolution du vaisseau
+		//shipManager.increaseShipType(); //Evolution du vaisseau
 		waitingForKeyPress = true;
 	}
 	

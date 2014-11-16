@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.univ_artois.iut_lens.spaceinvader.entities.ship.*;
+import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
 /**
  * 
@@ -66,6 +67,7 @@ public class ShipManager {
 	
 	public void makeItEvolve() {
 		if(newShip != actualShip) {
+			Vector2d pos = ships.get(actualShip).getPosition();
 			entitiesManager.removeEntity(ships.get(actualShip));
 			entitiesManager.getEntitiesList().add(ships.get(newShip));
 			actualShip = newShip;
