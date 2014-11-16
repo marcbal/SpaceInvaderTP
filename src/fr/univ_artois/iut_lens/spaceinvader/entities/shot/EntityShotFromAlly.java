@@ -49,22 +49,12 @@ public abstract class EntityShotFromAlly  extends EntityShot{
 				
 			used = true;
 		}
-<<<<<<< HEAD
+
 		//Si deux tirs se touchent
 		if(other instanceof EntityShotFromEnnemy) {
 			entitiesManager.removeEntity(this);
 			entitiesManager.removeEntity(other);
 			used = true;
-=======
-		
-
-		
-		//Si deux tirs se touchent
-		System.out.println(other instanceof EntityShotFromEnnemy);
-		if(other instanceof EntityShotFromEnnemy) {
-			entitiesManager.removeEntity(this);
-			entitiesManager.removeEntity(other);
->>>>>>> 0030c92c0fb2cafc2b81fb02af171da00f033a8d
 		}
 	}
 }
