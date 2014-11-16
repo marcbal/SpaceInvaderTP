@@ -26,6 +26,8 @@ public class ShipManager {
 		ships.add(new EntityShipDefault(entitiesManager));
 		ships.add(new EntityShipPowered(entitiesManager));
 		ships.add(new EntityShipSupership(entitiesManager));
+		ships.add(new EntityShipSupership(entitiesManager));
+		ships.add(new EntityShipMegaShip(entitiesManager));
 	}
 	
 	public EntityShip getCurrentShip() {
@@ -42,15 +44,15 @@ public class ShipManager {
 		getCurrentShip().tryToShoot(currentTime);
 	}
 	
-	//Faire évoluer le vaisseau
+	//Faire ï¿½voluer le vaisseau
 	public void increaseShipType() {
-		//On vérifie qu'il ne soit pas déjà égal au max
+		//On vï¿½rifie qu'il ne soit pas dï¿½jï¿½ ï¿½gal au max
 		if(newShip<ships.size()-1) newShip++;
 	}
 	
-	//Faire régrésser le vaisseau
+	//Faire rï¿½grï¿½sser le vaisseau
 	public void decreaseShipType() {
-		//On verifie qu'il ne soit pas déjà égale  à 0
+		//On verifie qu'il ne soit pas dï¿½jï¿½ ï¿½gale  ï¿½ 0
 		if(newShip>0) newShip--;
 	}
 	

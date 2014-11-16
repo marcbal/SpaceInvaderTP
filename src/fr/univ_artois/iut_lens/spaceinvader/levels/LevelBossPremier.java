@@ -23,7 +23,7 @@ public class LevelBossPremier extends Level {
 				new Vector2d(50, 50),
 				new Vector2d(100, 50),
 				new StrategyMoveEnnemyBossPremier(),
-				new StrategyShotEnnemyBasic(500));
+				new StrategyShotEnnemyBasic(100));
 		
 	}
 	
@@ -31,7 +31,7 @@ public class LevelBossPremier extends Level {
 	public ArrayList<Entity> generateLevel() {
 		nbCount = 0;
 		SquadList = new ArrayList<Entity>();
-		Entity alien = new EntityEnnemy(sprite,new Vector2d(400,0), 200, entitiesManager);
+		Entity alien = new EntityEnnemy(sprite,new Vector2d(400,0), 1000, entitiesManager);
 		SquadList.add(alien);
 		nbCount++;
 		return SquadList;

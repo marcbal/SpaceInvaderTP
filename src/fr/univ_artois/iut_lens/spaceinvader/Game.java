@@ -287,6 +287,8 @@ public class Game extends Canvas {
 	
 	public static long getCurrentNanoTime() { return currentNanoTime; }
 	
+	public ShipManager getShipManager() { return shipManager; }
+	
 	
 	/**
 	 * A class to handle keyboard input from the user. The class
