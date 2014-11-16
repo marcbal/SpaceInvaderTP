@@ -6,10 +6,10 @@ import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
 public class EntityShipSecretShip extends EntityShip {
 	protected long lastFireTime = 0; //Dernier tir du vaisseau
-	private long fireInterval = 1000; //Intervalle de temps par défaut pour lequel le vaisseau peut tirer
+	private long fireInterval = 1500; //Intervalle de temps par défaut pour lequel le vaisseau peut tirer
 
 	public EntityShipSecretShip(EntitiesManager eM) {
-		super("sprites/SecretShip.png", 500, eM);
+		super("sprites/SecretShip.png", 800, eM);
 	}
 
 	@Override
