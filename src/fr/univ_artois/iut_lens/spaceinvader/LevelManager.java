@@ -5,6 +5,7 @@ import java.util.List;
 
 import fr.univ_artois.iut_lens.spaceinvader.levels.Level;
 import fr.univ_artois.iut_lens.spaceinvader.levels.LevelAlien;
+import fr.univ_artois.iut_lens.spaceinvader.levels.LevelAlien2;
 import fr.univ_artois.iut_lens.spaceinvader.levels.LevelBossPremier;
 import fr.univ_artois.iut_lens.spaceinvader.levels.LevelMarc;
 import fr.univ_artois.iut_lens.spaceinvader.levels.LevelMaxime;
@@ -37,6 +38,7 @@ public class LevelManager {
 		levels.add(new LevelMarc(entitiesManager));
 		levels.add(new LevelMaxime(entitiesManager));
 		levels.add(new LevelBossPremier(entitiesManager));
+		levels.add(new LevelAlien2(entitiesManager));
 		
 	}
 	
