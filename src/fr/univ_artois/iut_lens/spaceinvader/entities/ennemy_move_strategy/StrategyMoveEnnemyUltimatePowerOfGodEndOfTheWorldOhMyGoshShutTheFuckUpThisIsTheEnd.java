@@ -20,7 +20,7 @@ public class StrategyMoveEnnemyUltimatePowerOfGodEndOfTheWorldOhMyGoshShutTheFuc
 	    	if (entity instanceof EntityEnnemy){
 	    		// direction courante de cet EntityEnnemy
 	    		char leftRight = (entity.getSpeed().getX() < 0)?'l':'r';
-	    		char upDown = (r.nextInt(50)<=3)?'u':'d';
+	    		char upDown =    (entity.getSpeed().getY() > 0)?'d':'u';
 	    		
 	    		char newLeftRight = leftRight;
 	    		char newUpDown = upDown;
@@ -35,13 +35,15 @@ public class StrategyMoveEnnemyUltimatePowerOfGodEndOfTheWorldOhMyGoshShutTheFuc
 	    		else if (leftRight == 'r' && (entity.getPosition().getX() > 750))
 	    			leftRight= 'l';
 	    		// sinon, on essaye de lui faire changer de direction, si on a de la chance
-	    		else if (r.nextInt(50)<=5) // 1 chance sur 50
+	    		else if (r.nextInt(10)<=1) // 1 chance sur 10
 	    			leftRight = (leftRight == 'l')?'r':'l';
 	    		
 	    		if(upDown == 'd' && (entity.getPosition().getY()>570))
 	    			upDown = 'u';
 	    		else if(upDown=='u' && (entity.getPosition().getY()<30))
 	    			upDown = 'd';
+	    		else if(r.nextInt(15)<=1)
+	    			newUpDown = (upDown=='u')?'d':'u';
 	    			
 	    		
 	    		// change la direction si nécessaire
@@ -49,7 +51,14 @@ public class StrategyMoveEnnemyUltimatePowerOfGodEndOfTheWorldOhMyGoshShutTheFuc
 		    		entity.getSpeed().setX(-entity.getSpeed().getX());
 	    		if(newUpDown != upDown)
 	    			entity.getSpeed().setY(-entity.getSpeed().getY());
-	    		
+	    		entity.getSpeed().setY(entity.getSpeed().getY()
+	    				+2
+	    				+(
+	    					r.nextInt(
+	    						Math.abs(570-(int)entity.getPosition().getY())+1
+	    					)/100F
+	    				)
+	    			);
 	    		
 	    		entity.move(delta); // applique le speed à la position actuelle (commun à tout les Entity)
 	    	}
