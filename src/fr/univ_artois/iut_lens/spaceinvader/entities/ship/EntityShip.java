@@ -79,7 +79,9 @@ public abstract class EntityShip extends Entity {
 		speed.x = command*moveSpeed;
 	}
 	
-	
+	public void setPosition(Vector2d pos) {
+		position = pos;
+	}
 	
 	
 	

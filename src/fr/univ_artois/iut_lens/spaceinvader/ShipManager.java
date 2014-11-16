@@ -68,6 +68,7 @@ public class ShipManager {
 			Vector2d pos = ships.get(actualShip).getPosition();
 			entitiesManager.removeEntity(ships.get(actualShip));
 			entitiesManager.getEntitiesList().add(ships.get(newShip));
+			ships.get(newShip).setPosition(pos);
 			actualShip = newShip;
 		}
 	}
