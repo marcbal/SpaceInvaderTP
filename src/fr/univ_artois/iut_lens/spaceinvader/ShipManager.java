@@ -17,7 +17,7 @@ public class ShipManager {
 	
 	private List<EntityShip> ships = new ArrayList<EntityShip>();
 	
-	private int actualShip = 0;  //Type de vaisseau actuel
+	private int actualShip = 20;  //Type de vaisseau actuel
 	
 	private int newShip = actualShip;
 	
@@ -27,10 +27,24 @@ public class ShipManager {
 		ships.add(new EntityShipDefault(entitiesManager));
 		ships.add(new EntityShipPowered(entitiesManager));
 		ships.add(new EntityShipPowered(entitiesManager));
+		ships.add(new EntityShipPowered(entitiesManager));
+		ships.add(new EntityShipPowered(entitiesManager));
+		ships.add(new EntityShipSupership(entitiesManager));
+		ships.add(new EntityShipSupership(entitiesManager));
 		ships.add(new EntityShipSupership(entitiesManager));
 		ships.add(new EntityShipSupership(entitiesManager));
 		ships.add(new EntityShipSupership(entitiesManager));
 		ships.add(new EntityShipMegaShip(entitiesManager));
+		ships.add(new EntityShipMegaShip(entitiesManager));
+		ships.add(new EntityShipMegaShip(entitiesManager));
+		ships.add(new EntityShipMegaShip(entitiesManager));
+		ships.add(new EntityShipMegaShip(entitiesManager));
+		ships.add(new EntityShipMegaShip(entitiesManager));
+		ships.add(new EntityShipMegaShip(entitiesManager));
+		ships.add(new EntityShipMegaShip(entitiesManager));
+		ships.add(new EntityShipMegaShip(entitiesManager));
+		ships.add(new EntityShipMegaShip(entitiesManager));
+		ships.add(new EntityShipSecretShip(entitiesManager));
 	}
 	
 	public EntityShip getCurrentShip() {

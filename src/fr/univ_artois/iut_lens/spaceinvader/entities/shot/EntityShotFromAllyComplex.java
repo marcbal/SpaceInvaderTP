@@ -9,16 +9,17 @@ import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 public class EntityShotFromAllyComplex extends EntityShotFromAlly {
 
 	double i = 0;
-	int split; //Ecart entre chaque tir
-	public EntityShotFromAllyComplex(Vector2d p, EntitiesManager eM, int s) {
-		super("sprites/ComplexShot.png", p, 100, 50, new Vector2d(0, -150), eM);
-		split = s;
+	double time = 0;
+	public EntityShotFromAllyComplex(Vector2d p, EntitiesManager eM) {
+		super("sprites/ComplexShot.png", p, 100, 50, new Vector2d(0, -100), eM);
 	}
 	
 	public void move(long delta) {
 		super.move(delta);
-		entitiesManager.getEntitiesList().add(new EntityShotFromAllyBasic(position, new Vector2d(Math.cos(i)*300,Math.sin(i)*300), entitiesManager));
-		i += Math.PI/split;
+		if(time%1==0) entitiesManager.getEntitiesList().add(new EntityShotFromAllySubComplex(new Vector2d(position.x+getBoundingBox().width/3.0, position.y+getBoundingBox().height/3.0), new Vector2d((Math.cos(i)*300),(Math.sin(i)*300)), entitiesManager));
+		i += Math.PI/9;
+		time++;
+		if(time>300) time =0; //Evite les dépassement de capacité
 	}
 	
 	@Override
@@ -31,13 +32,12 @@ public class EntityShotFromAllyComplex extends EntityShotFromAlly {
 		
 		// if we've hit an alien, kill it!
 		if (other instanceof EntityEnnemy) {
-			
-			// remove the affected entities
-			entitiesManager.removeEntity(this);
 			// other prends les dégats donnés par le tir
-			if (other.receiveDegat(this))
+			if (other.receiveDegat(this)) {
 				// notify the game that the alien has been killed
 				Game.gameInstance.notifyAlienKilled();
+				degat = 0;
+			}
 		}
 
 		//Si deux tirs se touchent (les 2 tirs dans les camps différents)
