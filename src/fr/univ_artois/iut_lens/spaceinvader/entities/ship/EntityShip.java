@@ -15,6 +15,7 @@ import fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromEnnemy;
 public abstract class EntityShip extends Entity {
 
 	private double moveSpeed; // Vitesse de déplacement du vaisseau
+
 	
 	/**
 	 * Create a new entity to represent the players ship
@@ -26,7 +27,7 @@ public abstract class EntityShip extends Entity {
 	 */
 	public EntityShip(String ref, double speed, EntitiesManager eM) {
 		super(ref,
-				800/2-SpriteStore.get().getSprite(ref).getWidth()/2,
+				800/2-SpriteStore.get().getSprite(ref).getWidth()/2,	// permet de centrer l'image
 				600-SpriteStore.get().getSprite(ref).getHeight(),
 				eM);
 		
@@ -75,4 +76,12 @@ public abstract class EntityShip extends Entity {
 	{
 		setHorizontalMovement(command*moveSpeed);
 	}
+	
+	
+	
+	
+	
+	public abstract void tryToShoot(long currentTime);
+	
+	
 }

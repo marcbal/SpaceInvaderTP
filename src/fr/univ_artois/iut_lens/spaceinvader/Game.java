@@ -166,7 +166,7 @@ public class Game extends Canvas {
 		
 		// if we're pressing fire, attempt to fire
 		if (firePressed) {
-			shipManager.tryToShoot(getCurrentNanoTime()/1000000, entitiesManager, this);
+			shipManager.tryToShoot(getCurrentNanoTime()/1000000/* convert to milliseconds */);
 		}
 	}
 	
