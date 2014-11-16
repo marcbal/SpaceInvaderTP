@@ -17,7 +17,7 @@ public class ShipManager {
 	
 	private List<EntityShip> ships = new ArrayList<EntityShip>();
 	
-	private int actualShip = 20;  //Type de vaisseau actuel
+	private int actualShip = 0;  //Type de vaisseau actuel
 	
 	private int newShip = actualShip;
 	
