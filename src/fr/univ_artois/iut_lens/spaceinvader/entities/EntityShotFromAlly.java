@@ -8,7 +8,7 @@ import fr.univ_artois.iut_lens.spaceinvader.Game;
  * @author Maxime
  *
  */
-public class EntityShotFromAlly  extends EntityShot{
+public abstract class EntityShotFromAlly  extends EntityShot{
 	/** The vertical speed at which the players shot moves */
 	private int moveSpeed = -3000;
 	
@@ -20,8 +20,8 @@ public class EntityShotFromAlly  extends EntityShot{
 	 * @param x The initial x location of the shot
 	 * @param y The initial y location of the shot
 	 */
-	public EntityShotFromAlly(Game game,String sprite,double x,double y, EntitiesManager eM) {
-		super(sprite,x,y,1,eM);
+	public EntityShotFromAlly(String sprite,double x,double y, int d, EntitiesManager eM) {
+		super(sprite,x,y,d,eM);
 		
 		speed.setY(moveSpeed);
 	}

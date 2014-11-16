@@ -10,6 +10,8 @@ import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 public abstract class EntityShot extends Entity {
 	/** True if this shot has been "used", i.e. its hit something */
 	protected boolean used = false;
+	/** Points de dégat */
+	protected int degat = 0;
 	
 	/**
 	 * Create a new shot from the player

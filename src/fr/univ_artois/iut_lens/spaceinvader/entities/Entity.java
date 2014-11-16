@@ -30,8 +30,6 @@ public abstract class Entity {
 	protected Position speed = new Position();
 	/** Points de vie restants pour l'entité courante. Par défaut, tué en un coup */
 	protected int life = 1;
-	/** Points de dégat (seulement pour les entités de tir) */
-	protected int degat = 0;
 	
 	protected EntitiesManager entitiesManager;
 	
