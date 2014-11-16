@@ -51,7 +51,7 @@ public class ShipManager {
 	//Faire régrésser le vaisseau
 	public void decreaseShipType() {
 		//On verifie qu'il ne soit pas déjà égale  à 0
-		if(newShip>0) newShip = newShip--;
+		if(newShip>0) newShip--;
 	}
 	
 	public int getActualShip() {
