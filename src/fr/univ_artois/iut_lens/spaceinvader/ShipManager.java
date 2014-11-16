@@ -26,6 +26,8 @@ public class ShipManager {
 		
 		ships.add(new EntityShipDefault(entitiesManager));
 		ships.add(new EntityShipPowered(entitiesManager));
+		ships.add(new EntityShipPowered(entitiesManager));
+		ships.add(new EntityShipSupership(entitiesManager));
 		ships.add(new EntityShipSupership(entitiesManager));
 		ships.add(new EntityShipSupership(entitiesManager));
 		ships.add(new EntityShipMegaShip(entitiesManager));
@@ -68,7 +70,9 @@ public class ShipManager {
 	public void makeItEvolve() {
 		if(newShip != actualShip) {
 			Vector2d pos = ships.get(actualShip).getPosition();
-			entitiesManager.removeEntity(ships.get(actualShip));
+			entitiesManager.removeEntity(getCurrentShip());
+			ships.get(newShip).getPosition().x = pos.x;
+			ships.get(newShip).getPosition().y = pos.y;
 			entitiesManager.getEntitiesList().add(ships.get(newShip));
 			actualShip = newShip;
 		}

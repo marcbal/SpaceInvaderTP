@@ -7,6 +7,7 @@ import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.EntityEnnemy;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.move.StrategyMoveEnnemyBossPremier;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.shot.StrategyShotEnnemyBasic;
+import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.shot.StrategyShotEnnemyMegaBoss;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
 /**
@@ -23,7 +24,7 @@ public class LevelBossPremier extends Level {
 				new Vector2d(50, 50),
 				new Vector2d(100, 50),
 				new StrategyMoveEnnemyBossPremier(),
-				new StrategyShotEnnemyBasic(100));
+				new StrategyShotEnnemyMegaBoss());
 		
 	}
 	

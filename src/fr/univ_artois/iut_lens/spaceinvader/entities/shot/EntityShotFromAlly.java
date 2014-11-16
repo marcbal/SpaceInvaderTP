@@ -23,8 +23,8 @@ public abstract class EntityShotFromAlly  extends EntityShot{
 	 * @param d Degats
 	 * @param s Speed vector
 	 */
-	public EntityShotFromAlly(String sprite,Vector2d p, int d, Vector2d s, EntitiesManager eM) {
-		super(sprite,p,d,s,eM);
+	public EntityShotFromAlly(String sprite,Vector2d p, int d, int l, Vector2d s, EntitiesManager eM) {
+		super(sprite,p,d,l,s,eM);
 	}
 	
 	
@@ -52,9 +52,14 @@ public abstract class EntityShotFromAlly  extends EntityShot{
 
 		//Si deux tirs se touchent (les 2 tirs dans les camps différents)
 		if(other instanceof EntityShotFromEnnemy) {
-			entitiesManager.removeEntity(this);
-			entitiesManager.removeEntity(other);
-			used = true;
+			if (receiveDegat((EntityShot) other))
+			{
+				entitiesManager.removeEntity(this);
+				// la suite sers car en appelant entitiesManager.removeEntity(),
+				// on ne calcule pas le retrait de point de vie de l'autre tir
+				if(other.receiveDegat((EntityShot) this))
+					entitiesManager.removeEntity(other);
+			}
 		}
 	}
 }

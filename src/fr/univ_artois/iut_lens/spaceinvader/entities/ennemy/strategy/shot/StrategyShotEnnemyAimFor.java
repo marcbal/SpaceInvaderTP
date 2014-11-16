@@ -7,7 +7,7 @@ import fr.univ_artois.iut_lens.spaceinvader.Game;
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.EntityEnnemy;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ship.EntityShip;
-import fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromEnnemyBasic;
+import fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromEnnemyAdvanced;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
 public class StrategyShotEnnemyAimFor extends StrategyShotEnnemy {
@@ -33,7 +33,7 @@ public class StrategyShotEnnemyAimFor extends StrategyShotEnnemy {
 				if (r.nextInt(scarcity)==0)
 				{
 					Vector2d speed = ship.getPosition().dup().add(entity.getPosition().dup().invert()).dotProduct(0.4);
-					entMan.getEntitiesList().add(new EntityShotFromEnnemyBasic(new Vector2d(entity.getPosition().x+entity.getBoundingBox().width/2, entity.getPosition().y+entity.getBoundingBox().height), speed, entMan));
+					entMan.getEntitiesList().add(new EntityShotFromEnnemyAdvanced(new Vector2d(entity.getPosition().x+entity.getBoundingBox().width/2, entity.getPosition().y+entity.getBoundingBox().height), speed, entMan));
 				}
 					
 			}
