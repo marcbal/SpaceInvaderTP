@@ -184,6 +184,7 @@ public class Game extends Canvas {
 			//Supprimer les entités tués
 			entitiesManager.doCollisions();
 			
+			shipManager.makeItEvolve();
 			// réinitialiser le déplacement du vaisseau
 			shipManager.moveShip(0);
 		}
@@ -248,7 +249,8 @@ public class Game extends Canvas {
 	public void notifyDeath() {
 		message = "Oh no! They got you, try again?";
 		levelManager.goToFirstLevel();
-		shipManager = new ShipManager(entitiesManager);
+		shipManager.decreaseShipType();
+		entitiesManager.getEntitiesList().clear();
 		waitingForKeyPress = true;
 	}
 	

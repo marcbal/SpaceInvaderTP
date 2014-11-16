@@ -23,7 +23,7 @@ public class LevelBossPremier extends Level {
 				new Vector2d(50, 50),
 				new Vector2d(100, 50),
 				new StrategyMoveEnnemyBossPremier(),
-				new StrategyShotEnnemyBasic(800));
+				new StrategyShotEnnemyBasic(500));
 		
 	}
 	
