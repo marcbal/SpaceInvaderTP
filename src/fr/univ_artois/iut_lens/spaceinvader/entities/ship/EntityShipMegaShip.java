@@ -10,7 +10,7 @@ public class EntityShipMegaShip extends EntityShip {
 	private long fireInterval = 50; //Intervalle de temps par défaut pour lequel le vaisseau peut tirer
 
 	public EntityShipMegaShip(EntitiesManager eM) {
-		super("sprites/Spaceship_tut.png", 400, eM);
+		super("sprites/Spaceship_tut.png", 600, eM);
 	}
 
 	@Override
