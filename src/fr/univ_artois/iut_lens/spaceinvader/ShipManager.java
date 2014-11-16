@@ -74,6 +74,7 @@ public class ShipManager {
 			ships.get(newShip).getPosition().x = pos.x;
 			ships.get(newShip).getPosition().y = pos.y;
 			entitiesManager.getEntitiesList().add(ships.get(newShip));
+			ships.get(newShip).setPosition(pos);
 			actualShip = newShip;
 		}
 	}

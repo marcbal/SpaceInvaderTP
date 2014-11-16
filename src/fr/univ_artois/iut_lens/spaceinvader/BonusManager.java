@@ -26,11 +26,11 @@ public class BonusManager {
 		//Vitesse
 		Random sY = new Random();
 		
-		if(r1.nextInt(1000)<=5) {
-			entitiesManager.getEntitiesList().add(new EntityBonusPowerUp(new Vector2d(x.nextInt(800),y.nextInt(300)), new Vector2d(0, sY.nextInt(300)+10), entitiesManager, shipManager));
+		if(r1.nextInt(1750)<=5) {
+			entitiesManager.getEntitiesList().add(new EntityBonusPowerUp(new Vector2d(x.nextInt(800),y.nextInt(300)), new Vector2d(0, sY.nextInt(500)+10), entitiesManager, shipManager));
 		}
-		if(r2.nextInt(1000)<=5) {
-			entitiesManager.getEntitiesList().add(new EntityBonusPowerDown(new Vector2d(x.nextInt(800),y.nextInt(300)), new Vector2d(0, sY.nextInt(300)+10), entitiesManager, shipManager));
+		if(r2.nextInt(1750)<=5) {
+			entitiesManager.getEntitiesList().add(new EntityBonusPowerDown(new Vector2d(x.nextInt(800),y.nextInt(300)), new Vector2d(0, sY.nextInt(500)+10), entitiesManager, shipManager));
 		}
 	}
 }
