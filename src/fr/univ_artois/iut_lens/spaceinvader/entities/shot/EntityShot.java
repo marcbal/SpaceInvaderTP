@@ -2,7 +2,7 @@ package fr.univ_artois.iut_lens.spaceinvader.entities.shot;
 
 import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
-import fr.univ_artois.iut_lens.spaceinvader.util.Position;
+import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
 /**
  * An entity representing a shot fired by the player's ship
@@ -23,8 +23,8 @@ public abstract class EntityShot extends Entity {
 	 * @param x The initial x location of the shot
 	 * @param y The initial y location of the shot
 	 */
-	public EntityShot(String sprite,double x,double y, int d, Position s, EntitiesManager eM) {
-		super(sprite,x,y,eM);
+	public EntityShot(String sprite,Vector2d p, int d, Vector2d s, EntitiesManager eM) {
+		super(sprite,p,eM);
 		
 		degat = d;
 		
@@ -41,7 +41,7 @@ public abstract class EntityShot extends Entity {
 		super.move(delta);
 		
 		// if we shot off the screen, remove ourselfs
-		if (position.getY() < -100) {
+		if (position.y < -100) {
 			entitiesManager.removeEntity(this);
 		}
 	}

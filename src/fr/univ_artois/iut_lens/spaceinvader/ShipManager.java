@@ -37,7 +37,7 @@ public class ShipManager {
 		getCurrentShip().setHorizontalDirection(command);
 	}
 	
-	//Voir si le vaisseau peut tirer
+	//Tenter de tirer avec le vaisseau
 	public void tryToShoot(long currentTime) {
 		getCurrentShip().tryToShoot(currentTime);
 	}

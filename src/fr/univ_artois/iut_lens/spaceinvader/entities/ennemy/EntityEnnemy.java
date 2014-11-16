@@ -2,6 +2,7 @@ package fr.univ_artois.iut_lens.spaceinvader.entities.ennemy;
 
 import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
+import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
 /**
  * An entity which represents one of our space invader aliens.
@@ -20,9 +21,9 @@ public class EntityEnnemy extends Entity {
 	 * @param x The intial x location of this alien
 	 * @param y The intial y location of this alient
 	 */
-	public EntityEnnemy(String ref,double x,double y, int l, EntitiesManager eM) {
-		super(ref,x,y,eM);
-		speed.setX(-moveSpeed);
+	public EntityEnnemy(String ref,Vector2d p, int l, EntitiesManager eM) {
+		super(ref,p,eM);
+		speed.x = -moveSpeed;
 		
 		life = l;
 	}
@@ -54,6 +55,6 @@ public class EntityEnnemy extends Entity {
 	@Override
 	public void setNotifyAlienKilled()
 	{
-		setHorizontalMovement(getHorizontalMovement() * 1.02);
+		speed.x *= 1.02;
 	}
 }

@@ -6,6 +6,7 @@ import fr.univ_artois.iut_lens.spaceinvader.SpriteStore;
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.EntityEnnemy;
 import fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromEnnemy;
+import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
 /**
  * The entity that represents the players ship
@@ -27,8 +28,9 @@ public abstract class EntityShip extends Entity {
 	 */
 	public EntityShip(String ref, double speed, EntitiesManager eM) {
 		super(ref,
-				800/2-SpriteStore.get().getSprite(ref).getWidth()/2,	// permet de centrer l'image
-				600-SpriteStore.get().getSprite(ref).getHeight(),
+				new Vector2d(
+						800/2-SpriteStore.get().getSprite(ref).getWidth()/2,	// permet de centrer l'image
+						600-SpriteStore.get().getSprite(ref).getHeight()),
 				eM);
 		
 		moveSpeed = speed;
@@ -43,12 +45,12 @@ public abstract class EntityShip extends Entity {
 	public void move(long delta) {
 		// if we're moving left and have reached the left hand side
 		// of the screen, don't move
-		if ((speed.getX() < 0) && (position.getX() < 10)) {
+		if ((speed.x < 0) && (position.x < 10)) {
 			return;
 		}
 		// if we're moving right and have reached the right hand side
 		// of the screen, don't move
-		if ((speed.getX() > 0) && (position.getX() > 750)) {
+		if ((speed.x > 0) && (position.x > 750)) {
 			return;
 		}
 		
@@ -74,7 +76,7 @@ public abstract class EntityShip extends Entity {
 	 */
 	public void setHorizontalDirection(int command)
 	{
-		setHorizontalMovement(command*moveSpeed);
+		speed.x = command*moveSpeed;
 	}
 	
 	

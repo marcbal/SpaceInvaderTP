@@ -18,12 +18,12 @@ public class StrategyMoveEnnemyNormal extends StrategyMoveEnnemy {
 	    		
 	    		// if we have reached the left hand side of the screen and
 	    		// are moving left then request a logic update 
-	    		if ((entity.getSpeed().getX() < 0) && (entity.getPosition().getX() < 10)) {
+	    		if ((entity.getSpeed().x < 0) && (entity.getPosition().x < 10)) {
 	    			changerDirection = true;
 	    		}
 	    		// and vice vesa, if we have reached the right hand side of 
 	    		// the screen and are moving right, request a logic update
-	    		if ((entity.getSpeed().getX() > 0) && (entity.getPosition().getX() > 750)) {
+	    		if ((entity.getSpeed().x > 0) && (entity.getPosition().x > 750)) {
 	    			changerDirection = true;
 	    		}
 	    		
@@ -37,12 +37,12 @@ public class StrategyMoveEnnemyNormal extends StrategyMoveEnnemy {
 		    	{
 		    		// swap over horizontal movement and move down the
 		    		// screen a bit
-		    		entity.getSpeed().setX(-entity.getSpeed().getX());
-		    		entity.getPosition().setY(entity.getPosition().getY()+10);
+		    		entity.getSpeed().invertX();
+		    		entity.getPosition().y+=10;
 		    		
 		    		// if we've reached the bottom of the screen then the player
 		    		// dies
-		    		if (entity.getPosition().getY() > 570) {
+		    		if (entity.getPosition().y > 570) {
 		    			Game.gameInstance.notifyDeath();
 		    		}
 		    	}

@@ -4,7 +4,7 @@ import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.EntityEnnemy;
 import fr.univ_artois.iut_lens.spaceinvader.Game;
-import fr.univ_artois.iut_lens.spaceinvader.util.Position;
+import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
 /**
  * An entity representing an Ally shot
@@ -23,8 +23,8 @@ public abstract class EntityShotFromAlly  extends EntityShot{
 	 * @param d Degats
 	 * @param s Speed vector
 	 */
-	public EntityShotFromAlly(String sprite,double x,double y, int d, Position s, EntitiesManager eM) {
-		super(sprite,x,y,d,s,eM);
+	public EntityShotFromAlly(String sprite,Vector2d p, int d, Vector2d s, EntitiesManager eM) {
+		super(sprite,p,d,s,eM);
 	}
 	
 	

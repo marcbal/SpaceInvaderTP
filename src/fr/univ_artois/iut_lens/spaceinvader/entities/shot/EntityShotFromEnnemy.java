@@ -4,7 +4,7 @@ import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.Game;
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ship.EntityShip;
-import fr.univ_artois.iut_lens.spaceinvader.util.Position;
+import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
 /**
  * An entity representing a ennemy shot
@@ -12,8 +12,6 @@ import fr.univ_artois.iut_lens.spaceinvader.util.Position;
  *
  */
 public class EntityShotFromEnnemy extends EntityShot {
-	/** The vertical speed at which the players shot moves */
-	private int moveSpeed = 300;
 	
 	/**
 	 * Create a new shot from the player
@@ -23,10 +21,8 @@ public class EntityShotFromEnnemy extends EntityShot {
 	 * @param x The initial x location of the shot
 	 * @param y The initial y location of the shot
 	 */
-	public EntityShotFromEnnemy(Game game,String sprite,double x,double y, Position s, EntitiesManager eM) {
-		super(sprite,x,y,1,s,eM);
-		
-		speed.setY(moveSpeed);
+	public EntityShotFromEnnemy(Game game,String sprite,Vector2d p, Vector2d s, EntitiesManager eM) {
+		super(sprite,p,1,s,eM);
 	}
 	
 	

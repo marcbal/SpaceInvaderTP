@@ -3,7 +3,7 @@ package fr.univ_artois.iut_lens.spaceinvader.levels;
 import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.entities.*;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.StrategyMoveEnnemy;
-import fr.univ_artois.iut_lens.spaceinvader.util.Position;
+import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
 import java.util.ArrayList;
 
@@ -27,7 +27,7 @@ public abstract class Level {
 	protected String sprite;
 	
 	/** Position of the first alien in the top left*/
-	protected Position pos;
+	protected Vector2d pos;
 	
 	/**Distance between each entities left and right*/
 	protected int spaceLR;
@@ -41,7 +41,7 @@ public abstract class Level {
 	/**Array to generating squad*/
 	ArrayList<Entity> SquadList;
 	
-	public Level(EntitiesManager eM, int r, int l, String s, int spLR, int spTB,  Position p, StrategyMoveEnnemy stratMove) {
+	public Level(EntitiesManager eM, int r, int l, String s, int spLR, int spTB,  Vector2d p, StrategyMoveEnnemy stratMove) {
 		
 		entitiesManager = eM;
 		row = r;

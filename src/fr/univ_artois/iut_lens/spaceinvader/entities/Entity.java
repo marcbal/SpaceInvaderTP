@@ -7,7 +7,7 @@ import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShot;
 import fr.univ_artois.iut_lens.spaceinvader.Sprite;
 import fr.univ_artois.iut_lens.spaceinvader.SpriteStore;
-import fr.univ_artois.iut_lens.spaceinvader.util.Position;
+import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
 /**
  * An entity represents any element that appears in the game. The
@@ -24,11 +24,11 @@ import fr.univ_artois.iut_lens.spaceinvader.util.Position;
  */
 public abstract class Entity {
 	/** The current x location of this entity */ 
-	protected Position position = new Position();
+	protected Vector2d position = new Vector2d();
 	/** The sprite that represents this entity */
 	protected Sprite sprite;
 	/** The current speed of this entity horizontally (pixels/sec) */
-	protected Position speed = new Position();
+	protected Vector2d speed = new Vector2d();
 	/** Points de vie restants pour l'entité courante. Par défaut, tué en un coup */
 	protected int life = 1;
 	
@@ -41,9 +41,9 @@ public abstract class Entity {
  	 * @param x The initial x location of this entity
 	 * @param y The initial y location of this entity
 	 */
-	public Entity(String ref,double x,double y, EntitiesManager eM) {
+	public Entity(String ref,Vector2d p, EntitiesManager eM) {
 		this.sprite = SpriteStore.get().getSprite(ref);
-		position = new Position(x, y);
+		position = p;
 		entitiesManager = eM;
 	}
 	
@@ -55,44 +55,8 @@ public abstract class Entity {
 	 */
 	public void move(long delta) {
 		// update the location of the entity based on move speeds
-		position.setX(position.getX()+((delta * speed.getX()) / 1000000000));
-		position.setY(position.getY()+((delta * speed.getY()) / 1000000000));
-	}
-	
-	/**
-	 * Set the horizontal speed of this entity
-	 * 
-	 * @param dx The horizontal speed of this entity (pixels/sec)
-	 */
-	public void setHorizontalMovement(double dx) {
-		speed.setX(dx);
-	}
-
-	/**
-	 * Set the vertical speed of this entity
-	 * 
-	 * @param dx The vertical speed of this entity (pixels/sec)
-	 */
-	public void setVerticalMovement(double dy) {
-		speed.setY((int)dy);
-	}
-	
-	/**
-	 * Get the horizontal speed of this entity
-	 * 
-	 * @return The horizontal speed of this entity (pixels/sec)
-	 */
-	public double getHorizontalMovement() {
-		return speed.getX();
-	}
-
-	/**
-	 * Get the vertical speed of this entity
-	 * 
-	 * @return The vertical speed of this entity (pixels/sec)
-	 */
-	public double getVerticalMovement() {
-		return speed.getY();
+		position.x+=(delta * speed.x) / 1000000000;
+		position.y+=(delta * speed.y) / 1000000000;
 	}
 	
 	/**
@@ -101,25 +65,7 @@ public abstract class Entity {
 	 * @param g The graphics context on which to draw
 	 */
 	public void draw(Graphics g) {
-		sprite.draw(g,(int)position.getX(),(int)position.getY());
-	}
-	
-	/**
-	 * Get the x location of this entity
-	 * 
-	 * @return The x location of this entity
-	 */
-	public double getX() {
-		return position.getX();
-	}
-
-	/**
-	 * Get the y location of this entity
-	 * 
-	 * @return The y location of this entity
-	 */
-	public double getY() {
-		return position.getY();
+		sprite.draw(g,(int)position.x,(int)position.y);
 	}
 	
 	/**
@@ -134,7 +80,7 @@ public abstract class Entity {
 	
 	public Rectangle getBoundingBox()
 	{
-		return new Rectangle((int)position.getX(), (int)position.getY(), sprite.getWidth(), sprite.getHeight());
+		return new Rectangle((int)position.x, (int)position.y, sprite.getWidth(), sprite.getHeight());
 	}
 	
 	/**
@@ -172,8 +118,8 @@ public abstract class Entity {
 	}
 	
 	
-	public Position getPosition() { return position; }
-	public Position getSpeed() { return speed; }
+	public Vector2d getPosition() { return position; }
+	public Vector2d getSpeed() { return speed; }
 	
 	
 	/**
