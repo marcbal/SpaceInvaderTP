@@ -250,7 +250,6 @@ public class Game extends Canvas {
 		message = "Oh no! They got you, try again?";
 		levelManager.goToFirstLevel();
 		shipManager.decreaseShipType();
-		entitiesManager.getEntitiesList().clear();
 		waitingForKeyPress = true;
 	}
 	

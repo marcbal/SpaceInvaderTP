@@ -16,7 +16,7 @@ public class LevelManager {
 	
 	private EntitiesManager entitiesManager;
 	
-	private int currentLevel = 0;
+	private int currentLevel = 3;
 	
 	
 	

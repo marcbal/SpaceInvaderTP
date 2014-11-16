@@ -17,12 +17,11 @@ public class ShipManager {
 	private List<EntityShip> ships = new ArrayList<EntityShip>();
 	
 	private int actualShip = 0;  //Type de vaisseau actuel
-	private int newShip = actualShip;
 	
+	private int newShip = actualShip;
 	
 	public ShipManager(EntitiesManager eM) {
 		this.entitiesManager = eM;
-		
 		
 		ships.add(new EntityShipDefault(entitiesManager));
 		ships.add(new EntityShipPowered(entitiesManager));
@@ -52,7 +51,7 @@ public class ShipManager {
 	//Faire régrésser le vaisseau
 	public void decreaseShipType() {
 		//On verifie qu'il ne soit pas déjà égale  à 0
-		if(newShip>0) newShip--;
+		if(newShip>0) newShip = newShip--;
 	}
 	
 	public int getActualShip() {
@@ -64,7 +63,7 @@ public class ShipManager {
 	}
 	
 	public void makeItEvolve() {
-		if(newShip!= actualShip) {
+		if(newShip != actualShip) {
 			entitiesManager.removeEntity(ships.get(actualShip));
 			entitiesManager.getEntitiesList().add(ships.get(newShip));
 			actualShip = newShip;

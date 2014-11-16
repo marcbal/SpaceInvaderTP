@@ -37,7 +37,6 @@ public class EntityShotFromEnnemy extends EntityShot {
 		// Si on a touché le vaisseau
 		if (other instanceof EntityShip) {
 			// C'est la fin de la partie
-			Game.gameInstance.notifyDeath();
 			
 			used = true;
 		}
