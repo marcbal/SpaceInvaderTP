@@ -13,6 +13,8 @@ import fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromEnnemy;
  * @author Kevin Glass
  */
 public abstract class EntityShip extends Entity {
+
+	private double moveSpeed; // Vitesse de déplacement du vaisseau
 	
 	/**
 	 * Create a new entity to represent the players ship
@@ -22,11 +24,13 @@ public abstract class EntityShip extends Entity {
 	 * @param x The initial x location of the player's ship
 	 * @param y The initial y location of the player's ship
 	 */
-	public EntityShip(String ref, EntitiesManager eM) {
+	public EntityShip(String ref, double speed, EntitiesManager eM) {
 		super(ref,
 				800/2-SpriteStore.get().getSprite(ref).getWidth()/2,
 				600-SpriteStore.get().getSprite(ref).getHeight(),
 				eM);
+		
+		moveSpeed = speed;
 	}
 	
 	/**
@@ -61,5 +65,14 @@ public abstract class EntityShip extends Entity {
 		if (other instanceof EntityEnnemy || other instanceof EntityShotFromEnnemy) {
 			Game.gameInstance.notifyDeath();
 		}
+	}
+	
+	/**
+	 * 
+	 * @param command vaut -1 (gauche), 0 (stop) ou 1 (droite)
+	 */
+	public void setHorizontalDirection(int command)
+	{
+		setHorizontalMovement(command*moveSpeed);
 	}
 }

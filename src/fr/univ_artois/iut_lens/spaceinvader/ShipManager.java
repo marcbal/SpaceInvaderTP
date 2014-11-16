@@ -17,7 +17,6 @@ public class ShipManager {
 	private EntitiesManager entitiesManager;
 	
 	private List<EntityShip> ships = new ArrayList<EntityShip>();
-	private double moveSpeed = 300; // Vitesse de d�placement du vaisseau
 	private long lastFireTime = 0; //Dernier tir du vaisseau
 	private long fireInterval = 200; //Intervalle de temps par défaut pour lequel le vaisseau peut tirer
 	private int actualShip = 0;  //Type de vaisseau actuel
@@ -37,18 +36,9 @@ public class ShipManager {
 		ships.add(new EntityShipSupership(entitiesManager));
 	}
 	
-	public void moveShip(int i) {
-		EntityShip ship = getCurrentShip();
-		//Si la commande est -1 on va � gauche
-		if(i == -1)
-			ship.setHorizontalMovement(-moveSpeed);
-		
-		//Si la commande est 1  on va � droite
-		if(i == 1)
-			ship.setHorizontalMovement(moveSpeed);
-		
-		if(i == 0) //Si la commande est 0 on stoppe le vaisseau
-			ship.setHorizontalMovement(0);
+	public void moveShip(int command) {
+		//command vaut -1 (gauche), 0 (stop) ou 1 (droite)
+		getCurrentShip().setHorizontalDirection(command);
 	}
 	
 	public EntityShip getCurrentShip() {
