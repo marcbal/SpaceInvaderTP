@@ -1,5 +1,8 @@
 package fr.univ_artois.iut_lens.spaceinvader.entities.ennemy;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
 import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
@@ -26,6 +29,7 @@ public class EntityEnnemy extends Entity {
 		speed.x = -moveSpeed;
 		
 		life = l;
+		maxLife = life;
 	}
 
 	/**
@@ -57,4 +61,24 @@ public class EntityEnnemy extends Entity {
 	{
 		speed.x *= 1.02;
 	}
+	
+	
+
+	
+	/**
+	 * Draw this entity to the graphics context provided
+	 * 
+	 * @param g The graphics context on which to draw
+	 */
+	public void draw(Graphics g) {
+		super.draw(g);
+		if (life==maxLife)
+			return;
+		g.setColor(Color.DARK_GRAY);
+		g.fillRect((int)position.x,(int)position.y, sprite.getWidth(), 3);
+		g.setColor(Color.GREEN);
+		g.fillRect((int)position.x,(int)position.y, (int)((double)sprite.getWidth()*(life/(double)maxLife)), 3);
+	}
+	
+	
 }

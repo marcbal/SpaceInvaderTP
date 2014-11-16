@@ -32,6 +32,8 @@ public abstract class Entity {
 	/** Points de vie restants pour l'entité courante. Par défaut, tué en un coup */
 	protected int life = 1;
 	
+	protected int maxLife = life;
+	
 	protected EntitiesManager entitiesManager;
 	
 	/**
