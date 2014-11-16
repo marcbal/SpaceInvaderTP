@@ -2,6 +2,7 @@ package fr.univ_artois.iut_lens.spaceinvader;
 
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
@@ -21,8 +22,16 @@ public class EntitiesManager {
 	//Méthode déssinant les entités
 	public void draw(Graphics2D g) {
 		// cycle round drawing all the entities we have in the game
-        for(Entity entity : entities)
-			entity.draw(g);
+		try
+		{
+	        for(Entity entity : entities)
+				entity.draw(g);
+		}
+		catch(Exception e)
+		{
+			System.err.println("Error while drawing entities");
+			e.printStackTrace();
+		}
 	}
 	
 	//Fonction permettant déplacer les entités
