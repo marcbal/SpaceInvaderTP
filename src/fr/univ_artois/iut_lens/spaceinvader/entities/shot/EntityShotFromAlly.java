@@ -45,16 +45,18 @@ public abstract class EntityShotFromAlly  extends EntityShot{
 			if (other.receiveDegat(this))
 				// notify the game that the alien has been killed
 				Game.gameInstance.notifyAlienKilled();
-			
-			//Si deux tirs se touchent
-			System.out.println(other instanceof EntityShotFromEnnemy);
-			if(other instanceof EntityShotFromEnnemy) {
-				entitiesManager.removeEntity(this);
-				entitiesManager.removeEntity(other);
-			}
 				
 				
 			used = true;
+		}
+		
+
+		
+		//Si deux tirs se touchent
+		System.out.println(other instanceof EntityShotFromEnnemy);
+		if(other instanceof EntityShotFromEnnemy) {
+			entitiesManager.removeEntity(this);
+			entitiesManager.removeEntity(other);
 		}
 	}
 }
