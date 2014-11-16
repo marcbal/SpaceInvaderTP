@@ -7,6 +7,7 @@ import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.EntityEnnemy;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.move.StrategyMoveEnnemyNormal;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.move.StrategyMoveEnnemyRandom;
+import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.shot.StrategyShotEnnemyBasic;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
 /**
@@ -23,7 +24,8 @@ public class LevelMarc extends Level {
 				50,
 				50,
 				new Vector2d(50, 50),
-				new StrategyMoveEnnemyNormal());
+				new StrategyMoveEnnemyNormal(),
+				new StrategyShotEnnemyBasic());
 	}
 
 	@Override

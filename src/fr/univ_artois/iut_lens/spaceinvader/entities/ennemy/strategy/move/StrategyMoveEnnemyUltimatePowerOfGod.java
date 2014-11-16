@@ -63,8 +63,8 @@ public class StrategyMoveEnnemyUltimatePowerOfGod extends StrategyMoveEnnemy {
 			countOfDeath = 0;
 			for(Entity entity : entMan.getEntitiesList()) {
 				if(entity instanceof EntityEnnemy) {
-					entity.getSpeed().x+=10;
-					entity.getSpeed().y+=10;
+					entity.getSpeed().x+=20;
+					entity.getSpeed().y+=20;
 				}
 				
 			}

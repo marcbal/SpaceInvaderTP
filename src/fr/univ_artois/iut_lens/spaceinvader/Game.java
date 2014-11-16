@@ -175,6 +175,8 @@ public class Game extends Canvas {
 	private void updateLogic(long delta) {
 		if (!waitingForKeyPress)
 		{
+			//Faire tirer les entités
+			entitiesManager.makeEntitiesShoot(levelManager);
 			//Déplacer les entités
 			entitiesManager.moveEntities(delta,levelManager);
 			

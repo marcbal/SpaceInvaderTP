@@ -6,6 +6,7 @@ import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.entities.*;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.EntityEnnemy;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.move.StrategyMoveEnnemyNormal;
+import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.shot.StrategyShotEnnemyBasic;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
 public class LevelAlien extends Level {
@@ -16,9 +17,10 @@ public class LevelAlien extends Level {
 				10,
 				"sprites/alien_spaceship_by_animot-d5t4j611.png",
 				50,
-				50,
+				100,
 				new Vector2d(100,50),
-				new StrategyMoveEnnemyNormal());
+				new StrategyMoveEnnemyNormal(),
+				new StrategyShotEnnemyBasic());
 	}
 
 	@Override

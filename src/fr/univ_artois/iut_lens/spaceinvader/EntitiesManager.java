@@ -38,6 +38,10 @@ public class EntitiesManager {
 		}
 	}
 	
+	public void makeEntitiesShoot(LevelManager levelMan) {
+		levelMan.getCurrentLevel().getCurrentStrategyShot().performShot(this);
+	}
+	
 	
 	
 	

@@ -21,8 +21,8 @@ public class EntityShotFromEnnemy extends EntityShot {
 	 * @param x The initial x location of the shot
 	 * @param y The initial y location of the shot
 	 */
-	public EntityShotFromEnnemy(Game game,String sprite,Vector2d p, Vector2d s, EntitiesManager eM) {
-		super(sprite,p,1,s,eM);
+	public EntityShotFromEnnemy(Vector2d p, Vector2d s, EntitiesManager eM) {
+		super("sprites/shot2.gif",p,1,s,eM);
 	}
 	
 	
@@ -34,14 +34,10 @@ public class EntityShotFromEnnemy extends EntityShot {
 			return;
 		}
 		
-		// if we've hit an alien, kill it!
+		// Si on a touché le vaisseau
 		if (other instanceof EntityShip) {
-			// remove the affected entities
-			entitiesManager.removeEntity(this);
-			// other prends les dégats donnés par le tir
-			if (other.receiveDegat(this))
-				// notify the game that the alien has been killed
-				Game.gameInstance.notifyAlienKilled();
+			// C'est la fin de la partie
+			Game.gameInstance.notifyDeath();
 			
 			used = true;
 		}

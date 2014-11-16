@@ -6,6 +6,7 @@ import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.EntityEnnemy;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.move.StrategyMoveEnnemyUltimatePowerOfGod;
+import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.shot.StrategyShotEnnemyBasic;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
 /**
@@ -22,7 +23,8 @@ public class LevelMaxime extends Level {
 				50,
 				50,
 				new Vector2d(100, 50),
-				new StrategyMoveEnnemyUltimatePowerOfGod());
+				new StrategyMoveEnnemyUltimatePowerOfGod(),
+				new StrategyShotEnnemyBasic());
 		
 	}
 	
