@@ -1,44 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.1.7" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
   associations="true" dependencies="false" nesting-relationships="true">  
-  <class id="1" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromEnnemy" 
+  <class id="1" language="java" 
+    name="fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.move.StrategyMoveEnnemyFinalBoss" 
+    project="spaceinvaders" 
+    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/ennemy/strategy/move/StrategyMoveEnnemyFinalBoss.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1177" y="1078"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromEnnemy" 
     project="spaceinvaders" 
     file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/shot/EntityShotFromEnnemy.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="99" width="373" x="561" y="1185"/>    
+    <position height="-1" width="-1" x="1010" y="1849"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="2" language="java" name="fr.univ_artois.iut_lens.spaceinvader.levels.LevelMarc" project="spaceinvaders" 
+  <class id="3" language="java" name="fr.univ_artois.iut_lens.spaceinvader.levels.LevelAllStar" project="spaceinvaders" 
+    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/levels/LevelAllStar.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="564" y="393"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="fr.univ_artois.iut_lens.spaceinvader.levels.LevelMarc" project="spaceinvaders" 
     file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/levels/LevelMarc.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="-139" y="258"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="3" language="java" 
-    name="fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.move.StrategyMoveEnnemyNormal" 
-    project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/ennemy/strategy/move/StrategyMoveEnnemyNormal.java" 
-    binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="747" y="686"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="4" language="java" 
-    name="fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.shot.StrategyShotEnnemy" project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/ennemy/strategy/shot/StrategyShotEnnemy.java" 
-    binary="false" corner="BOTTOM_RIGHT">    
-    <position height="99" width="287" x="35" y="336"/>    
+    <position height="-1" width="-1" x="789" y="313"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -46,179 +45,178 @@
     </display>  
   </class>  
   <class id="5" language="java" 
+    name="fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.move.StrategyMoveEnnemyNormal" 
+    project="spaceinvaders" 
+    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/ennemy/strategy/move/StrategyMoveEnnemyNormal.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1510" y="1069"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" 
+    name="fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.shot.StrategyShotEnnemy" project="spaceinvaders" 
+    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/ennemy/strategy/shot/StrategyShotEnnemy.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="755" y="840"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" 
     name="fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.shot.StrategyShotEnnemyAimFor" 
     project="spaceinvaders" 
     file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/ennemy/strategy/shot/StrategyShotEnnemyAimFor.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="117" width="287" x="-619" y="565"/>    
+    <position height="-1" width="-1" x="193" y="1078"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="6" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.ship.EntityShipPowered" 
+  <class id="8" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.ship.EntityShipPowered" 
     project="spaceinvaders" 
     file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/ship/EntityShipPowered.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="135" width="213" x="1696" y="1185"/>    
+    <position height="-1" width="-1" x="3513" y="1835"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="7" language="java" name="fr.univ_artois.iut_lens.spaceinvader.Game" project="spaceinvaders" 
+  <class id="9" language="java" name="fr.univ_artois.iut_lens.spaceinvader.Game" project="spaceinvaders" 
     file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/Game.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="459" width="178" x="1933" y="-685"/>    
+    <position height="-1" width="-1" x="2785" y="-64"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="8" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromAllyBasic" 
+  <class id="10" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromAllyBasic" 
     project="spaceinvaders" 
     file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/shot/EntityShotFromAllyBasic.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1103" y="1480"/>    
+    <position height="-1" width="-1" x="1641" y="2005"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="9" language="java" 
+  <class id="11" language="java" 
     name="fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.move.StrategyMoveEnnemyRandom" 
     project="spaceinvaders" 
     file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/ennemy/strategy/move/StrategyMoveEnnemyRandom.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1093" y="695"/>    
+    <position height="-1" width="-1" x="1843" y="1078"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="10" language="java" name="fr.univ_artois.iut_lens.spaceinvader.SpriteStore" project="spaceinvaders" 
+  <class id="12" language="java" name="fr.univ_artois.iut_lens.spaceinvader.levels.LevelFinalBoss" 
+    project="spaceinvaders" file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/levels/LevelFinalBoss.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1029" y="257"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="13" language="java" name="fr.univ_artois.iut_lens.spaceinvader.SpriteStore" project="spaceinvaders" 
     file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/SpriteStore.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2592" y="793"/>    
+    <position height="-1" width="-1" x="3562" y="52"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="11" language="java" name="fr.univ_artois.iut_lens.spaceinvader.LevelManager" project="spaceinvaders" 
+  <class id="14" language="java" name="fr.univ_artois.iut_lens.spaceinvader.LevelManager" project="spaceinvaders" 
     file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/LevelManager.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="171" width="178" x="1694" y="-176"/>    
+    <position height="-1" width="-1" x="2514" y="319"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="12" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.ship.EntityShip" 
+  <class id="15" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.ship.EntityShip" 
     project="spaceinvaders" file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/ship/EntityShip.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="189" width="223" x="2202" y="884"/>    
+    <position height="-1" width="-1" x="3982" y="1581"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="13" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.ship.EntityShipDefault" 
+  <class id="16" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.ship.EntityShipDefault" 
     project="spaceinvaders" 
     file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/ship/EntityShipDefault.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="135" width="213" x="1949" y="1185"/>    
+    <position height="-1" width="-1" x="3766" y="1835"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="14" language="java" name="fr.univ_artois.iut_lens.spaceinvader.levels.Level" project="spaceinvaders" 
+  <class id="17" language="java" name="fr.univ_artois.iut_lens.spaceinvader.levels.Level" project="spaceinvaders" 
     file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/levels/Level.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="261" width="499" x="941" y="35"/>    
+    <position height="-1" width="-1" x="2208" y="602"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="15" language="java" 
+  <class id="18" language="java" 
     name="fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.move.StrategyMoveEnnemy" project="spaceinvaders" 
     file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/ennemy/strategy/move/StrategyMoveEnnemy.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1157" y="433"/>    
+    <position height="-1" width="-1" x="1772" y="848"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="16" language="java" name="fr.univ_artois.iut_lens.spaceinvader.Sprite" project="spaceinvaders" 
+  <class id="19" language="java" name="fr.univ_artois.iut_lens.spaceinvader.Sprite" project="spaceinvaders" 
     file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/Sprite.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2380" y="712"/>    
+    <position height="-1" width="-1" x="3152" y="-4"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="17" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShot" 
+  <class id="20" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShot" 
     project="spaceinvaders" file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/shot/EntityShot.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="171" width="311" x="1303" y="884"/>    
+    <position height="-1" width="-1" x="1673" y="1641"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="18" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.bonuses.EntityBonusPowerUp" 
+  <class id="21" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.bonuses.EntityBonusPowerUp" 
     project="spaceinvaders" 
     file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/bonuses/EntityBonusPowerUp.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="99" width="371" x="103" y="35"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="19" language="java" 
-    name="fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.move.StrategyMoveEnnemyDisturbed" 
-    project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/ennemy/strategy/move/StrategyMoveEnnemyDisturbed.java" 
-    binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1428" y="693"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="20" language="java" name="fr.univ_artois.iut_lens.spaceinvader.levels.LevelAlien" project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/levels/LevelAlien.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="594" y="397"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="21" language="java" 
-    name="fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.move.StrategyMoveEnnemyBossPremier" 
-    project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/ennemy/strategy/move/StrategyMoveEnnemyBossPremier.java" 
-    binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1751" y="692"/>    
+    <position height="-1" width="-1" x="4122" y="775"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -226,706 +224,620 @@
     </display>  
   </class>  
   <class id="22" language="java" 
+    name="fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.move.StrategyMoveEnnemyDisturbed" 
+    project="spaceinvaders" 
+    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/ennemy/strategy/move/StrategyMoveEnnemyDisturbed.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2176" y="1078"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="23" language="java" name="fr.univ_artois.iut_lens.spaceinvader.levels.LevelAlien" project="spaceinvaders" 
+    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/levels/LevelAlien.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="1274" y="240"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="24" language="java" 
+    name="fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.move.StrategyMoveEnnemyBossPremier" 
+    project="spaceinvaders" 
+    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/ennemy/strategy/move/StrategyMoveEnnemyBossPremier.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2509" y="1078"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="25" language="java" 
     name="fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.shot.StrategyShotEnnemyMegaBoss" 
     project="spaceinvaders" 
     file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/ennemy/strategy/shot/StrategyShotEnnemyMegaBoss.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="171" width="287" x="-292" y="565"/>    
+    <position height="-1" width="-1" x="520" y="1105"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="23" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.bonuses.EntityBonusPowerDown" 
+  <class id="26" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.bonuses.EntityBonusPowerDown" 
     project="spaceinvaders" 
     file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/bonuses/EntityBonusPowerDown.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="99" width="387" x="514" y="35"/>    
+    <position height="-1" width="-1" x="3645" y="771"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="24" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromAllySubComplex" 
+  <class id="27" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromAllySubComplex" 
     project="spaceinvaders" 
     file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/shot/EntityShotFromAllySubComplex.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1481" y="1480"/>    
+    <position height="-1" width="-1" x="2019" y="2005"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="25" language="java" name="fr.univ_artois.iut_lens.spaceinvader.levels.LevelMaxime" project="spaceinvaders" 
+  <class id="28" language="java" name="fr.univ_artois.iut_lens.spaceinvader.levels.LevelMaxime" project="spaceinvaders" 
     file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/levels/LevelMaxime.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="851" y="430"/>    
+    <position height="-1" width="-1" x="1515" y="240"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="26" language="java" name="fr.univ_artois.iut_lens.spaceinvader.Game.KeyInputHandler" 
-    project="spaceinvaders" file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/Game.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
-    <position height="153" width="165" x="1489" y="-176"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="27" language="java" name="fr.univ_artois.iut_lens.spaceinvader.ShipManager" project="spaceinvaders" 
+  <class id="29" language="java" name="fr.univ_artois.iut_lens.spaceinvader.ShipManager" project="spaceinvaders" 
     file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/ShipManager.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2173" y="125"/>    
+    <position height="-1" width="-1" x="3017" y="593"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="28" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromEnnemyAdvanced" 
+  <class id="30" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromEnnemyAdvanced" 
     project="spaceinvaders" 
     file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/shot/EntityShotFromEnnemyAdvanced.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="81" width="364" x="157" y="1360"/>    
+    <position height="-1" width="-1" x="782" y="1997"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="29" language="java" name="fr.univ_artois.iut_lens.spaceinvader.levels.LevelBossPremier" 
+  <class id="31" language="java" name="fr.univ_artois.iut_lens.spaceinvader.levels.LevelBossPremier" 
     project="spaceinvaders" file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/levels/LevelBossPremier.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1457" y="420"/>    
+    <position height="-1" width="-1" x="1757" y="248"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="30" language="java" name="fr.univ_artois.iut_lens.spaceinvader.BonusManager" project="spaceinvaders" 
+  <class id="32" language="java" name="fr.univ_artois.iut_lens.spaceinvader.BonusManager" project="spaceinvaders" 
     file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/BonusManager.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="99" width="248" x="1933" y="-176"/>    
+    <position height="-1" width="-1" x="2860" y="274"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="31" language="java" 
+  <class id="33" language="java" 
     name="fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.shot.StrategyShotEnnemyBasic" 
     project="spaceinvaders" 
     file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/ennemy/strategy/shot/StrategyShotEnnemyBasic.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="117" width="287" x="35" y="565"/>    
+    <position height="-1" width="-1" x="847" y="1078"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="32" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.ship.EntityShipSecretShip" 
+  <class id="34" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.ship.EntityShipSecretShip" 
     project="spaceinvaders" 
     file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/ship/EntityShipSecretShip.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="135" width="213" x="2202" y="1185"/>    
+    <position height="-1" width="-1" x="4019" y="1835"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="33" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromAlly" 
+  <class id="35" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromAlly" 
     project="spaceinvaders" 
     file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/shot/EntityShotFromAlly.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="99" width="353" x="1303" y="1185"/>    
+    <position height="-1" width="-1" x="2401" y="1855"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="34" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.Entity" project="spaceinvaders" 
+  <class id="36" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.Entity" project="spaceinvaders" 
     file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/Entity.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="279" width="214" x="1946" y="565"/>    
+    <position height="-1" width="-1" x="2803" y="1177"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="35" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromEnnemyBasic" 
+  <class id="37" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromEnnemyBasic" 
     project="spaceinvaders" 
     file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/shot/EntityShotFromEnnemyBasic.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="81" width="341" x="561" y="1360"/>    
+    <position height="-1" width="-1" x="1174" y="1997"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="36" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromAllyComplex" 
+  <class id="38" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromAllyComplex" 
     project="spaceinvaders" 
     file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/shot/EntityShotFromAllyComplex.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1842" y="1516"/>    
+    <position height="-1" width="-1" x="2380" y="2041"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="37" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.ship.EntityShipMegaShip" 
+  <class id="39" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.ship.EntityShipMegaShip" 
     project="spaceinvaders" 
     file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/ship/EntityShipMegaShip.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="135" width="213" x="2455" y="1185"/>    
+    <position height="-1" width="-1" x="4272" y="1835"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="38" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromAllyAdvanced" 
+  <class id="40" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromAllySubComplex2" 
+    project="spaceinvaders" 
+    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/shot/EntityShotFromAllySubComplex2.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2744" y="2005"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="41" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromAllyAdvanced" 
     project="spaceinvaders" 
     file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/shot/EntityShotFromAllyAdvanced.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="2198" y="1480"/>    
+    <position height="-1" width="-1" x="3136" y="2005"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="39" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.ship.EntityShipSupership" 
+  <class id="42" language="java" name="fr.univ_artois.iut_lens.spaceinvader.levels.LevelAlien3" project="spaceinvaders" 
+    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/levels/LevelAlien3.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2010" y="253"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="43" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.EntityEnnemy" 
+    project="spaceinvaders" 
+    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/ennemy/EntityEnnemy.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2615" y="1589"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="44" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.ship.EntityShipSupership" 
     project="spaceinvaders" 
     file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/ship/EntityShipSupership.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="135" width="213" x="2708" y="1185"/>    
+    <position height="-1" width="-1" x="4525" y="1835"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="40" language="java" name="fr.univ_artois.iut_lens.spaceinvader.EntitiesManager" project="spaceinvaders" 
+  <class id="45" language="java" name="fr.univ_artois.iut_lens.spaceinvader.levels.LevelAlien2" project="spaceinvaders" 
+    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/levels/LevelAlien2.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="2264" y="249"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <class id="46" language="java" name="fr.univ_artois.iut_lens.spaceinvader.EntitiesManager" project="spaceinvaders" 
     file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/EntitiesManager.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="189" width="212" x="1933" y="336"/>    
+    <position height="-1" width="-1" x="2746" y="737"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="41" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.bonuses.EntityBonus" 
+  <class id="47" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.bonuses.EntityBonus" 
     project="spaceinvaders" 
     file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/bonuses/EntityBonus.java" binary="false" 
     corner="BOTTOM_RIGHT">    
-    <position height="135" width="357" x="1092" y="-176"/>    
+    <position height="-1" width="-1" x="3702" y="476"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="42" language="java" name="fr.univ_artois.iut_lens.spaceinvader.levels.LevelAlien2" project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/levels/LevelAlien2.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1631" y="530"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="43" language="java" name="fr.univ_artois.iut_lens.spaceinvader.levels.LevelAlien3" project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/levels/LevelAlien3.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="517" y="550"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="44" language="java" name="fr.univ_artois.iut_lens.spaceinvader.levels.LevelAllStar" project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/levels/LevelAllStar.java" binary="false" 
-    corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="448" y="741"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="45" language="java" 
-    name="fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.move.StrategyMoveEnnemyFinalBoss" 
-    project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/ennemy/strategy/move/StrategyMoveEnnemyFinalBoss.java" 
-    binary="false" corner="BOTTOM_RIGHT">    
-    <position height="117" width="293" x="643" y="792"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="46" language="java" name="fr.univ_artois.iut_lens.spaceinvader.levels.LevelFinalBoss" 
-    project="spaceinvaders" file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/levels/LevelFinalBoss.java" 
-    binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="846" y="563"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <generalization id="47">    
-    <end type="SOURCE" refId="9"/>    
+  <association id="48">    
+    <bendpoint x="2415" y="791"/>    
+    <end type="SOURCE" refId="17" navigable="false">      
+      <attribute id="49" name="SquadList"/>      
+      <multiplicity id="50" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="36" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="51">    
+    <end type="SOURCE" refId="17" navigable="false">      
+      <attribute id="52" name="strategyShot"/>      
+      <multiplicity id="53" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="54">    
+    <end type="SOURCE" refId="47" navigable="false">      
+      <attribute id="55" name="shipManager"/>      
+      <multiplicity id="56" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="29" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="57">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="58" name="bonusManager"/>      
+      <multiplicity id="59" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="32" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="60">    
+    <end type="SOURCE" refId="14" navigable="false">      
+      <attribute id="61" name="levels"/>      
+      <multiplicity id="62" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="17" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="63">    
+    <end type="SOURCE" refId="16"/>    
     <end type="TARGET" refId="15"/>  
   </generalization>  
-  <association id="48">    
-    <end type="SOURCE" refId="14" navigable="false">      
-      <attribute id="49" name="entitiesManager">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="50" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="40" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <generalization id="51">    
-    <bendpoint x="1575" y="376"/>    
-    <end type="SOURCE" refId="42"/>    
-    <end type="TARGET" refId="14"/>  
-  </generalization>  
-  <generalization id="52">    
-    <bendpoint x="965" y="487"/>    
-    <bendpoint x="983" y="432"/>    
-    <bendpoint x="987" y="363"/>    
-    <end type="SOURCE" refId="46"/>    
-    <end type="TARGET" refId="14"/>  
-  </generalization>  
-  <generalization id="53">    
-    <bendpoint x="1782" y="1368"/>    
-    <end type="SOURCE" refId="38"/>    
-    <end type="TARGET" refId="33"/>  
-  </generalization>  
-  <generalization id="54">    
-    <end type="SOURCE" refId="5"/>    
-    <end type="TARGET" refId="4"/>  
-  </generalization>  
-  <association id="55">    
-    <bendpoint x="2211" y="-176"/>    
-    <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="56" name="shipManager">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="57" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="27" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="58">    
-    <bendpoint x="2361" y="-218"/>    
-    <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="59" name="background">        
-        <position height="18" width="65" x="2410" y="600"/>      
-      </attribute>      
-      <multiplicity id="60" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="16" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="61">    
-    <bendpoint x="1549" y="349"/>    
-    <end type="SOURCE" refId="14" navigable="false">      
-      <attribute id="62" name="SquadList">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="63" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="34" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
   <generalization id="64">    
-    <end type="SOURCE" refId="18"/>    
-    <end type="TARGET" refId="41"/>  
+    <end type="SOURCE" refId="35"/>    
+    <end type="TARGET" refId="20"/>  
   </generalization>  
   <association id="65">    
-    <end type="SOURCE" refId="14" navigable="false">      
-      <attribute id="66" name="strategyMove">        
-        <position height="0" width="0" x="15" y="48"/>      
-      </attribute>      
-      <multiplicity id="67" minimum="0" maximum="1">        
-        <position height="0" width="0" x="15" y="48"/>      
-      </multiplicity>    
+    <end type="SOURCE" refId="17" navigable="false">      
+      <attribute id="66" name="strategyMove"/>      
+      <multiplicity id="67" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="15" navigable="true"/>    
+    <end type="TARGET" refId="18" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <generalization id="68">    
-    <end type="SOURCE" refId="33"/>    
-    <end type="TARGET" refId="17"/>  
+    <end type="SOURCE" refId="44"/>    
+    <end type="TARGET" refId="15"/>  
   </generalization>  
   <generalization id="69">    
-    <end type="SOURCE" refId="1"/>    
+    <end type="SOURCE" refId="28"/>    
     <end type="TARGET" refId="17"/>  
   </generalization>  
   <generalization id="70">    
-    <end type="SOURCE" refId="35"/>    
-    <end type="TARGET" refId="1"/>  
+    <end type="SOURCE" refId="33"/>    
+    <end type="TARGET" refId="6"/>  
   </generalization>  
-  <association id="71">    
-    <bendpoint x="2211" y="336"/>    
-    <bendpoint x="2211" y="565"/>    
-    <end type="SOURCE" refId="27" navigable="false">      
-      <attribute id="72" name="ships">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="73" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="12" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
+  <generalization id="71">    
+    <end type="SOURCE" refId="26"/>    
+    <end type="TARGET" refId="47"/>  
+  </generalization>  
+  <generalization id="72">    
+    <end type="SOURCE" refId="47"/>    
+    <end type="TARGET" refId="36"/>  
+  </generalization>  
+  <generalization id="73">    
+    <end type="SOURCE" refId="21"/>    
+    <end type="TARGET" refId="47"/>  
+  </generalization>  
   <generalization id="74">    
-    <end type="SOURCE" refId="32"/>    
-    <end type="TARGET" refId="12"/>  
+    <end type="SOURCE" refId="34"/>    
+    <end type="TARGET" refId="15"/>  
   </generalization>  
   <generalization id="75">    
-    <end type="SOURCE" refId="6"/>    
-    <end type="TARGET" refId="12"/>  
+    <end type="SOURCE" refId="20"/>    
+    <end type="TARGET" refId="36"/>  
   </generalization>  
   <association id="76">    
-    <bendpoint x="1840" y="292"/>    
-    <end type="SOURCE" refId="11" navigable="false">      
-      <attribute id="77" name="entitiesManager">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="78" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
+    <bendpoint x="2705" y="225"/>    
+    <bendpoint x="2705" y="454"/>    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="77" name="entitiesManager"/>      
+      <multiplicity id="78" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="40" navigable="true"/>    
+    <end type="TARGET" refId="46" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <generalization id="79">    
-    <bendpoint x="693" y="455"/>    
-    <bendpoint x="749" y="368"/>    
-    <end type="SOURCE" refId="43"/>    
-    <end type="TARGET" refId="14"/>  
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="15"/>  
   </generalization>  
   <generalization id="80">    
-    <end type="SOURCE" refId="44"/>    
-    <end type="TARGET" refId="14"/>  
+    <end type="SOURCE" refId="37"/>    
+    <end type="TARGET" refId="2"/>  
   </generalization>  
   <generalization id="81">    
-    <end type="SOURCE" refId="39"/>    
-    <end type="TARGET" refId="12"/>  
+    <end type="SOURCE" refId="42"/>    
+    <end type="TARGET" refId="17"/>  
   </generalization>  
   <association id="82">    
-    <end type="SOURCE" refId="40" navigable="false">      
-      <attribute id="83" name="entities">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="84" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
+    <bendpoint x="2793" y="930"/>    
+    <end type="SOURCE" refId="46" navigable="false">      
+      <attribute id="83" name="entities"/>      
+      <multiplicity id="84" minimum="0" maximum="2147483647"/>    
     </end>    
-    <end type="TARGET" refId="34" navigable="true"/>    
+    <end type="TARGET" refId="36" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="85">    
-    <end type="SOURCE" refId="10" navigable="false">      
-      <attribute id="86" name="sprites">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="87" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
+    <end type="SOURCE" refId="14" navigable="false">      
+      <attribute id="86" name="entitiesManager"/>      
+      <multiplicity id="87" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="16" navigable="true"/>    
+    <end type="TARGET" refId="46" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="88">    
-    <end type="SOURCE" refId="40" navigable="false">      
-      <attribute id="89" name="removeList">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="90" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
+    <bendpoint x="3140" y="1060"/>    
+    <end type="SOURCE" refId="36" navigable="false">      
+      <attribute id="89" name="sprite"/>      
+      <multiplicity id="90" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="34" navigable="true"/>    
+    <end type="TARGET" refId="19" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="91">    
-    <end type="SOURCE" refId="29"/>    
-    <end type="TARGET" refId="14"/>  
+  <association id="91">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="92" name="background"/>      
+      <multiplicity id="93" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="19" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="94">    
+    <end type="SOURCE" refId="38"/>    
+    <end type="TARGET" refId="35"/>  
   </generalization>  
-  <association id="92">    
-    <end type="SOURCE" refId="34" navigable="false">      
-      <attribute id="93" name="sprite">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="94" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="16" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
   <generalization id="95">    
-    <end type="SOURCE" refId="37"/>    
-    <end type="TARGET" refId="12"/>  
-  </generalization>  
-  <generalization id="96">    
-    <end type="SOURCE" refId="23"/>    
-    <end type="TARGET" refId="41"/>  
-  </generalization>  
-  <generalization id="97">    
-    <end type="SOURCE" refId="19"/>    
-    <end type="TARGET" refId="15"/>  
-  </generalization>  
-  <generalization id="98">    
-    <bendpoint x="912" y="753"/>    
-    <bendpoint x="947" y="611"/>    
-    <end type="SOURCE" refId="45"/>    
-    <end type="TARGET" refId="15"/>  
-  </generalization>  
-  <association id="99">    
-    <end type="SOURCE" refId="14" navigable="false">      
-      <attribute id="100" name="strategyShot">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="101" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="4" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <generalization id="102">    
-    <end type="SOURCE" refId="28"/>    
-    <end type="TARGET" refId="1"/>  
-  </generalization>  
-  <association id="103">    
-    <end type="SOURCE" refId="41" navigable="false">      
-      <attribute id="104" name="shipManager">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="105" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="27" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <nesting id="106">    
-    <end type="SOURCE" refId="7"/>    
-    <end type="TARGET" refId="26"/>  
-  </nesting>  
-  <association id="107">    
-    <bendpoint x="2165" y="329"/>    
-    <end type="SOURCE" refId="27" navigable="false">      
-      <attribute id="108" name="entitiesManager">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="109" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="40" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="110">    
-    <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="111" name="levelManager">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="112" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="11" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="113">    
-    <end type="SOURCE" refId="30" navigable="false">      
-      <attribute id="114" name="shipManager">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="115" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="27" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <generalization id="116">    
-    <end type="SOURCE" refId="21"/>    
-    <end type="TARGET" refId="15"/>  
-  </generalization>  
-  <association id="117">    
-    <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="118" name="bonusManager">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="119" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="30" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <generalization id="120">    
-    <end type="SOURCE" refId="12"/>    
-    <end type="TARGET" refId="34"/>  
-  </generalization>  
-  <generalization id="121">    
-    <end type="SOURCE" refId="20"/>    
-    <end type="TARGET" refId="14"/>  
-  </generalization>  
-  <generalization id="122">    
-    <end type="SOURCE" refId="17"/>    
-    <end type="TARGET" refId="34"/>  
-  </generalization>  
-  <generalization id="123">    
-    <end type="SOURCE" refId="8"/>    
-    <end type="TARGET" refId="33"/>  
-  </generalization>  
-  <association id="124">    
-    <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="125" name="gameInstance">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="126" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="7" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <generalization id="127">    
-    <end type="SOURCE" refId="13"/>    
-    <end type="TARGET" refId="12"/>  
-  </generalization>  
-  <generalization id="128">    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="15"/>  
-  </generalization>  
-  <generalization id="129">    
-    <end type="SOURCE" refId="22"/>    
-    <end type="TARGET" refId="4"/>  
-  </generalization>  
-  <generalization id="130">    
-    <end type="SOURCE" refId="36"/>    
-    <end type="TARGET" refId="33"/>  
-  </generalization>  
-  <association id="131">    
-    <end type="SOURCE" refId="10" navigable="false">      
-      <attribute id="132" name="single">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="133" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="10" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <generalization id="134">    
-    <end type="SOURCE" refId="31"/>    
-    <end type="TARGET" refId="4"/>  
-  </generalization>  
-  <generalization id="135">    
-    <bendpoint x="1577" y="35"/>    
-    <bendpoint x="1577" y="336"/>    
     <end type="SOURCE" refId="41"/>    
-    <end type="TARGET" refId="34"/>  
+    <end type="TARGET" refId="35"/>  
   </generalization>  
-  <generalization id="136">    
-    <end type="SOURCE" refId="2"/>    
-    <end type="TARGET" refId="14"/>  
-  </generalization>  
-  <association id="137">    
-    <end type="SOURCE" refId="11" navigable="false">      
-      <attribute id="138" name="levels">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="139" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
+  <association id="96">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="97" name="levelManager"/>      
+      <multiplicity id="98" minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" refId="14" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="140">    
-    <end type="SOURCE" refId="30" navigable="false">      
-      <attribute id="141" name="entitiesManager">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="142" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="40" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <generalization id="143">    
-    <end type="SOURCE" refId="25"/>    
-    <end type="TARGET" refId="14"/>  
+  <generalization id="99">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="18"/>  
   </generalization>  
-  <association id="144">    
-    <end type="SOURCE" refId="34" navigable="false">      
-      <attribute id="145" name="entitiesManager">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="146" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
+  <generalization id="100">    
+    <end type="SOURCE" refId="25"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <generalization id="101">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="17"/>  
+  </generalization>  
+  <generalization id="102">    
+    <end type="SOURCE" refId="40"/>    
+    <end type="TARGET" refId="35"/>  
+  </generalization>  
+  <association id="103">    
+    <end type="SOURCE" refId="13" navigable="false">      
+      <attribute id="104" name="single"/>      
+      <multiplicity id="105" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="40" navigable="true"/>    
+    <end type="TARGET" refId="13" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="147">    
-    <bendpoint x="1902" y="-176"/>    
-    <bendpoint x="1866" y="260"/>    
-    <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="148" name="entitiesManager">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="149" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
+  <association id="106">    
+    <end type="SOURCE" refId="29" navigable="false">      
+      <attribute id="107" name="entitiesManager"/>      
+      <multiplicity id="108" minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" refId="40" navigable="true"/>    
+    <end type="TARGET" refId="46" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="150">    
+  <association id="109">    
+    <end type="SOURCE" refId="32" navigable="false">      
+      <attribute id="110" name="entitiesManager"/>      
+      <multiplicity id="111" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="46" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="112">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="18"/>  
+  </generalization>  
+  <association id="113">    
+    <end type="SOURCE" refId="17" navigable="false">      
+      <attribute id="114" name="entitiesManager"/>      
+      <multiplicity id="115" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="46" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="116">    
+    <bendpoint x="2958" y="938"/>    
+    <end type="SOURCE" refId="46" navigable="false">      
+      <attribute id="117" name="removeList"/>      
+      <multiplicity id="118" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="36" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="119">    
+    <end type="SOURCE" refId="39"/>    
+    <end type="TARGET" refId="15"/>  
+  </generalization>  
+  <association id="120">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="121" name="gameInstance"/>      
+      <multiplicity id="122" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="123">    
+    <end type="SOURCE" refId="29" navigable="false">      
+      <attribute id="124" name="ships"/>      
+      <multiplicity id="125" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="15" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="126">    
+    <end type="SOURCE" refId="31"/>    
+    <end type="TARGET" refId="17"/>  
+  </generalization>  
+  <generalization id="127">    
+    <end type="SOURCE" refId="23"/>    
+    <end type="TARGET" refId="17"/>  
+  </generalization>  
+  <generalization id="128">    
     <end type="SOURCE" refId="24"/>    
-    <end type="TARGET" refId="33"/>  
+    <end type="TARGET" refId="18"/>  
+  </generalization>  
+  <association id="129">    
+    <bendpoint x="2721" y="936"/>    
+    <end type="SOURCE" refId="36" navigable="false">      
+      <attribute id="130" name="entitiesManager"/>      
+      <multiplicity id="131" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="46" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="132">    
+    <end type="SOURCE" refId="43"/>    
+    <end type="TARGET" refId="36"/>  
+  </generalization>  
+  <generalization id="133">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="17"/>  
+  </generalization>  
+  <generalization id="134">    
+    <end type="SOURCE" refId="45"/>    
+    <end type="TARGET" refId="17"/>  
+  </generalization>  
+  <generalization id="135">    
+    <end type="SOURCE" refId="22"/>    
+    <end type="TARGET" refId="18"/>  
+  </generalization>  
+  <generalization id="136">    
+    <end type="SOURCE" refId="27"/>    
+    <end type="TARGET" refId="35"/>  
+  </generalization>  
+  <generalization id="137">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="18"/>  
+  </generalization>  
+  <generalization id="138">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="20"/>  
+  </generalization>  
+  <generalization id="139">    
+    <end type="SOURCE" refId="30"/>    
+    <end type="TARGET" refId="2"/>  
+  </generalization>  
+  <association id="140">    
+    <bendpoint x="3014" y="225"/>    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="141" name="shipManager"/>      
+      <multiplicity id="142" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="29" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="143">    
+    <end type="SOURCE" refId="32" navigable="false">      
+      <attribute id="144" name="shipManager"/>      
+      <multiplicity id="145" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="29" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="146">    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="17"/>  
+  </generalization>  
+  <generalization id="147">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="35"/>  
+  </generalization>  
+  <generalization id="148">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <association id="149">    
+    <end type="SOURCE" refId="13" navigable="false">      
+      <attribute id="150" name="sprites"/>      
+      <multiplicity id="151" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="19" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="152">    
+    <end type="SOURCE" refId="15"/>    
+    <end type="TARGET" refId="36"/>  
   </generalization>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     sort-features="false" accessors="true" visibility="true">    
