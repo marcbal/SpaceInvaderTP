@@ -2,10 +2,13 @@ package fr.univ_artois.iut_lens.spaceinvader;
 
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.EntityEnnemy;
+import fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromAlly;
+import fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromEnnemy;
 
 /**
  * Cette classe sert juste à gérer les entitées
@@ -23,13 +26,12 @@ public class EntitiesManager {
 		// cycle round drawing all the entities we have in the game
 		try
 		{
-	        for(Entity entity : entities)
+	        for(Entity entity : entities.toArray(new Entity[entities.size()]))
 				entity.draw(g);
 		}
 		catch(Exception e)
 		{
-			System.err.println("Error while drawing entities");
-			e.printStackTrace();
+			
 		}
 	}
 	
@@ -38,7 +40,7 @@ public class EntitiesManager {
 		
 		levelMan.getCurrentLevel().getCurrentStrategyMove().performMove(delta, this);
 		
-		for(Entity entity : entities.toArray(new Entity[1]))
+		for(Entity entity : entities.toArray(new Entity[entities.size()]))
 		{
 	    	if (entity instanceof EntityEnnemy)
 	    		continue; // géré par la stratégie de déplacement
@@ -61,6 +63,9 @@ public class EntitiesManager {
 			for (int s=p+1;s<entities.size();s++) {
 				Entity me = entities.get(p);
 				Entity him = entities.get(s);
+				if (me instanceof EntityShotFromAlly && him instanceof EntityShotFromAlly) continue;
+				if (me instanceof EntityShotFromEnnemy && him instanceof EntityShotFromEnnemy) continue;
+				if (me instanceof EntityEnnemy && him instanceof EntityEnnemy) continue;
 				if (removeList.contains(me) || removeList.contains(him)) continue;
 				
 				if (me.collidesWith(him)) {
@@ -76,6 +81,18 @@ public class EntitiesManager {
 	
 	
 	public List<Entity> getEntitiesList() { return entities; }
+	
+	
+	public int getTotalRemainingEnnemyLife()
+	{
+		int s = 0;
+		for (Entity e : entities)
+		{
+			if (e instanceof EntityEnnemy)
+				s+= e.getLife();
+		}
+		return s;
+	}
 	
 	
 	/**

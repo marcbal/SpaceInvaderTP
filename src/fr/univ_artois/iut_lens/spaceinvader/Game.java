@@ -33,9 +33,12 @@ import fr.univ_artois.iut_lens.spaceinvader.entities.*;
 public class Game extends Canvas {
 	private static final long serialVersionUID = 1L; // corrige un warning
 	
+	
+	private boolean multiThread = true;
+	
 	public static Game gameInstance;
 	
-	private static long currentNanoTime = 0;
+	private static long currentNanoTime = 10000000000L;
 
 	/** The stragey that allows us to use accelerate page flipping */
 	private BufferStrategy bufferStrategy;
@@ -127,6 +130,32 @@ public class Game extends Canvas {
 		// initialise the entities in our game so there's something
 		// to see at startup
 		startLevel();
+		
+		if (multiThread)
+		{
+			Thread th = new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					
+					long delta = (long) (1/fps*1000000000);
+					// keep looping round til the game ends
+					while (gameRunning) {
+						long loop_start = System.nanoTime();
+			            updateDisplay();
+						try { Thread.sleep((delta-(System.nanoTime()-loop_start))/1000000); } catch (Exception e) {}
+					}
+				}
+			});
+			th.setName("Rendering Thread");
+			th.setPriority(Thread.MAX_PRIORITY);
+			th.start();
+			
+			Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
+			Thread.currentThread().setName("Event / Logical Thread");
+		}
+		
+		
 	}
 	
 
@@ -148,13 +177,15 @@ public class Game extends Canvas {
 		// keep looping round til the game ends
 		while (gameRunning) {
 			long loop_start = System.nanoTime();
-			currentNanoTime += delta;
+			if (!pause)
+				currentNanoTime += delta;
 			
 			handleEvent();
 			
 			updateLogic(delta);
 			
-            updateDisplay();
+			if (!multiThread)
+				updateDisplay();
             
 			try { Thread.sleep((delta-(System.nanoTime()-loop_start))/1000000); } catch (Exception e) {}
 		}
@@ -183,24 +214,24 @@ public class Game extends Canvas {
 	private void updateLogic(long delta) {
 		if (!waitingForKeyPress && !pause)
 		{
-			//Faire tirer les entités
-			entitiesManager.makeEntitiesShoot(levelManager);
 			//Déplacer les entités
 			entitiesManager.moveEntities(delta,levelManager);
-			
-			//G�n�rer des bonus
-			bonusManager.performBonus();
 			
 			//Vérifier si il y a eu des collisions
 			//Supprimer les entités tués
 			entitiesManager.doCollisions();
 			
+			//Faire tirer les entités
+			entitiesManager.makeEntitiesShoot(levelManager);
+			
+			
+			//Générer des bonus
+			bonusManager.performBonus();
+			
 			shipManager.makeItEvolve();
 			// réinitialiser le déplacement du vaisseau
 			shipManager.moveShip(0);
 		}
-		else if (waitingForKeyPress)
-			pause = false;
 		
 	}
 	
@@ -232,9 +263,11 @@ public class Game extends Canvas {
 		g.drawString("[Commande] gauche/droite : bouger ; Espace : tirer ; Echap : pause", 5, 30);
 		g.drawString("Nombre d'entité : "+entitiesManager.getEntitiesList().size(), 5, 45);
 		int[] gInfos = shipManager.getShipProgress();
-		g.drawString("Vaisseau : "+gInfos[0]+"/"+gInfos[1], 5, 60);
+		g.drawString("PV Total Ennemies : "+entitiesManager.getTotalRemainingEnnemyLife(), 5, 60);
+		g.drawString("Vaisseau : "+gInfos[0]+"/"+gInfos[1], 5, 75);
 		gInfos = levelManager.getLevelProgress();
-		g.drawString("Niveau : "+gInfos[0]+"/"+gInfos[1], 5, 75);
+		g.drawString("Niveau : "+gInfos[0]+"/"+gInfos[1], 5, 90);
+		gInfos = levelManager.getLevelProgress();
 		
 		// finally, we've completed drawing so clear up the graphics
 		// and flip the buffer over
