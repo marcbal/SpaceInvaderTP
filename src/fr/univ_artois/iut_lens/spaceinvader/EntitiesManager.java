@@ -7,6 +7,7 @@ import java.util.List;
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.EntityEnnemy;
 import fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromAlly;
+import fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromAllyFinal;
 import fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromEnnemy;
 
 /**
@@ -101,6 +102,8 @@ public class EntitiesManager {
 	 * @param entity The entity that should be removed
 	 */
 	public void removeEntity(Entity entity) {
+		if(entity instanceof EntityShotFromAllyFinal) {
+		}
 		removeList.add(entity);
 	}
 }

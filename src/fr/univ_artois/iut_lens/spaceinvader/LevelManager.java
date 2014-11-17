@@ -20,7 +20,7 @@ public class LevelManager {
 	
 	private EntitiesManager entitiesManager;
 	
-	private int currentLevel = 7;
+	private int currentLevel = 0;
 	
 	
 	
