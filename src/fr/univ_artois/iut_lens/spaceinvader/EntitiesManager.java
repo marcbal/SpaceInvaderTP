@@ -85,7 +85,7 @@ public class EntitiesManager {
 	public int getTotalRemainingEnnemyLife()
 	{
 		int s = 0;
-		for (Entity e : entities)
+		for (Entity e : entities.toArray(new Entity[entities.size()]))
 		{
 			if (e instanceof EntityEnnemy)
 				s+= e.getLife();
