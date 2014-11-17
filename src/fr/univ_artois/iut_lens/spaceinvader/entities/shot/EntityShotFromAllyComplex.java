@@ -16,11 +16,10 @@ public class EntityShotFromAllyComplex extends EntityShotFromAlly {
 	
 	public void move(long delta) {
 		super.move(delta);
-		if(time%1==0) {
-			entitiesManager.getEntitiesList().add(new EntityShotFromAllySubComplex(new Vector2d(position.x+getBoundingBox().width/3.0, position.y+getBoundingBox().height/3.0), new Vector2d((Math.cos(i)*300),(Math.sin(i)*300)), entitiesManager));
-			entitiesManager.getEntitiesList().add(new EntityShotFromAllySubComplex2(new Vector2d(position.x+getBoundingBox().width/3.0, position.y+getBoundingBox().height/3.0), new Vector2d((Math.cos(Math.PI+i)*300),(Math.sin(Math.PI+i)*300)), entitiesManager));
-		}
-		i += Math.PI/9;
+		entitiesManager.getEntitiesList().add(new EntityShotFromAllySubComplex(new Vector2d(position.x+getBoundingBox().width/4.0, position.y+getBoundingBox().height/4.0), new Vector2d((Math.cos(i)*500),(Math.sin(i)*500)), entitiesManager));
+		entitiesManager.getEntitiesList().add(new EntityShotFromAllySubComplex2(new Vector2d(position.x+getBoundingBox().width/4.0, position.y+getBoundingBox().height/4.0), new Vector2d((Math.cos(Math.PI+i)*500),(Math.sin(Math.PI+i)*500)), entitiesManager));
+		
+		i += Math.PI/8.8;
 		time++;
 		if(time>300) time =0; //Evite les dépassement de capacité
 	}

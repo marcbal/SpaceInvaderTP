@@ -92,5 +92,14 @@ public class ShipManager {
 			actualShip = newShip;
 		}
 	}
+	
+
+	public int[] getShipProgress()
+	{
+		int[] r = new int[2];
+		r[0] = actualShip+1;
+		r[1] = ships.size();
+		return r;
+	}
 }
 

@@ -69,4 +69,13 @@ public class LevelManager {
 		currentLevel = 0;
 		initLevels();
 	}
+	
+	
+	public int[] getLevelProgress()
+	{
+		int[] r = new int[2];
+		r[0] = currentLevel+1;
+		r[1] = levels.size();
+		return r;
+	}
 }

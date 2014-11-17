@@ -43,6 +43,8 @@ public class Game extends Canvas {
 	/** True if the game is currently "running", i.e. the game loop is looping */
 	private boolean gameRunning = true;
 	
+	private boolean pause = false;
+	
 	private float fps = 60;
 	
 	/** Gestion des entités */
@@ -179,7 +181,7 @@ public class Game extends Canvas {
 	
 	
 	private void updateLogic(long delta) {
-		if (!waitingForKeyPress)
+		if (!waitingForKeyPress && !pause)
 		{
 			//Faire tirer les entités
 			entitiesManager.makeEntitiesShoot(levelManager);
@@ -197,6 +199,8 @@ public class Game extends Canvas {
 			// réinitialiser le déplacement du vaisseau
 			shipManager.moveShip(0);
 		}
+		else if (waitingForKeyPress)
+			pause = false;
 		
 	}
 	
@@ -208,7 +212,6 @@ public class Game extends Canvas {
 		// Get hold of a graphics context for the accelerated 
 		// surface and blank it out
 		Graphics2D g = (Graphics2D) bufferStrategy.getDrawGraphics();
-		g.setColor(Color.black);
 		
 		background.draw(g, 0, 0);
 
@@ -220,8 +223,18 @@ public class Game extends Canvas {
 		if (waitingForKeyPress) {
 			g.setColor(Color.white);
 			g.drawString(message,(800-g.getFontMetrics().stringWidth(message))/2,250);
-			g.drawString("Press any key",(800-g.getFontMetrics().stringWidth("Press any key"))/2,300);
+			g.drawString("Appuyez sur une touche",(800-g.getFontMetrics().stringWidth("Appuyez sur une touche"))/2,300);
 		}
+		
+
+		g.setColor(Color.WHITE);
+		g.drawString("Marc Baloup et Maxime Maroine, Groupe 2-C, IUT Lens, DUT Informatique", 5, 15);
+		g.drawString("[Commande] gauche/droite : bouger ; Espace : tirer ; Echap : pause", 5, 30);
+		g.drawString("Nombre d'entité : "+entitiesManager.getEntitiesList().size(), 5, 45);
+		int[] gInfos = shipManager.getShipProgress();
+		g.drawString("Vaisseau : "+gInfos[0]+"/"+gInfos[1], 5, 60);
+		gInfos = levelManager.getLevelProgress();
+		g.drawString("Niveau : "+gInfos[0]+"/"+gInfos[1], 5, 75);
 		
 		// finally, we've completed drawing so clear up the graphics
 		// and flip the buffer over
@@ -257,7 +270,7 @@ public class Game extends Canvas {
 	 * Notification that the player has died. 
 	 */
 	public void notifyDeath() {
-		message = "Oh no! They got you, try again?";
+		message = "Oh non ! Ils vous ont battu ! :( Réessayez ?";
 		levelManager.goToFirstLevel();
 		shipManager.decreaseShipType();
 		entitiesManager.getEntitiesList().clear(); //nettoie l'écran du vaisseau
@@ -270,7 +283,7 @@ public class Game extends Canvas {
 	 */
 	public void notifyWin() {
 		entitiesManager.getEntitiesList().clear(); //nettoie l'écran du vaisseau
-		message = "Well done! You Win!";
+		message = "Bien joué ! Vous avez gagné :)";
 		levelManager.goToNextLevel();
 		//shipManager.increaseShipType(); //Evolution du vaisseau
 		waitingForKeyPress = true;
@@ -390,9 +403,9 @@ public class Game extends Canvas {
 				}
 			}
 			
-			// if we hit escape, then quit the game
+			// if we hit escape, then toogle pause
 			if (e.getKeyChar() == 27) {
-				System.exit(0);
+				pause = !pause;
 			}
 		}
 	}	

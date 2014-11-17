@@ -24,7 +24,7 @@ public class StrategyMoveEnnemyNormal extends StrategyMoveEnnemy {
 	    		}
 	    		// and vice vesa, if we have reached the right hand side of 
 	    		// the screen and are moving right, request a logic update
-	    		if ((entity.getSpeed().x > 0) && (entity.getPosition().x > 750)) {
+	    		if ((entity.getSpeed().x > 0) && (entity.getPosition().x > 800 - 10 - entity.getBoundingBox().width)) {
 	    			changerDirection = true;
 	    		}
 	    		

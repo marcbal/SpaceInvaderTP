@@ -32,15 +32,15 @@ public class StrategyMoveEnnemyDisturbed extends StrategyMoveEnnemy {
 	    			leftRight = 'r';
 	    		// and vice vesa, if we have reached the right hand side of 
 	    		// the screen and are moving right, request a logic update
-	    		else if (leftRight == 'r' && (entity.getPosition().x > 750))
+	    		else if (leftRight == 'r' && (entity.getPosition().x > 800 - 10 - entity.getBoundingBox().width))
 	    			leftRight= 'l';
 	    		// sinon, on essaye de lui faire changer de direction, si on a de la chance
 	    		else if (r.nextInt(10)<=1) // 1 chance sur 10
 	    			leftRight = (leftRight == 'l')?'r':'l';
 	    		
-	    		if(upDown == 'd' && (entity.getPosition().y>570))
+	    		if(upDown == 'd' && (entity.getPosition().y>600 - 10 - entity.getBoundingBox().height))
 	    			upDown = 'u';
-	    		else if(upDown=='u' && (entity.getPosition().y<30))
+	    		else if(upDown=='u' && (entity.getPosition().y<10))
 	    			upDown = 'd';
 	    		else if(r.nextInt(15)<=1)
 	    			newUpDown = (upDown=='u')?'d':'u';
