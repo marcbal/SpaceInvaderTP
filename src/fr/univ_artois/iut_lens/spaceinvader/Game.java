@@ -38,6 +38,8 @@ public class Game extends Canvas {
 	
 	public static Game gameInstance;
 	
+	public int maxLife;
+	
 	private static long currentNanoTime = 10000000000L;
 
 	/** The stragey that allows us to use accelerate page flipping */
@@ -263,7 +265,7 @@ public class Game extends Canvas {
 		g.drawString("[Commande] gauche/droite : bouger ; Espace : tirer ; Echap : pause", 5, 30);
 		g.drawString("Nombre d'entité : "+entitiesManager.getEntitiesList().size(), 5, 45);
 		int[] gInfos = shipManager.getShipProgress();
-		g.drawString("PV Total Ennemies : "+entitiesManager.getTotalRemainingEnnemyLife(), 5, 60);
+		g.drawString("Progression niveau : "+ ((100-((entitiesManager.getTotalRemainingEnnemyLife()*100)/maxLife))) + "%", 5, 60);
 		g.drawString("Vaisseau : "+gInfos[0]+"/"+gInfos[1], 5, 75);
 		gInfos = levelManager.getLevelProgress();
 		g.drawString("Niveau : "+gInfos[0]+"/"+gInfos[1], 5, 90);
@@ -292,6 +294,8 @@ public class Game extends Canvas {
 		// create block of aliens, with the arguments
 		
 		entitiesManager.getEntitiesList().addAll(levelManager.getCurrentLevel().generateLevel());
+		
+		maxLife = entitiesManager.getTotalRemainingEnnemyLife();
 		
 		// blank out any keyboard settings we might currently have
 		leftPressed = false;
