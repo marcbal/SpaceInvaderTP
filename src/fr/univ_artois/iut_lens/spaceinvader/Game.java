@@ -221,7 +221,7 @@ public class Game extends Canvas {
 			
 			//Vérifier si il y a eu des collisions
 			//Supprimer les entités tués
-				entitiesManager.doCollisions();
+			entitiesManager.doCollisions();
 			
 			//Faire tirer les entités
 			entitiesManager.makeEntitiesShoot(levelManager);
