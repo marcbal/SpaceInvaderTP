@@ -36,9 +36,9 @@ public class LevelFinalBoss extends Level {
 		SquadList = new ArrayList<Entity>();
 		Entity alien = new EntityEnnemy(sprite,new Vector2d(250,0), 999999, entitiesManager);
 		SquadList.add(alien);
-		Entity alien2 = new EntityEnnemy("sprites/max.jpg",new Vector2d(50,100), 7500, entitiesManager);
+		Entity alien2 = new EntityEnnemy("sprites/max.jpg",new Vector2d(50,100), 20000, entitiesManager);
 		SquadList.add(alien2);
-		Entity alien3 = new EntityEnnemy("sprites/marc.jpg",new Vector2d(650,100),7500, entitiesManager);
+		Entity alien3 = new EntityEnnemy("sprites/marc.jpg",new Vector2d(650,100),20000, entitiesManager);
 		SquadList.add(alien3);
 		nbCount = 3;
 		return SquadList;

@@ -259,17 +259,16 @@ public class Game extends Canvas {
 			g.drawString("Appuyez sur une touche",(800-g.getFontMetrics().stringWidth("Appuyez sur une touche"))/2,300);
 		}
 		
-
+		g.setColor(Color.GREEN);
+		g.fillRect(0, 0, (int)((entitiesManager.getTotalRemainingEnnemyLife()/(float)maxLife)*800), 3);
 		g.setColor(Color.WHITE);
 		g.drawString("Marc Baloup et Maxime Maroine, Groupe 2-C, IUT Lens, DUT Informatique", 5, 15);
 		g.drawString("[Commande] gauche/droite : bouger ; Espace : tirer ; Echap : pause", 5, 30);
 		g.drawString("Nombre d'entité : "+entitiesManager.getEntitiesList().size(), 5, 45);
 		int[] gInfos = shipManager.getShipProgress();
-		g.drawString("Progression niveau : "+ ((100-((entitiesManager.getTotalRemainingEnnemyLife()*100)/maxLife))) + "%", 5, 60);
-		g.drawString("Vaisseau : "+gInfos[0]+"/"+gInfos[1], 5, 75);
+		g.drawString("Vaisseau : "+gInfos[0]+"/"+gInfos[1], 5, 60);
 		gInfos = levelManager.getLevelProgress();
-		g.drawString("Niveau : "+gInfos[0]+"/"+gInfos[1], 5, 90);
-		gInfos = levelManager.getLevelProgress();
+		g.drawString("Niveau : "+gInfos[0]+"/"+gInfos[1], 5, 75);
 		
 		// finally, we've completed drawing so clear up the graphics
 		// and flip the buffer over
