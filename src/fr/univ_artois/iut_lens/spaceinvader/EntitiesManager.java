@@ -2,7 +2,6 @@ package fr.univ_artois.iut_lens.spaceinvader;
 
 import java.awt.Graphics2D;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
