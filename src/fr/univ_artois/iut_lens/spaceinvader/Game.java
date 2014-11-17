@@ -34,7 +34,7 @@ public class Game extends Canvas {
 	private static final long serialVersionUID = 1L; // corrige un warning
 	
 	
-	private boolean multiThread = true;
+	private boolean multiThread = false;
 	
 	public static Game gameInstance;
 	
@@ -50,7 +50,7 @@ public class Game extends Canvas {
 	
 	private boolean pause = false;
 	
-	private float fps = 60;
+	private float fps = 90;
 	
 	/** Gestion des entités */
 	private EntitiesManager entitiesManager = new EntitiesManager();
@@ -140,11 +140,12 @@ public class Game extends Canvas {
 				@Override
 				public void run() {
 					
-					long delta = (long) (1/fps*1000000000);
+					long delta = (long)(1/fps*1000000000);
 					// keep looping round til the game ends
 					while (gameRunning) {
 						long loop_start = System.nanoTime();
 			            updateDisplay();
+			            entitiesManager.doCollisions();
 						try { Thread.sleep((delta-(System.nanoTime()-loop_start))/1000000); } catch (Exception e) {}
 					}
 				}
@@ -221,7 +222,8 @@ public class Game extends Canvas {
 			
 			//Vérifier si il y a eu des collisions
 			//Supprimer les entités tués
-			entitiesManager.doCollisions();
+			if(!multiThread)
+				entitiesManager.doCollisions();
 			
 			//Faire tirer les entités
 			entitiesManager.makeEntitiesShoot(levelManager);
