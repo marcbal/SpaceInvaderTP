@@ -14,6 +14,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import fr.univ_artois.iut_lens.spaceinvader.entities.*;
+import fr.univ_artois.iut_lens.spaceinvader.entities.ship.EntityShipFinal;
+import fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromAllyFinal;
 
 /**
  * The main hook of our game. This class with both act as a manager
@@ -287,6 +289,8 @@ public class Game extends Canvas {
 	 * create a new set.
 	 */
 	private void startLevel() {
+		EntityShipFinal.reset();
+		EntityShotFromAllyFinal.reset();
 		entitiesManager.getEntitiesList().clear();
 		// Placer le vaisseau pr�alablement cr�er dans le tableau des entit�s
 		entitiesManager.getEntitiesList().add(shipManager.getCurrentShip());
