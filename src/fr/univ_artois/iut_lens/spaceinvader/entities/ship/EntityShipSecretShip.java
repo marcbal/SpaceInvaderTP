@@ -8,8 +8,9 @@ public class EntityShipSecretShip extends EntityShip {
 	protected long lastFireTime = 0; //Dernier tir du vaisseau
 	private long fireInterval = 1500; //Intervalle de temps par défaut pour lequel le vaisseau peut tirer
 
-	public EntityShipSecretShip(EntitiesManager eM) {
+	public EntityShipSecretShip(EntitiesManager eM, long fireInter) {
 		super("sprites/SecretShip.png", 800, eM);
+		fireInterval = fireInter;
 	}
 
 	@Override
