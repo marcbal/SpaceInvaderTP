@@ -16,8 +16,8 @@ public class EntityShotFromAllyComplex extends EntityShotFromAlly {
 	
 	public void move(long delta) {
 		super.move(delta);
-		entitiesManager.getEntitiesList().add(new EntityShotFromAllySubComplex(new Vector2d(position.x+getBoundingBox().width/4.0, position.y+getBoundingBox().height/4.0), new Vector2d((Math.cos(i)*500),(Math.sin(i)*500)), entitiesManager));
-		entitiesManager.getEntitiesList().add(new EntityShotFromAllySubComplex2(new Vector2d(position.x+getBoundingBox().width/4.0, position.y+getBoundingBox().height/4.0), new Vector2d((Math.cos(Math.PI+i)*500),(Math.sin(Math.PI+i)*500)), entitiesManager));
+		entitiesManager.getEntitiesList().add(new EntityShotFromAllySubComplex(new Vector2d(position.x+getBoundingBox().width/4.0, position.y+getBoundingBox().height/4.0), new Vector2d((Math.cos(i)*400),(Math.sin(i)*400)), entitiesManager));
+		entitiesManager.getEntitiesList().add(new EntityShotFromAllySubComplex2(new Vector2d(position.x+getBoundingBox().width/4.0, position.y+getBoundingBox().height/4.0), new Vector2d((Math.cos(Math.PI+i)*400),(Math.sin(Math.PI+i)*400)), entitiesManager));
 		
 		i += Math.PI/8.8;
 		time++;

@@ -19,7 +19,7 @@ public class EntityShotFromAllyFinal extends EntityShotFromAlly {
 	public void move(long delta) {
 		super.move(delta);
 		time++;
-		if(time%50==0 && nbRange<Math.pow(2, 8))  {
+		if(time%20==0 && nbRange<Math.pow(2, 9))  {
 			time = 0;
 			nbRange++;
 			entitiesManager.getEntitiesList().add(new EntityShotFromAllyFinal(new Vector2d(position.x-10, position.y+getBoundingBox().height/4.0), new Vector2d(-500,new Random().nextInt(1000)-500), entitiesManager));
