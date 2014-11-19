@@ -21,7 +21,7 @@ public class EntitiesManager {
 	
 	private Thread[] threads = new Thread[Runtime.getRuntime().availableProcessors()];
 	
-	private int lastCollisionComputingNumber = 0;
+	//private int lastCollisionComputingNumber = 0;
 	
 	//Méthode déssinant les entités
 	public void draw(Graphics2D g) {
