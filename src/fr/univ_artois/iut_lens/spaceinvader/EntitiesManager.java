@@ -87,21 +87,26 @@ public class EntitiesManager {
 					for (int p=0;p<entities.size();p++) {
 						for (int s=p+1;s<entities.size();s++) {
 							if (i%nbTh!=cTh) continue;
-							Entity me = entities.get(p);
-							Entity him = entities.get(s);
-							if (me instanceof EntityShotFromAlly && him instanceof EntityShotFromAlly) continue;
-							if (me instanceof EntityShotFromEnnemy && him instanceof EntityShotFromEnnemy) continue;
-							if (me instanceof EntityEnnemy && him instanceof EntityEnnemy) continue;
-							
-							
-							// monothread
-							if (removeList.contains(me) || removeList.contains(him)) continue;
-							
-							if (me.collidesWith(him)) {
-								me.collidedWith(him);
-								him.collidedWith(me);
+							try {
+								Entity me = entities.get(p);
+								Entity him = entities.get(s);
+								if (me instanceof EntityShotFromAlly && him instanceof EntityShotFromAlly) continue;
+								if (me instanceof EntityShotFromEnnemy && him instanceof EntityShotFromEnnemy) continue;
+								if (me instanceof EntityEnnemy && him instanceof EntityEnnemy) continue;
+								
+								
+								//monothread
+								if (removeList.contains(me) || removeList.contains(him)) continue;
+								if (me.collidesWith(him)) {
+									me.collidedWith(him);
+									him.collidedWith(me);
+								}
+							}catch(NullPointerException e) {
+								
+							}catch(IndexOutOfBoundsException e) {
+								
 							}
-							// // monothread 
+							// monothread 
 						}
 						i++;
 					}
