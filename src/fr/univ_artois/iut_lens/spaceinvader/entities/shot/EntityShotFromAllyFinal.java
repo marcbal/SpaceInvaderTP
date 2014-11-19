@@ -13,13 +13,13 @@ public class EntityShotFromAllyFinal extends EntityShotFromAlly {
 	private static int nbRange;
 	public EntityShotFromAllyFinal(Vector2d p, Vector2d s,
 			EntitiesManager eM) {
-		super("sprites/UnderComplexShot.png", p, 4, 2, s, eM);
+		super("sprites/UnderComplexShot.png", p, 5, 2, s, eM);
 	}
 	
 	public void move(long delta) {
 		super.move(delta);
 		time++;
-		if(time%50==0 && nbRange<Math.pow(2, 8))  {
+		if(time%20==0 && nbRange<Math.pow(2, 10))  {
 			time = 0;
 			nbRange++;
 			entitiesManager.getEntitiesList().add(new EntityShotFromAllyFinal(new Vector2d(position.x-10, position.y+getBoundingBox().height/4.0), new Vector2d(-500,new Random().nextInt(1000)-500), entitiesManager));

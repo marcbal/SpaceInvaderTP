@@ -17,7 +17,7 @@ public class ShipManager {
 	
 	private List<EntityShip> ships = new ArrayList<EntityShip>();
 	
-	private int actualShip = 0;  //Type de vaisseau actuel
+	private int actualShip = 53;  //Type de vaisseau actuel
 	
 	private int newShip = actualShip;
 	
@@ -44,34 +44,39 @@ public class ShipManager {
 		ships.add(new EntityShipMegaShip(entitiesManager));
 		ships.add(new EntityShipMegaShip(entitiesManager));
 		ships.add(new EntityShipMegaShip(entitiesManager));
-		ships.add(new EntityShipSecretShip(entitiesManager, 5000));
-		ships.add(new EntityShipSecretShip(entitiesManager, 4750));
-		ships.add(new EntityShipSecretShip(entitiesManager, 4500));
-		ships.add(new EntityShipSecretShip(entitiesManager, 4250));
-		ships.add(new EntityShipSecretShip(entitiesManager, 4000));
-		ships.add(new EntityShipSecretShip(entitiesManager, 4750));
-		ships.add(new EntityShipSecretShip(entitiesManager, 3500));
-		ships.add(new EntityShipSecretShip(entitiesManager, 3250));
-		ships.add(new EntityShipSecretShip(entitiesManager, 3000));
-		ships.add(new EntityShipSecretShip(entitiesManager, 3750));
 		ships.add(new EntityShipSecretShip(entitiesManager, 2500));
-		ships.add(new EntityShipSecretShip(entitiesManager, 2250));
-		ships.add(new EntityShipSecretShip(entitiesManager, 2000));
-		ships.add(new EntityShipSecretShip(entitiesManager, 1800));
+		ships.add(new EntityShipSecretShip(entitiesManager, 2300));
+		ships.add(new EntityShipSecretShip(entitiesManager, 2100));
+		ships.add(new EntityShipSecretShip(entitiesManager, 1950));
 		ships.add(new EntityShipSecretShip(entitiesManager, 1700));
 		ships.add(new EntityShipSecretShip(entitiesManager, 1600));
 		ships.add(new EntityShipSecretShip(entitiesManager, 1500));
+		ships.add(new EntityShipSecretShip(entitiesManager, 1400));
 		ships.add(new EntityShipSecretShip(entitiesManager, 1350));
+		ships.add(new EntityShipSecretShip(entitiesManager, 1300));
+		ships.add(new EntityShipSecretShip(entitiesManager, 1250));
 		ships.add(new EntityShipSecretShip(entitiesManager, 1200));
+		ships.add(new EntityShipSecretShip(entitiesManager, 1150));
 		ships.add(new EntityShipSecretShip(entitiesManager, 1000));
+		ships.add(new EntityShipSecretShip(entitiesManager, 975));
+		ships.add(new EntityShipSecretShip(entitiesManager, 950));
+		ships.add(new EntityShipSecretShip(entitiesManager, 925));
 		ships.add(new EntityShipSecretShip(entitiesManager, 900));
+		ships.add(new EntityShipSecretShip(entitiesManager, 875));
 		ships.add(new EntityShipSecretShip(entitiesManager, 850));
+		ships.add(new EntityShipSecretShip(entitiesManager, 825));
 		ships.add(new EntityShipSecretShip(entitiesManager, 800));
+		ships.add(new EntityShipSecretShip(entitiesManager, 775));
 		ships.add(new EntityShipSecretShip(entitiesManager, 750));
+		ships.add(new EntityShipSecretShip(entitiesManager, 725));
 		ships.add(new EntityShipSecretShip(entitiesManager, 700));
+		ships.add(new EntityShipSecretShip(entitiesManager, 690));
+		ships.add(new EntityShipSecretShip(entitiesManager, 680));
+		ships.add(new EntityShipSecretShip(entitiesManager, 670));
+		ships.add(new EntityShipSecretShip(entitiesManager, 660));
 		ships.add(new EntityShipSecretShip(entitiesManager, 650));
-		ships.add(new EntityShipSecretShip(entitiesManager, 600));
-		ships.add(new EntityShipSecretShip(entitiesManager, 550));
+		ships.add(new EntityShipSecretShip(entitiesManager, 640));
+		ships.add(new EntityShipSecretShip(entitiesManager, 630));
 		ships.add(new EntityShipSecretShip(entitiesManager, 500));
 		ships.add(new EntityShipFinal(entitiesManager));
 	}
