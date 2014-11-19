@@ -69,4 +69,14 @@ public class Vector2d {
 		y = -y;
 		return this;
 	}
+	
+	public double distanceSquaredOf(Vector2d v)
+	{
+		return (x - v.x)*(x - v.x) + (y - v.y)*(y - v.y);
+	}
+	
+	public double distanceOf(Vector2d v)
+	{
+		return Math.sqrt(distanceSquaredOf(v));
+	}
 }

@@ -71,8 +71,9 @@ public class EntityEnnemy extends Entity {
 	 * @param g The graphics context on which to draw
 	 */
 	public void draw(Graphics g) {
+		int life = this.life; // évite les problèmes de multithreading et bug d'affichage
 		super.draw(g);
-		if (life==maxLife)
+		if (life==maxLife || life <= 0)
 			return;
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect((int)position.x,(int)position.y, sprite.getWidth(), 3);
