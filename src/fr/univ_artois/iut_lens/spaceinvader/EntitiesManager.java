@@ -21,7 +21,7 @@ public class EntitiesManager {
 	
 	private Thread[] threads = new Thread[Runtime.getRuntime().availableProcessors()];
 	
-	private int lastCollisionComputingNumber = 0;
+	//private int lastCollisionComputingNumber = 0;
 	
 	//Méthode déssinant les entités
 	public void draw(Graphics2D g) {
@@ -59,7 +59,7 @@ public class EntitiesManager {
 	
 	public void doCollisions() {
 		
-		int nbColision = 0;
+		//int nbColision = 0;
 		
 		// brute force collisions, compare every entity against
 		// every other entity. If any of them collide notify 
@@ -159,7 +159,7 @@ public class EntitiesManager {
 			}
 		} // */
 		
-		lastCollisionComputingNumber = nbColision;
+		//lastCollisionComputingNumber = nbColision;
 		
 		// calcul des collisions en multithread
 		/*
@@ -218,7 +218,7 @@ public class EntitiesManager {
 	
 	List<Entity> getRemovedList() { return removeList; }
 
-	public int getLastCollisionComputingNumber() { return lastCollisionComputingNumber; }
+	//public int getLastCollisionComputingNumber() { return lastCollisionComputingNumber; }
 	
 	
 	

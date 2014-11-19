@@ -267,10 +267,10 @@ public class Game extends Canvas {
 		g.setColor(Color.WHITE);
 		g.drawString("Marc Baloup et Maxime Maroine, Groupe 2-C, IUT Lens, DUT Informatique", 5, 15);
 		g.drawString("[Commande] gauche/droite : bouger ; Espace : tirer ; Echap : pause", 5, 30);
-		g.drawString("Threads collisions : "+Runtime.getRuntime().availableProcessors()+" - Collisions : "+entitiesManager.getLastCollisionComputingNumber(), 5, 45);
-		g.drawString("Nombre d'entité : "+entitiesManager.getEntitiesList().size(), 5, 60);
+		//g.drawString("Threads collisions : "+Runtime.getRuntime().availableProcessors()+" - Collisions : "+entitiesManager.getLastCollisionComputingNumber(), 5, 45);
+		g.drawString("Nombre d'entité : "+entitiesManager.getEntitiesList().size(), 5, 45);
 		int[] gInfos = shipManager.getShipProgress(), gInfos2 = levelManager.getLevelProgress();
-		g.drawString("Vaisseau : "+gInfos[0]+"/"+gInfos[1]+" - Niveau : "+gInfos2[0]+"/"+gInfos2[1], 5, 75);
+		g.drawString("Vaisseau : "+gInfos[0]+"/"+gInfos[1]+" - Niveau : "+gInfos2[0]+"/"+gInfos2[1], 5, 60);
 		
 		// finally, we've completed drawing so clear up the graphics
 		// and flip the buffer over

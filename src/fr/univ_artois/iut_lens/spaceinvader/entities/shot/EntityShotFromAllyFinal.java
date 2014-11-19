@@ -13,7 +13,7 @@ public class EntityShotFromAllyFinal extends EntityShotFromAlly {
 	private static int nbRange;
 	public EntityShotFromAllyFinal(Vector2d p, Vector2d s,
 			EntitiesManager eM) {
-		super("sprites/UnderComplexShot.png", p, 5, 2, s, eM);
+		super("sprites/UnderComplexShot.png", p, 10, 2, s, eM);
 	}
 	
 	public void move(long delta) {
@@ -37,9 +37,6 @@ public class EntityShotFromAllyFinal extends EntityShotFromAlly {
 	public void collidedWith(Entity other) {
 		// prevents double kills, if we've already hit something,
 		// don't collide
-		if (used) {
-			return;
-		}
 		
 		// if we've hit an alien, kill it!
 		if (other instanceof EntityEnnemy) {
@@ -59,5 +56,4 @@ public class EntityShotFromAllyFinal extends EntityShotFromAlly {
 	public static void reset() {
 		nbRange = 0;
 	}
-	
 }
