@@ -17,7 +17,7 @@ public class ShipManager {
 	
 	private List<EntityShip> ships = new ArrayList<EntityShip>();
 	
-	private int actualShip = 53;  //Type de vaisseau actuel
+	private int actualShip = 0;  //Type de vaisseau actuel
 	
 	private int newShip = actualShip;
 	
@@ -44,19 +44,21 @@ public class ShipManager {
 		ships.add(new EntityShipMegaShip(entitiesManager));
 		ships.add(new EntityShipMegaShip(entitiesManager));
 		ships.add(new EntityShipMegaShip(entitiesManager));
+		ships.add(new EntityShipConqueror(entitiesManager, 200, 1));
+		ships.add(new EntityShipConqueror(entitiesManager, 125, 1));
+		ships.add(new EntityShipConqueror(entitiesManager, 75, 1));
+		ships.add(new EntityShipConqueror(entitiesManager, 150, 2));
+		ships.add(new EntityShipConqueror(entitiesManager, 100, 2));
+		ships.add(new EntityShipConqueror(entitiesManager, 50, 2));
 		ships.add(new EntityShipSecretShip(entitiesManager, 2500));
 		ships.add(new EntityShipSecretShip(entitiesManager, 2300));
 		ships.add(new EntityShipSecretShip(entitiesManager, 2100));
-		ships.add(new EntityShipSecretShip(entitiesManager, 1950));
 		ships.add(new EntityShipSecretShip(entitiesManager, 1700));
 		ships.add(new EntityShipSecretShip(entitiesManager, 1600));
 		ships.add(new EntityShipSecretShip(entitiesManager, 1500));
 		ships.add(new EntityShipSecretShip(entitiesManager, 1400));
-		ships.add(new EntityShipSecretShip(entitiesManager, 1350));
 		ships.add(new EntityShipSecretShip(entitiesManager, 1300));
-		ships.add(new EntityShipSecretShip(entitiesManager, 1250));
 		ships.add(new EntityShipSecretShip(entitiesManager, 1200));
-		ships.add(new EntityShipSecretShip(entitiesManager, 1150));
 		ships.add(new EntityShipSecretShip(entitiesManager, 1000));
 		ships.add(new EntityShipSecretShip(entitiesManager, 975));
 		ships.add(new EntityShipSecretShip(entitiesManager, 950));

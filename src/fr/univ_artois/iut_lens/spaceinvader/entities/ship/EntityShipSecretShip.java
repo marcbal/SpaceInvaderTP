@@ -18,8 +18,8 @@ public class EntityShipSecretShip extends EntityShip {
 		if(currentTime - lastFireTime < fireInterval) return; //L'interval de tir est trop court
 		lastFireTime = currentTime; //On met le dernier tire au temps actuel
 		
-		entitiesManager.getEntitiesList().add(new EntityShotFromAllyComplex(new Vector2d(position.x+getBoundingBox().width/2-32, position.y), entitiesManager));
-		entitiesManager.getEntitiesList().add(new EntityShotFromAllyComplex(new Vector2d(position.x+getBoundingBox().width/2, position.y), entitiesManager));
+		entitiesManager.getEntitiesList().add(new EntityShotFromAllyComplex(new Vector2d(position.x+getBoundingBox().width/2-10, position.y), entitiesManager));
+		//entitiesManager.getEntitiesList().add(new EntityShotFromAllyComplex(new Vector2d(position.x+getBoundingBox().width/2, position.y), entitiesManager));
 	}
 
 }

@@ -106,9 +106,9 @@ public class EntitiesManager {
 							}catch(IndexOutOfBoundsException e) {
 								
 							}
-							// monothread 
+							// // monothread 
+							i++;
 						}
-						i++;
 					}
 					
 					
