@@ -102,6 +102,7 @@ public class EntitiesManager {
 								him.collidedWith(me);
 							}
 							// // monothread 
+							i++;
 						}
 					}
 					
