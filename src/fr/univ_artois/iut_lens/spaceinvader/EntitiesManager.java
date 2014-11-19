@@ -114,7 +114,6 @@ public class EntitiesManager {
 										+", compare "+p+" and "+s+" indexes :");
 								e.printStackTrace();
 							}
-							
 						}
 					}
 					
