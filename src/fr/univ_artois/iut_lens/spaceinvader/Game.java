@@ -36,7 +36,7 @@ public class Game extends Canvas {
 	private static final long serialVersionUID = 1L; // corrige un warning
 	
 	
-	private boolean multiThread = true;
+	static boolean multiThread = true;
 	
 	public static Game gameInstance;
 	

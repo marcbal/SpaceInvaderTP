@@ -19,7 +19,7 @@ public class EntitiesManager {
 	private List<Entity> entities = new ArrayList<Entity>();
 	private List<Entity> removeList = Collections.synchronizedList(new ArrayList<Entity>());
 	
-	private CollisionThread[] threads = new CollisionThread[Runtime.getRuntime().availableProcessors()];
+	private Thread[] threads = new Thread[Runtime.getRuntime().availableProcessors()];
 	
 	private int lastCollisionComputingNumber = 0;
 	
@@ -59,15 +59,77 @@ public class EntitiesManager {
 	
 	public void doCollisions() {
 		
-		//List<Entity[]> collisionsWork = new ArrayList<Entity[]>();
-		
+		int nbColision = 0;
 		
 		// brute force collisions, compare every entity against
 		// every other entity. If any of them collide notify 
 		// both entities that the collision has occured
 		
+		int nbTh = threads.length;
+		
+		for (int cTh=0; cTh<nbTh; cTh++)
+		{
+			threads[cTh] = new Thread(new Runnable() {
+				
+				int cTh;
+				
+				public Runnable init(int cTh) {
+					this.cTh = cTh;
+					return this;
+				}
+				
+				@Override
+				public void run() {
+					
+					
+					int i=0;
+					
+					for (int p=0;p<entities.size();p++) {
+						for (int s=p+1;s<entities.size();s++) {
+							if (i%nbTh!=cTh) continue;
+							Entity me = entities.get(p);
+							Entity him = entities.get(s);
+							if (me instanceof EntityShotFromAlly && him instanceof EntityShotFromAlly) continue;
+							if (me instanceof EntityShotFromEnnemy && him instanceof EntityShotFromEnnemy) continue;
+							if (me instanceof EntityEnnemy && him instanceof EntityEnnemy) continue;
+							
+							
+							// monothread
+							if (removeList.contains(me) || removeList.contains(him)) continue;
+							
+							if (me.collidesWith(him)) {
+								me.collidedWith(him);
+								him.collidedWith(me);
+							}
+							// // monothread 
+						}
+					}
+					
+					
+					
+				}
+			}.init(cTh));
+			threads[cTh].setName("Collision Thread #"+cTh);
+			threads[cTh].start();
+		}
+
+		for (int cTh=0; cTh<nbTh; cTh++)
+		{
+			try {
+				threads[cTh].join();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		
+		
+		
+		
 		// listage des paires d'entités à comparer
 		// -> calcul multi-threadé
+		/*
 		int nbColision = 0;
 		for (int p=0;p<entities.size();p++) {
 			for (int s=p+1;s<entities.size();s++) {
@@ -91,11 +153,11 @@ public class EntitiesManager {
 					me.collidedWith(him);
 					him.collidedWith(me);
 				}
-				// // monothread */
+				// // monothread 
 				
 				nbColision++;
 			}
-		}
+		} // */
 		
 		lastCollisionComputingNumber = nbColision;
 		
