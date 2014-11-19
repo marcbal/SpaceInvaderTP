@@ -16,12 +16,12 @@ import fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromEnnemy;
  */
 public class EntitiesManager {
 
-	private List<Entity> entities = Collections.synchronizedList(new ArrayList<Entity>());
+	private List<Entity> entities = new ArrayList<Entity>();
 	private List<Entity> removeList = Collections.synchronizedList(new ArrayList<Entity>());
 	
 	private Thread[] threads = new Thread[Runtime.getRuntime().availableProcessors()];
 	
-	//private int lastCollisionComputingNumber = 0;
+	private int lastCollisionComputingNumber = 0;
 	
 	//Méthode déssinant les entités
 	public void draw(Graphics2D g) {
@@ -59,8 +59,6 @@ public class EntitiesManager {
 	
 	public void doCollisions() {
 		
-		//int nbColision = 0;
-		
 		// brute force collisions, compare every entity against
 		// every other entity. If any of them collide notify 
 		// both entities that the collision has occured
@@ -83,6 +81,7 @@ public class EntitiesManager {
 					
 					
 					int i=0;
+					int c=0;
 					
 					for (int p=0;p<entities.size();p++) {
 						for (int s=p+1;s<entities.size();s++) {
@@ -98,7 +97,7 @@ public class EntitiesManager {
 								if (me instanceof EntityShotFromAlly && him instanceof EntityShotFromAlly) continue;
 								if (me instanceof EntityShotFromEnnemy && him instanceof EntityShotFromEnnemy) continue;
 								if (me instanceof EntityEnnemy && him instanceof EntityEnnemy) continue;
-								
+								c++;
 								if (removeList.contains(me) || removeList.contains(him)) continue;
 								
 								if (me.collidesWith(him)) {
@@ -117,7 +116,9 @@ public class EntitiesManager {
 						}
 					}
 					
-					
+					if (cTh==0)
+						lastCollisionComputingNumber = c;
+						
 					
 				}
 			}.init(cTh));
@@ -130,7 +131,6 @@ public class EntitiesManager {
 			try {
 				threads[cTh].join();
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -230,7 +230,7 @@ public class EntitiesManager {
 	
 	List<Entity> getRemovedList() { return removeList; }
 
-	//public int getLastCollisionComputingNumber() { return lastCollisionComputingNumber; }
+	public int getLastCollisionComputingNumber() { return lastCollisionComputingNumber; }
 	
 	
 	
