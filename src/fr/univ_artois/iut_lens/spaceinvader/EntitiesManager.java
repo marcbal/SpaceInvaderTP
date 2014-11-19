@@ -16,7 +16,7 @@ import fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromEnnemy;
  */
 public class EntitiesManager {
 
-	private List<Entity> entities = new ArrayList<Entity>();
+	private List<Entity> entities = Collections.synchronizedList(new ArrayList<Entity>());
 	private List<Entity> removeList = Collections.synchronizedList(new ArrayList<Entity>());
 	
 	private Thread[] threads = new Thread[Runtime.getRuntime().availableProcessors()];
@@ -86,23 +86,35 @@ public class EntitiesManager {
 					
 					for (int p=0;p<entities.size();p++) {
 						for (int s=p+1;s<entities.size();s++) {
-							if (i%nbTh!=cTh) continue;
-							Entity me = entities.get(p);
-							Entity him = entities.get(s);
-							if (me instanceof EntityShotFromAlly && him instanceof EntityShotFromAlly) continue;
-							if (me instanceof EntityShotFromEnnemy && him instanceof EntityShotFromEnnemy) continue;
-							if (me instanceof EntityEnnemy && him instanceof EntityEnnemy) continue;
-							
-							
-							// monothread
-							if (removeList.contains(me) || removeList.contains(him)) continue;
-							
-							if (me.collidesWith(him)) {
-								me.collidedWith(him);
-								him.collidedWith(me);
+							if (i%nbTh!=cTh){
+								i++;
+								continue;
 							}
-							// // monothread 
 							i++;
+							try
+							{
+								Entity me = entities.get(p);
+								Entity him = entities.get(s);
+								if (me instanceof EntityShotFromAlly && him instanceof EntityShotFromAlly) continue;
+								if (me instanceof EntityShotFromEnnemy && him instanceof EntityShotFromEnnemy) continue;
+								if (me instanceof EntityEnnemy && him instanceof EntityEnnemy) continue;
+								
+								if (removeList.contains(me) || removeList.contains(him)) continue;
+								
+								if (me.collidesWith(him)) {
+									me.collidedWith(him);
+									him.collidedWith(me);
+								}
+							}
+							catch (Exception e)
+							{
+								System.err.println("Thread #"+cTh
+										+", Collision #"+i
+										+", entities.size()="+entities.size()
+										+", compare "+p+" and "+s+" indexes :");
+								e.printStackTrace();
+							}
+							
 						}
 					}
 					
