@@ -59,7 +59,7 @@ public class EntitiesManager {
 	
 	public void doCollisions() {
 		
-		List<Entity[]> collisionsWork = new ArrayList<Entity[]>();
+		//List<Entity[]> collisionsWork = new ArrayList<Entity[]>();
 		
 		
 		// brute force collisions, compare every entity against
@@ -68,32 +68,39 @@ public class EntitiesManager {
 		
 		// listage des paires d'entités à comparer
 		// -> calcul multi-threadé
+		int nbColision = 0;
 		for (int p=0;p<entities.size();p++) {
 			for (int s=p+1;s<entities.size();s++) {
-				Entity[] ents = new Entity[2];
+				//Entity[] ents = new Entity[2];
 				Entity me = entities.get(p);
 				Entity him = entities.get(s);
 				if (me instanceof EntityShotFromAlly && him instanceof EntityShotFromAlly) continue;
 				if (me instanceof EntityShotFromEnnemy && him instanceof EntityShotFromEnnemy) continue;
 				if (me instanceof EntityEnnemy && him instanceof EntityEnnemy) continue;
-				ents[0] = me;
-				ents[1] = him;
-				collisionsWork.add(ents);
+				//ents[0] = me;
+				//ents[1] = him;
 				
-				/*
+				// multiThread
+				// collisionsWork.add(ents);
+				
+				
+				// monothread
 				if (removeList.contains(me) || removeList.contains(him)) continue;
 				
 				if (me.collidesWith(him)) {
 					me.collidedWith(him);
 					him.collidedWith(me);
 				}
-				*/
+				// // monothread */
+				
+				nbColision++;
 			}
 		}
 		
-		lastCollisionComputingNumber = collisionsWork.size();
+		lastCollisionComputingNumber = nbColision;
 		
-		// calcul des collisions
+		// calcul des collisions en multithread
+		/*
 		int[][] threadDistrib = CollisionThread.getThreadDistribution(collisionsWork.size());
 		for (int i=0; threadDistrib != null && i<threadDistrib.length; i++)
 		{
@@ -109,7 +116,8 @@ public class EntitiesManager {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-		}
+		}*/
+		
 		
 		
 		// remove any entity that has been marked for clear up
