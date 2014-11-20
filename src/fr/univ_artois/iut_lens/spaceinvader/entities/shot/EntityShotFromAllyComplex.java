@@ -38,7 +38,7 @@ public class EntityShotFromAllyComplex extends EntityShotFromAlly {
 			if (other.receiveDegat(this)) {
 				// notify the game that the alien has been killed
 				Game.gameInstance.notifyAlienKilled();
-				degat = 0;
+				degat++;
 			}
 		}
 
