@@ -390,7 +390,7 @@ public class Game extends Canvas {
 			if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 				rightPressed = true;
 			}
-			if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+			if (e.getKeyCode() == KeyEvent.VK_SPACE && !pause) {
 				firePressed = true;
 			}
 		} 

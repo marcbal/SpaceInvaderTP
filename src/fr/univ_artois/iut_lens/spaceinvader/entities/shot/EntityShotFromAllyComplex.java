@@ -11,7 +11,7 @@ public class EntityShotFromAllyComplex extends EntityShotFromAlly {
 	double i = 0;
 	double tourParSeconde = 4;
 	public EntityShotFromAllyComplex(Vector2d p, EntitiesManager eM) {
-		super("sprites/ComplexShot.png", p, 20, 50, new Vector2d(0, -100), eM);
+		super("sprites/ComplexShot.png", p, 50, 50, new Vector2d(0, -50), eM);
 	}
 	
 	public void move(long delta) {
@@ -36,7 +36,7 @@ public class EntityShotFromAllyComplex extends EntityShotFromAlly {
 			if (other.receiveDegat(this)) {
 				// notify the game that the alien has been killed
 				Game.gameInstance.notifyAlienKilled();
-				degat = 0;
+				degat++;
 			}
 		}
 
