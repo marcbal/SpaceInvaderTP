@@ -332,7 +332,7 @@ public class Game extends Canvas {
 	/**
 	 * Notification that an alien has been killed
 	 */
-	public void notifyAlienKilled() {
+	public synchronized void notifyAlienKilled() {
 		
 		//If the last alien as been killed
 		if (!levelManager.getCurrentLevel().hasOneDestroyed()) {

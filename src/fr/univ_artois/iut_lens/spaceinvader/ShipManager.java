@@ -8,8 +8,8 @@ import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
 /**
  * 
- * Classe � part car le ship a ses propres contr�les
- * Elle n'h�rites pas d'autre classe
+ * Classe à part car le ship a ses propres contrôles
+ * Elle n'hérites pas d'autre classe
  *
  */
 public class ShipManager {

@@ -10,27 +10,22 @@ public class BonusManager {
 	private EntitiesManager entitiesManager;
 	private ShipManager shipManager;
 	
+	private Sprite sprUp = SpriteStore.get().getSprite("sprites/powerUp.png"),
+			sprDown = SpriteStore.get().getSprite("sprites/powerDown.png");
+	
 	public BonusManager(EntitiesManager eM, ShipManager sM) {
 		entitiesManager = eM;
 		shipManager = sM;
 	}
 	
 	public void performBonus() {
-		Random r1 = new Random(); //Pour les powers up
-		Random r2 = new Random(); //Pour les powers Down
+		Random r = new Random();
 		
-		//Position
-		Random x = new Random();
-		Random y = new Random();
-		
-		//Vitesse
-		Random sY = new Random();
-		
-		if(r1.nextInt(1750)<=5) {
-			entitiesManager.getEntitiesList().add(new EntityBonusPowerUp(new Vector2d(x.nextInt(800),y.nextInt(300)), new Vector2d(0, sY.nextInt(500)+10), entitiesManager, shipManager));
+		if(r.nextInt(1750)<=5) {
+			entitiesManager.getEntitiesList().add(new EntityBonusPowerUp(new Vector2d(r.nextInt(800-sprUp.getWidth()),r.nextInt(300)), new Vector2d(0, r.nextInt(500)+10), entitiesManager, shipManager));
 		}
-		if(r2.nextInt(1750)<=5) {
-			entitiesManager.getEntitiesList().add(new EntityBonusPowerDown(new Vector2d(x.nextInt(800),y.nextInt(300)), new Vector2d(0, sY.nextInt(500)+10), entitiesManager, shipManager));
+		if(r.nextInt(1750)<=5) {
+			entitiesManager.getEntitiesList().add(new EntityBonusPowerDown(new Vector2d(r.nextInt(800-sprDown.getWidth()),r.nextInt(300)), new Vector2d(0, r.nextInt(500)+10), entitiesManager, shipManager));
 		}
 	}
 }

@@ -27,7 +27,7 @@ public class EntityShotFromAllySearch extends EntityShotFromAlly {
 		if (target != null)
 		{
 			Vector2d targetPos = new Vector2d(target.getBoundingBox().getCenterX(),target.getBoundingBox().getCenterY());
-			Vector2d actualPos = position.dup();
+			Vector2d actualPos = position.dup().add(new Vector2d(getBoundingBox().getWidth()/2D, getBoundingBox().getHeight()/2D));
 			Vector2d vectDist = actualPos.invert().add(targetPos);
 			
 			

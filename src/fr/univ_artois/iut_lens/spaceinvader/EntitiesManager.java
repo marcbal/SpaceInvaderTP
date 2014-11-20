@@ -2,7 +2,6 @@ package fr.univ_artois.iut_lens.spaceinvader;
 
 import java.awt.Graphics2D;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
@@ -17,7 +16,7 @@ import fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromEnnemy;
 public class EntitiesManager {
 
 	private List<Entity> entities = new ArrayList<Entity>();
-	private List<Entity> removeList = Collections.synchronizedList(new ArrayList<Entity>());
+	private List<Entity> removeList = new ArrayList<Entity>();
 	
 	private Thread[] threads = new Thread[Runtime.getRuntime().availableProcessors()];
 	
@@ -221,7 +220,7 @@ public class EntitiesManager {
 	 * 
 	 * @param entity The entity that should be removed
 	 */
-	public void removeEntity(Entity entity) {
+	public synchronized void removeEntity(Entity entity) {
 		removeList.add(entity);
 	}
 	
