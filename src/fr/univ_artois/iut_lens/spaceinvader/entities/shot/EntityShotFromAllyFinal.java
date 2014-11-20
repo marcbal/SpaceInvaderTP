@@ -9,8 +9,9 @@ import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.EntityEnnemy;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
 public class EntityShotFromAllyFinal extends EntityShotFromAlly {
-	int time = 0;
+	long time = 0;
 	private static int nbRange;
+	private static int maxRange = (int)Math.pow(2, 10);
 	public EntityShotFromAllyFinal(Vector2d p, Vector2d s,
 			EntitiesManager eM) {
 		super("sprites/UnderComplexShot.png", p, 10, 2, s, eM);
@@ -19,16 +20,14 @@ public class EntityShotFromAllyFinal extends EntityShotFromAlly {
 	public void move(long delta) {
 		super.move(delta);
 		time++;
-		if(time%20==0 && nbRange<Math.pow(2, 10))  {
+		if(time%20==0 && nbRange<maxRange)  {
 			time = 0;
 			nbRange++;
-			entitiesManager.getEntitiesList().add(new EntityShotFromAllyFinal(new Vector2d(position.x-10, position.y+getBoundingBox().height/4.0), new Vector2d(-500,new Random().nextInt(1000)-500), entitiesManager));
-			entitiesManager.getEntitiesList().add(new EntityShotFromAllyFinal(new Vector2d(position.x+10, position.y+getBoundingBox().height/4.0), new Vector2d(500,new Random().nextInt(1000)-500), entitiesManager));
-			entitiesManager.getEntitiesList().add(new EntityShotFromAllyFinal(new Vector2d(position.x+getBoundingBox().width/4.0, position.y-10), new Vector2d(new Random().nextInt(1000)-500,-500), entitiesManager));
-			entitiesManager.getEntitiesList().add(new EntityShotFromAllyFinal(new Vector2d(position.x+getBoundingBox().width/4.0, position.y+10), new Vector2d(new Random().nextInt(1000)-500,500), entitiesManager));
+			entitiesManager.getEntitiesList().add(new EntityShotFromAllyFinal(new Vector2d(position.x, position.y), new Vector2d(-500,new Random().nextInt(1000)-500), entitiesManager));
+			entitiesManager.getEntitiesList().add(new EntityShotFromAllyFinal(new Vector2d(position.x, position.y), new Vector2d(500,new Random().nextInt(1000)-500), entitiesManager));
+			entitiesManager.getEntitiesList().add(new EntityShotFromAllyFinal(new Vector2d(position.x, position.y), new Vector2d(new Random().nextInt(1000)-500,-500), entitiesManager));
+			entitiesManager.getEntitiesList().add(new EntityShotFromAllyFinal(new Vector2d(position.x, position.y), new Vector2d(new Random().nextInt(1000)-500,500), entitiesManager));
 		}
-		
-		if(time==1000) time = 0;
 		
 		// colision sur la bordure de l'écran
 		if (position.x<0) {

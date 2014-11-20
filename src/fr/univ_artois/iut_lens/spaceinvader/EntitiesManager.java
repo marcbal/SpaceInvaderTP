@@ -107,11 +107,11 @@ public class EntitiesManager {
 							}
 							catch (Exception e)
 							{
-								System.err.println("Thread #"+cTh
+								/*System.err.println("Thread #"+cTh
 										+", Collision #"+i
 										+", entities.size()="+entities.size()
 										+", compare "+p+" and "+s+" indexes :");
-								e.printStackTrace();
+								e.printStackTrace();*/
 							}
 						}
 					}
