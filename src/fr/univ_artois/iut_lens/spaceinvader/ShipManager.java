@@ -49,7 +49,6 @@ public class ShipManager {
 		ships.add(new EntityShipConqueror(entitiesManager, 75, 1));
 		ships.add(new EntityShipConqueror(entitiesManager, 150, 2));
 		ships.add(new EntityShipConqueror(entitiesManager, 100, 2));
-		ships.add(new EntityShipConqueror(entitiesManager, 50, 2));
 		ships.add(new EntityShipSecretShip(entitiesManager, 2500));
 		ships.add(new EntityShipSecretShip(entitiesManager, 2300));
 		ships.add(new EntityShipSecretShip(entitiesManager, 2100));
@@ -59,6 +58,7 @@ public class ShipManager {
 		ships.add(new EntityShipSecretShip(entitiesManager, 1400));
 		ships.add(new EntityShipSecretShip(entitiesManager, 1300));
 		ships.add(new EntityShipSecretShip(entitiesManager, 1200));
+		ships.add(new EntityShipConqueror(entitiesManager, 2, 8));
 		ships.add(new EntityShipSecretShip(entitiesManager, 1000));
 		ships.add(new EntityShipSecretShip(entitiesManager, 975));
 		ships.add(new EntityShipSecretShip(entitiesManager, 950));
