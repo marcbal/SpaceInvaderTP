@@ -208,7 +208,7 @@ public class Game extends Canvas {
 		}
 		
 		// if we're pressing fire, attempt to fire
-		if (firePressed) {
+		if (firePressed && !pause) {
 			shipManager.tryToShoot(getCurrentNanoTime()/1000000/* convert to milliseconds */);
 		}
 	}
@@ -390,7 +390,7 @@ public class Game extends Canvas {
 			if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 				rightPressed = true;
 			}
-			if (e.getKeyCode() == KeyEvent.VK_SPACE && !pause) {
+			if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 				firePressed = true;
 			}
 		} 

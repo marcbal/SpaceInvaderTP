@@ -11,7 +11,7 @@ import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 public class EntityShotFromAllyFinal extends EntityShotFromAlly {
 	long time = 0;
 	private static int nbRange;
-	private static int maxRange = (int)Math.pow(2, 10);
+	private static int maxRange = (int)Math.pow(2, 8);
 	public EntityShotFromAllyFinal(Vector2d p, Vector2d s,
 			EntitiesManager eM) {
 		super("sprites/UnderComplexShot.png", p, 10, 2, s, eM);
