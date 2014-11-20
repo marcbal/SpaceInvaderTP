@@ -29,8 +29,26 @@ public class EntityShotFromAllyFinal extends EntityShotFromAlly {
 		}
 		
 		if(time==1000) time = 0;
-		if(getPosition().x<10 || getPosition().x>790) speed = new Vector2d(speed.x*-1, speed.y);
-		if(getPosition().y<10 || getPosition().y>590) speed = new Vector2d(speed.x, speed.y*-1);
+		
+		// colision sur la bordure de l'écran
+		if (position.x<0) {
+			position.invertX(); // équivaut à position.x=-position.x;
+			speed.invertX();
+		}
+		if (position.x+sprite.getWidth()>800) {
+			position.x -= (position.x+sprite.getWidth()-800);
+			speed.invertX();
+		}
+		if (position.y<0) {
+			position.invertY();
+			speed.invertY();
+		}
+		if (position.y+sprite.getHeight()>600) {
+			position.y -= (position.y+sprite.getHeight()-600);
+			speed.invertY();
+		}
+			
+			
 	}
 	
 	@Override
