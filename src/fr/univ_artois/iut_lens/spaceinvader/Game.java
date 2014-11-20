@@ -447,6 +447,7 @@ public class Game extends Canvas {
 			if (e.getKeyChar() == 27) {
 				pause = !pause;
 			}
+		}
 	}	
 	
 	/**
