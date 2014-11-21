@@ -62,4 +62,13 @@ public abstract class EntityShotFromAlly  extends EntityShot{
 			}
 		}
 	}
+	public void move(long delta) {
+		// proceed with normal move
+		super.move(delta);
+		
+		// if we shot off the screen, remove ourselfs
+		if (position.y < -100 || position.y > 700 || position.x < -100 || position.x > 900) {
+			entitiesManager.removeEntity(this);
+		}
+	}
 }

@@ -40,4 +40,14 @@ public class EntityShotFromEnnemy extends EntityShot {
 			used = true;
 		}
 	}
+	
+	public void move(long delta) {
+		// proceed with normal move
+		super.move(delta);
+		
+		// if we shot off the screen, remove ourselfs
+		if (position.y < -sprite.getHeight() || position.y > 600 || position.x < -sprite.getWidth() || position.x > 800) {
+			entitiesManager.removeEntity(this);
+		}
+	}
 }

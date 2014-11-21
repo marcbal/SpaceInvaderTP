@@ -95,15 +95,15 @@ public class ShipManager {
 		getCurrentShip().tryToShoot(currentTime);
 	}
 	
-	//Faire �voluer le vaisseau
+	//Faire évoluer le vaisseau
 	public void increaseShipType() {
-		//On v�rifie qu'il ne soit pas d�j� �gal au max
+		//On vérifie qu'il ne soit pas déjà égal au max
 		if(newShip<ships.size()-1) newShip++;
 	}
 	
-	//Faire r�gr�sser le vaisseau
+	//Faire régrésser le vaisseau
 	public void decreaseShipType() {
-		//On verifie qu'il ne soit pas d�j� �gale  � 0
+		//On verifie qu'il ne soit pas déjà égale  à 0
 		if(newShip>0) newShip--;
 	}
 	
