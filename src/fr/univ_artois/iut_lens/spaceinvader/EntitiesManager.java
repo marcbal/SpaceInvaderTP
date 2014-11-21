@@ -18,6 +18,8 @@ public class EntitiesManager {
 	private List<Entity> entities = new ArrayList<Entity>();
 	private List<Entity> removeList = new ArrayList<Entity>();
 	
+	private Entity[] entitiesMT; // utilisé pour les calculs en multiThread (plus optimisé)
+	
 	private Thread[] threads = new Thread[Runtime.getRuntime().availableProcessors()];
 	
 	private int lastCollisionComputingNumber = 0;
@@ -64,6 +66,8 @@ public class EntitiesManager {
 		
 		int nbTh = threads.length;
 		
+		entitiesMT = entities.toArray(new Entity[entities.size()]);
+		
 		for (int cTh=0; cTh<nbTh; cTh++)
 		{
 			threads[cTh] = new Thread(new Runnable() {
@@ -82,8 +86,8 @@ public class EntitiesManager {
 					int i=0;
 					int c=0;
 					
-					for (int p=0;p<entities.size();p++) {
-						for (int s=p+1;s<entities.size();s++) {
+					for (int p=0;p<entitiesMT.length;p++) {
+						for (int s=p+1;s<entitiesMT.length;s++) {
 							if (i%nbTh!=cTh){
 								i++;
 								continue;
@@ -91,8 +95,8 @@ public class EntitiesManager {
 							i++;
 							try
 							{
-								Entity me = entities.get(p);
-								Entity him = entities.get(s);
+								Entity me = entitiesMT[p];
+								Entity him = entitiesMT[s];
 								if (me instanceof EntityShotFromAlly && him instanceof EntityShotFromAlly) continue;
 								if (me instanceof EntityShotFromEnnemy && him instanceof EntityShotFromEnnemy) continue;
 								if (me instanceof EntityEnnemy && him instanceof EntityEnnemy) continue;

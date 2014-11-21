@@ -39,7 +39,7 @@ public abstract class EntityBonus extends Entity {
 		super.move(delta);
 		
 		// if we shot off the screen, remove ourselfs
-		if (position.y > 800) {
+		if (position.y > 600) {
 			entitiesManager.removeEntity(this);
 		}
 	}
@@ -51,6 +51,6 @@ public abstract class EntityBonus extends Entity {
 	 * @parma other The other entity with which we've collided
 	 */
 	public void collidedWith(Entity other) {
-		//Gérée par les sous-classes
+		//GÃ©rÃ©e par les sous-classes
 	}
 }

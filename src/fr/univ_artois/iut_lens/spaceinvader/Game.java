@@ -32,18 +32,20 @@ import fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromAllyFina
  */
 public class Game extends Canvas {
 	private static final long serialVersionUID = 1L; // corrige un warning
-	
+
+	private int window_width = 800;
+	private int window_height = 600;
 	
 	static boolean multiThread = true;
 	
 	public static Game gameInstance;
 	
-	public int maxLife;
-	
 	private static long currentNanoTime = 10000000000L;
 
 	/** The stragey that allows us to use accelerate page flipping */
 	private BufferStrategy bufferStrategy;
+	
+	private OnScreenDisplay onScreenDisplay;
 	
 	/** True if the game is currently "running", i.e. the game loop is looping */
 	private boolean gameRunning = true;
@@ -61,9 +63,6 @@ public class Game extends Canvas {
 	
 	/** gestion des bonus */
 	private BonusManager bonusManager = new BonusManager(entitiesManager, shipManager);
-	
-	/** The message to display which waiting for a key press */
-	private String message = "";
 	
 	private KeyInputHandler keyHandler = new KeyInputHandler();
 	private boolean waitingForKeyPress = true;
@@ -83,6 +82,7 @@ public class Game extends Canvas {
 		JPanel panel = (JPanel) container.getContentPane();
 		panel.setPreferredSize(new Dimension(800,600));
 		panel.setLayout(null);
+		
 		
 		// setup our canvas size and put it into the content of the frame
 		setBounds(0,0,800,600);
@@ -118,7 +118,7 @@ public class Game extends Canvas {
 		bufferStrategy = getBufferStrategy();
 		
 		
-		
+		onScreenDisplay = new OnScreenDisplay();
 		
 		
 		
@@ -206,7 +206,7 @@ public class Game extends Canvas {
 		}
 		
 		// if we're pressing fire, attempt to fire
-		if (keyHandler.isKeyPressed("shipFire") && !keyHandler.isKeyToggle("pause")) {
+		if (keyHandler.isKeyPressed("shipFire") && !keyHandler.isKeyToggle("pause")  && !waitingForKeyPress) {
 			shipManager.tryToShoot(getCurrentNanoTime()/1000000/* convert to milliseconds */);
 		}
 	}
@@ -254,21 +254,13 @@ public class Game extends Canvas {
 		// if we're waiting for an "any key" press then draw the 
 		// current message 
 		if (waitingForKeyPress) {
-			g.setColor(Color.white);
-			g.drawString(message,(800-g.getFontMetrics().stringWidth(message))/2,250);
-			g.drawString("Appuyez sur une touche",(800-g.getFontMetrics().stringWidth("Appuyez sur une touche"))/2,300);
+			onScreenDisplay.drawMiddleWaiting(g);
 		}
 		
+		// affiche le message comme quoi on est en pause
+		onScreenDisplay.drawMiddlePause(g);
 		
-		g.setColor(Color.GREEN);
-		g.fillRect(0, 0, (int)Math.ceil((entitiesManager.getTotalRemainingEnnemyLife()/(float)maxLife)*800), 3);
-		g.setColor(Color.WHITE);
-		g.drawString("Marc Baloup et Maxime Maroine, Groupe 2-C, IUT Lens, DUT Informatique", 5, 15);
-		g.drawString("[Commande] gauche/droite : bouger ; Espace : tirer ; Echap : pause", 5, 30);
-		g.drawString("Threads collisions : "+Runtime.getRuntime().availableProcessors()+" - Collisions : "+entitiesManager.getLastCollisionComputingNumber(), 5, 45);
-		g.drawString("Nombre d'entité : "+entitiesManager.getEntitiesList().size(), 5, 60);
-		int[] gInfos = shipManager.getShipProgress(), gInfos2 = levelManager.getLevelProgress();
-		g.drawString("Vaisseau : "+gInfos[0]+"/"+gInfos[1]+" - Niveau : "+gInfos2[0]+"/"+gInfos2[1], 5, 75);
+		onScreenDisplay.drawTopLeft(g);
 		
 		// finally, we've completed drawing so clear up the graphics
 		// and flip the buffer over
@@ -296,14 +288,14 @@ public class Game extends Canvas {
 		
 		entitiesManager.getEntitiesList().addAll(levelManager.getCurrentLevel().generateLevel());
 		
-		maxLife = entitiesManager.getTotalRemainingEnnemyLife();
+		onScreenDisplay.setLevelMaxLife(entitiesManager.getTotalRemainingEnnemyLife());
 	}
 	
 	/**
 	 * Notification that the player has died. 
 	 */
 	public void notifyDeath() {
-		message = "Oh non ! Ils vous ont battu ! :( Réessayez ?";
+		onScreenDisplay.setMiddleMessage("Oh non ! Ils vous ont battu ! :( Réessayez ?");
 		levelManager.goToFirstLevel();
 		shipManager.decreaseShipType();
 		entitiesManager.getEntitiesList().clear(); //nettoie l'écran du vaisseau
@@ -316,7 +308,7 @@ public class Game extends Canvas {
 	 */
 	public void notifyWin() {
 		entitiesManager.getEntitiesList().clear(); //nettoie l'écran du vaisseau
-		message = "Bien joué ! Vous avez gagné :)";
+		onScreenDisplay.setMiddleMessage("Bien joué ! Vous avez gagné :)");
 		levelManager.goToNextLevel();
 		//shipManager.increaseShipType(); //Evolution du vaisseau
 		waitingForKeyPress = true;
@@ -340,10 +332,15 @@ public class Game extends Canvas {
 	}
 	
 	
-	
+
+	public int getWindowWidth() { return window_width; }
+	public int getWindowHeight() { return window_height; }
 	public static long getCurrentNanoTime() { return currentNanoTime; }
-	
+
+	public EntitiesManager getEntitiesManager() { return entitiesManager; }
+	public LevelManager getLevelManager() { return levelManager; }
 	public ShipManager getShipManager() { return shipManager; }
+	public KeyInputHandler getKeyInputHandler() { return keyHandler; }
 	
 	
 	

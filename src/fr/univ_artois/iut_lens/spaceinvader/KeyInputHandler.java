@@ -37,9 +37,10 @@ public class KeyInputHandler extends KeyAdapter {
 		
 		
 		keyToggle.put("pause", new KeySetting(KeyEvent.VK_ESCAPE));
+		keyToggle.put("infos", new KeySetting(KeyEvent.VK_F3));
 		
 		
-		keyWaitPress.put("start", new KeySetting(KeyEvent.VK_SPACE));
+		keyWaitPress.put("start", new KeySetting(KeyEvent.VK_ENTER));
 	
 	}
 	

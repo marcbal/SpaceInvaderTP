@@ -28,19 +28,19 @@ public class StrategyMoveEnnemyBossPremier extends StrategyMoveEnnemy {
 	    		
 	    		// if we have reached the left hand side of the screen and
 	    		// are moving left then request a logic update 
-	    		if (leftRight == 'l' && (entity.getPosition().x < 10))
+	    		if (leftRight == 'l' && (entity.getPosition().x < 0))
 	    			leftRight = 'r';
 	    		// and vice vesa, if we have reached the right hand side of 
 	    		// the screen and are moving right, request a logic update
-	    		else if (leftRight == 'r' && (entity.getPosition().x > 600))
+	    		else if (leftRight == 'r' && (entity.getPosition().x > 800 - entity.getBoundingBox().width))
 	    			leftRight= 'l';
 	    		// sinon, on essaye de lui faire changer de direction, si on a de la chance
-	    		else if (r.nextInt(1000)<=1) // 1 chance sur 10
+	    		else if (r.nextInt(1000)<=1) // 1 chance sur 1000
 	    			leftRight = (leftRight == 'l')?'r':'l';
 	    		
-	    		if(upDown == 'd' && (entity.getPosition().y>300))
+	    		if(upDown == 'd' && (entity.getPosition().y > 600 - entity.getBoundingBox().height - 100))
 	    			upDown = 'u';
-	    		else if(upDown=='u' && (entity.getPosition().y<30))
+	    		else if(upDown=='u' && (entity.getPosition().y < 0))
 	    			upDown = 'd';
 	    		else if(r.nextInt(1000)<=1)
 	    			newUpDown = (upDown=='u')?'d':'u';
