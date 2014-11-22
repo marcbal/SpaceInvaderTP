@@ -22,10 +22,10 @@ public class BonusManager {
 		Random r = new Random();
 		
 		if(r.nextInt(1750)<=5) {
-			entitiesManager.getEntitiesList().add(new EntityBonusPowerUp(new Vector2d(r.nextInt(800-sprUp.getWidth()),r.nextInt(300)), new Vector2d(0, r.nextInt(500)+10), entitiesManager, shipManager));
+			entitiesManager.getEntitiesList().add(new EntityBonusPowerUp(new Vector2d(r.nextInt(Game.gameInstance.getWindowWidth()-sprUp.getWidth()),r.nextInt(Game.gameInstance.getWindowHeight()-300)), new Vector2d(0, r.nextInt(400)+20), entitiesManager, shipManager));
 		}
 		if(r.nextInt(1750)<=5) {
-			entitiesManager.getEntitiesList().add(new EntityBonusPowerDown(new Vector2d(r.nextInt(800-sprDown.getWidth()),r.nextInt(300)), new Vector2d(0, r.nextInt(500)+10), entitiesManager, shipManager));
+			entitiesManager.getEntitiesList().add(new EntityBonusPowerDown(new Vector2d(r.nextInt(Game.gameInstance.getWindowWidth()-sprDown.getWidth()),r.nextInt(Game.gameInstance.getWindowHeight()-300)), new Vector2d(0, r.nextInt(500)+10), entitiesManager, shipManager));
 		}
 	}
 }

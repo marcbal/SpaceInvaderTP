@@ -2,8 +2,11 @@ package fr.univ_artois.iut_lens.spaceinvader;
 
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
@@ -12,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import fr.univ_artois.iut_lens.spaceinvader.entities.*;
+import fr.univ_artois.iut_lens.spaceinvader.entities.ship.EntityShip;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ship.EntityShipFinal;
 import fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromAllyFinal;
 
@@ -32,9 +36,15 @@ import fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromAllyFina
  */
 public class Game extends Canvas {
 	private static final long serialVersionUID = 1L; // corrige un warning
+	
+	private int real_window_width = 960;
+	private int real_window_height = 540;
 
-	private int window_width = 800;
-	private int window_height = 600;
+	private int window_width = real_window_width;
+	private int window_height = real_window_height;
+	
+	private int window_border_width;
+	private int window_border_height;
 	
 	static boolean multiThread = true;
 	
@@ -44,6 +54,7 @@ public class Game extends Canvas {
 
 	/** The stragey that allows us to use accelerate page flipping */
 	private BufferStrategy bufferStrategy;
+	private JFrame container;
 	
 	private OnScreenDisplay onScreenDisplay;
 	
@@ -56,19 +67,19 @@ public class Game extends Canvas {
 	private EntitiesManager entitiesManager = new EntitiesManager();
 	
 	/** gestion des niveaux */
-	private LevelManager levelManager = new LevelManager(entitiesManager);
+	private LevelManager levelManager;
 	
 	/** gestion du vaisseau */
-	private ShipManager shipManager = new ShipManager(entitiesManager);
+	private ShipManager shipManager;
 	
 	/** gestion des bonus */
-	private BonusManager bonusManager = new BonusManager(entitiesManager, shipManager);
+	private BonusManager bonusManager;
 	
 	private KeyInputHandler keyHandler = new KeyInputHandler();
 	private boolean waitingForKeyPress = true;
 	
 	
-	private Sprite background = SpriteStore.get().getSprite("sprites/background.jpg");
+	private Sprite background;
 	
 	/**
 	 * Construct our game and set it running.
@@ -76,16 +87,16 @@ public class Game extends Canvas {
 	public Game() {
 		gameInstance = this;
 		// create a frame to contain our game
-		JFrame container = new JFrame("Mega Space Invader");
+		container = new JFrame("Mega Space Invader");
 		
 		// get hold the content of the frame and set up the resolution of the game
 		JPanel panel = (JPanel) container.getContentPane();
-		panel.setPreferredSize(new Dimension(800,600));
+		panel.setPreferredSize(new Dimension(window_width,window_height));
 		panel.setLayout(null);
 		
 		
 		// setup our canvas size and put it into the content of the frame
-		setBounds(0,0,800,600);
+		setBounds(0,0,window_width,window_height);
 		panel.add(this);
 		
 		// Tell AWT not to bother repainting our canvas since we're
@@ -94,8 +105,12 @@ public class Game extends Canvas {
 		
 		// finally make the window visible 
 		container.pack();
-		container.setResizable(false);
+		container.setResizable(true);
 		container.setVisible(true);
+		
+		window_border_width = container.getWidth() - window_width;
+		window_border_height = container.getHeight() - window_height;
+		
 		
 		// add a listener to respond to the user closing the window. If they
 		// do we'd like to exit the game
@@ -103,6 +118,28 @@ public class Game extends Canvas {
 			public void windowClosing(WindowEvent e) {
 				System.exit(0);
 			}
+		});
+		container.addComponentListener(new ComponentListener() {
+			
+			@Override
+			public void componentShown(ComponentEvent event) { }
+			
+			@Override
+			public void componentResized(ComponentEvent event) {
+				Component c = event.getComponent();
+				setBounds(0, 0, c.getWidth(), c.getHeight());
+				real_window_width = c.getWidth() - window_border_width;
+				real_window_height = c.getHeight() - window_border_height;
+			}
+			
+			@Override
+			public void componentHidden(ComponentEvent event) {
+				keyHandler.manualToggle("pause", true);
+				System.out.println("hidden");
+			}
+
+			@Override
+			public void componentMoved(ComponentEvent event) { }
 		});
 		
 		// add a key input system (defined below) to our canvas
@@ -119,7 +156,9 @@ public class Game extends Canvas {
 		
 		
 		onScreenDisplay = new OnScreenDisplay();
-		
+		levelManager = new LevelManager(entitiesManager);
+		shipManager = new ShipManager(entitiesManager);
+		bonusManager = new BonusManager(entitiesManager, shipManager);
 		
 		
 		// initialise the entities in our game so there's something
@@ -195,6 +234,10 @@ public class Game extends Canvas {
 		if (keyHandler.isKeyWaitPress("start") && waitingForKeyPress)
 		{
 			waitingForKeyPress = false;
+			
+			window_width = real_window_width;
+			window_height = real_window_height;
+			
 			startLevel();
 		}
 			
@@ -245,9 +288,22 @@ public class Game extends Canvas {
 		// Get hold of a graphics context for the accelerated 
 		// surface and blank it out
 		Graphics2D g = (Graphics2D) bufferStrategy.getDrawGraphics();
+		g.setBackground(Color.BLACK);
 		
-		background.draw(g, 0, 0);
+		
+		// dessin du background
+		if (real_window_width > 1920 || real_window_height > 1080)
+			background = SpriteStore.get().getSprite("sprites/background_4K.jpg");
+		else
+			background = SpriteStore.get().getSprite("sprites/background_1080p.jpg");
+		background.draw(g,
+				(int)(real_window_width/2D - background.getWidth()/2D),
+				(int)(real_window_height/2D - background.getHeight()/2D));
 
+		
+		
+		
+		
 		//Afficher les entités
         entitiesManager.draw(g);
 		
@@ -260,7 +316,7 @@ public class Game extends Canvas {
 		// affiche le message comme quoi on est en pause
 		onScreenDisplay.drawMiddlePause(g);
 		
-		onScreenDisplay.drawTopLeft(g);
+		onScreenDisplay.drawOther(g);
 		
 		// finally, we've completed drawing so clear up the graphics
 		// and flip the buffer over
@@ -281,7 +337,10 @@ public class Game extends Canvas {
 		EntityShipFinal.reset();
 		EntityShotFromAllyFinal.reset();
 		entitiesManager.getEntitiesList().clear();
-		// Placer le vaisseau pr�alablement cr�er dans le tableau des entit�s
+		// Placer le vaisseau préalablement créer dans le tableau des entités
+		EntityShip ship = shipManager.getCurrentShip();
+		ship.getPosition().x = window_width/2D - ship.getBoundingBox().width/2D;
+		ship.getPosition().y = window_height-50;
 		entitiesManager.getEntitiesList().add(shipManager.getCurrentShip());
 		
 		// create block of aliens, with the arguments
@@ -298,7 +357,7 @@ public class Game extends Canvas {
 		onScreenDisplay.setMiddleMessage("Oh non ! Ils vous ont battu ! :( Réessayez ?");
 		levelManager.goToFirstLevel();
 		shipManager.decreaseShipType();
-		entitiesManager.getEntitiesList().clear(); //nettoie l'écran du vaisseau
+		entitiesManager.getEntitiesList().clear(); //nettoie l'écran des entités
 		waitingForKeyPress = true;
 	}
 	

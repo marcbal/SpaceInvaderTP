@@ -29,8 +29,8 @@ public abstract class EntityShip extends Entity {
 	public EntityShip(String ref, double speed, EntitiesManager eM) {
 		super(ref,
 				new Vector2d(
-						800/2-SpriteStore.get().getSprite(ref).getWidth()/2,	// permet de centrer l'image
-						600-SpriteStore.get().getSprite(ref).getHeight()),
+						Game.gameInstance.getWindowWidth()/2-SpriteStore.get().getSprite(ref).getWidth()/2,	// permet de centrer l'image
+						Game.gameInstance.getWindowHeight()-SpriteStore.get().getSprite(ref).getHeight()),
 				eM);
 		
 		moveSpeed = speed;
@@ -50,7 +50,7 @@ public abstract class EntityShip extends Entity {
 		}
 		// if we're moving right and have reached the right hand side
 		// of the screen, don't move
-		if ((speed.x > 0) && (position.x > 800 - sprite.getWidth())) {
+		if ((speed.x > 0) && (position.x > Game.gameInstance.getWindowWidth() - sprite.getWidth())) {
 			return;
 		}
 		

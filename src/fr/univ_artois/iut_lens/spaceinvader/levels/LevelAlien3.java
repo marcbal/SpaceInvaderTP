@@ -18,7 +18,7 @@ public class LevelAlien3 extends Level {
 				2,
 				"sprites/alien_spaceship_by_animot-d5t4j611.png",
 				new Vector2d(50,50),
-				new Vector2d(75,50),
+				new Vector2d(200,50),
 				new StrategyMoveEnnemyBossPremier(),
 				new StrategyShotEnnemyAimFor(100));
 	}

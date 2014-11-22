@@ -77,7 +77,7 @@ public class EntityEnnemy extends Entity {
 			return;
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect((int)position.x,(int)position.y, sprite.getWidth(), 3);
-		g.setColor(Color.GREEN);
+		g.setColor(new Color((1-(life/(float)maxLife)), (life/(float)maxLife), 0F));
 		g.fillRect((int)position.x,(int)position.y, (int)((double)sprite.getWidth()*(life/(double)maxLife)), 3);
 	}
 	

@@ -119,14 +119,13 @@ public class ShipManager {
 		if(newShip != actualShip) {
 			Vector2d pos = ships.get(actualShip).getPosition();
 			entitiesManager.removeEntity(getCurrentShip());
-			ships.get(newShip).getPosition().x = pos.x;
+			ships.get(newShip).getPosition().x = pos.x+ships.get(actualShip).getBoundingBox().width/2D-ships.get(newShip).getBoundingBox().width/2D;
 			ships.get(newShip).getPosition().y = pos.y;
 			entitiesManager.getEntitiesList().add(ships.get(newShip));
 			ships.get(newShip).setPosition(pos);
 			actualShip = newShip;
 		}
 	}
-	
 
 	public int[] getShipProgress()
 	{

@@ -1,6 +1,7 @@
 package fr.univ_artois.iut_lens.spaceinvader.entities.bonuses;
 
 import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
+import fr.univ_artois.iut_lens.spaceinvader.Game;
 import fr.univ_artois.iut_lens.spaceinvader.ShipManager;
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
@@ -39,7 +40,7 @@ public abstract class EntityBonus extends Entity {
 		super.move(delta);
 		
 		// if we shot off the screen, remove ourselfs
-		if (position.y > 600) {
+		if (position.y > Game.gameInstance.getWindowHeight()) {
 			entitiesManager.removeEntity(this);
 		}
 	}

@@ -123,10 +123,4 @@ public abstract class Entity {
 	public Vector2d getPosition() { return position; }
 	public Vector2d getSpeed() { return speed; }
 	public int getLife() { return life; }
-	
-	
-	/**
-	 * Une entité a un nom, utile pour savoir si une collision viens d'un tire amis ou non
-	 * @return
-	 */
 }

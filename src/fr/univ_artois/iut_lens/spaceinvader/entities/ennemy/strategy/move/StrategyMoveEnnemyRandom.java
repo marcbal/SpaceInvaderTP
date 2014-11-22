@@ -33,7 +33,7 @@ public class StrategyMoveEnnemyRandom extends StrategyMoveEnnemy {
 	    			newDirection = 'r';
 	    		// and vice vesa, if we have reached the right hand side of 
 	    		// the screen and are moving right, request a logic update
-	    		else if (direction == 'r' && (entity.getPosition().x > 800 - 10 - entity.getBoundingBox().width))
+	    		else if (direction == 'r' && (entity.getPosition().x > Game.gameInstance.getWindowWidth() - 10 - entity.getBoundingBox().width))
 	    			newDirection = 'l';
 	    		// sinon, on essaye de lui faire changer de direction, si on a de la chance
 	    		else if (r.nextInt(50)==0) // 1 chance sur 50
@@ -53,7 +53,7 @@ public class StrategyMoveEnnemyRandom extends StrategyMoveEnnemy {
 		    		entity.getPosition().y += 10;
 	    		
 	    		// si un des aliens touche en bas
-	    		if (entity.getPosition().y > 600 - 10 - entity.getBoundingBox().height)
+	    		if (entity.getPosition().y > Game.gameInstance.getWindowHeight() - 10 - entity.getBoundingBox().height)
 	    			Game.gameInstance.notifyDeath();
 	    		
 	    	}

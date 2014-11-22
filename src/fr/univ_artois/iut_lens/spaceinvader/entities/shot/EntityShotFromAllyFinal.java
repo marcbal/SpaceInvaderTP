@@ -34,16 +34,16 @@ public class EntityShotFromAllyFinal extends EntityShotFromAlly {
 			position.invertX(); // équivaut à position.x=-position.x;
 			speed.invertX();
 		}
-		if (position.x+sprite.getWidth()>800) {
-			position.x -= (position.x+sprite.getWidth()-800);
+		if (position.x+sprite.getWidth()>Game.gameInstance.getWindowWidth()) {
+			position.x -= (position.x+sprite.getWidth()-Game.gameInstance.getWindowWidth());
 			speed.invertX();
 		}
 		if (position.y<0) {
 			position.invertY();
 			speed.invertY();
 		}
-		if (position.y+sprite.getHeight()>600) {
-			position.y -= (position.y+sprite.getHeight()-600);
+		if (position.y+sprite.getHeight()>Game.gameInstance.getWindowHeight()) {
+			position.y -= (position.y+sprite.getHeight()-Game.gameInstance.getWindowHeight());
 			speed.invertY();
 		}
 			

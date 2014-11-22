@@ -3,6 +3,7 @@ package fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.shot;
 import java.util.Random;
 
 import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
+import fr.univ_artois.iut_lens.spaceinvader.Game;
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.EntityEnnemy;
 import fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromEnnemyAdvanced;
@@ -29,7 +30,7 @@ public class StrategyShotEnnemyMegaBoss extends StrategyShotEnnemy {
 		if (frameCount%400==0)
 		{
 			double randSpeedLR = 100*r.nextDouble() - 50;
-			for (int i=20; i<800; i+=20)
+			for (int i=20; i<Game.gameInstance.getWindowWidth(); i+=20)
 			{
 				if (r.nextInt(4)<3)
 					entMan.getEntitiesList().add(new EntityShotFromEnnemyBasic(new Vector2d(i, -10), new Vector2d(randSpeedLR, speedVerticalShot), entMan));

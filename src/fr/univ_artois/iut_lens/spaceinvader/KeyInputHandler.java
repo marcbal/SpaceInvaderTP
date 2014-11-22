@@ -131,6 +131,16 @@ public class KeyInputHandler extends KeyAdapter {
 	}
 	
 	
+	public void manualToggle(String action, boolean v)
+	{
+		if (keyToggle.containsKey(action))
+			keyToggle.get(action).state=(v)?1:0;
+	}
+	public void manualToggle(String action) {
+		if (keyToggle.containsKey(action))
+			keyToggle.get(action).state=(keyToggle.get(action).state==1)?0:1;
+	}
+	
 	
 	
 	

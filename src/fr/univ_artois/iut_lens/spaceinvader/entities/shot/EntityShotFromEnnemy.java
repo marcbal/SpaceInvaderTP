@@ -1,6 +1,7 @@
 package fr.univ_artois.iut_lens.spaceinvader.entities.shot;
 
 import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
+import fr.univ_artois.iut_lens.spaceinvader.Game;
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ship.EntityShip;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
@@ -46,7 +47,7 @@ public class EntityShotFromEnnemy extends EntityShot {
 		super.move(delta);
 		
 		// if we shot off the screen, remove ourselfs
-		if (position.y < -sprite.getHeight() || position.y > 600 || position.x < -sprite.getWidth() || position.x > 800) {
+		if (position.y < -sprite.getHeight() || position.y > Game.gameInstance.getWindowHeight() || position.x < -sprite.getWidth() || position.x > Game.gameInstance.getWindowWidth()) {
 			entitiesManager.removeEntity(this);
 		}
 	}

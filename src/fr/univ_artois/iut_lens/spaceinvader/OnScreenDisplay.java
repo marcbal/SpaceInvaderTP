@@ -33,11 +33,11 @@ public class OnScreenDisplay {
 	
 	
 	
-	public void drawTopLeft(Graphics2D g) {
+	public void drawOther(Graphics2D g) {
 		Game game = Game.gameInstance;
 		
 		g.setColor(Color.GREEN);
-		g.fillRect(0, 0, (int)Math.ceil((game.getEntitiesManager().getTotalRemainingEnnemyLife()/(float)levelMaxLife.get())*800), 3);
+		g.fillRect(0, 0, (int)Math.ceil((game.getEntitiesManager().getTotalRemainingEnnemyLife()/(float)levelMaxLife.get())*game.getWindowWidth()), 3);
 		
 		int text_position_y = 0;
 		int text_interval_y = 15;
@@ -46,7 +46,7 @@ public class OnScreenDisplay {
 		String[] mCommand = {"Commandes :", "[Gauche/Droite] : bouger", "[Espace] : tirer", "[Echap] : pause", "[F3] : infos"};
 		for (String m : mCommand)
 		{
-			g.drawString(m, 800 - 5 - g.getFontMetrics().stringWidth(m), text_position_y+=text_interval_y);
+			g.drawString(m, game.getWindowWidth() - 5 - g.getFontMetrics().stringWidth(m), text_position_y+=text_interval_y);
 		}
 		
 		text_position_y = 0;
@@ -60,24 +60,26 @@ public class OnScreenDisplay {
 		}
 
 		int[] gInfos = game.getShipManager().getShipProgress(), gInfos2 = game.getLevelManager().getLevelProgress();
-		g.drawString("Vaisseau : "+gInfos[0]+"/"+gInfos[1]+" - Niveau : "+gInfos2[0]+"/"+gInfos2[1], 5, 600-5);
+		g.drawString("Vaisseau : "+gInfos[0]+"/"+gInfos[1]+" - Niveau : "+gInfos2[0]+"/"+gInfos2[1], 5, Game.gameInstance.getWindowHeight()-5);
 		
 	}
 	
 	public void drawMiddleWaiting(Graphics2D g)
 	{
+		Game game = Game.gameInstance;
 		String message = middleMessage.get();
 		g.setColor(Color.WHITE);
-		g.drawString(message,(800-g.getFontMetrics().stringWidth(message))/2,285);
-		g.drawString("Appuyez sur Entrée",(800-g.getFontMetrics().stringWidth("Appuyez sur Entrée"))/2,315);
+		g.drawString(message,(game.getWindowWidth()-g.getFontMetrics().stringWidth(message))/2,285);
+		g.drawString("Appuyez sur Entrée",(game.getWindowWidth()-g.getFontMetrics().stringWidth("Appuyez sur Entrée"))/2,315);
 	}
 	
 	
 	public void drawMiddlePause(Graphics2D g)
 	{
+		Game game = Game.gameInstance;
 		if (!keyHandler.isKeyToggle("pause")) return;
 		g.setColor(Color.WHITE);
-		g.drawString("--> PAUSE <--",(800-g.getFontMetrics().stringWidth("--> PAUSE <--"))/2,300);
+		g.drawString("--> PAUSE <--",(game.getWindowWidth()-g.getFontMetrics().stringWidth("--> PAUSE <--"))/2,300);
 	}
 	
 	

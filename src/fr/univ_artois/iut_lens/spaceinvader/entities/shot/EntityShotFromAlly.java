@@ -67,7 +67,7 @@ public abstract class EntityShotFromAlly  extends EntityShot{
 		super.move(delta);
 		
 		// if we shot off the screen, remove ourselfs
-		if (position.y < -100 || position.y > 700 || position.x < -100 || position.x > 900) {
+		if (position.y < -50 || position.y > Game.gameInstance.getWindowHeight() + 50 || position.x < -50 || position.x > Game.gameInstance.getWindowWidth() + 50) {
 			entitiesManager.removeEntity(this);
 		}
 	}
