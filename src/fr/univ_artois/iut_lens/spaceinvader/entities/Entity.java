@@ -77,7 +77,11 @@ public abstract class Entity {
 	 * @return True if the entities collide with each other
 	 */
 	public boolean collidesWith(Entity other) {
-		return getBoundingBox().intersects(other.getBoundingBox());
+		if (position.x + sprite.getWidth() < other.position.x
+				|| position.x > other.position.x + other.sprite.getWidth()
+				|| position.y + sprite.getHeight() < other.position.y
+				|| position.y > other.position.y + other.sprite.getHeight()) return false;
+		return true;
 	}
 	
 	public Rectangle getBoundingBox()
