@@ -36,6 +36,8 @@ public abstract class Entity {
 	
 	protected EntitiesManager entitiesManager;
 	
+	public boolean plannedToRemoved = false;
+	
 	/**
 	 * Construct a entity based on a sprite image and a location.
 	 * 

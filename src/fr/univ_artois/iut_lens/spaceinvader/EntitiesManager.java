@@ -3,12 +3,12 @@ package fr.univ_artois.iut_lens.spaceinvader;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.EntityEnnemy;
-import fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromAlly;
-import fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromEnnemy;
-
 /**
  * Cette classe sert juste à gérer les entitées
  *
@@ -20,9 +20,25 @@ public class EntitiesManager {
 	
 	private Entity[] entitiesMT; // utilisé pour les calculs en multiThread (plus optimisé)
 	
-	private Thread[] threads = new Thread[Runtime.getRuntime().availableProcessors()];
+	private int nbThread = Runtime.getRuntime().availableProcessors();
+	
+	private CollisionThread[] threadsRunnable = new CollisionThread[nbThread];
+	
+	private ExecutorService threadpool;
 	
 	private int lastCollisionComputingNumber = 0;
+	
+	
+	
+	public EntitiesManager() {
+
+		
+		for (int cTh=0; cTh<nbThread; cTh++)
+		{
+			threadsRunnable[cTh] = new CollisionThread(cTh, nbThread);
+		}
+		
+	}
 	
 	//Méthode déssinant les entités
 	public void draw(Graphics2D g) {
@@ -64,136 +80,26 @@ public class EntitiesManager {
 		// every other entity. If any of them collide notify 
 		// both entities that the collision has occured
 		
-		int nbTh = threads.length;
-		
 		entitiesMT = entities.toArray(new Entity[entities.size()]);
 		
-		for (int cTh=0; cTh<nbTh; cTh++)
-		{
-			threads[cTh] = new Thread(new Runnable() {
-				
-				int cTh;
-				
-				public Runnable init(int cTh) {
-					this.cTh = cTh;
-					return this;
-				}
-				
-				@Override
-				public void run() {
-					
-					
-					int i=0;
-					int c=0;
-					
-					for (int p=0;p<entitiesMT.length;p++) {
-						for (int s=p+1;s<entitiesMT.length;s++) {
-							if (i%nbTh!=cTh){
-								i++;
-								continue;
-							}
-							i++;
-							try
-							{
-								Entity me = entitiesMT[p];
-								Entity him = entitiesMT[s];
-								if (me instanceof EntityShotFromAlly && him instanceof EntityShotFromAlly) continue;
-								if (me instanceof EntityShotFromEnnemy && him instanceof EntityShotFromEnnemy) continue;
-								if (me instanceof EntityEnnemy && him instanceof EntityEnnemy) continue;
-								c++;
-								if (removeList.contains(me) || removeList.contains(him)) continue;
-								
-								if (me.collidesWith(him)) {
-									me.collidedWith(him);
-									him.collidedWith(me);
-								}
-							}
-							catch (Exception e)
-							{
-								/*System.err.println("Thread #"+cTh
-										+", Collision #"+i
-										+", entities.size()="+entities.size()
-										+", compare "+p+" and "+s+" indexes :");
-								e.printStackTrace();*/
-							}
-						}
-					}
-					
-					if (cTh==0)
-						lastCollisionComputingNumber = c;
-						
-					
-				}
-			}.init(cTh));
-			threads[cTh].setName("Collision Thread #"+cTh);
-			threads[cTh].start();
-		}
+		threadpool = Executors.newFixedThreadPool(nbThread);
 
-		for (int cTh=0; cTh<nbTh; cTh++)
+		for (int cTh=0; cTh<nbThread; cTh++)
 		{
-			try {
-				threads[cTh].join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+			threadsRunnable[cTh].collisionWork(entitiesMT);
+			threadpool.submit(threadsRunnable[cTh]);
+		}
+		
+		threadpool.shutdown();
+		
+		try {
+			threadpool.awaitTermination(1, TimeUnit.SECONDS);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 		
 		
 		
-		
-		
-		// listage des paires d'entités à comparer
-		// -> calcul multi-threadé
-		/*
-		int nbColision = 0;
-		for (int p=0;p<entities.size();p++) {
-			for (int s=p+1;s<entities.size();s++) {
-				//Entity[] ents = new Entity[2];
-				Entity me = entities.get(p);
-				Entity him = entities.get(s);
-				if (me instanceof EntityShotFromAlly && him instanceof EntityShotFromAlly) continue;
-				if (me instanceof EntityShotFromEnnemy && him instanceof EntityShotFromEnnemy) continue;
-				if (me instanceof EntityEnnemy && him instanceof EntityEnnemy) continue;
-				//ents[0] = me;
-				//ents[1] = him;
-				
-				// multiThread
-				// collisionsWork.add(ents);
-				
-				
-				// monothread
-				if (removeList.contains(me) || removeList.contains(him)) continue;
-				
-				if (me.collidesWith(him)) {
-					me.collidedWith(him);
-					him.collidedWith(me);
-				}
-				// // monothread 
-				
-				nbColision++;
-			}
-		} // */
-		
-		//lastCollisionComputingNumber = nbColision;
-		
-		// calcul des collisions en multithread
-		/*
-		int[][] threadDistrib = CollisionThread.getThreadDistribution(collisionsWork.size());
-		for (int i=0; threadDistrib != null && i<threadDistrib.length; i++)
-		{
-			threads[i] = new CollisionThread(threadDistrib[i][0], threadDistrib[i][1], collisionsWork, this);
-			threads[i].setName("Collision Thread #"+i);
-			threads[i].start();
-		}
-		
-		for (int i=0; threadDistrib != null && i<threadDistrib.length; i++)
-		{
-			try {
-				threads[i].join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}*/
 		
 		
 		
@@ -225,6 +131,7 @@ public class EntitiesManager {
 	 * @param entity The entity that should be removed
 	 */
 	public synchronized void removeEntity(Entity entity) {
+		entity.plannedToRemoved = true;
 		removeList.add(entity);
 	}
 	

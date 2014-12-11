@@ -82,6 +82,7 @@ public class ShipManager {
 	}
 	
 	public EntityShip getCurrentShip() {
+		ships.get(actualShip).plannedToRemoved = false;
 		return ships.get(actualShip);
 	}
 	
