@@ -35,10 +35,13 @@ public class OnScreenDisplay {
 	
 	public void drawOther(Graphics2D g) {
 		Game game = Game.gameInstance;
-		
-		g.setColor(Color.GREEN);
-		g.fillRect(0, 0, (int)Math.ceil((game.getEntitiesManager().getTotalRemainingEnnemyLife()/(float)levelMaxLife.get())*game.getWindowWidth()), 3);
-		
+
+		if (game.getEntitiesManager().getTotalRemainingEnnemyLife() <= levelMaxLife.get()
+				&& game.getEntitiesManager().getTotalRemainingEnnemyLife() >= 0)
+		{
+			g.setColor(new Color((float)Math.sqrt(1-(game.getEntitiesManager().getTotalRemainingEnnemyLife()/(float)levelMaxLife.get())), (float)Math.sqrt(game.getEntitiesManager().getTotalRemainingEnnemyLife()/(float)levelMaxLife.get()), 0F));
+			g.fillRect(0, 0, (int)Math.ceil((game.getEntitiesManager().getTotalRemainingEnnemyLife()/(float)levelMaxLife.get())*game.getWindowWidth()), 3);
+		}
 		int text_position_y = 0;
 		int text_interval_y = 15;
 		
@@ -55,7 +58,11 @@ public class OnScreenDisplay {
 		{
 			g.drawString("Par Marc Baloup et Maxime Maroine, Groupe 2-C, IUT de Lens, DUT Informatique 2014-2015", 5, text_position_y+=text_interval_y);
 			g.drawString("Sources : https://github.com/marcbal/SpaceInvaderTP", 5, text_position_y+=text_interval_y);
-			g.drawString("Threads collisions : "+Runtime.getRuntime().availableProcessors()+" - Collisions à vérifier : "+game.getEntitiesManager().getLastCollisionComputingNumber(), 5, text_position_y+=text_interval_y);
+			
+			int fpsGraphique = (int) Math.min(Game.gameInstance.fps, (1000000000/Game.gameInstance.displayFrameDuration.get()));
+			int fpsLogique = (int) Math.min(Game.gameInstance.fps, (1000000000/Game.gameInstance.logicalFrameDuration.get()));
+			g.drawString("Threads collisions : "+Runtime.getRuntime().availableProcessors()+" - FPS Graphique : "+fpsGraphique+" - FPS Logique : "+fpsLogique, 5, text_position_y+=text_interval_y);
+			
 			g.drawString("Nombre d'entité : "+game.getEntitiesManager().getEntitiesList().size(), 5, text_position_y+=text_interval_y);
 		}
 

@@ -10,6 +10,7 @@ import java.awt.event.ComponentListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
+import java.util.concurrent.atomic.AtomicLong;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -46,8 +47,6 @@ public class Game extends Canvas {
 	private int window_border_width;
 	private int window_border_height;
 	
-	static boolean multiThread = true;
-	
 	public static Game gameInstance;
 	
 	private static long currentNanoTime = 10000000000L;
@@ -61,7 +60,7 @@ public class Game extends Canvas {
 	/** True if the game is currently "running", i.e. the game loop is looping */
 	private boolean gameRunning = true;
 	
-	private float fps = 60;
+	public float fps = 60;
 	
 	/** Gestion des entités */
 	private EntitiesManager entitiesManager = new EntitiesManager();
@@ -80,6 +79,11 @@ public class Game extends Canvas {
 	
 	
 	private Sprite background;
+	
+	
+	public AtomicLong displayFrameDuration = new AtomicLong();
+	public AtomicLong logicalFrameDuration = new AtomicLong();
+	public AtomicLong logicalCollisionDuration = new AtomicLong();
 	
 	/**
 	 * Construct our game and set it running.
@@ -165,29 +169,27 @@ public class Game extends Canvas {
 		// to see at startup
 		startLevel();
 		
-		if (multiThread)
-		{
-			Thread th = new Thread(new Runnable() {
-				
-				@Override
-				public void run() {
-					
-					long delta = (long)(1/fps*1000000000);
-					// keep looping round til the game ends
-					while (gameRunning) {
-						long loop_start = System.nanoTime();
-			            updateDisplay();
-						try { Thread.sleep((delta-(System.nanoTime()-loop_start))/1000000); } catch (Exception e) {}
-					}
-				}
-			});
-			th.setName("Rendering Thread");
-			th.setPriority(Thread.MAX_PRIORITY);
-			th.start();
+		Thread th = new Thread(new Runnable() {
 			
-			Thread.currentThread().setPriority(Thread.MIN_PRIORITY);
-			Thread.currentThread().setName("Main Thread");
-		}
+			@Override
+			public void run() {
+				
+				long delta = (long)(1/fps*1000000000);
+				// keep looping round til the game ends
+				while (gameRunning) {
+					long loop_start = System.nanoTime();
+		            updateDisplay();
+		            
+		            displayFrameDuration.set(System.nanoTime()-loop_start);
+					try { Thread.sleep((delta-(displayFrameDuration.get()))/1000000); } catch (Exception e) {}
+				}
+			}
+		});
+		th.setName("Rendering Thread");
+		th.setPriority(Thread.MAX_PRIORITY);
+		th.start();
+		
+		Thread.currentThread().setName("Main Thread");
 		
 		
 	}
@@ -217,11 +219,8 @@ public class Game extends Canvas {
 			handleEvent();
 			
 			updateLogic(delta);
-
-			if(!multiThread)
-				updateDisplay();
-            
-			try { Thread.sleep((delta-(System.nanoTime()-loop_start))/1000000); } catch (Exception e) {}
+            logicalFrameDuration.set(System.nanoTime()-loop_start);
+			try { Thread.sleep((delta-(logicalFrameDuration.get()))/1000000); } catch (Exception e) {}
 		}
 	}
 	
