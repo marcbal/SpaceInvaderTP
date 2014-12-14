@@ -59,9 +59,10 @@ public class OnScreenDisplay {
 			g.drawString("Par Marc Baloup et Maxime Maroine, Groupe 2-C, IUT de Lens, DUT Informatique 2014-2015", 5, text_position_y+=text_interval_y);
 			g.drawString("Sources : https://github.com/marcbal/SpaceInvaderTP", 5, text_position_y+=text_interval_y);
 			
-			int fpsGraphique = (int) Math.min(Game.gameInstance.fps, (1000000000/Game.gameInstance.displayFrameDuration.get()));
-			int fpsLogique = (int) Math.min(Game.gameInstance.fps, (1000000000/Game.gameInstance.logicalFrameDuration.get()));
-			g.drawString("Threads collisions : "+Runtime.getRuntime().availableProcessors()+" - FPS Graphique : "+fpsGraphique+" - FPS Logique : "+fpsLogique, 5, text_position_y+=text_interval_y);
+			int fpsGraphique = (int) Math.min(game.fps, (1000000000/game.displayFrameDuration.get()));
+			int fpsLogique = (int) Math.min(game.fps, (1000000000/game.logicalFrameDuration.get()));
+			float rationCalculCollision = Math.round(game.logicalCollisionDuration.get()/(float)game.logicalFrameDuration.get()*1000)/10F;
+			g.drawString("Threads collisions : "+Runtime.getRuntime().availableProcessors()+" - FPS Graphique : "+fpsGraphique+" - FPS Logique : "+fpsLogique+" ("+rationCalculCollision+"% time for collisions)", 5, text_position_y+=text_interval_y);
 			
 			g.drawString("Nombre d'entité : "+game.getEntitiesManager().getEntitiesList().size(), 5, text_position_y+=text_interval_y);
 		}

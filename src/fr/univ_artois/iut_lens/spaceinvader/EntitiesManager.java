@@ -82,6 +82,11 @@ public class EntitiesManager {
 		
 		entitiesMT = entities.toArray(new Entity[entities.size()]);
 		
+		
+		
+		// partie de calcul multithreadé
+		long thread_colision_start = System.nanoTime();
+		
 		threadpool = Executors.newFixedThreadPool(nbThread);
 
 		for (int cTh=0; cTh<nbThread; cTh++)
@@ -97,6 +102,7 @@ public class EntitiesManager {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		Game.gameInstance.logicalCollisionDuration.set(System.nanoTime()-thread_colision_start);
 		
 		
 		

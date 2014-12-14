@@ -276,6 +276,8 @@ public class Game extends Canvas {
 			// réinitialiser le déplacement du vaisseau
 			shipManager.moveShip(0);
 		}
+		else
+			logicalCollisionDuration.set(0);
 		
 	}
 	
