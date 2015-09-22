@@ -43,7 +43,7 @@ public class StrategyMoveEnnemyRandom extends StrategyMoveEnnemy {
 	    		
 	    		// change la direction si nécessaire
 	    		if (newDirection != direction)
-		    		entity.getSpeed().invertX();
+		    		entity.setSpeed(entity.getSpeed().invertX());
 	    		
 	    		
 	    		entity.move(delta); // applique le speed à la position actuelle (commun à tout les Entity)

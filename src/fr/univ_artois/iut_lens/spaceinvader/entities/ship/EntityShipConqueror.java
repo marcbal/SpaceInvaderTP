@@ -5,20 +5,16 @@ import fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromAllySear
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
 public class EntityShipConqueror extends EntityShip {
-	protected long lastFireTime = 0; //Dernier tir du vaisseau
-	private long fireInterval = 100; //Intervalle de temps par défaut pour lequel le vaisseau peut tirer
-	private int nbrShotPerInterval = 1;
+	
+	private int nbrShotPerInterval;
 
 	public EntityShipConqueror(EntitiesManager eM, int fI, int nbS) {
-		super("sprites/Faction9-Spaceships-by-MillionthVector_bluecarrier.png", 500, eM);
-		fireInterval = fI;
+		super("sprites/Faction9-Spaceships-by-MillionthVector_bluecarrier.png", 500, eM, fI);
 		nbrShotPerInterval = nbS;
 	}
 
 	@Override
-	public void tryToShoot(long currentTime) {
-		if(currentTime - lastFireTime < fireInterval) return; //L'interval de tir est trop court
-		lastFireTime = currentTime; //On met le dernier tire au temps actuel
+	public void shoot(long currentTime) {
 		
 		
 		double pos_x0 = position.x+getBoundingBox().width/2-5*nbrShotPerInterval;

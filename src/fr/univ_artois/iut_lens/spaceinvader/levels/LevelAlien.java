@@ -28,7 +28,7 @@ public class LevelAlien extends Level {
 		SquadList = new ArrayList<Entity>();
 		for (int r=0;r<row;r++) {
 			for (int l=0;l<line;l++) {
-				Entity alien = new EntityEnnemy(sprite,new Vector2d(pos.x+(l*space.x),pos.y+r*space.y), 1,entitiesManager);
+				Entity alien = new EntityEnnemy(sprite,new Vector2d(pos.x+(l*space.x),pos.y+r*space.y), 2,entitiesManager);
 				SquadList.add(alien);
 				nbCount++;
 			}

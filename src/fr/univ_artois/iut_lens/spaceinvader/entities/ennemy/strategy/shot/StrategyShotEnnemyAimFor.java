@@ -32,7 +32,7 @@ public class StrategyShotEnnemyAimFor extends StrategyShotEnnemy {
 			{
 				if (r.nextInt(scarcity)==0)
 				{
-					Vector2d speed = ship.getPosition().dup().add(entity.getPosition().dup().invert()).dotProduct(0.4);
+					Vector2d speed = ship.getPosition().add(entity.getPosition().invert()).dotProduct(0.4);
 					entMan.getEntitiesList().add(new EntityShotFromEnnemyAdvanced(new Vector2d(entity.getPosition().x+entity.getBoundingBox().width/2, entity.getPosition().y+entity.getBoundingBox().height), speed, entMan));
 				}
 					

@@ -38,7 +38,7 @@ public class StrategyMoveEnnemyNormal extends StrategyMoveEnnemy {
 		    	{
 		    		// swap over horizontal movement and move down the
 		    		// screen a bit
-		    		entity.getSpeed().invertX();
+		    		entity.setSpeed(entity.getSpeed().invertX());
 		    		entity.getPosition().y+=10;
 		    		
 		    		// if we've reached the bottom of the screen then the player

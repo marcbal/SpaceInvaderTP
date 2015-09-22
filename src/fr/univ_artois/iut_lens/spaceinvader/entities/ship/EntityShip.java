@@ -14,6 +14,9 @@ import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
  * @author Kevin Glass
  */
 public abstract class EntityShip extends Entity {
+	protected long lastFireTime; //Dernier tir du vaisseau
+	private long fireInterval; //Intervalle de temps par défaut pour lequel le vaisseau peut tirer
+
 
 	private double moveSpeed; // Vitesse de déplacement du vaisseau
 
@@ -26,14 +29,15 @@ public abstract class EntityShip extends Entity {
 	 * @param x The initial x location of the player's ship
 	 * @param y The initial y location of the player's ship
 	 */
-	public EntityShip(String ref, double speed, EntitiesManager eM) {
+	public EntityShip(String ref, double speed, EntitiesManager eM, long fireInt) {
 		super(ref,
 				new Vector2d(
 						Game.gameInstance.getWindowWidth()/2-SpriteStore.get().getSprite(ref).getWidth()/2,	// permet de centrer l'image
 						Game.gameInstance.getWindowHeight()-SpriteStore.get().getSprite(ref).getHeight()),
 				eM);
-		
+		fireInterval = fireInt;
 		moveSpeed = speed;
+		reinitShot();
 	}
 	
 	/**
@@ -84,8 +88,24 @@ public abstract class EntityShip extends Entity {
 	}
 	
 	
+
+	public void tryToShoot(long currentTime) {
+		if (!canShoot(currentTime)) return;
+		lastFireTime = currentTime; //On met le dernier tire au temps actuel
+		shoot(currentTime);
+	}
 	
-	public abstract void tryToShoot(long currentTime);
+	protected boolean canShoot(long currentTime) {
+		if(currentTime - lastFireTime < fireInterval) return false; //L'interval de tir est trop court
+		return true;
+	}
 	
+	protected abstract void shoot(long currentTime);
+	
+	
+	
+	public void reinitShot() {
+		lastFireTime = Long.MIN_VALUE/2;
+	}
 	
 }

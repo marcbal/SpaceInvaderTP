@@ -2,13 +2,13 @@ package fr.univ_artois.iut_lens.spaceinvader;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class OnScreenDisplay {
 	
 	// c'est juste une valeur entière, sauf que là on évite les conflits de Thread
-	private AtomicInteger levelMaxLife = new AtomicInteger(0);
+	private AtomicLong levelMaxLife = new AtomicLong(0);
 	
 	private KeyInputHandler keyHandler = Game.gameInstance.getKeyInputHandler();
 	
@@ -35,12 +35,15 @@ public class OnScreenDisplay {
 	
 	public void drawOther(Graphics2D g) {
 		Game game = Game.gameInstance;
+		long currentLife = game.getEntitiesManager().getTotalRemainingEnnemyLife();
+		long maxLife = levelMaxLife.get();
+		
 
-		if (game.getEntitiesManager().getTotalRemainingEnnemyLife() <= levelMaxLife.get()
-				&& game.getEntitiesManager().getTotalRemainingEnnemyLife() >= 0)
+		if (currentLife <= maxLife
+				&& currentLife >= 0)
 		{
-			g.setColor(new Color((float)Math.sqrt(1-(game.getEntitiesManager().getTotalRemainingEnnemyLife()/(float)levelMaxLife.get())), (float)Math.sqrt(game.getEntitiesManager().getTotalRemainingEnnemyLife()/(float)levelMaxLife.get()), 0F));
-			g.fillRect(0, 0, (int)Math.ceil((game.getEntitiesManager().getTotalRemainingEnnemyLife()/(float)levelMaxLife.get())*game.getWindowWidth()), 3);
+			g.setColor(new Color((float)Math.sqrt(1-(currentLife/(float)maxLife)), (float)Math.sqrt(currentLife/(float)maxLife), 0F));
+			g.fillRect(0, 0, (int)Math.ceil((currentLife/(float)maxLife)*game.getWindowWidth()), 3);
 		}
 		int text_position_y = 0;
 		int text_interval_y = 15;
@@ -61,10 +64,10 @@ public class OnScreenDisplay {
 			
 			int fpsGraphique = (int) Math.min(game.fps, (1000000000/game.displayFrameDuration.get()));
 			int fpsLogique = (int) Math.min(game.fps, (1000000000/game.logicalFrameDuration.get()));
-			float rationCalculCollision = Math.round(game.logicalCollisionDuration.get()/(float)game.logicalFrameDuration.get()*1000)/10F;
-			g.drawString("Threads collisions : "+Runtime.getRuntime().availableProcessors()+" - FPS Graphique : "+fpsGraphique+" - FPS Logique : "+fpsLogique+" ("+rationCalculCollision+"% time for collisions)", 5, text_position_y+=text_interval_y);
-			
+			g.drawString("Threads collisions : "+game.entitiesManager.nbThread+" - FPS Graphique : "+fpsGraphique+" - FPS Logique : "+fpsLogique, 5, text_position_y+=text_interval_y);
+
 			g.drawString("Nombre d'entité : "+game.getEntitiesManager().getEntitiesList().size(), 5, text_position_y+=text_interval_y);
+			g.drawString("Vie énemies : "+currentLife+"/"+maxLife, 5, text_position_y+=text_interval_y);
 		}
 
 		int[] gInfos = game.getShipManager().getShipProgress(), gInfos2 = game.getLevelManager().getLevelProgress();

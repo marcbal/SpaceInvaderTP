@@ -9,6 +9,9 @@ import java.util.concurrent.TimeUnit;
 
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.EntityEnnemy;
+import fr.univ_artois.iut_lens.spaceinvader.entities.ship.EntityShip;
+import fr.univ_artois.iut_lens.spaceinvader.entities.ship.ShipLimitedShot;
+import fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShot;
 /**
  * Cette classe sert juste à gérer les entitées
  *
@@ -20,7 +23,7 @@ public class EntitiesManager {
 	
 	private Entity[] entitiesMT; // utilisé pour les calculs en multiThread (plus optimisé)
 	
-	private int nbThread = Runtime.getRuntime().availableProcessors();
+	public final int nbThread = Runtime.getRuntime().availableProcessors();
 	
 	private CollisionThread[] threadsRunnable = new CollisionThread[nbThread];
 	
@@ -116,6 +119,18 @@ public class EntitiesManager {
 	
 	
 	public List<Entity> getEntitiesList() { return entities; }
+	
+	
+	
+	public boolean addShotAlly(EntityShip ship, EntityShot shot) {
+		if (ship instanceof ShipLimitedShot) {
+			ShipLimitedShot limitedShip = (ShipLimitedShot) ship;
+			if (limitedShip.getNbShotAlive() >= limitedShip.getMaxNbShot())
+				return false;
+		}
+		entities.add(shot);
+		return true;
+	}
 	
 	
 	public int getTotalRemainingEnnemyLife()

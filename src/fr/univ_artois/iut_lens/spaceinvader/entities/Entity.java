@@ -125,8 +125,10 @@ public abstract class Entity {
 		return false;
 	}
 	
-	
+
 	public Vector2d getPosition() { return position; }
 	public Vector2d getSpeed() { return speed; }
+	public void setPosition(Vector2d newPos) { position = newPos; }
+	public void setSpeed(Vector2d newSpeed) { speed = newSpeed; }
 	public int getLife() { return life; }
 }

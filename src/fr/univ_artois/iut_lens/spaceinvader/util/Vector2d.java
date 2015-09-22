@@ -34,40 +34,27 @@ public class Vector2d {
 	
 	public Vector2d add(Vector2d v)
 	{
-		x += v.x;
-		y += v.y;
-		return this;
-	}
-	
-	public Vector2d dup()
-	{
-		return new Vector2d(this);
+		return new Vector2d(x+v.x, y+v.y);
 	}
 	
 	public Vector2d dotProduct(double k)
 	{
-		x *= k;
-		y *= k;
-		return this;
+		return new Vector2d(x*k, y*k);
 	}
 	
 	public Vector2d invert()
 	{
-		x = -x;
-		y = -y;
-		return this;
+		return new Vector2d(-x, -y);
 	}
 	
 	public Vector2d invertX()
 	{
-		x = -x;
-		return this;
+		return new Vector2d(-x, y);
 	}
 	
 	public Vector2d invertY()
 	{
-		y = -y;
-		return this;
+		return new Vector2d(x, -y);
 	}
 	
 	public double distanceSquaredOf(Vector2d v)

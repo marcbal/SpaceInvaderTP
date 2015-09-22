@@ -6,6 +6,7 @@ import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.Game;
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.EntityEnnemy;
+import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
 public class StrategyMoveEnnemyDisturbed extends StrategyMoveEnnemy {
 	
@@ -49,9 +50,9 @@ public class StrategyMoveEnnemyDisturbed extends StrategyMoveEnnemy {
 	    		
 	    		// change la direction si nécessaire
 	    		if (newLeftRight != leftRight)
-		    		entity.getSpeed().invertX();
+		    		entity.setSpeed(entity.getSpeed().invertX());
 	    		if(newUpDown != upDown)
-	    			entity.getSpeed().invertY();
+	    			entity.setSpeed(entity.getSpeed().invertY());
 	    		entity.getSpeed().y += 2 +(r.nextInt(
 	    												Math.abs(570-(int)entity.getPosition().y)+1
 	    										)/100F);
@@ -64,8 +65,7 @@ public class StrategyMoveEnnemyDisturbed extends StrategyMoveEnnemy {
 			countOfDeath = 0;
 			for(Entity entity : entMan.getEntitiesList()) {
 				if(entity instanceof EntityEnnemy) {
-					entity.getSpeed().x+=20;
-					entity.getSpeed().y+=20;
+					entity.setSpeed(entity.getSpeed().add(new Vector2d(20, 20)));
 				}
 				
 			}
