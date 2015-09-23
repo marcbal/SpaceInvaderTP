@@ -4,10 +4,11 @@ import java.util.Random;
 
 import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.Game;
+import fr.univ_artois.iut_lens.spaceinvader.entities.CircleEntity;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ship.ShipLimitedShot;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
-public class EntityShotFromAllyFinal2 extends EntityShotFromAlly {
+public class EntityShotFromAllyFinal2 extends EntityShotFromAlly implements CircleEntity {
 	private long time = 0;
 	private final ShipLimitedShot ship;
 	private long duplicationInterval;
@@ -33,7 +34,7 @@ public class EntityShotFromAllyFinal2 extends EntityShotFromAlly {
 			}
 		}
 		
-		// colision sur la bordure de l'écran
+		// colision sur la bordure de l'écranz
 		if (position.x<0) {
 			position = position.invertX(); // équivaut à position.x=-position.x;
 			speed = speed.invertX();

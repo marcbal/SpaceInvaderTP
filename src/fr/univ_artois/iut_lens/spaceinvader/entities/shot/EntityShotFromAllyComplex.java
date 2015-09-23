@@ -2,11 +2,12 @@ package fr.univ_artois.iut_lens.spaceinvader.entities.shot;
 
 import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.Game;
+import fr.univ_artois.iut_lens.spaceinvader.entities.CircleEntity;
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.EntityEnnemy;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
-public class EntityShotFromAllyComplex extends EntityShotFromAlly {
+public class EntityShotFromAllyComplex extends EntityShotFromAlly implements CircleEntity {
 
 	double i = 0;
 	double tourParSeconde = 4;

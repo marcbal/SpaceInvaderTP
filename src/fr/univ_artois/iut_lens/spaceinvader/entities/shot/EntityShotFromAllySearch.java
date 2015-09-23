@@ -1,17 +1,15 @@
 package fr.univ_artois.iut_lens.spaceinvader.entities.shot;
 
 import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
-import fr.univ_artois.iut_lens.spaceinvader.Game;
+import fr.univ_artois.iut_lens.spaceinvader.entities.CircleEntity;
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.EntityEnnemy;
 import fr.univ_artois.iut_lens.spaceinvader.util.TargettingUtil;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
-public class EntityShotFromAllySearch extends EntityShotFromAlly {
+public class EntityShotFromAllySearch extends EntityShotFromAlly implements CircleEntity {
 	
 	private Entity target = null;
-	
-	private Vector2d acceleration = new Vector2d();
 
 	private int maxSpeed = 500;
 	private int minSpeed = 250;
@@ -32,8 +30,6 @@ public class EntityShotFromAllySearch extends EntityShotFromAlly {
 			Vector2d vectDist = TargettingUtil.getTargetDirection(this, target);
 			
 			speed = vectDist.dotProduct(20);
-			//acceleration = vectDist.dotProduct(maxSpeed/vectDist.distanceOf(new Vector2d())/50000);
-			// System.out.println(acceleration.x+" "+acceleration.y);
 		}
 		
 		

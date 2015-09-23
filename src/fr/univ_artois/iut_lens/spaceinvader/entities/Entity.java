@@ -91,6 +91,20 @@ public abstract class Entity {
 		return new Rectangle((int)position.x, (int)position.y, sprite.getWidth(), sprite.getHeight());
 	}
 	
+	public Vector2d getCenter() {
+		return new Vector2d(position.x + sprite.getWidth()/2D, position.y + sprite.getHeight()/2D);
+	}
+	
+	/**
+	 * Pour les sous classes implémentants l'interface CircleEntity.<br/>
+	 * Donne le rayon de l'entité, en pixel. Si la texture est rectangulaire,
+	 * la plus petite distance sera fourni par longueur et la largeur.
+	 * @return
+	 */
+	public double getRayon() {
+		return Math.min(sprite.getWidth()/2D, sprite.getHeight()/2D);
+	}
+	
 	/**
 	 * Notification that this entity collided with another.
 	 * 

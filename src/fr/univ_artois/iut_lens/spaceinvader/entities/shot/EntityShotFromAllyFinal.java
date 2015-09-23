@@ -4,12 +4,13 @@ import java.util.Random;
 
 import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.Game;
+import fr.univ_artois.iut_lens.spaceinvader.entities.CircleEntity;
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.EntityEnnemy;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ship.ShipLimitedShot;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
-public class EntityShotFromAllyFinal extends EntityShotFromAlly {
+public class EntityShotFromAllyFinal extends EntityShotFromAlly implements CircleEntity {
 	long time = 0;
 	private final ShipLimitedShot ship;
 	
