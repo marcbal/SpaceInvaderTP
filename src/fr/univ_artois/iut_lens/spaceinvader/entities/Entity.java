@@ -36,7 +36,18 @@ public abstract class Entity {
 	
 	protected EntitiesManager entitiesManager;
 	
-	public boolean plannedToRemoved = false;
+	private boolean plannedToRemoved = false;
+	
+	public boolean plannedToRemoved() {
+		 return plannedToRemoved;
+	}
+	
+	public void planToRemove() {
+		plannedToRemoved = true;
+		willDie();
+	}
+	public void dontRemove() { plannedToRemoved = false; }
+	
 	
 	/**
 	 * Construct a entity based on a sprite image and a location.
@@ -102,7 +113,8 @@ public abstract class Entity {
 	 * @return
 	 */
 	public double getRayon() {
-		return Math.min(sprite.getWidth()/2D, sprite.getHeight()/2D);
+		final double rayon = Math.min(sprite.getWidth()/2D, sprite.getHeight()/2D);
+		return rayon;
 	}
 	
 	/**
@@ -111,6 +123,16 @@ public abstract class Entity {
 	 * @param other The entity with which this entity collided.
 	 */
 	public abstract void collidedWith(Entity other);
+	
+	
+	
+	/**
+	 * Notification that this entity will die.
+	 * Default implementation do nothing.
+	 */
+	public void willDie() {
+		// do nothing
+	}
 	
 	
 	/**

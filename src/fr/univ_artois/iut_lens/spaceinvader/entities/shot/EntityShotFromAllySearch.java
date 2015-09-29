@@ -1,13 +1,12 @@
 package fr.univ_artois.iut_lens.spaceinvader.entities.shot;
 
 import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
-import fr.univ_artois.iut_lens.spaceinvader.entities.CircleEntity;
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.EntityEnnemy;
 import fr.univ_artois.iut_lens.spaceinvader.util.TargettingUtil;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
-public class EntityShotFromAllySearch extends EntityShotFromAlly implements CircleEntity {
+public class EntityShotFromAllySearch extends EntityShotFromAlly {
 	
 	private Entity target = null;
 
@@ -23,7 +22,7 @@ public class EntityShotFromAllySearch extends EntityShotFromAlly implements Circ
 	public void move(long delta) {
 		
 		if (target == null || !entitiesManager.getEntitiesList().contains(target))
-			searchEnnemy();
+			TargettingUtil.searchTargetEnnemy(this, entitiesManager);
 		
 		if (target != null)
 		{
@@ -45,23 +44,7 @@ public class EntityShotFromAllySearch extends EntityShotFromAlly implements Circ
 	
 	
 	
-	private void searchEnnemy() {
-		double min = Double.MAX_VALUE;
-		target = null;
-		
-		for (Entity e : entitiesManager.getEntitiesList())
-		{
-			if (!(e instanceof EntityEnnemy) && !(e instanceof EntityShotFromEnnemy)) continue;
-			
-			double distSq = position.distanceSquaredOf(e.getPosition());
-			
-			if (distSq < min) {
-				min = distSq;
-				target = e;
-			}
-		}
-		
-	}
+	
 	
 	
 }

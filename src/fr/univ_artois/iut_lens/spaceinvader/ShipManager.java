@@ -73,12 +73,12 @@ public class ShipManager {
 		ships.add(new EntityShipConqueror(entitiesManager, 10, 10));
 		ships.add(new EntityShipFinal2(entitiesManager, 1000, 500, 30, 2));
 		ships.add(new EntityShipFinal2(entitiesManager, 800, 750, 15, 2));
-		ships.add(new EntityShipFinal2(entitiesManager, 500, 1500, 1, 1));
+		ships.add(new EntityShipFinal2(entitiesManager, 500, 1200, 1, 1));
 		ships.add(new EntityShipFinal(entitiesManager, 1000));
 	}
 	
 	public EntityShip getCurrentShip() {
-		ships.get(actualShip).plannedToRemoved = false;
+		ships.get(actualShip).dontRemove();
 		return ships.get(actualShip);
 	}
 	

@@ -4,13 +4,12 @@ import java.util.Random;
 
 import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.Game;
-import fr.univ_artois.iut_lens.spaceinvader.entities.CircleEntity;
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.EntityEnnemy;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ship.ShipLimitedShot;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
-public class EntityShotFromAllyFinal extends EntityShotFromAlly implements CircleEntity {
+public class EntityShotFromAllyFinal extends EntityShotFromAlly {
 	long time = 0;
 	private final ShipLimitedShot ship;
 	
@@ -19,6 +18,7 @@ public class EntityShotFromAllyFinal extends EntityShotFromAlly implements Circl
 			EntitiesManager eM, ShipLimitedShot ship) {
 		super("sprites/UnderComplexShot.png", p, 10, 2, s, eM);
 		this.ship = ship;
+		ship.addAliveShot();
 	}
 	
 	public void move(long delta) {
@@ -71,5 +71,11 @@ public class EntityShotFromAllyFinal extends EntityShotFromAlly implements Circl
 		if(other instanceof EntityShotFromEnnemy) {
 			entitiesManager.removeEntity(other);
 		}
+	}
+	
+	
+	@Override
+	public void willDie() {
+		ship.removeAliveShot();
 	}
 }

@@ -35,9 +35,9 @@ public class LevelMegaAllStars extends Level {
 		for (int r=0;r<row;r++) {
 			for (int l=0;l<line;l++) {
 				if (nbCount%2 == 0)
-					SquadList.add(new EntityEnnemy("sprites/marc.jpg",new Vector2d(pos.x+(l*space.x),pos.y+r*space.y), 100, entitiesManager));
+					SquadList.add(new EntityEnnemy("sprites/marc.jpg",new Vector2d(pos.x+(l*space.x),pos.y+r*space.y), 1000, entitiesManager));
 				else
-					SquadList.add(new EntityEnnemy("sprites/max.jpg",new Vector2d(pos.x+(l*space.x),pos.y+r*space.y), 100, entitiesManager));
+					SquadList.add(new EntityEnnemy("sprites/max.jpg",new Vector2d(pos.x+(l*space.x),pos.y+r*space.y), 1000, entitiesManager));
 				
 				nbCount++;
 			}

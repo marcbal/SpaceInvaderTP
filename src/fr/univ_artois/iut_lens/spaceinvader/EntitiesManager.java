@@ -152,7 +152,7 @@ public class EntitiesManager {
 	 * @param entity The entity that should be removed
 	 */
 	public synchronized void removeEntity(Entity entity) {
-		entity.plannedToRemoved = true;
+		entity.planToRemove();
 		removeList.add(entity);
 	}
 	

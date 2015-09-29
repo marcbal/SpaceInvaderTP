@@ -1,7 +1,5 @@
 package fr.univ_artois.iut_lens.spaceinvader.entities.ship;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromAllyFinal2;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
@@ -10,6 +8,7 @@ public class EntityShipFinal2 extends EntityShip implements ShipLimitedShot {
 	public final int nbMaxShotAlive;
 	private long duplicationInterval;
 	private int nbOfChildPerDuplication;
+	private int nbShotAlive;
 	
 
 	public EntityShipFinal2(EntitiesManager eM, int fireInterval, int maxShot, long dupInterval, int nbOfChildPerDup) {
@@ -21,20 +20,32 @@ public class EntityShipFinal2 extends EntityShip implements ShipLimitedShot {
 
 	@Override
 	public void shoot(long currentTime) {
-			entitiesManager.getEntitiesList().add(new EntityShotFromAllyFinal2(new Vector2d(position.x+getBoundingBox().width/2-5, position.y), new Vector2d(0, -900), entitiesManager, this, duplicationInterval, nbOfChildPerDuplication));
+			entitiesManager.getEntitiesList().add(new EntityShotFromAllyFinal2(new Vector2d(position.x+getBoundingBox().width/2-5, position.y), new Vector2d(0, -200), entitiesManager, this, duplicationInterval, nbOfChildPerDuplication));
 	}
 	
 	
 	public int getNbShotAlive() {
-		AtomicInteger nb = new AtomicInteger(0);
-		entitiesManager.getEntitiesList().forEach((entity) -> {
-			if (entity instanceof EntityShotFromAllyFinal2) nb.addAndGet(1);
-		});
-		return nb.get();
+		return nbShotAlive;
 	}
 
 	@Override
 	public int getMaxNbShot() {
 		return nbMaxShotAlive;
+	}
+
+	@Override
+	public void addAliveShot() {
+		nbShotAlive++;
+	}
+
+	@Override
+	public void removeAliveShot() {
+		nbShotAlive--;
+	}
+	
+	@Override
+	public void reinitShot() {
+		super.reinitShot();
+		nbShotAlive = 0;
 	}
 }

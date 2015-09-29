@@ -5,6 +5,8 @@ import java.awt.Graphics2D;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
+import fr.univ_artois.iut_lens.spaceinvader.entities.ship.ShipLimitedShot;
+
 public class OnScreenDisplay {
 	
 	// c'est juste une valeur entière, sauf que là on évite les conflits de Thread
@@ -65,8 +67,16 @@ public class OnScreenDisplay {
 			int fpsGraphique = (int) Math.min(game.fps, (1000000000/game.displayFrameDuration.get()));
 			int fpsLogique = (int) Math.min(game.fps, (1000000000/game.logicalFrameDuration.get()));
 			g.drawString("Threads collisions : "+game.entitiesManager.nbThread+" - FPS Graphique : "+fpsGraphique+" - FPS Logique : "+fpsLogique, 5, text_position_y+=text_interval_y);
-
-			g.drawString("Nombre d'entité : "+game.getEntitiesManager().getEntitiesList().size(), 5, text_position_y+=text_interval_y);
+			
+			// infos vaisseau nombre limité de balle
+			String dataShots = "";
+			if (game.getShipManager().getCurrentShip() instanceof ShipLimitedShot) {
+				ShipLimitedShot ship = (ShipLimitedShot) game.getShipManager().getCurrentShip();
+				dataShots = " ("+ship.getNbShotAlive()+"/"+ship.getMaxNbShot()+")";
+			}
+			
+			
+			g.drawString("Nombre d'entité : "+game.getEntitiesManager().getEntitiesList().size()+dataShots, 5, text_position_y+=text_interval_y);
 			g.drawString("Vie énemies : "+currentLife+"/"+maxLife, 5, text_position_y+=text_interval_y);
 		}
 

@@ -1,7 +1,5 @@
 package fr.univ_artois.iut_lens.spaceinvader.entities.ship;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromAllyFinal;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
@@ -9,6 +7,7 @@ import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 public class EntityShipFinal extends EntityShip implements ShipLimitedShot {
 	public final int nbMaxShotAlive;
 	private boolean hasShot = false;
+	private int nbShotAlive = 0;
 	
 
 	public EntityShipFinal(EntitiesManager eM, int maxShot) {
@@ -22,13 +21,14 @@ public class EntityShipFinal extends EntityShip implements ShipLimitedShot {
 			hasShot = true;
 	}
 	
-	
+	@Override
 	public int getNbShotAlive() {
-		AtomicInteger nb = new AtomicInteger(0);
-		entitiesManager.getEntitiesList().forEach((entity) -> {
-			if (entity instanceof EntityShotFromAllyFinal) nb.addAndGet(1);
-		});
-		return nb.get();
+		return nbShotAlive;
+	}
+	
+	@Override
+	public void addAliveShot() {
+		nbShotAlive++;
 	}
 
 	@Override
@@ -44,5 +44,11 @@ public class EntityShipFinal extends EntityShip implements ShipLimitedShot {
 	@Override
 	public void reinitShot() {
 		hasShot = false;
+		nbShotAlive = 0;
+	}
+
+	@Override
+	public void removeAliveShot() {
+		nbShotAlive--;
 	}
 }

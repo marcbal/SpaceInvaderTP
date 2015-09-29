@@ -1,6 +1,5 @@
 package fr.univ_artois.iut_lens.spaceinvader;
 
-import fr.univ_artois.iut_lens.spaceinvader.entities.CircleEntity;
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.EntityEnnemy;
 import fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromAlly;
@@ -34,16 +33,10 @@ public class CollisionThread implements Runnable {
 					if (me instanceof EntityShotFromAlly && him instanceof EntityShotFromAlly) continue;
 					if (me instanceof EntityShotFromEnnemy && him instanceof EntityShotFromEnnemy) continue;
 					if (me instanceof EntityEnnemy && him instanceof EntityEnnemy) continue;
-					if (me.plannedToRemoved || him.plannedToRemoved) continue;
+					if (me.plannedToRemoved() || him.plannedToRemoved()) continue;
 					
-					boolean collides = false;
-					if (me instanceof CircleEntity && him instanceof CircleEntity) {
-						collides = CircleEntity.collides((CircleEntity) me, (CircleEntity) him);
-					}
-					else
-						collides = me.collidesWith(him);
 					
-					if (collides) {
+					if (me.collidesWith(him)) {
 						me.collidedWith(him);
 						him.collidedWith(me);
 					}

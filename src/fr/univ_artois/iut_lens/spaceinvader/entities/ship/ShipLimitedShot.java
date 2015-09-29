@@ -6,7 +6,9 @@ public interface ShipLimitedShot {
 	
 	public int getMaxNbShot();
 	
+	public void addAliveShot();
 	
+	public void removeAliveShot();
 	
 
 }

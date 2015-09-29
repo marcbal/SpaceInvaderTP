@@ -1,6 +1,10 @@
 package fr.univ_artois.iut_lens.spaceinvader.util;
 
+import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
+import fr.univ_artois.iut_lens.spaceinvader.Game;
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
+import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.EntityEnnemy;
+import fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromEnnemy;
 
 public class TargettingUtil {
 	
@@ -15,5 +19,24 @@ public class TargettingUtil {
 		return actualPos.invert().add(targetPos);
 	}
 	
+	
+	public static Entity searchTargetEnnemy(Entity current, EntitiesManager entitiesManager) {
+		double min = Double.MAX_VALUE;
+		Entity target = null;
+		
+		for (Entity e : entitiesManager.getEntitiesList())
+		{
+			if (!(e instanceof EntityEnnemy) && !(e instanceof EntityShotFromEnnemy)) continue;
+			
+			double distSq = current.getPosition().distanceSquaredOf(e.getPosition());
+			
+			if (distSq < min) {
+				min = distSq;
+				target = e;
+			}
+		}
+		return target;
+		
+	}
 
 }
