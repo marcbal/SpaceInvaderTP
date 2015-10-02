@@ -3,8 +3,8 @@
   associations="true" dependencies="false" nesting-relationships="true">  
   <class id="1" language="java" 
     name="fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.move.StrategyMoveEnnemyFinalBoss" 
-    project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/ennemy/strategy/move/StrategyMoveEnnemyFinalBoss.java" 
+    project="SpaceInvaderTP" 
+    file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/entities/ennemy/strategy/move/StrategyMoveEnnemyFinalBoss.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1177" y="1078"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -14,8 +14,8 @@
     </display>  
   </class>  
   <class id="2" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromEnnemy" 
-    project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/shot/EntityShotFromEnnemy.java" 
+    project="SpaceInvaderTP" 
+    file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/entities/shot/EntityShotFromEnnemy.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1010" y="1849"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -24,8 +24,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="3" language="java" name="fr.univ_artois.iut_lens.spaceinvader.levels.LevelAllStar" project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/levels/LevelAllStar.java" binary="false" 
+  <class id="3" language="java" name="fr.univ_artois.iut_lens.spaceinvader.levels.LevelAllStar" project="SpaceInvaderTP" 
+    file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/levels/LevelAllStar.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="564" y="393"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -34,8 +34,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="4" language="java" name="fr.univ_artois.iut_lens.spaceinvader.levels.LevelMarc" project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/levels/LevelMarc.java" binary="false" 
+  <class id="4" language="java" name="fr.univ_artois.iut_lens.spaceinvader.levels.LevelMarc" project="SpaceInvaderTP" 
+    file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/levels/LevelMarc.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="789" y="313"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -46,8 +46,8 @@
   </class>  
   <class id="5" language="java" 
     name="fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.move.StrategyMoveEnnemyNormal" 
-    project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/ennemy/strategy/move/StrategyMoveEnnemyNormal.java" 
+    project="SpaceInvaderTP" 
+    file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/entities/ennemy/strategy/move/StrategyMoveEnnemyNormal.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1510" y="1069"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -57,8 +57,8 @@
     </display>  
   </class>  
   <class id="6" language="java" 
-    name="fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.shot.StrategyShotEnnemy" project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/ennemy/strategy/shot/StrategyShotEnnemy.java" 
+    name="fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.shot.StrategyShotEnnemy" project="SpaceInvaderTP" 
+    file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/entities/ennemy/strategy/shot/StrategyShotEnnemy.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="755" y="840"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -69,8 +69,8 @@
   </class>  
   <class id="7" language="java" 
     name="fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.shot.StrategyShotEnnemyAimFor" 
-    project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/ennemy/strategy/shot/StrategyShotEnnemyAimFor.java" 
+    project="SpaceInvaderTP" 
+    file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/entities/ennemy/strategy/shot/StrategyShotEnnemyAimFor.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="193" y="1078"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -80,8 +80,8 @@
     </display>  
   </class>  
   <class id="8" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.ship.EntityShipPowered" 
-    project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/ship/EntityShipPowered.java" binary="false" 
+    project="SpaceInvaderTP" 
+    file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/entities/ship/EntityShipPowered.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="3513" y="1835"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -90,8 +90,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="9" language="java" name="fr.univ_artois.iut_lens.spaceinvader.Game" project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/Game.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="9" language="java" name="fr.univ_artois.iut_lens.spaceinvader.Game" project="SpaceInvaderTP" 
+    file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/Game.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="2785" y="-64"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -100,8 +100,8 @@
     </display>  
   </class>  
   <class id="10" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromAllyBasic" 
-    project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/shot/EntityShotFromAllyBasic.java" 
+    project="SpaceInvaderTP" 
+    file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/entities/shot/EntityShotFromAllyBasic.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1641" y="2005"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -112,8 +112,8 @@
   </class>  
   <class id="11" language="java" 
     name="fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.move.StrategyMoveEnnemyRandom" 
-    project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/ennemy/strategy/move/StrategyMoveEnnemyRandom.java" 
+    project="SpaceInvaderTP" 
+    file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/entities/ennemy/strategy/move/StrategyMoveEnnemyRandom.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1843" y="1078"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -123,7 +123,7 @@
     </display>  
   </class>  
   <class id="12" language="java" name="fr.univ_artois.iut_lens.spaceinvader.levels.LevelFinalBoss" 
-    project="spaceinvaders" file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/levels/LevelFinalBoss.java" 
+    project="SpaceInvaderTP" file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/levels/LevelFinalBoss.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1029" y="257"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -132,8 +132,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="13" language="java" name="fr.univ_artois.iut_lens.spaceinvader.SpriteStore" project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/SpriteStore.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="13" language="java" name="fr.univ_artois.iut_lens.spaceinvader.SpriteStore" project="SpaceInvaderTP" 
+    file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/SpriteStore.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="3562" y="52"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -141,8 +141,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="14" language="java" name="fr.univ_artois.iut_lens.spaceinvader.LevelManager" project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/LevelManager.java" binary="false" 
+  <class id="14" language="java" name="fr.univ_artois.iut_lens.spaceinvader.LevelManager" project="SpaceInvaderTP" 
+    file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/LevelManager.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="2514" y="319"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -152,7 +152,7 @@
     </display>  
   </class>  
   <class id="15" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.ship.EntityShip" 
-    project="spaceinvaders" file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/ship/EntityShip.java" 
+    project="SpaceInvaderTP" file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/entities/ship/EntityShip.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="3982" y="1581"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -162,8 +162,8 @@
     </display>  
   </class>  
   <class id="16" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.ship.EntityShipDefault" 
-    project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/ship/EntityShipDefault.java" binary="false" 
+    project="SpaceInvaderTP" 
+    file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/entities/ship/EntityShipDefault.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="3766" y="1835"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -172,8 +172,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="17" language="java" name="fr.univ_artois.iut_lens.spaceinvader.levels.Level" project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/levels/Level.java" binary="false" 
+  <class id="17" language="java" name="fr.univ_artois.iut_lens.spaceinvader.levels.Level" project="SpaceInvaderTP" 
+    file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/levels/Level.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="2208" y="602"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -183,8 +183,8 @@
     </display>  
   </class>  
   <class id="18" language="java" 
-    name="fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.move.StrategyMoveEnnemy" project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/ennemy/strategy/move/StrategyMoveEnnemy.java" 
+    name="fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.move.StrategyMoveEnnemy" project="SpaceInvaderTP" 
+    file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/entities/ennemy/strategy/move/StrategyMoveEnnemy.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1772" y="848"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -193,8 +193,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="19" language="java" name="fr.univ_artois.iut_lens.spaceinvader.Sprite" project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/Sprite.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="19" language="java" name="fr.univ_artois.iut_lens.spaceinvader.Sprite" project="SpaceInvaderTP" 
+    file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/Sprite.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="3152" y="-4"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -203,7 +203,7 @@
     </display>  
   </class>  
   <class id="20" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShot" 
-    project="spaceinvaders" file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/shot/EntityShot.java" 
+    project="SpaceInvaderTP" file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/entities/shot/EntityShot.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1673" y="1641"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -213,8 +213,8 @@
     </display>  
   </class>  
   <class id="21" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.bonuses.EntityBonusPowerUp" 
-    project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/bonuses/EntityBonusPowerUp.java" 
+    project="SpaceInvaderTP" 
+    file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/entities/bonuses/EntityBonusPowerUp.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="4122" y="775"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -225,8 +225,8 @@
   </class>  
   <class id="22" language="java" 
     name="fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.move.StrategyMoveEnnemyDisturbed" 
-    project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/ennemy/strategy/move/StrategyMoveEnnemyDisturbed.java" 
+    project="SpaceInvaderTP" 
+    file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/entities/ennemy/strategy/move/StrategyMoveEnnemyDisturbed.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="2176" y="1078"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -235,8 +235,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="23" language="java" name="fr.univ_artois.iut_lens.spaceinvader.levels.LevelAlien" project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/levels/LevelAlien.java" binary="false" 
+  <class id="23" language="java" name="fr.univ_artois.iut_lens.spaceinvader.levels.LevelAlien" project="SpaceInvaderTP" 
+    file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/levels/LevelAlien.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1274" y="240"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -247,8 +247,8 @@
   </class>  
   <class id="24" language="java" 
     name="fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.move.StrategyMoveEnnemyBossPremier" 
-    project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/ennemy/strategy/move/StrategyMoveEnnemyBossPremier.java" 
+    project="SpaceInvaderTP" 
+    file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/entities/ennemy/strategy/move/StrategyMoveEnnemyBossPremier.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="2509" y="1078"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -259,8 +259,8 @@
   </class>  
   <class id="25" language="java" 
     name="fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.shot.StrategyShotEnnemyMegaBoss" 
-    project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/ennemy/strategy/shot/StrategyShotEnnemyMegaBoss.java" 
+    project="SpaceInvaderTP" 
+    file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/entities/ennemy/strategy/shot/StrategyShotEnnemyMegaBoss.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="520" y="1105"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -270,8 +270,8 @@
     </display>  
   </class>  
   <class id="26" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.bonuses.EntityBonusPowerDown" 
-    project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/bonuses/EntityBonusPowerDown.java" 
+    project="SpaceInvaderTP" 
+    file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/entities/bonuses/EntityBonusPowerDown.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="3645" y="771"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -281,8 +281,8 @@
     </display>  
   </class>  
   <class id="27" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromAllySubComplex" 
-    project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/shot/EntityShotFromAllySubComplex.java" 
+    project="SpaceInvaderTP" 
+    file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/entities/shot/EntityShotFromAllySubComplex.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="2019" y="2005"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -291,8 +291,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="28" language="java" name="fr.univ_artois.iut_lens.spaceinvader.levels.LevelMaxime" project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/levels/LevelMaxime.java" binary="false" 
+  <class id="28" language="java" name="fr.univ_artois.iut_lens.spaceinvader.levels.LevelMaxime" project="SpaceInvaderTP" 
+    file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/levels/LevelMaxime.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1515" y="240"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -301,8 +301,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="29" language="java" name="fr.univ_artois.iut_lens.spaceinvader.ShipManager" project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/ShipManager.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="29" language="java" name="fr.univ_artois.iut_lens.spaceinvader.ShipManager" project="SpaceInvaderTP" 
+    file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/ShipManager.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="3017" y="593"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -311,8 +311,8 @@
     </display>  
   </class>  
   <class id="30" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromEnnemyAdvanced" 
-    project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/shot/EntityShotFromEnnemyAdvanced.java" 
+    project="SpaceInvaderTP" 
+    file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/entities/shot/EntityShotFromEnnemyAdvanced.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="782" y="1997"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -322,7 +322,7 @@
     </display>  
   </class>  
   <class id="31" language="java" name="fr.univ_artois.iut_lens.spaceinvader.levels.LevelBossPremier" 
-    project="spaceinvaders" file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/levels/LevelBossPremier.java" 
+    project="SpaceInvaderTP" file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/levels/LevelBossPremier.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1757" y="248"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -331,8 +331,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="32" language="java" name="fr.univ_artois.iut_lens.spaceinvader.BonusManager" project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/BonusManager.java" binary="false" 
+  <class id="32" language="java" name="fr.univ_artois.iut_lens.spaceinvader.BonusManager" project="SpaceInvaderTP" 
+    file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/BonusManager.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="2860" y="274"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -343,8 +343,8 @@
   </class>  
   <class id="33" language="java" 
     name="fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.shot.StrategyShotEnnemyBasic" 
-    project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/ennemy/strategy/shot/StrategyShotEnnemyBasic.java" 
+    project="SpaceInvaderTP" 
+    file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/entities/ennemy/strategy/shot/StrategyShotEnnemyBasic.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="847" y="1078"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -354,8 +354,8 @@
     </display>  
   </class>  
   <class id="34" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.ship.EntityShipSecretShip" 
-    project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/ship/EntityShipSecretShip.java" 
+    project="SpaceInvaderTP" 
+    file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/entities/ship/EntityShipSecretShip.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="4019" y="1835"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -365,8 +365,8 @@
     </display>  
   </class>  
   <class id="35" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromAlly" 
-    project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/shot/EntityShotFromAlly.java" binary="false" 
+    project="SpaceInvaderTP" 
+    file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/entities/shot/EntityShotFromAlly.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="2401" y="1855"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -375,8 +375,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="36" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.Entity" project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/Entity.java" binary="false" 
+  <class id="36" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.Entity" project="SpaceInvaderTP" 
+    file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/entities/Entity.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="2803" y="1177"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -386,8 +386,8 @@
     </display>  
   </class>  
   <class id="37" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromEnnemyBasic" 
-    project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/shot/EntityShotFromEnnemyBasic.java" 
+    project="SpaceInvaderTP" 
+    file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/entities/shot/EntityShotFromEnnemyBasic.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="1174" y="1997"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -397,8 +397,8 @@
     </display>  
   </class>  
   <class id="38" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromAllyComplex" 
-    project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/shot/EntityShotFromAllyComplex.java" 
+    project="SpaceInvaderTP" 
+    file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/entities/shot/EntityShotFromAllyComplex.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="2380" y="2041"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -408,8 +408,8 @@
     </display>  
   </class>  
   <class id="39" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.ship.EntityShipMegaShip" 
-    project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/ship/EntityShipMegaShip.java" binary="false" 
+    project="SpaceInvaderTP" 
+    file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/entities/ship/EntityShipMegaShip.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="4272" y="1835"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -419,8 +419,8 @@
     </display>  
   </class>  
   <class id="40" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromAllySubComplex2" 
-    project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/shot/EntityShotFromAllySubComplex2.java" 
+    project="SpaceInvaderTP" 
+    file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/entities/shot/EntityShotFromAllySubComplex2.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="2744" y="2005"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -430,8 +430,8 @@
     </display>  
   </class>  
   <class id="41" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromAllyAdvanced" 
-    project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/shot/EntityShotFromAllyAdvanced.java" 
+    project="SpaceInvaderTP" 
+    file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/entities/shot/EntityShotFromAllyAdvanced.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="3136" y="2005"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -440,8 +440,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="42" language="java" name="fr.univ_artois.iut_lens.spaceinvader.levels.LevelAlien3" project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/levels/LevelAlien3.java" binary="false" 
+  <class id="42" language="java" name="fr.univ_artois.iut_lens.spaceinvader.levels.LevelAlien3" project="SpaceInvaderTP" 
+    file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/levels/LevelAlien3.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="2010" y="253"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -451,8 +451,8 @@
     </display>  
   </class>  
   <class id="43" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.EntityEnnemy" 
-    project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/ennemy/EntityEnnemy.java" binary="false" 
+    project="SpaceInvaderTP" 
+    file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/entities/ennemy/EntityEnnemy.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="2615" y="1589"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -462,8 +462,8 @@
     </display>  
   </class>  
   <class id="44" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.ship.EntityShipSupership" 
-    project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/ship/EntityShipSupership.java" binary="false" 
+    project="SpaceInvaderTP" 
+    file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/entities/ship/EntityShipSupership.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="4525" y="1835"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -472,8 +472,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="45" language="java" name="fr.univ_artois.iut_lens.spaceinvader.levels.LevelAlien2" project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/levels/LevelAlien2.java" binary="false" 
+  <class id="45" language="java" name="fr.univ_artois.iut_lens.spaceinvader.levels.LevelAlien2" project="SpaceInvaderTP" 
+    file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/levels/LevelAlien2.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="2264" y="249"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -482,8 +482,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="46" language="java" name="fr.univ_artois.iut_lens.spaceinvader.EntitiesManager" project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/EntitiesManager.java" binary="false" 
+  <class id="46" language="java" name="fr.univ_artois.iut_lens.spaceinvader.EntitiesManager" project="SpaceInvaderTP" 
+    file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/EntitiesManager.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="2746" y="737"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -493,8 +493,8 @@
     </display>  
   </class>  
   <class id="47" language="java" name="fr.univ_artois.iut_lens.spaceinvader.entities.bonuses.EntityBonus" 
-    project="spaceinvaders" 
-    file="/spaceinvaders/src/fr/univ_artois/iut_lens/spaceinvader/entities/bonuses/EntityBonus.java" binary="false" 
+    project="SpaceInvaderTP" 
+    file="/SpaceInvaderTP/src/fr/univ_artois/iut_lens/spaceinvader/entities/bonuses/EntityBonus.java" binary="false" 
     corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="3702" y="476"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
