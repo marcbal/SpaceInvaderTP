@@ -1,66 +1,54 @@
 package fr.univ_artois.iut_lens.spaceinvader;
 
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
-import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.EntityEnnemy;
-import fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromAlly;
-import fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromEnnemy;
 
 public class CollisionThread implements Runnable {
 	
 	
-	private int currentThread;
-	private int nbThread;
+	private int itemIndex;
 	private Entity[] entitiesMT = null;
 	
-	public CollisionThread(int cTh, int nbTh) {
-		currentThread = cTh;
-		nbThread = nbTh;
+	public CollisionThread(int index, Entity[] ents) {
+		if (ents == null)
+			throw new IllegalArgumentException("ents ne peut être null");
+		if (index < 0 || index >= ents.length)
+			throw new IllegalArgumentException("index n'est pas entre 0 et la taille de ents");
+		itemIndex = index;
+		entitiesMT = ents;
 	}
 	
 	
 	@Override
 	public void run() {
-		if (entitiesMT == null) return;
+		Entity me = entitiesMT[itemIndex];
+		if (me.plannedToRemoved())
+			return;
 		
-		int s=currentThread;
-		
-		for (int p=0;p<entitiesMT.length;p++) {
-			for (;s<entitiesMT.length;s+=nbThread) {
-				try
-				{
-					Entity me = entitiesMT[p];
-					Entity him = entitiesMT[s];
-					if (me instanceof EntityShotFromAlly && him instanceof EntityShotFromAlly) continue;
-					if (me instanceof EntityShotFromEnnemy && him instanceof EntityShotFromEnnemy) continue;
-					if (me instanceof EntityEnnemy && him instanceof EntityEnnemy) continue;
-					if (me.plannedToRemoved() || him.plannedToRemoved()) continue;
-					
-					
-					if (me.collidesWith(him)) {
-						me.collidedWith(him);
-						him.collidedWith(me);
-					}
-				}
-				catch (Exception e)
-				{
-					/*System.err.println("Thread #"+cTh
-							+", Collision #"+i
-							+", entities.size()="+entities.size()
-							+", compare "+p+" and "+s+" indexes :");
-					e.printStackTrace();*/
+		for (int i=0; i<itemIndex; i++) {
+			Entity him = entitiesMT[i];
+			try
+			{
+				if (him.getCamp().equals(me.getCamp())) continue;
+				if (him.plannedToRemoved()) continue;
+				
+				
+				if (him.collidesWith(me)) {
+					me.collidedWith(him);
+					him.collidedWith(me);
 				}
 			}
-			s+=p+2-entitiesMT.length;
+			catch (Exception e)
+			{
+				/*System.err.println("Thread #"+cTh
+						+", Collision #"+i
+						+", entities.size()="+entities.size()
+						+", compare "+p+" and "+s+" indexes :");
+				e.printStackTrace();*/
+			}
 		}
 		
 		
-		
-		
-		entitiesMT = null;
 	}
 	
-	public void collisionWork(Entity[] ent) {
-		entitiesMT = ent;
-	}
 
 }

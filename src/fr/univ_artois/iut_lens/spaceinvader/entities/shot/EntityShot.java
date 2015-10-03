@@ -43,16 +43,6 @@ public abstract class EntityShot extends Entity {
 		super.move(delta);
 	}
 	
-	/**
-	 * Notification that this shot has collided with another
-	 * entity
-	 * 
-	 * @parma other The other entity with which we've collided
-	 */
-	public void collidedWith(Entity other) {
-		
-	}
-	
 	
 	public int getDegat() { return degat; }
 }

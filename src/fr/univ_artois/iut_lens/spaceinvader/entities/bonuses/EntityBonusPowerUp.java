@@ -12,7 +12,7 @@ public class EntityBonusPowerUp extends EntityBonus {
 		super("sprites/powerUp.png", p, s, eM, sM);
 	}
 	
-	public void collidedWith(Entity other) {
+	public synchronized void collidedWith(Entity other) {
 		if(other instanceof EntityShip) {
 			shipManager.increaseShipType();
 			entitiesManager.removeEntity(this);

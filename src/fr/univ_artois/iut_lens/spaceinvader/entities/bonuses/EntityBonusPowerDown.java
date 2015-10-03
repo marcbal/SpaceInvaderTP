@@ -12,7 +12,7 @@ public class EntityBonusPowerDown extends EntityBonus {
 		super("sprites/powerDown.png", p, s, eM, sM);
 	}
 	
-	public void collidedWith(Entity other) {
+	public synchronized void collidedWith(Entity other) {
 		if(other instanceof EntityShip) {
 			shipManager.decreaseShipType();
 			entitiesManager.removeEntity(this);

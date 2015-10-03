@@ -2,6 +2,7 @@ package fr.univ_artois.iut_lens.spaceinvader;
 
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -21,26 +22,11 @@ public class EntitiesManager {
 	private List<Entity> entities = new ArrayList<Entity>();
 	private List<Entity> removeList = new ArrayList<Entity>();
 	
-	private Entity[] entitiesMT; // utilisé pour les calculs en multiThread (plus optimisé)
-	
 	public final int nbThread = Runtime.getRuntime().availableProcessors();
-	
-	private CollisionThread[] threadsRunnable = new CollisionThread[nbThread];
-	
-	private ExecutorService threadpool;
-	
-	private int lastCollisionComputingNumber = 0;
 	
 	
 	
 	public EntitiesManager() {
-
-		
-		for (int cTh=0; cTh<nbThread; cTh++)
-		{
-			threadsRunnable[cTh] = new CollisionThread(cTh, nbThread);
-		}
-		
 	}
 	
 	//Méthode déssinant les entités
@@ -57,17 +43,46 @@ public class EntitiesManager {
 		}
 	}
 	
-	//Fonction permettant déplacer les entités
-	public void moveEntities(long delta, LevelManager levelMan) {
+	//Fonction permettant de déplacer les entités et de calculer leur collisions
+	public void moveAndCollideEntities(long delta, LevelManager levelMan) {
 		
 		levelMan.getCurrentLevel().getCurrentStrategyMove().performMove(delta, this);
 		
-		for(Entity entity : entities.toArray(new Entity[entities.size()]))
+		ExecutorService threadpool = Executors.newFixedThreadPool(nbThread);
+
+		// partie de calcul multithreadé
+		long thread_colision_start = System.nanoTime();
+		Entity[] entitiesArray = entities.toArray(new Entity[entities.size()]);
+		for(int i = 0; i < entitiesArray.length; i++)
 		{
-	    	if (entity instanceof EntityEnnemy)
-	    		continue; // géré par la stratégie de déplacement
-			entity.move(delta);
+			try {
+				Entity entity = entitiesArray[i];
+		    	if (!(entity instanceof EntityEnnemy))
+		    		// les enemies sont gérés par la strtégie de mouvement ci-dessus
+		    		entity.move(delta);
+		    	
+				if (entity.plannedToRemoved())
+					continue;
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+	    	
+	    	threadpool.submit(new CollisionThread(i, entitiesArray));
 		}
+
+		threadpool.shutdown();
+		
+		try {
+			threadpool.awaitTermination(2, TimeUnit.SECONDS);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		threadpool.shutdownNow();
+		
+		Game.gameInstance.logicalCollisionDuration.set(System.nanoTime()-thread_colision_start);
+		
+		entities.removeAll(removeList);
+		removeList.clear();
 	}
 	
 	public void makeEntitiesShoot(LevelManager levelMan) {
@@ -75,47 +90,6 @@ public class EntitiesManager {
 	}
 	
 	
-	
-	
-	public void doCollisions() {
-		
-		// brute force collisions, compare every entity against
-		// every other entity. If any of them collide notify 
-		// both entities that the collision has occured
-		
-		entitiesMT = entities.toArray(new Entity[entities.size()]);
-		
-		
-		
-		// partie de calcul multithreadé
-		long thread_colision_start = System.nanoTime();
-		
-		threadpool = Executors.newFixedThreadPool(nbThread);
-
-		for (int cTh=0; cTh<nbThread; cTh++)
-		{
-			threadsRunnable[cTh].collisionWork(entitiesMT);
-			threadpool.submit(threadsRunnable[cTh]);
-		}
-		
-		threadpool.shutdown();
-		
-		try {
-			threadpool.awaitTermination(1, TimeUnit.SECONDS);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		Game.gameInstance.logicalCollisionDuration.set(System.nanoTime()-thread_colision_start);
-		
-		
-		
-		
-		
-		
-		// remove any entity that has been marked for clear up
-		entities.removeAll(removeList);
-		removeList.clear();
-	}
 	
 	
 	public List<Entity> getEntitiesList() { return entities; }
@@ -161,7 +135,6 @@ public class EntitiesManager {
 	
 	List<Entity> getRemovedList() { return removeList; }
 
-	public int getLastCollisionComputingNumber() { return lastCollisionComputingNumber; }
 	
 	
 	

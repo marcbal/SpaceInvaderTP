@@ -27,7 +27,7 @@ public class EntityShotFromEnnemy extends EntityShot {
 	
 	
 	@Override
-	public void collidedWith(Entity other) {
+	public synchronized void collidedWith(Entity other) {
 		// prevents double kills, if we've already hit something,
 		// don't collide
 		if (used) {
@@ -50,5 +50,10 @@ public class EntityShotFromEnnemy extends EntityShot {
 		if (position.y < -sprite.getHeight() || position.y > Game.gameInstance.getWindowHeight() || position.x < -sprite.getWidth() || position.x > Game.gameInstance.getWindowWidth()) {
 			entitiesManager.removeEntity(this);
 		}
+	}
+
+	@Override
+	public Camp getCamp() {
+		return Camp.ENEMY;
 	}
 }

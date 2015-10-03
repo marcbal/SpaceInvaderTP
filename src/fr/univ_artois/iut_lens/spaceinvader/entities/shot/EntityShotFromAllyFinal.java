@@ -54,7 +54,7 @@ public class EntityShotFromAllyFinal extends EntityShotFromAlly {
 	}
 	
 	@Override
-	public void collidedWith(Entity other) {
+	public synchronized void collidedWith(Entity other) {
 		// prevents double kills, if we've already hit something,
 		// don't collide
 		

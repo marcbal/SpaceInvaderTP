@@ -257,11 +257,9 @@ public class Game extends Canvas {
 		if (!waitingForKeyPress && !keyHandler.isKeyToggle("pause"))
 		{
 			//Déplacer les entités
-			entitiesManager.moveEntities(delta,levelManager);
-			
 			//Vérifier si il y a eu des collisions
 			//Supprimer les entités tués
-			entitiesManager.doCollisions();
+			entitiesManager.moveAndCollideEntities(delta,levelManager);
 			
 			//Faire tirer les entités
 			entitiesManager.makeEntitiesShoot(levelManager);

@@ -161,10 +161,20 @@ public abstract class Entity {
 		return false;
 	}
 	
+	public Camp getCamp() {
+		return Camp.NEUTRAL;
+	}
+	
 
 	public Vector2d getPosition() { return position; }
 	public Vector2d getSpeed() { return speed; }
 	public void setPosition(Vector2d newPos) { position = newPos; }
 	public void setSpeed(Vector2d newSpeed) { speed = newSpeed; }
 	public int getLife() { return life; }
+	
+	
+	
+	public static enum Camp {
+		ALLY, NEUTRAL, ENEMY
+	}
 }

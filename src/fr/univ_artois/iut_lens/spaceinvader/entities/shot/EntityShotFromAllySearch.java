@@ -21,7 +21,7 @@ public class EntityShotFromAllySearch extends EntityShotFromAlly {
 	public void move(long delta) {
 		
 		if (target == null || !entitiesManager.getEntitiesList().contains(target))
-			TargettingUtil.searchTargetEnnemy(this, entitiesManager);
+			target = TargettingUtil.searchTargetEnnemy(this, entitiesManager);
 		
 		if (target != null)
 		{

@@ -29,7 +29,7 @@ public abstract class EntityShotFromAlly  extends EntityShot{
 	
 	
 	@Override
-	public void collidedWith(Entity other) {
+	public synchronized void collidedWith(Entity other) {
 		// prevents double kills, if we've already hit something,
 		// don't collide
 		if (used) {
@@ -70,5 +70,10 @@ public abstract class EntityShotFromAlly  extends EntityShot{
 		if (position.y < -50 || position.y > Game.gameInstance.getWindowHeight() + 50 || position.x < -50 || position.x > Game.gameInstance.getWindowWidth() + 50) {
 			entitiesManager.removeEntity(this);
 		}
+	}
+	
+	@Override
+	public Camp getCamp() {
+		return Camp.ALLY;
 	}
 }

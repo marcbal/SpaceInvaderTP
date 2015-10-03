@@ -49,7 +49,7 @@ public class EntityEnnemy extends Entity {
 	 * 
 	 * @param other The other entity
 	 */
-	public void collidedWith(Entity other) {
+	public synchronized void collidedWith(Entity other) {
 		// collisions with aliens are handled elsewhere
 	}
 	
@@ -62,6 +62,11 @@ public class EntityEnnemy extends Entity {
 		speed.x *= 1.02;
 	}
 	
+
+	@Override
+	public Camp getCamp() {
+		return Camp.ENEMY;
+	}
 	
 
 	

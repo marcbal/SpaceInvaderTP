@@ -66,7 +66,7 @@ public abstract class EntityShip extends Entity {
 	 * 
 	 * @param other The entity with which the ship has collided
 	 */
-	public void collidedWith(Entity other) {
+	public synchronized void collidedWith(Entity other) {
 		// if its an alien or a shoot, notify the game that the player
 		// is dead
 		if (other instanceof EntityEnnemy || other instanceof EntityShotFromEnnemy) {
@@ -87,6 +87,11 @@ public abstract class EntityShip extends Entity {
 		position = pos;
 	}
 	
+
+	@Override
+	public Camp getCamp() {
+		return Camp.ALLY;
+	}
 	
 
 	public void tryToShoot(long currentTime) {
