@@ -1,19 +1,19 @@
-package fr.univ_artois.iut_lens.spaceinvader;
+package fr.univ_artois.iut_lens.spaceinvader.server;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.univ_artois.iut_lens.spaceinvader.levels.Level;
-import fr.univ_artois.iut_lens.spaceinvader.levels.LevelAlien;
-import fr.univ_artois.iut_lens.spaceinvader.levels.LevelAlien2;
-import fr.univ_artois.iut_lens.spaceinvader.levels.LevelAlien3;
-import fr.univ_artois.iut_lens.spaceinvader.levels.LevelAllStar;
-import fr.univ_artois.iut_lens.spaceinvader.levels.LevelBossPremier;
-import fr.univ_artois.iut_lens.spaceinvader.levels.LevelFinalBoss;
-import fr.univ_artois.iut_lens.spaceinvader.levels.LevelFinalBoss2;
-import fr.univ_artois.iut_lens.spaceinvader.levels.LevelMarc;
-import fr.univ_artois.iut_lens.spaceinvader.levels.LevelMaxime;
-import fr.univ_artois.iut_lens.spaceinvader.levels.LevelMegaAllStars;
+import fr.univ_artois.iut_lens.spaceinvader.server.levels.Level;
+import fr.univ_artois.iut_lens.spaceinvader.server.levels.LevelAlien;
+import fr.univ_artois.iut_lens.spaceinvader.server.levels.LevelAlien2;
+import fr.univ_artois.iut_lens.spaceinvader.server.levels.LevelAlien3;
+import fr.univ_artois.iut_lens.spaceinvader.server.levels.LevelAllStar;
+import fr.univ_artois.iut_lens.spaceinvader.server.levels.LevelBossPremier;
+import fr.univ_artois.iut_lens.spaceinvader.server.levels.LevelFinalBoss;
+import fr.univ_artois.iut_lens.spaceinvader.server.levels.LevelFinalBoss2;
+import fr.univ_artois.iut_lens.spaceinvader.server.levels.LevelMarc;
+import fr.univ_artois.iut_lens.spaceinvader.server.levels.LevelMaxime;
+import fr.univ_artois.iut_lens.spaceinvader.server.levels.LevelMegaAllStars;
 
 public class LevelManager {
 	

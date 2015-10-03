@@ -3,8 +3,8 @@ package fr.univ_artois.iut_lens.spaceinvader.entities.ennemy;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
+import fr.univ_artois.iut_lens.spaceinvader.server.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
 /**

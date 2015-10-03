@@ -1,7 +1,7 @@
 package fr.univ_artois.iut_lens.spaceinvader.entities.ship;
 
-import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromAllyFinal2;
+import fr.univ_artois.iut_lens.spaceinvader.server.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
 public class EntityShipFinal2 extends EntityShip implements ShipLimitedShot {

@@ -1,6 +1,6 @@
 package fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.shot;
 
-import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
+import fr.univ_artois.iut_lens.spaceinvader.server.EntitiesManager;
 
 public abstract class StrategyShotEnnemy {
 	

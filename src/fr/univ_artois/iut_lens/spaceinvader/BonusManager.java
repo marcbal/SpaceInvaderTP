@@ -4,6 +4,7 @@ import java.util.Random;
 
 import fr.univ_artois.iut_lens.spaceinvader.entities.bonuses.EntityBonusPowerDown;
 import fr.univ_artois.iut_lens.spaceinvader.entities.bonuses.EntityBonusPowerUp;
+import fr.univ_artois.iut_lens.spaceinvader.server.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
 public class BonusManager {

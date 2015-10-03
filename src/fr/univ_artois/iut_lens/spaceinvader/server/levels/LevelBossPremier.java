@@ -1,12 +1,12 @@
-package fr.univ_artois.iut_lens.spaceinvader.levels;
+package fr.univ_artois.iut_lens.spaceinvader.server.levels;
 
 import java.util.ArrayList;
 
-import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.EntityEnnemy;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.move.StrategyMoveEnnemyBossPremier;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.shot.StrategyShotEnnemyMegaBoss;
+import fr.univ_artois.iut_lens.spaceinvader.server.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
 /**

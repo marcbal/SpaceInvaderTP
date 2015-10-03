@@ -1,29 +1,26 @@
-package fr.univ_artois.iut_lens.spaceinvader.levels;
+package fr.univ_artois.iut_lens.spaceinvader.server.levels;
 
 import java.util.ArrayList;
 
-import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
-import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
+import fr.univ_artois.iut_lens.spaceinvader.entities.*;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.EntityEnnemy;
+import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.move.StrategyMoveEnnemyDisturbed;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.move.StrategyMoveEnnemyNormal;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.move.StrategyMoveEnnemyRandom;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.shot.StrategyShotEnnemyAimFor;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.shot.StrategyShotEnnemyBasic;
+import fr.univ_artois.iut_lens.spaceinvader.server.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
-/**
- * Class which made appear the terrifying Marc and Maxime !!
- *
- */
-public class LevelMegaAllStars extends Level {
-
-	public LevelMegaAllStars(EntitiesManager entitiesManager) {
+public class LevelAlien2 extends Level {
+		
+	public LevelAlien2(EntitiesManager entitiesManager) {
 		super(entitiesManager,
-				7,
-				12,
-				null,
-				new Vector2d(50, 50),
-				new Vector2d(50, 50),
+				6,
+				13,
+				"sprites/alien_spaceship_by_animot-d5t4j611.png",
+				new Vector2d(50,50),
+				new Vector2d(75,50),
 				new StrategyMoveEnnemyNormal(),
 				new StrategyShotEnnemyBasic(1000));
 	}
@@ -34,11 +31,8 @@ public class LevelMegaAllStars extends Level {
 		SquadList = new ArrayList<Entity>();
 		for (int r=0;r<row;r++) {
 			for (int l=0;l<line;l++) {
-				if (nbCount%2 == 0)
-					SquadList.add(new EntityEnnemy("sprites/marc.jpg",new Vector2d(pos.x+(l*space.x),pos.y+r*space.y), 1000, entitiesManager));
-				else
-					SquadList.add(new EntityEnnemy("sprites/max.jpg",new Vector2d(pos.x+(l*space.x),pos.y+r*space.y), 1000, entitiesManager));
-				
+				Entity alien = new EntityEnnemy(sprite,new Vector2d(pos.x+(l*space.x),pos.y+r*space.y),100,entitiesManager);
+				SquadList.add(alien);
 				nbCount++;
 			}
 		}
@@ -49,13 +43,19 @@ public class LevelMegaAllStars extends Level {
 		
 		boolean ret = super.hasOneDestroyed();
 		
-		if (nbCount == 60)
+		if(nbCount == 50) {
+			strategyShot = new StrategyShotEnnemyAimFor(600);
+		}
+		if (nbCount == 40)
 		{
 			strategyMove = new StrategyMoveEnnemyRandom();
-			strategyShot = new StrategyShotEnnemyAimFor(5);
+		}
+		if(nbCount == 20) {
+			strategyMove = new StrategyMoveEnnemyDisturbed();
 		}
 		
 		return ret;
 		
 	}
+	
 }

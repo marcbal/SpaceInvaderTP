@@ -1,4 +1,4 @@
-package fr.univ_artois.iut_lens.spaceinvader;
+package fr.univ_artois.iut_lens.spaceinvader.client_game;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;

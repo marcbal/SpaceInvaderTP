@@ -1,8 +1,8 @@
 package fr.univ_artois.iut_lens.spaceinvader.util;
 
-import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity.Camp;
+import fr.univ_artois.iut_lens.spaceinvader.server.EntitiesManager;
 
 public class TargettingUtil {
 	

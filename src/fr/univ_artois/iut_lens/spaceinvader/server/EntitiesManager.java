@@ -1,13 +1,13 @@
-package fr.univ_artois.iut_lens.spaceinvader;
+package fr.univ_artois.iut_lens.spaceinvader.server;
 
 import java.awt.Graphics2D;
 import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import fr.univ_artois.iut_lens.spaceinvader.Game;
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.EntityEnnemy;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ship.EntityShip;

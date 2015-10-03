@@ -1,7 +1,7 @@
 package fr.univ_artois.iut_lens.spaceinvader.entities.ship;
 
-import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromAllyComplex;
+import fr.univ_artois.iut_lens.spaceinvader.server.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
 public class EntityShipSecretShip extends EntityShip {

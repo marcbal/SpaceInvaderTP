@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
+import fr.univ_artois.iut_lens.spaceinvader.client_game.KeyInputHandler;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ship.ShipLimitedShot;
 
 public class OnScreenDisplay {

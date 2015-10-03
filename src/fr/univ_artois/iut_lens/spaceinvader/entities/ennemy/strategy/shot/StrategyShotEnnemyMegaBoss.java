@@ -2,12 +2,12 @@ package fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.shot;
 
 import java.util.Random;
 
-import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.Game;
 import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.EntityEnnemy;
 import fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromEnnemyAdvanced;
 import fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShotFromEnnemyBasic;
+import fr.univ_artois.iut_lens.spaceinvader.server.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
 public class StrategyShotEnnemyMegaBoss extends StrategyShotEnnemy {

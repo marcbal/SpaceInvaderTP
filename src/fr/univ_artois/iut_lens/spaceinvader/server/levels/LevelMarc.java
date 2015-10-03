@@ -1,26 +1,29 @@
-package fr.univ_artois.iut_lens.spaceinvader.levels;
+package fr.univ_artois.iut_lens.spaceinvader.server.levels;
 
 import java.util.ArrayList;
 
-import fr.univ_artois.iut_lens.spaceinvader.EntitiesManager;
-import fr.univ_artois.iut_lens.spaceinvader.entities.*;
+import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.EntityEnnemy;
-import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.move.StrategyMoveEnnemyDisturbed;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.move.StrategyMoveEnnemyNormal;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.move.StrategyMoveEnnemyRandom;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.shot.StrategyShotEnnemyAimFor;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.shot.StrategyShotEnnemyBasic;
+import fr.univ_artois.iut_lens.spaceinvader.server.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
-public class LevelAlien2 extends Level {
-		
-	public LevelAlien2(EntitiesManager entitiesManager) {
+/**
+ * Class which made appear the terrifying Marc !!
+ *
+ */
+public class LevelMarc extends Level {
+
+	public LevelMarc(EntitiesManager entitiesManager) {
 		super(entitiesManager,
-				6,
-				13,
-				"sprites/alien_spaceship_by_animot-d5t4j611.png",
-				new Vector2d(50,50),
-				new Vector2d(75,50),
+				7,
+				10,
+				"sprites/marc.jpg",
+				new Vector2d(50, 50),
+				new Vector2d(50, 50),
 				new StrategyMoveEnnemyNormal(),
 				new StrategyShotEnnemyBasic(1000));
 	}
@@ -31,7 +34,7 @@ public class LevelAlien2 extends Level {
 		SquadList = new ArrayList<Entity>();
 		for (int r=0;r<row;r++) {
 			for (int l=0;l<line;l++) {
-				Entity alien = new EntityEnnemy(sprite,new Vector2d(pos.x+(l*space.x),pos.y+r*space.y),100,entitiesManager);
+				Entity alien = new EntityEnnemy(sprite,new Vector2d(pos.x+(l*space.x),pos.y+r*space.y), 5,entitiesManager);
 				SquadList.add(alien);
 				nbCount++;
 			}
@@ -43,19 +46,13 @@ public class LevelAlien2 extends Level {
 		
 		boolean ret = super.hasOneDestroyed();
 		
-		if(nbCount == 50) {
-			strategyShot = new StrategyShotEnnemyAimFor(600);
-		}
 		if (nbCount == 40)
 		{
 			strategyMove = new StrategyMoveEnnemyRandom();
-		}
-		if(nbCount == 20) {
-			strategyMove = new StrategyMoveEnnemyDisturbed();
+			strategyShot = new StrategyShotEnnemyAimFor(600);
 		}
 		
 		return ret;
 		
 	}
-	
 }

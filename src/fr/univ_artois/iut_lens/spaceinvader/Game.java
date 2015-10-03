@@ -15,8 +15,11 @@ import java.util.concurrent.atomic.AtomicLong;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import fr.univ_artois.iut_lens.spaceinvader.client_game.KeyInputHandler;
 import fr.univ_artois.iut_lens.spaceinvader.entities.*;
 import fr.univ_artois.iut_lens.spaceinvader.entities.ship.EntityShip;
+import fr.univ_artois.iut_lens.spaceinvader.server.EntitiesManager;
+import fr.univ_artois.iut_lens.spaceinvader.server.LevelManager;
 
 /**
  * The main hook of our game. This class with both act as a manager
