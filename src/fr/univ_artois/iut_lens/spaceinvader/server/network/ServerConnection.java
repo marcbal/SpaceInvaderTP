@@ -9,6 +9,7 @@ import java.nio.charset.Charset;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.Packet;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClient;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerProtocolError;
+import fr.univ_artois.iut_lens.spaceinvader.util.Logger;
 
 
 /**
@@ -74,13 +75,13 @@ public class ServerConnection {
 					
 					String dataStr = new String(packet.getData(), charset).substring(0, packet.getLength());
 
-					System.out.println("[Client "+packet.getSocketAddress()+"] "+dataStr);
+					Logger.info("[Client "+packet.getSocketAddress()+"] "+dataStr);
 					
 					String[] data = dataStr.split(":", 2);
 					
 					
 					if (data.length != 2) {
-						System.err.println("message du client mal formé");
+						Logger.severe("message du client mal formé");
 						sendProtocolError(packet.getSocketAddress(), "Erreur protocole : le packet doit contenir au moins un symbole \":\"");
 						continue;
 					}
@@ -110,7 +111,7 @@ public class ServerConnection {
 				e.printStackTrace();
 			}
 		});
-		
+		receiverThread.setName("Server Net");
 		receiverThread.start();
 		
 	}
@@ -123,9 +124,9 @@ public class ServerConnection {
 	}
 
 
-	private void send(SocketAddress addr, Packet p) throws IOException {
+	public void send(SocketAddress addr, Packet p) throws IOException {
 		String out = p.getCode()+":"+p.getData();
-		System.out.println("[Serveur à "+addr+"] "+out);
+		Logger.info("[Serveur à "+addr+"] "+out);
 		byte[] bytes = out.getBytes(charset);
 		socket.send(new DatagramPacket(bytes, bytes.length, addr));
 	}
@@ -141,9 +142,9 @@ public class ServerConnection {
 		if (!(p instanceof PacketClient))
 			throw new InvalidClientMessage("Le type de packet reçu n'est pas un packet attendu : "+p.getClass().getCanonicalName());
 		
-		// PacketClient pc = (PacketClient) p;
+		PacketClient pc = (PacketClient) p;
 		
-		// TODO traitement
+		gameListener.onReceivePacket(addr, pc);
 	}
 	
 	

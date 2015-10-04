@@ -2,14 +2,14 @@ package fr.univ_artois.iut_lens.spaceinvader.server.levels;
 
 import java.util.ArrayList;
 
-import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
-import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.EntityEnnemy;
-import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.move.StrategyMoveEnnemyDisturbed;
-import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.move.StrategyMoveEnnemyFinalBoss;
-import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.move.StrategyMoveEnnemyRandom;
-import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.shot.StrategyShotEnnemyAimFor;
-import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.strategy.shot.StrategyShotEnnemyMegaBoss;
 import fr.univ_artois.iut_lens.spaceinvader.server.EntitiesManager;
+import fr.univ_artois.iut_lens.spaceinvader.server.entities.Entity;
+import fr.univ_artois.iut_lens.spaceinvader.server.entities.ennemy.EntityEnnemy;
+import fr.univ_artois.iut_lens.spaceinvader.server.entities.ennemy.strategy.move.StrategyMoveEnnemyDisturbed;
+import fr.univ_artois.iut_lens.spaceinvader.server.entities.ennemy.strategy.move.StrategyMoveEnnemyFinalBoss;
+import fr.univ_artois.iut_lens.spaceinvader.server.entities.ennemy.strategy.move.StrategyMoveEnnemyRandom;
+import fr.univ_artois.iut_lens.spaceinvader.server.entities.ennemy.strategy.shot.StrategyShotEnnemyAimFor;
+import fr.univ_artois.iut_lens.spaceinvader.server.entities.ennemy.strategy.shot.StrategyShotEnnemyMegaBoss;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
 /**

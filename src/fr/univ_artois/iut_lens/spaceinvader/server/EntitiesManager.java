@@ -7,12 +7,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import fr.univ_artois.iut_lens.spaceinvader.Game;
-import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
-import fr.univ_artois.iut_lens.spaceinvader.entities.ennemy.EntityEnnemy;
-import fr.univ_artois.iut_lens.spaceinvader.entities.ship.EntityShip;
-import fr.univ_artois.iut_lens.spaceinvader.entities.ship.ShipLimitedShot;
-import fr.univ_artois.iut_lens.spaceinvader.entities.shot.EntityShot;
+import fr.univ_artois.iut_lens.spaceinvader.MegaSpaceInvader;
+import fr.univ_artois.iut_lens.spaceinvader.server.entities.Entity;
+import fr.univ_artois.iut_lens.spaceinvader.server.entities.ennemy.EntityEnnemy;
+import fr.univ_artois.iut_lens.spaceinvader.server.entities.ship.EntityShip;
+import fr.univ_artois.iut_lens.spaceinvader.server.entities.ship.ShipLimitedShot;
+import fr.univ_artois.iut_lens.spaceinvader.server.entities.shot.EntityShot;
 /**
  * Cette classe sert juste à gérer les entitées
  *
@@ -21,8 +21,6 @@ public class EntitiesManager {
 
 	private List<Entity> entities = new ArrayList<Entity>();
 	private List<Entity> removeList = new ArrayList<Entity>();
-	
-	public final int nbThread = Runtime.getRuntime().availableProcessors();
 	
 	
 	
@@ -48,10 +46,9 @@ public class EntitiesManager {
 		
 		levelMan.getCurrentLevel().getCurrentStrategyMove().performMove(delta, this);
 		
-		ExecutorService threadpool = Executors.newFixedThreadPool(nbThread);
+		ExecutorService threadpool = Executors.newFixedThreadPool(MegaSpaceInvader.SERVER_NB_THREAD_FOR_ENTITY_COLLISION);
 
 		// partie de calcul multithreadé
-		long thread_colision_start = System.nanoTime();
 		Entity[] entitiesArray = entities.toArray(new Entity[entities.size()]);
 		for(int i = 0; i < entitiesArray.length; i++)
 		{
@@ -78,8 +75,6 @@ public class EntitiesManager {
 			e.printStackTrace();
 		}
 		threadpool.shutdownNow();
-		
-		Game.gameInstance.logicalCollisionDuration.set(System.nanoTime()-thread_colision_start);
 		
 		entities.removeAll(removeList);
 		removeList.clear();

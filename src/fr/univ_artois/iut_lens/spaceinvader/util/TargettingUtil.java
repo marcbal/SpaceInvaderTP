@@ -1,8 +1,7 @@
 package fr.univ_artois.iut_lens.spaceinvader.util;
 
-import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
-import fr.univ_artois.iut_lens.spaceinvader.entities.Entity.Camp;
 import fr.univ_artois.iut_lens.spaceinvader.server.EntitiesManager;
+import fr.univ_artois.iut_lens.spaceinvader.server.entities.Entity;
 
 public class TargettingUtil {
 	
@@ -18,19 +17,21 @@ public class TargettingUtil {
 	}
 	
 	
-	public static Entity searchTargetEnnemy(Entity current, EntitiesManager entitiesManager) {
+	public static <T extends Entity> T searchTargetEnnemy(Entity current, EntitiesManager entitiesManager, Class<T> targetType) {
 		double min = Double.MAX_VALUE;
-		Entity target = null;
+		T target = null;
 		
 		for (Entity e : entitiesManager.getEntitiesList())
 		{
-			if (e == null || e.getCamp() != Camp.ENEMY) continue;
+			if (e == null) continue;
+			if (!targetType.isInstance(e)) continue;
+			if (current.getCamp() == e.getCamp()) continue;
 			
 			double distSq = current.getPosition().distanceSquaredOf(e.getPosition());
 			
 			if (distSq < min) {
 				min = distSq;
-				target = e;
+				target = targetType.cast(e);
 			}
 		}
 		return target;

@@ -2,15 +2,10 @@ package fr.univ_artois.iut_lens.spaceinvader.server.network;
 
 import java.net.SocketAddress;
 
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClient;
+
 public interface NetworkReceiveListener {
 	
-	public void onPlayerSendName(SocketAddress playerAddr, String name);
-	
-	
-	
-	
-	public void onPlayerSendPlayCoordinate(SocketAddress playerAddr, int ligne, int colonne);
-	
-	
+	public void onReceivePacket(SocketAddress playerAddr, PacketClient packet);
 	
 }

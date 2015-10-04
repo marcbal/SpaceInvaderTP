@@ -1,6 +1,6 @@
 package fr.univ_artois.iut_lens.spaceinvader.server;
 
-import fr.univ_artois.iut_lens.spaceinvader.entities.Entity;
+import fr.univ_artois.iut_lens.spaceinvader.server.entities.Entity;
 
 public class CollisionThread implements Runnable {
 	
