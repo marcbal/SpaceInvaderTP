@@ -26,6 +26,7 @@ import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientDi
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServer;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerCantJoin;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerConnectionOk;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerDisconnectOk;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerDisconnectTimeout;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerLevelEnd;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerLevelEnd.PlayerScore;
@@ -272,10 +273,18 @@ public class Client extends Canvas implements NetworkReceiveListener, Runnable {
 			gameRunning.set(false);
 			Logger.severe("Déconnecté par le serveur : Timeout");
 		}
+		else if (packet instanceof PacketServerDisconnectOk) {
+			// nothing to do, the game is already stopping at his moment
+		}
 		else if (packet instanceof PacketServerLevelEnd) {
 			waitingForKeyPress.set(true);
 			List<PlayerScore> scores = ((PacketServerLevelEnd)packet).getScores();
 			String infoScores = ""; // TODO
+			for (PlayerScore score : scores) {
+				if (infoScores.length() != 0)
+					infoScores += ", ";
+				infoScores += score.playerName+" : "+score.score;
+			}
 			onScreenDisplay.setMiddleMessage("Le niveau est terminé : "+infoScores);
 		}
 		else if (packet instanceof PacketServerLevelStart) {

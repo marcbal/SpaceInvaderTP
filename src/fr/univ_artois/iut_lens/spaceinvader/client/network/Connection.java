@@ -48,7 +48,7 @@ public class Connection {
 							continue;
 						}
 						
-						int declaredSize = ByteBuffer.wrap(packetData, 1, 5).getInt();
+						int declaredSize = ByteBuffer.wrap(packetData, 1, 4).getInt();
 						
 						if (packetData.length != 5+declaredSize) {
 							Logger.severe("Erreur protocole : le packet n'est pas de la bonne taille : "+declaredSize+" déclaré, "+(packetData.length-5)+" réel");
