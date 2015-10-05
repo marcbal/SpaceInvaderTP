@@ -1,6 +1,5 @@
 package fr.univ_artois.iut_lens.spaceinvader.server.entities;
 
-import java.awt.Graphics;
 import java.awt.Rectangle;
 
 import fr.univ_artois.iut_lens.spaceinvader.server.EntitiesManager;
@@ -72,15 +71,6 @@ public abstract class Entity {
 		// update the location of the entity based on move speeds
 		position.x+=(delta * speed.x) / 1000000000;
 		position.y+=(delta * speed.y) / 1000000000;
-	}
-	
-	/**
-	 * Draw this entity to the graphics context provided
-	 * 
-	 * @param g The graphics context on which to draw
-	 */
-	public void draw(Graphics g) {
-		sprite.draw(g,(int)position.x,(int)position.y);
 	}
 	
 	/**

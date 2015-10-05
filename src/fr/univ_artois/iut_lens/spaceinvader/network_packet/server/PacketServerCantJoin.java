@@ -3,7 +3,7 @@ package fr.univ_artois.iut_lens.spaceinvader.network_packet.server;
 public class PacketServerCantJoin extends PacketServer {
 
 	public PacketServerCantJoin() {
-		super(130);
+		super((byte)0x60);
 	}
 	
 	public void setReason(String r) {
@@ -12,7 +12,7 @@ public class PacketServerCantJoin extends PacketServer {
 	}
 	
 	public String getReason() {
-		return getData();
+		return new String(getData(), CHARSET);
 	}
 
 }

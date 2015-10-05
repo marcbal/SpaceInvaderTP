@@ -1,6 +1,13 @@
 package fr.univ_artois.iut_lens.spaceinvader.server;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import fr.univ_artois.iut_lens.spaceinvader.MegaSpaceInvader;
@@ -181,6 +188,26 @@ public class Server extends Thread {
 	
 	public void setPause(boolean p) {
 		commandPause.set(p);
+	}
+	
+	
+	
+	public static List<InetAddress> getAllNetworkInterfacesAddress() {
+		List<InetAddress> addr = new ArrayList<InetAddress>();
+		Enumeration<NetworkInterface> interfaces;
+		try {
+			interfaces = NetworkInterface.getNetworkInterfaces();
+		} catch (SocketException e) {
+			return addr;
+		}
+		
+		for (NetworkInterface interfce : Collections.list(interfaces)) {
+	        for (InetAddress inetAddress : Collections.list(interfce.getInetAddresses())) {
+	            addr.add(inetAddress);
+	        }
+		}
+		
+		return addr;
 	}
 	
 	

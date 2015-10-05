@@ -3,17 +3,19 @@ package fr.univ_artois.iut_lens.spaceinvader.network_packet.client;
 public class PacketClientCommand extends PacketClient {
 	
 	public PacketClientCommand() {
-		super(211);
-		setData("--");
+		super((byte)0x01);
+		setData(new byte[] {0});
 	}
 	
 	
 	
 	
 	public Direction getDirection() {
-		if (getData().charAt(0) == 'l')
+		byte data = getData()[0];
+		data >>= 4;
+		if (data == 0x1)
 			return Direction.LEFT;
-		if (getData().charAt(0) == 'r')
+		if (data == 0x2)
 			return Direction.RIGHT;
 		return Direction.NONE;
 	}
@@ -21,21 +23,18 @@ public class PacketClientCommand extends PacketClient {
 	
 	
 	public void setDirection(Direction dir) {
-		char[] data = getData().toCharArray();
+		byte[] data = getData();
+		data[0] &= 0x0F;
 		switch(dir) {
 		case LEFT:
-			data[0] = 'l';
+			data[0] |= 0x10;
 			break;
 		case RIGHT:
-			data[0] = 'r';
+			data[0] |= 0x20;
 			break;
 		case NONE:
-			data[0] = '-';
 			break;
-			
 		}
-		
-		setData(new String(data));
 	}
 	
 	
@@ -47,12 +46,13 @@ public class PacketClientCommand extends PacketClient {
 	
 	
 	public boolean isShooting() {
-		return getData().charAt(1) == 's';
+		return (getData()[0] & 0xF) == 0x1;
 	}
 	
 	public void setShooting(boolean s) {
-		char[] data = getData().toCharArray();
-		data[1] = s ? 's' : '-';
-		setData(new String(data));
+		byte[] data = getData();
+		data[0] &= 0xF0;
+		if (s)
+			data[0] |= 0x01;
 	}
 }

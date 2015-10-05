@@ -3,19 +3,17 @@ package fr.univ_artois.iut_lens.spaceinvader.network_packet.client;
 public class PacketClientTogglePause extends PacketClient {
 	
 	public PacketClientTogglePause() {
-		super(212);
-		setData("0");
+		super((byte)0x02);
+		setData(new byte[] {0x00});
 	}
 	
 	public void setPause(boolean p) {
-		char[] data = getData().toCharArray();
-		data[0] = p ? '1' : '0';
-		setData(new String(data));
+		getData()[0] = p ? (byte)0x01 : (byte)0x00;
 	}
 	
 	
 	public boolean getPause() {
-		return getData().charAt(0) == '1';
+		return getData()[0] == (byte)0x01;
 	}
 	
 }

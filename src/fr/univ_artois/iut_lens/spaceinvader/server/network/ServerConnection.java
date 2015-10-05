@@ -4,46 +4,48 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketAddress;
-import java.nio.charset.Charset;
+import java.nio.ByteBuffer;
+import java.util.Arrays;
 
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.Packet;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClient;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerProtocolError;
-import fr.univ_artois.iut_lens.spaceinvader.util.Logger;
 
 
 /**
  * <h1>Protocole de communication entre le serveur et un client</h1>
  * <p>
- * <b>ABC:Data</b><br/>
- * <br/>
- * A = 1 si serveur, 2 si client<br/>
- * B = 1 si normal, 2 si warning, 3 si erreur<br/>
- * C de 0 à 9
+ * <b>Code du packet :</b><br/>
+ * Légende : <code>0xXY</code>
+ * <table border>
+ * 	<tr><td><code>X</code></td>	<td>Client</td>	<td>Serveur</td></tr>
+ * 	<tr><td>Normal</td>  		<td>0</td>		<td>4</td></tr>
+ * 	<tr><td>Warning</td>		<td>1</td>		<td>5</td></tr>
+ * 	<tr><td>Erreur</td>			<td>2</td>		<td>6</td></tr>
+ * </table>
+ * <code>Y</code> de 0 à F
  * </p>
  * <p><b>Packet client</b></p>
  * <ul>
- * 	<li><code>210:Player name</code> Connexion avec nom du joueur</li>
- * 	<li><code>211:&lt;cmd&gt;</code> état des commandes, envoyé à chaque tick<br/>
- * 		première lettre : 'l', 'r' ou '-' pour la direction<br/>
- * 		deuxième lettre : 's' ou '-' pour le tir
- *  </li>
- *  <li><code>212:</code> Activer / désactiver la pause</li>
- *  <li><code>213:</code> Passer au niveau suivant</li>
- * 	<li><code>214:</code> Déconnexion</li>
+ * 	<li><code>0x00:Player name</code> Connexion avec nom du joueur</li>
+ * 	<li><code>0x01:&lt;cmd&gt;</code> état des commandes, envoyé à chaque tick (gauche droite, tir)</li>
+ *  <li><code>0x02:</code> Activer / désactiver la pause</li>
+ *  <li><code>0x03:</code> Passer au niveau suivant</li>
+ * 	<li><code>0x0F:</code> Déconnexion</li>
  * </ul>
  * <p><b>Packet serveur</b></p>
  * <ul>
- * 	<li><code>110:</code> Connexion OK</li>
- * 	<li><code>120:Message</code> Erreur de protocole</li>
- * 	<li><code>130:Message</code> Impossible de rejoindre le serveur</li>
- *  <li><code>111:JSONString</code> Envoi au client les données relatif aux sprites (identifiant -> nom du fichier image)</li>
- *  <li><code>112:</code> lance un nouveau niveau. Réinitialise le contenu de la map : vide la liste des entités côté client</li>
- *  <li><code>113:JSONString</code> envoi/mise à jour des données d'entités</li>
- *  <li><code>114:JSONString</code> envoi/mise à jour des infos de la partie</li>
- *  <li><code>118:JSONString</code> Fin du niveau : score des joueurs</li>
- * 	<li><code>119:</code> Déconnexion OK</li>
- * 	<li><code>139:</code> Déconnecté pour cause de timeout</li>
+ * 	<li><code>0x40:</code> Connexion OK</li>
+ * 	<li><code>0x50:Message</code> Erreur de protocole</li>
+ * 	<li><code>0x60:Message</code> Impossible de rejoindre le serveur</li>
+ * 
+ *  <li><code>0x42:</code> lance un nouveau niveau. Réinitialise le contenu de la map : vide la liste des entités côté client</li>
+ *  <li><code>0x43:</code> envoi/mise à jour des données d'entités (ajout / déplacement / suppression) et des sprites</li>
+ *  <li><code>0x44:</code> envoi/mise à jour des infos de la partie</li>
+ *  <li><code>0x4E:</code> Fin du niveau : score des joueurs</li>
+ *  
+ * 	<li><code>0x4F:</code> Déconnexion OK</li>
+ * 	<li><code>0x6F:</code> Déconnecté pour cause de timeout</li>
  * </ul>
  * 
  * @author Marc Baloup
@@ -55,7 +57,6 @@ public class ServerConnection {
 	
 	private DatagramSocket socket;
 	private Thread receiverThread;
-	private Charset charset = Charset.forName("UTF-8");
 	private NetworkReceiveListener gameListener;
 	
 	
@@ -73,31 +74,23 @@ public class ServerConnection {
 				while(true) {
 					socket.receive(packet);
 					
-					String dataStr = new String(packet.getData(), charset).substring(0, packet.getLength());
-
-					Logger.info("[Client "+packet.getSocketAddress()+"] "+dataStr);
+					byte[] packetData = Arrays.copyOf(packet.getData(), packet.getLength());
 					
-					String[] data = dataStr.split(":", 2);
-					
-					
-					if (data.length != 2) {
-						Logger.severe("message du client mal formé");
-						sendProtocolError(packet.getSocketAddress(), "Erreur protocole : le packet doit contenir au moins un symbole \":\"");
+					if (packetData.length < 5) {
+						sendProtocolError(packet.getSocketAddress(), "Erreur protocole : le packet n'est pas assez long");
 						continue;
 					}
 					
-					int code = 0;
-					try {
-						code = Integer.parseInt(data[0]);
-					} catch (NumberFormatException e) {
-						System.err.println("message du client mal formé");
-						sendProtocolError(packet.getSocketAddress(), "Erreur protocole : la première partie doit être un entier");
+					int declaredSize = ByteBuffer.wrap(packetData, 1, 5).getInt();
+					
+					if (packetData.length != 5+declaredSize) {
+						sendProtocolError(packet.getSocketAddress(), "Erreur protocole : le packet n'est pas de la bonne taille : "+declaredSize+" déclaré, "+(packetData.length-5)+" réel");
 						continue;
 					}
 					
 					
 					try {
-						interpreteReceivedMessage(packet.getSocketAddress(), code, data[1]);
+						interpreteReceivedMessage(packet.getSocketAddress(), packetData);
 					} catch (InvalidClientMessage e) {
 						System.err.println("message du client mal formé");
 						sendProtocolError(packet.getSocketAddress(), "Erreur protocole : "+e.getMessage());
@@ -125,19 +118,17 @@ public class ServerConnection {
 
 
 	public void send(SocketAddress addr, Packet p) throws IOException {
-		String out = p.getCode()+":"+p.getData();
-		Logger.info("[Serveur à "+addr+"] "+out);
-		byte[] bytes = out.getBytes(charset);
+		byte[] bytes = p.constructAndGetDataPacket();
 		socket.send(new DatagramPacket(bytes, bytes.length, addr));
 	}
 	
 	
-	private synchronized void interpreteReceivedMessage(SocketAddress addr, int code, String data) {
+	private synchronized void interpreteReceivedMessage(SocketAddress addr, byte[] data) {
 		
 		if (gameListener == null)
 			throw new InvalidClientMessage("Le serveur ne peut actuellement pas prendre en charge de nouvelles requêtes. Les listeners n'ont pas encore été définis");
 		
-		Packet p = Packet.constructPacket(code, data);
+		Packet p = Packet.constructPacket(data);
 		
 		if (!(p instanceof PacketClient))
 			throw new InvalidClientMessage("Le type de packet reçu n'est pas un packet attendu : "+p.getClass().getCanonicalName());

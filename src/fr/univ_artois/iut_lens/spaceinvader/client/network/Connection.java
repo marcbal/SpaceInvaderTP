@@ -5,7 +5,8 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketAddress;
 import java.net.SocketTimeoutException;
-import java.nio.charset.Charset;
+import java.nio.ByteBuffer;
+import java.util.Arrays;
 
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.Packet;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClient;
@@ -18,7 +19,6 @@ public class Connection {
 	private DatagramSocket socket;
 	private SocketAddress addr;
 	private Thread receiverThread;
-	private Charset charset = Charset.forName("UTF-8");
 	private NetworkReceiveListener listener;
 	
 	
@@ -41,21 +41,23 @@ public class Connection {
 					while(true) {
 						socket.receive(packet);
 						
-						String dataStr = new String(packet.getData(), charset).substring(0, packet.getLength());
-
-						Logger.info("[Serveur] "+dataStr);
+						byte[] packetData = Arrays.copyOf(packet.getData(), packet.getLength());
 						
-						String[] data = dataStr.split(":", 2);
+						if (packetData.length < 5) {
+							Logger.severe("Erreur protocole : le packet n'est pas assez long");
+							continue;
+						}
 						
+						int declaredSize = ByteBuffer.wrap(packetData, 1, 5).getInt();
 						
-						if (data.length != 2) {
-							Logger.severe("message du serveur mal formé");
+						if (packetData.length != 5+declaredSize) {
+							Logger.severe("Erreur protocole : le packet n'est pas de la bonne taille : "+declaredSize+" déclaré, "+(packetData.length-5)+" réel");
 							continue;
 						}
 						
 						
 						try {
-							interpreteReceivedMessage(Integer.parseInt(data[0]), data[1]);
+							interpreteReceivedMessage(packetData);
 						} catch (Exception e) {
 							System.err.println("erreur lors de la prise en charge du message du serveur");
 							e.printStackTrace();
@@ -81,9 +83,7 @@ public class Connection {
 	
 
 	public void send(PacketClient packet) throws IOException {
-		String out = packet.getCode()+":"+packet.getData();
-		Logger.info("[Client] "+out);
-		byte[] bytes = out.getBytes(charset);
+		byte[] bytes = packet.constructAndGetDataPacket();
 		socket.send(new DatagramPacket(bytes, bytes.length, addr));
 	}
 	public void silentSend(PacketClient packet) {
@@ -105,13 +105,13 @@ public class Connection {
 	
 	
 	
-	private void interpreteReceivedMessage(int code, String data) {
+	private void interpreteReceivedMessage(byte[] data) {
 		
 
 		if (listener == null)
 			throw new InvalidServerMessage("Le serveur ne peut actuellement pas prendre en charge de nouvelles requêtes. Les listeners n'ont pas encore été définis");
 		
-		Packet p = Packet.constructPacket(code, data);
+		Packet p = Packet.constructPacket(data);
 		
 		if (!(p instanceof PacketServer))
 			throw new InvalidServerMessage("Le type de packet reçu n'est pas un packet attendu : "+p.getClass().getCanonicalName());

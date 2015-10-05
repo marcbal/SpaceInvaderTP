@@ -3,7 +3,7 @@ package fr.univ_artois.iut_lens.spaceinvader.network_packet.server;
 public class PacketServerProtocolError extends PacketServer {
 
 	public PacketServerProtocolError() {
-		super(120);
+		super((byte)0x50);
 	}
 	
 	public void setMessage(String message) {
@@ -13,7 +13,7 @@ public class PacketServerProtocolError extends PacketServer {
 	}
 	
 	public String getMessage() {
-		return getData();
+		return new String(getData(), CHARSET);
 	}
 
 }

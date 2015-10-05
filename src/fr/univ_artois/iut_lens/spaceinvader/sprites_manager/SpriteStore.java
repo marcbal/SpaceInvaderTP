@@ -7,7 +7,9 @@ import java.awt.Transparency;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 
@@ -37,7 +39,7 @@ public class SpriteStore {
 	}
 	
 	/** The cached sprite map, from reference to sprite instance */
-	private HashMap<String, Sprite> sprites = new HashMap<String, Sprite>();
+	private Map<String, Sprite> sprites = new HashMap<String, Sprite>();
 	
 	/**
 	 * Retrieve a sprite from the store
@@ -45,7 +47,7 @@ public class SpriteStore {
 	 * @param ref The reference to the image to use for the sprite
 	 * @return A sprite instance containing an accelerate image of the request reference
 	 */
-	public Sprite getSprite(String ref) {
+	public synchronized Sprite getSprite(String ref) {
 		// if we've already got the sprite in the cache
 		// then just return the existing version
 		if (sprites.get(ref) != null) {
@@ -86,6 +88,19 @@ public class SpriteStore {
 		sprites.put(ref,sprite);
 		
 		return sprite;
+	}
+	
+	
+	public synchronized Map<String, Sprite> getAllSprites() {
+		return Collections.unmodifiableMap(sprites);
+	}
+	
+	public synchronized Sprite getSpriteById(int id) {
+		for (Sprite sp : sprites.values()) {
+			if (sp.id == id)
+				return sp;
+		}
+		throw new RuntimeException("Sprite id '"+id+"' n'existe pas !");
 	}
 	
 	/**

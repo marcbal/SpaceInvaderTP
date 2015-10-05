@@ -1,7 +1,9 @@
 package fr.univ_artois.iut_lens.spaceinvader;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.nio.charset.Charset;
 
 import fr.univ_artois.iut_lens.spaceinvader.client.Client;
 import fr.univ_artois.iut_lens.spaceinvader.server.Server;
@@ -25,10 +27,13 @@ public class MegaSpaceInvader {
 	
 	public static final int SERVER_DEFAULT_PORT = 34567;
 	
+	public static final Charset NETWORK_CHARSET = Charset.forName("UTF-8");
+	
 	
 	
 	
 	public static void main(String[] args) {
+		shutdownHook();
 		Thread.currentThread().setName("Main");
 		
 		// ici, mettre une interface de configuration du serveur (avec Java Swing, ça serai bien :3 )
@@ -42,7 +47,7 @@ public class MegaSpaceInvader {
 		
 		
 		try {
-			Client c = new Client(new InetSocketAddress("localhost", SERVER_DEFAULT_PORT), "Test");
+			Client c = new Client(new InetSocketAddress(InetAddress.getLocalHost(), SERVER_DEFAULT_PORT), "Test");
 			c.start();
 		} catch (IOException e) {
 			Logger.severe("Impossible de lancer l'interface graphique :");
@@ -54,6 +59,21 @@ public class MegaSpaceInvader {
 		
 		
 		
+	}
+	
+	
+	
+	
+	
+	private static void shutdownHook() {
+		Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+			try {
+				Server.serverInstance.gameRunning.set(false);
+			} catch(Exception e) { }
+			try {
+				Client.instance.gameRunning.set(false);
+			} catch(Exception e) { }
+		}));
 	}
 	
 	

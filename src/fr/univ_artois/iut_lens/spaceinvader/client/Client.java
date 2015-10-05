@@ -11,6 +11,7 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
 import java.io.IOException;
 import java.net.SocketAddress;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -19,10 +20,19 @@ import javax.swing.JPanel;
 
 import fr.univ_artois.iut_lens.spaceinvader.MegaSpaceInvader;
 import fr.univ_artois.iut_lens.spaceinvader.client.network.Connection;
+import fr.univ_artois.iut_lens.spaceinvader.client.network.Connection.InvalidServerMessage;
 import fr.univ_artois.iut_lens.spaceinvader.client.network.NetworkReceiveListener;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientDisconnect;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServer;
-import fr.univ_artois.iut_lens.spaceinvader.server.EntitiesManager;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerCantJoin;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerConnectionOk;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerDisconnectTimeout;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerLevelEnd;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerLevelEnd.PlayerScore;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerLevelStart;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerProtocolError;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateInfos;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateMap;
 import fr.univ_artois.iut_lens.spaceinvader.sprites_manager.Sprite;
 import fr.univ_artois.iut_lens.spaceinvader.sprites_manager.SpriteStore;
 import fr.univ_artois.iut_lens.spaceinvader.util.Logger;
@@ -42,7 +52,7 @@ import fr.univ_artois.iut_lens.spaceinvader.util.Logger;
  * 
  * @author Kevin Glass (original), Marc Baloup, Maxime Maroine
  */
-public class Client extends Canvas implements NetworkReceiveListener {
+public class Client extends Canvas implements NetworkReceiveListener, Runnable {
 	private static final long serialVersionUID = 1L;
 
 	public static Client instance;
@@ -54,13 +64,13 @@ public class Client extends Canvas implements NetworkReceiveListener {
 	private OnScreenDisplay onScreenDisplay;
 	
 	/** True if the game is currently "running", i.e. the game loop is looping */
-	private AtomicBoolean gameRunning = new AtomicBoolean(true);
+	public AtomicBoolean gameRunning = new AtomicBoolean(true);
 	
 	/** Gestion des entités */
-	public EntitiesManager entitiesManager = new EntitiesManager();
+	public EntityRepresenterManager entityRepresenterManager = new EntityRepresenterManager();
 	
 	private KeyInputHandler keyHandler = new KeyInputHandler();
-	private boolean waitingForKeyPress = true;
+	private AtomicBoolean waitingForKeyPress = new AtomicBoolean(true);
 	
 	
 	private Sprite background;
@@ -145,7 +155,7 @@ public class Client extends Canvas implements NetworkReceiveListener {
 		
 		
 		
-		graphicalThread = new Thread(run());
+		graphicalThread = new Thread(this);
 		graphicalThread.setName("Client");
 		graphicalThread.setPriority(Thread.MAX_PRIORITY);
 		
@@ -156,9 +166,39 @@ public class Client extends Canvas implements NetworkReceiveListener {
 		Logger.info("Tentative de connexion au serveur "+serverAddress);
 		connection = new Connection(serverAddress, playerName, this);
 		
+		onScreenDisplay.setMiddleMessage("Veuillez patienter pendant la connexion au serveur ...");
 	}
 	
 
+	
+	
+	
+	@Override
+	public void run() {
+		Logger.info("Interface graphique démarrée à "+MegaSpaceInvader.CLIENT_FRAME_PER_SECOND+" FPS");
+		
+		long delta = (long)(1000000000/MegaSpaceInvader.CLIENT_FRAME_PER_SECOND);
+		
+		
+		// keep looping round til the game ends
+		while (gameRunning.get()) {
+			long loop_start = System.nanoTime();
+            updateDisplay();
+            
+            displayFrameDuration.set(System.nanoTime()-loop_start);
+			try { Thread.sleep((delta-(displayFrameDuration.get()))/1000000); } catch (Exception e) {}
+		}
+		
+		
+		
+
+		Logger.info("Déconnexion du serveur");
+		connection.silentSend(new PacketClientDisconnect());
+		
+		
+		Logger.info("Arrêt de l'interface graphique");
+	}
+	
 	
 	
 	
@@ -184,11 +224,11 @@ public class Client extends Canvas implements NetworkReceiveListener {
 		
 		
 		//Afficher les entités
-        entitiesManager.draw(g);
+		entityRepresenterManager.drawAll(g);
 		
 		// if we're waiting for an "any key" press then draw the 
 		// current message 
-		if (waitingForKeyPress) {
+		if (waitingForKeyPress.get()) {
 			onScreenDisplay.drawMiddleWaiting(g);
 		}
 		
@@ -217,37 +257,44 @@ public class Client extends Canvas implements NetworkReceiveListener {
 
 	@Override
 	public void onReceivePacket(PacketServer packet) {
-		// TODO Auto-generated method stub
-		
+		if (packet instanceof PacketServerCantJoin) {
+			gameRunning.set(false);
+			Logger.severe("Impossible de rejoindre le serveur : "+((PacketServerCantJoin)packet).getReason());
+		}
+		else if (packet instanceof PacketServerConnectionOk) {
+			onScreenDisplay.setMiddleMessage("Réception des données de jeu ...");
+		}
+		else if (packet instanceof PacketServerProtocolError) {
+			gameRunning.set(false);
+			Logger.severe("Erreur de protocole Client -> Serveur : "+((PacketServerProtocolError)packet).getMessage());
+		}
+		else if (packet instanceof PacketServerDisconnectTimeout) {
+			gameRunning.set(false);
+			Logger.severe("Déconnecté par le serveur : Timeout");
+		}
+		else if (packet instanceof PacketServerLevelEnd) {
+			waitingForKeyPress.set(true);
+			List<PlayerScore> scores = ((PacketServerLevelEnd)packet).getScores();
+			String infoScores = ""; // TODO
+			onScreenDisplay.setMiddleMessage("Le niveau est terminé : "+infoScores);
+		}
+		else if (packet instanceof PacketServerLevelStart) {
+			waitingForKeyPress.set(false);
+			onScreenDisplay.setMiddleMessage("");
+		}
+		else if (packet instanceof PacketServerUpdateInfos) {
+			// TODO
+		}
+		else if (packet instanceof PacketServerUpdateMap) {
+			entityRepresenterManager.getUpdateFromServer(((PacketServerUpdateMap)packet).getEntityData());
+		}
+		else
+			throw new InvalidServerMessage("Le packet n'est pas prise en charge");
 	}
 	
 	
 	
 	
-	private Runnable run() {
-		return () -> {
-			Logger.info("Interface graphique démarrée à "+MegaSpaceInvader.CLIENT_FRAME_PER_SECOND+" FPS");
-			
-			long delta = (long)(1000000000/MegaSpaceInvader.CLIENT_FRAME_PER_SECOND);
-			// keep looping round til the game ends
-			while (gameRunning.get()) {
-				long loop_start = System.nanoTime();
-	            updateDisplay();
-	            
-	            displayFrameDuration.set(System.nanoTime()-loop_start);
-				try { Thread.sleep((delta-(displayFrameDuration.get()))/1000000); } catch (Exception e) {}
-			}
-			
-			
-			
-
-			Logger.info("Déconnexion du serveur");
-			connection.silentSend(new PacketClientDisconnect());
-			
-			
-			Logger.info("Arrêt de l'interface graphique");
-		};
-	}
 	
 	public void start() {
 		graphicalThread.start();

@@ -1,22 +1,30 @@
 package fr.univ_artois.iut_lens.spaceinvader.network_packet.server;
 
-import java.util.Map;
-
-import com.google.gson.Gson;
-
 public class PacketServerUpdateInfos extends PacketServer {
 
 	public PacketServerUpdateInfos() {
-		super(114);
+		super((byte)0x44);
 	}
 
-	@SuppressWarnings("unchecked")
-	public Map<String, Object> getInfos() {
-		return new Gson().fromJson(getData(), Map.class);
+	public GameInfo getInfos() {
+		return null; // TODO
 	}
 	
-	public void setInfos(Map<String, Object> data) {
-		setData(new Gson().toJson(data));
+	public void setInfos(GameInfo data) {
+		// TODO
 	}
+	
+	
+	
+	
+	public static class GameInfo {
+		public int nbEntity;
+		public int nbCollisionThreads;
+		public int currentEnemyLife;
+		public int maxEnemyLife;
+		
+	}
+	
+	
 
 }

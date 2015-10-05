@@ -13,8 +13,10 @@ import java.awt.Image;
  * @author Kevin Glass
  */
 public class Sprite {
+	private static int identifierIncrement = 0;
 	/** The image to be drawn for this sprite */
 	private Image image;
+	public final int id;
 	
 	/**
 	 * Create a new sprite based on an image
@@ -23,6 +25,7 @@ public class Sprite {
 	 */
 	public Sprite(Image image) {
 		this.image = image;
+		id = identifierIncrement++;
 	}
 	
 	/**

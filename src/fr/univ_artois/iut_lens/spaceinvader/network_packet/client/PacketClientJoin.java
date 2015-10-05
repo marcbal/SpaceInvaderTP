@@ -3,7 +3,7 @@ package fr.univ_artois.iut_lens.spaceinvader.network_packet.client;
 public class PacketClientJoin extends PacketClient {
 	
 	public PacketClientJoin() {
-		super(210);
+		super((byte)0x00);
 	}
 	
 	
@@ -13,7 +13,7 @@ public class PacketClientJoin extends PacketClient {
 	}
 	
 	public String getPlayerName() {
-		return getData();
+		return new String(getData(), CHARSET);
 	}
 
 }
