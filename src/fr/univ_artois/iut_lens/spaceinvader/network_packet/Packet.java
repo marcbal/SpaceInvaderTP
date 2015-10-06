@@ -19,6 +19,7 @@ import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerDi
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerLevelEnd;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerLevelStart;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerProtocolError;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerTogglePause;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateInfos;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateMap;
 import fr.univ_artois.iut_lens.spaceinvader.server.network.ServerConnection.InvalidClientMessage;
@@ -101,6 +102,7 @@ public abstract class Packet {
 		addPacket(PacketServerLevelEnd.class);
 		addPacket(PacketServerLevelStart.class);
 		addPacket(PacketServerProtocolError.class);
+		addPacket(PacketServerTogglePause.class);
 		addPacket(PacketServerUpdateInfos.class);
 		addPacket(PacketServerUpdateMap.class);
 	}

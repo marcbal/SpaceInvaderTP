@@ -1,6 +1,7 @@
 package fr.univ_artois.iut_lens.spaceinvader.server.entities;
 
 import java.awt.Rectangle;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import fr.univ_artois.iut_lens.spaceinvader.server.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.shot.EntityShot;
@@ -37,6 +38,9 @@ public abstract class Entity {
 	
 	private boolean plannedToRemoved = false;
 	
+	private static AtomicInteger idCounter = new AtomicInteger(0);
+	public final int id;
+	
 	public boolean plannedToRemoved() {
 		 return plannedToRemoved;
 	}
@@ -59,6 +63,7 @@ public abstract class Entity {
 		this.sprite = SpriteStore.get().getSprite(ref);
 		position = p;
 		entitiesManager = eM;
+		id = idCounter.getAndIncrement();
 	}
 	
 	/**
@@ -155,12 +160,14 @@ public abstract class Entity {
 		return Camp.NEUTRAL;
 	}
 	
-
+	
 	public Vector2d getPosition() { return position; }
 	public Vector2d getSpeed() { return speed; }
 	public void setPosition(Vector2d newPos) { position = newPos; }
 	public void setSpeed(Vector2d newSpeed) { speed = newSpeed; }
 	public int getLife() { return life; }
+	public int getMaxLife() { return maxLife; }
+	public Sprite getSprite() { return sprite; }
 	
 	
 	

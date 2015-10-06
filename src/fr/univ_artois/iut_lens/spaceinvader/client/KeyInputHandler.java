@@ -113,7 +113,7 @@ public class KeyInputHandler extends KeyAdapter {
 		Logger.severe("La configuration de touche \""+action+"\" n'existe pas dans KeyInputHandler.keyState");
 		return false;
 	}
-	public boolean isKeyToggle(String action) {
+	public boolean isKeyToggled(String action) {
 		if (keyToggle.containsKey(action))
 			return keyToggle.get(action).state==1;
 		Logger.severe("La configuration de touche \""+action+"\" n'existe pas dans KeyInputHandler.keyToggle");
@@ -136,11 +136,11 @@ public class KeyInputHandler extends KeyAdapter {
 	public void manualToggle(String action, boolean v)
 	{
 		if (keyToggle.containsKey(action))
-			keyToggle.get(action).state=(v)?1:0;
+			keyToggle.get(action).state= v ? 1 : 0;
 	}
 	public void manualToggle(String action) {
 		if (keyToggle.containsKey(action))
-			keyToggle.get(action).state=(keyToggle.get(action).state==1)?0:1;
+			keyToggle.get(action).state= (keyToggle.get(action).state==1) ? 0 : 1;
 	}
 	
 	

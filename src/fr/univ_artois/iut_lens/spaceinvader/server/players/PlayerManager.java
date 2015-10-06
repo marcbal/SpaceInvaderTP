@@ -13,10 +13,20 @@ import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientJo
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServer;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerConnectionOk;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerDisconnectOk;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerLevelEnd;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerLevelEnd.PlayerScore;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerLevelStart;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerTogglePause;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateMap;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateMap.MapData;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateMap.MapData.EntityDataSpawn;
+import fr.univ_artois.iut_lens.spaceinvader.server.Server;
+import fr.univ_artois.iut_lens.spaceinvader.server.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.ship.EntityShip;
 import fr.univ_artois.iut_lens.spaceinvader.server.network.NetworkReceiveListener;
 import fr.univ_artois.iut_lens.spaceinvader.server.network.ServerConnection;
 import fr.univ_artois.iut_lens.spaceinvader.server.network.ServerConnection.InvalidClientMessage;
+import fr.univ_artois.iut_lens.spaceinvader.sprites_manager.SpriteStore;
 
 public class PlayerManager implements NetworkReceiveListener {
 	
@@ -99,17 +109,74 @@ public class PlayerManager implements NetworkReceiveListener {
 				throw new InvalidClientMessage("Votre adresse réseau correspond déjà à un joueur en ligne");
 			p = createPlayer(playerAddr, ((PacketClientJoin)packet).getPlayerName());
 			p.getConnection().send(new PacketServerConnectionOk());
+			
+			// si la partie en cours se trouve entre deux niveaux (waitingForKeyPress)
+			if (Server.serverInstance.waitingForKeyPress.get()) {
+				List<PlayerScore> scores = Server.serverInstance.getPlayerScores();
+				if (scores != null) {
+					PacketServerLevelEnd packet1 = new PacketServerLevelEnd();
+					packet1.setScores(scores);
+					p.getConnection().send(packet1);
+				}
+			}
+			else {
+				// une partie est en cours
+				p.die();
+				p.getConnection().send(new PacketServerLevelStart());
+				/*
+				 *  envoi des données de jeux (début de level, données complètes)
+				 */
+				MapData mapData = new MapData();
+				
+				mapData.spritesData = SpriteStore.get().getSpritesId(false);
+				
+				for (Entity e : Server.serverInstance.entitiesManager.getEntityListSnapshot()) {
+					EntityDataSpawn eData = new EntityDataSpawn();
+					eData.id = e.id;
+					eData.currentLife = (e.getMaxLife() > 1) ? e.getLife() : 0;
+					eData.maxLife = (e.getMaxLife() > 1) ? e.getMaxLife() : 0;
+					eData.name = (e instanceof EntityShip) ? ((EntityShip)e).associatedShipManager.getPlayer().name : "";
+					eData.spriteId = e.getSprite().id;
+					eData.posX = e.getPosition().x;
+					eData.posY = e.getPosition().y;
+					eData.speedX = e.getSpeed().x;
+					eData.speedY = e.getSpeed().y;
+					mapData.spawningEntities.add(eData);
+				}
+				
+				PacketServerUpdateMap packetMap = new PacketServerUpdateMap();
+				packetMap.setEntityData(mapData);
+				p.getConnection().send(packetMap);
+			}
+			if (Server.serverInstance.commandPause.get()) {
+				PacketServerTogglePause packetPause = new PacketServerTogglePause();
+				packetPause.setPause(true);
+				p.getConnection().send(packetPause);
+			}
+			
+			
+			
+			
+			
 		}
 		else if (packet instanceof PacketClientDisconnect) {
 			if (p == null)
 				throw new InvalidClientMessage("Vous n'êtes pas connecté");
 			removePlayer(playerAddr);
 			p.getConnection().send(new PacketServerDisconnectOk());
+			synchronized (this) {
+				if(players.size() == 0)
+					Server.serverInstance.commandPause.set(true);
+			}
 		}
 		else {
 			p.handlePacket(packet);
 		}
 		
+	}
+
+	public synchronized Player[] getPlayers() {
+		return players.values().toArray(new Player[players.size()]);
 	}
 	
 	

@@ -1,9 +1,9 @@
 package fr.univ_artois.iut_lens.spaceinvader.server.levels;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import fr.univ_artois.iut_lens.spaceinvader.server.EntitiesManager;
-import fr.univ_artois.iut_lens.spaceinvader.server.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.ennemy.EntityEnnemy;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.ennemy.strategy.move.StrategyMoveEnnemyDisturbed;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.ennemy.strategy.shot.StrategyShotEnnemyBasic;
@@ -28,14 +28,12 @@ public class LevelMaxime extends Level {
 	}
 	
 	@Override
-	public ArrayList<Entity> generateLevel() {
-		nbCount = 0;
-		SquadList = new ArrayList<Entity>();
+	public List<EntityEnnemy> generateLevel() {
+		SquadList = new ArrayList<EntityEnnemy>();
 		for (int r=0;r<row;r++) {
 			for (int l=0;l<line;l++) {
-				Entity alien = new EntityEnnemy(sprite,new Vector2d(pos.x+(l*space.x),pos.y+r*space.y), 20,entitiesManager);
+				EntityEnnemy alien = new EntityEnnemy(sprite,new Vector2d(pos.x+(l*space.x),pos.y+r*space.y), 20,entitiesManager);
 				SquadList.add(alien);
-				nbCount++;
 			}
 		}
 		return SquadList;

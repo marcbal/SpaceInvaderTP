@@ -6,6 +6,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClient;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientCommand;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientCommand.Direction;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerTogglePause;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientNextLevel;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientTogglePause;
 import fr.univ_artois.iut_lens.spaceinvader.server.Server;
@@ -59,7 +60,11 @@ public class Player {
 			askForNextLevel();
 		}
 		else if (packet instanceof PacketClientTogglePause) {
-			Server.serverInstance.setPause(((PacketClientTogglePause)packet).getPause());
+			boolean pause = ((PacketClientTogglePause)packet).getPause();
+			Server.serverInstance.setPause(pause);
+			PacketServerTogglePause responsePacket = new PacketServerTogglePause();
+			responsePacket.setPause(pause);
+			Server.serverInstance.playerManager.sendToAll(responsePacket);
 		}
 		else {
 			throw new RuntimeException("The packet '"+packet.getClass().getCanonicalName()+"' is not handled by Player.hendlePacket()");

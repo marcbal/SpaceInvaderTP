@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import fr.univ_artois.iut_lens.spaceinvader.sprites_manager.Sprite;
-import fr.univ_artois.iut_lens.spaceinvader.sprites_manager.SpriteStore;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
 public class EntityRepresenter {
@@ -16,51 +15,34 @@ public class EntityRepresenter {
 	private int currentLife = 0;
 	private int maxLife = 0;
 	
-	public EntityRepresenter(int sprId, Vector2d pos, Vector2d sp) {
+	public EntityRepresenter(Sprite spr, Vector2d pos, Vector2d sp, String n, int currLife, int maxLife) {
 		setPosition(pos);
 		setSpeed(sp);
-		sprite = SpriteStore.get().getSpriteById(sprId);
+		setName(n);
+		setCurrentLife(currLife);
+		setMaxLife(maxLife);
+		sprite = spr;
 	}
 
-	public Vector2d getPosition() {
-		return position;
-	}
+	public Vector2d getPosition() { return position; }
 
-	public void setPosition(Vector2d position) {
-		this.position = position;
-	}
+	public void setPosition(Vector2d pos) { position = pos; }
 
-	public Vector2d getSpeed() {
-		return speed;
-	}
+	public Vector2d getSpeed() { return speed; }
 
-	public void setSpeed(Vector2d speed) {
-		this.speed = speed;
-	}
+	public void setSpeed(Vector2d s) { speed = s; }
 
-	public String getName() {
-		return name;
-	}
+	public String getName() { return name; }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+	public void setName(String n) { name = n; }
 
-	public int getCurrentLife() {
-		return currentLife;
-	}
+	public int getCurrentLife() { return currentLife; }
 
-	public void setCurrentLife(int currentLife) {
-		this.currentLife = currentLife;
-	}
+	public void setCurrentLife(int curLife) { currentLife = curLife; }
 
-	public int getMaxLife() {
-		return maxLife;
-	}
+	public int getMaxLife() { return maxLife; }
 
-	public void setMaxLife(int maxLife) {
-		this.maxLife = maxLife;
-	}
+	public void setMaxLife(int maxLife) { this.maxLife = maxLife; }
 	
 
 	

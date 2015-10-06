@@ -8,6 +8,7 @@ import java.net.SocketTimeoutException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
+import fr.univ_artois.iut_lens.spaceinvader.MegaSpaceInvader;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.Packet;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClient;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientJoin;
@@ -35,7 +36,7 @@ public class Connection {
 		socket.connect(addr);
 		
 		receiverThread = new Thread(() -> {
-			DatagramPacket packet = new DatagramPacket(new byte[4096], 4096, addr);
+			DatagramPacket packet = new DatagramPacket(new byte[MegaSpaceInvader.NETWORK_MAX_PACKET_SIZE], MegaSpaceInvader.NETWORK_MAX_PACKET_SIZE, addr);
 			
 				try {
 					while(true) {

@@ -1,9 +1,9 @@
 package fr.univ_artois.iut_lens.spaceinvader.server.levels;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import fr.univ_artois.iut_lens.spaceinvader.server.EntitiesManager;
-import fr.univ_artois.iut_lens.spaceinvader.server.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.ennemy.EntityEnnemy;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.ennemy.strategy.move.StrategyMoveEnnemyDisturbed;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.ennemy.strategy.move.StrategyMoveEnnemyFinalBoss;
@@ -31,16 +31,14 @@ public class LevelFinalBoss extends Level {
 	}
 	
 	@Override
-	public ArrayList<Entity> generateLevel() {
-		nbCount = 0;
-		SquadList = new ArrayList<Entity>();
-		Entity alien = new EntityEnnemy(sprite,new Vector2d(250,0), 999999, entitiesManager);
+	public List<EntityEnnemy> generateLevel() {
+		SquadList = new ArrayList<EntityEnnemy>();
+		EntityEnnemy alien = new EntityEnnemy(sprite,new Vector2d(250,0), 999999, entitiesManager);
 		SquadList.add(alien);
-		Entity alien2 = new EntityEnnemy("sprites/max.jpg",new Vector2d(50,100), 20000, entitiesManager);
+		EntityEnnemy alien2 = new EntityEnnemy("sprites/max.jpg",new Vector2d(50,100), 20000, entitiesManager);
 		SquadList.add(alien2);
-		Entity alien3 = new EntityEnnemy("sprites/marc.jpg",new Vector2d(650,100),20000, entitiesManager);
+		EntityEnnemy alien3 = new EntityEnnemy("sprites/marc.jpg",new Vector2d(650,100),20000, entitiesManager);
 		SquadList.add(alien3);
-		nbCount = 3;
 		return SquadList;
 	}
 	
@@ -48,12 +46,12 @@ public class LevelFinalBoss extends Level {
 		
 		boolean ret = super.hasOneDestroyed();
 		
-		if(nbCount==2) {
+		if(getCount()==2) {
 			strategyMove = new StrategyMoveEnnemyDisturbed();
 			strategyShot = new StrategyShotEnnemyAimFor(10);
 		}
 		
-		if(nbCount==1) {
+		if(getCount()==1) {
 			strategyMove = new StrategyMoveEnnemyFinalBoss();
 			strategyShot = new StrategyShotEnnemyAimFor(2);
 		}

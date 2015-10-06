@@ -4,12 +4,15 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketAddress;
+import java.net.SocketException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
+import fr.univ_artois.iut_lens.spaceinvader.MegaSpaceInvader;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.Packet;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClient;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerProtocolError;
+import fr.univ_artois.iut_lens.spaceinvader.util.Logger;
 
 
 /**
@@ -39,6 +42,7 @@ import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerPr
  * 	<li><code>0x50:Message</code> Erreur de protocole</li>
  * 	<li><code>0x60:Message</code> Impossible de rejoindre le serveur</li>
  * 
+ *  <li><code>0x41:</code> informe les joueurs de l'état de pause du jeu</li>
  *  <li><code>0x42:</code> lance un nouveau niveau. Réinitialise le contenu de la map : vide la liste des entités côté client</li>
  *  <li><code>0x43:</code> envoi/mise à jour des données d'entités (ajout / déplacement / suppression) et des sprites</li>
  *  <li><code>0x44:</code> envoi/mise à jour des infos de la partie</li>
@@ -53,8 +57,6 @@ import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerPr
  */
 public class ServerConnection {
 	
-	public static final int MAX_PACKET_SIZE = 16384;
-	
 	private DatagramSocket socket;
 	private Thread receiverThread;
 	private NetworkReceiveListener gameListener;
@@ -68,7 +70,7 @@ public class ServerConnection {
 		socket = new DatagramSocket(port);
 		
 		receiverThread = new Thread(() -> {
-			DatagramPacket packet = new DatagramPacket(new byte[MAX_PACKET_SIZE], MAX_PACKET_SIZE);
+			DatagramPacket packet = new DatagramPacket(new byte[MegaSpaceInvader.NETWORK_MAX_PACKET_SIZE], MegaSpaceInvader.NETWORK_MAX_PACKET_SIZE);
 			
 			try {
 				while(true) {
@@ -92,14 +94,16 @@ public class ServerConnection {
 					try {
 						interpreteReceivedMessage(packet.getSocketAddress(), packetData);
 					} catch (InvalidClientMessage e) {
-						System.err.println("message du client mal formé");
+						Logger.severe("Message du client mal formé");
 						sendProtocolError(packet.getSocketAddress(), "Erreur protocole : "+e.getMessage());
 					} catch (Exception e) {
-						System.err.println("erreur lors de la prise en charge du message du client");
+						Logger.severe("Erreur lors de la prise en charge du message par le serveur");
 						e.printStackTrace();
 					}
 					
 				}
+			} catch (SocketException e) {
+				Logger.warning("Plus aucun packet ne peut être reçu du réseau");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -119,6 +123,7 @@ public class ServerConnection {
 
 	public void send(SocketAddress addr, Packet p) throws IOException {
 		byte[] bytes = p.constructAndGetDataPacket();
+		Logger.info("(Serveur) -> "+p.getClass().getSimpleName()+" -> (Client "+addr+")");
 		socket.send(new DatagramPacket(bytes, bytes.length, addr));
 	}
 	
@@ -129,6 +134,8 @@ public class ServerConnection {
 			throw new InvalidClientMessage("Le serveur ne peut actuellement pas prendre en charge de nouvelles requêtes. Les listeners n'ont pas encore été définis");
 		
 		Packet p = Packet.constructPacket(data);
+		
+		Logger.info("(Serveur) <- "+p.getClass().getSimpleName()+" <- (Client "+addr+")");
 		
 		if (!(p instanceof PacketClient))
 			throw new InvalidClientMessage("Le type de packet reçu n'est pas un packet attendu : "+p.getClass().getCanonicalName());
@@ -145,7 +152,9 @@ public class ServerConnection {
 		gameListener = l;
 	}
 	
-	
+	public void close() {
+		socket.close();
+	}
 	
 	
 	

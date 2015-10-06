@@ -1,9 +1,9 @@
 package fr.univ_artois.iut_lens.spaceinvader.server.levels;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import fr.univ_artois.iut_lens.spaceinvader.server.EntitiesManager;
-import fr.univ_artois.iut_lens.spaceinvader.server.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.ennemy.EntityEnnemy;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.ennemy.strategy.move.StrategyMoveEnnemyFinalBoss;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.ennemy.strategy.move.StrategyMoveEnnemyRandom;
@@ -26,12 +26,11 @@ public class LevelFinalBoss2 extends Level {
 	}
 	
 	@Override
-	public ArrayList<Entity> generateLevel() {
-		SquadList = new ArrayList<Entity>();
+	public List<EntityEnnemy> generateLevel() {
+		SquadList = new ArrayList<EntityEnnemy>();
 		SquadList.add(new EntityEnnemy(sprite,new Vector2d(10,10), 999999, entitiesManager));
 		SquadList.add(new EntityEnnemy(sprite,new Vector2d(250,10), 999999, entitiesManager));
 		SquadList.add(new EntityEnnemy(sprite,new Vector2d(510,10), 999999, entitiesManager));
-		nbCount = 3;
 		return SquadList;
 	}
 	
@@ -39,7 +38,7 @@ public class LevelFinalBoss2 extends Level {
 		
 		boolean ret = super.hasOneDestroyed();
 		
-		if(nbCount==2) {
+		if(getCount()==2) {
 			strategyMove = new StrategyMoveEnnemyFinalBoss();
 			strategyShot = new StrategyShotEnnemyAimFor(2);
 		}

@@ -22,7 +22,11 @@ import fr.univ_artois.iut_lens.spaceinvader.MegaSpaceInvader;
 import fr.univ_artois.iut_lens.spaceinvader.client.network.Connection;
 import fr.univ_artois.iut_lens.spaceinvader.client.network.Connection.InvalidServerMessage;
 import fr.univ_artois.iut_lens.spaceinvader.client.network.NetworkReceiveListener;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientCommand;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientCommand.Direction;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientDisconnect;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientNextLevel;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientTogglePause;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServer;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerCantJoin;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerConnectionOk;
@@ -32,6 +36,7 @@ import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerLe
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerLevelEnd.PlayerScore;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerLevelStart;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerProtocolError;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerTogglePause;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateInfos;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateMap;
 import fr.univ_artois.iut_lens.spaceinvader.sprites_manager.Sprite;
@@ -72,6 +77,7 @@ public class Client extends Canvas implements NetworkReceiveListener, Runnable {
 	
 	private KeyInputHandler keyHandler = new KeyInputHandler();
 	private AtomicBoolean waitingForKeyPress = new AtomicBoolean(true);
+	private AtomicBoolean serverSidePause = new AtomicBoolean(false);
 	
 	
 	private Sprite background;
@@ -167,7 +173,7 @@ public class Client extends Canvas implements NetworkReceiveListener, Runnable {
 		Logger.info("Tentative de connexion au serveur "+serverAddress);
 		connection = new Connection(serverAddress, playerName, this);
 		
-		onScreenDisplay.setMiddleMessage("Veuillez patienter pendant la connexion au serveur ...");
+		onScreenDisplay.setMiddleMessage("Connexion à "+serverAddress+" ...");
 	}
 	
 
@@ -186,13 +192,16 @@ public class Client extends Canvas implements NetworkReceiveListener, Runnable {
 			long loop_start = System.nanoTime();
             updateDisplay();
             
+            // envoi des packets
+            sendPackets();
+            
+            
             displayFrameDuration.set(System.nanoTime()-loop_start);
 			try { Thread.sleep((delta-(displayFrameDuration.get()))/1000000); } catch (Exception e) {}
 		}
 		
 		
 		
-
 		Logger.info("Déconnexion du serveur");
 		connection.silentSend(new PacketClientDisconnect());
 		
@@ -204,6 +213,55 @@ public class Client extends Canvas implements NetworkReceiveListener, Runnable {
 	
 	
 	
+	private void sendPackets() {
+		
+		// direction et tir du vaisseau, seulement si le jeu est en cours
+		if (!waitingForKeyPress.get() && !serverSidePause.get()) {
+			PacketClientCommand cmdPacket = new PacketClientCommand();
+			Direction dir;
+			if (keyHandler.isKeyPressed("shipLeft") && !keyHandler.isKeyPressed("shipRight"))
+				dir = Direction.LEFT;
+			else if (!keyHandler.isKeyPressed("shipLeft") && keyHandler.isKeyPressed("shipRight"))
+				dir = Direction.RIGHT;
+			else
+				dir = Direction.NONE;
+			cmdPacket.setDirection(dir);
+			cmdPacket.setShooting(keyHandler.isKeyPressed("shipFire"));
+			try {
+				connection.send(cmdPacket);
+			} catch (IOException e) {
+				throw new RuntimeException("Erreur lors de l'envoi du packet de commande", e);
+			}
+		}
+		
+		if (keyHandler.isKeyToggled("pause") != serverSidePause.get()) {
+			PacketClientTogglePause pausePacket = new PacketClientTogglePause();
+			pausePacket.setPause(keyHandler.isKeyToggled("pause"));
+			try {
+				connection.send(pausePacket);
+			} catch (IOException e) {
+				throw new RuntimeException("Erreur lors de l'envoi du packet Pause", e);
+			}
+		}
+		
+		if (waitingForKeyPress.get() && keyHandler.isKeyWaitPress("start")) {
+			try {
+				connection.send(new PacketClientNextLevel());
+			} catch (IOException e) {
+				throw new RuntimeException("Erreur lors de l'envoi du packet NextLevel", e);
+			}
+		}
+		else
+			keyHandler.isKeyWaitPress("start"); // flush useless "start" key press
+		
+		
+		
+	}
+
+
+
+
+
 	private void updateDisplay() {
 		
 
@@ -263,7 +321,7 @@ public class Client extends Canvas implements NetworkReceiveListener, Runnable {
 			Logger.severe("Impossible de rejoindre le serveur : "+((PacketServerCantJoin)packet).getReason());
 		}
 		else if (packet instanceof PacketServerConnectionOk) {
-			onScreenDisplay.setMiddleMessage("Réception des données de jeu ...");
+			onScreenDisplay.setMiddleMessage("Vous êtes maintenant connecté !");
 		}
 		else if (packet instanceof PacketServerProtocolError) {
 			gameRunning.set(false);
@@ -279,23 +337,31 @@ public class Client extends Canvas implements NetworkReceiveListener, Runnable {
 		else if (packet instanceof PacketServerLevelEnd) {
 			waitingForKeyPress.set(true);
 			List<PlayerScore> scores = ((PacketServerLevelEnd)packet).getScores();
-			String infoScores = ""; // TODO
+			String infoScores = "";
 			for (PlayerScore score : scores) {
 				if (infoScores.length() != 0)
 					infoScores += ", ";
 				infoScores += score.playerName+" : "+score.score;
 			}
 			onScreenDisplay.setMiddleMessage("Le niveau est terminé : "+infoScores);
+			entityRepresenterManager.clear();
 		}
 		else if (packet instanceof PacketServerLevelStart) {
 			waitingForKeyPress.set(false);
 			onScreenDisplay.setMiddleMessage("");
+			entityRepresenterManager.clear();
 		}
 		else if (packet instanceof PacketServerUpdateInfos) {
-			// TODO
+			onScreenDisplay.setGameInfoFromServer(((PacketServerUpdateInfos)packet).getInfos());
 		}
 		else if (packet instanceof PacketServerUpdateMap) {
+			entityRepresenterManager.clear();
 			entityRepresenterManager.getUpdateFromServer(((PacketServerUpdateMap)packet).getEntityData());
+		}
+		else if (packet instanceof PacketServerTogglePause) {
+			boolean pause = ((PacketServerTogglePause)packet).getPause();
+			keyHandler.manualToggle("pause",pause);
+			serverSidePause.set(pause);
 		}
 		else
 			throw new InvalidServerMessage("Le packet n'est pas prise en charge");

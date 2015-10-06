@@ -1,9 +1,9 @@
 package fr.univ_artois.iut_lens.spaceinvader.server.levels;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import fr.univ_artois.iut_lens.spaceinvader.server.EntitiesManager;
-import fr.univ_artois.iut_lens.spaceinvader.server.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.ennemy.EntityEnnemy;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.ennemy.strategy.move.StrategyMoveEnnemyNormal;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.ennemy.strategy.move.StrategyMoveEnnemyRandom;
@@ -29,17 +29,15 @@ public class LevelMegaAllStars extends Level {
 	}
 
 	@Override
-	public ArrayList<Entity> generateLevel() {
-		nbCount = 0;
-		SquadList = new ArrayList<Entity>();
+	public List<EntityEnnemy> generateLevel() {
+		SquadList = new ArrayList<EntityEnnemy>();
 		for (int r=0;r<row;r++) {
 			for (int l=0;l<line;l++) {
-				if (nbCount%2 == 0)
+				if (SquadList.size()%2 == 0)
 					SquadList.add(new EntityEnnemy("sprites/marc.jpg",new Vector2d(pos.x+(l*space.x),pos.y+r*space.y), 1000, entitiesManager));
 				else
 					SquadList.add(new EntityEnnemy("sprites/max.jpg",new Vector2d(pos.x+(l*space.x),pos.y+r*space.y), 1000, entitiesManager));
 				
-				nbCount++;
 			}
 		}
 		return SquadList;
@@ -49,7 +47,7 @@ public class LevelMegaAllStars extends Level {
 		
 		boolean ret = super.hasOneDestroyed();
 		
-		if (nbCount == 60)
+		if (getCount() == 60)
 		{
 			strategyMove = new StrategyMoveEnnemyRandom();
 			strategyShot = new StrategyShotEnnemyAimFor(5);

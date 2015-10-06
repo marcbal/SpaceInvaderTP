@@ -29,6 +29,8 @@ public class MegaSpaceInvader {
 	
 	public static final Charset NETWORK_CHARSET = Charset.forName("UTF-8");
 	
+	public static final int NETWORK_MAX_PACKET_SIZE = 32768;
+	
 	
 	
 	

@@ -6,6 +6,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.collections4.list.TreeList;
+
 import fr.univ_artois.iut_lens.spaceinvader.MegaSpaceInvader;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.ennemy.EntityEnnemy;
@@ -18,8 +20,8 @@ import fr.univ_artois.iut_lens.spaceinvader.server.entities.shot.EntityShot;
  */
 public class EntitiesManager {
 
-	private List<Entity> entities = new ArrayList<Entity>();
-	private List<Entity> removeList = new ArrayList<Entity>();
+	private final List<Entity> entities = new TreeList<Entity>();
+	private final List<Entity> removeList = new ArrayList<Entity>();
 	
 	
 	
@@ -80,12 +82,14 @@ public class EntitiesManager {
 			if (limitedShip.getNbShotAlive() >= limitedShip.getMaxNbShot())
 				return false;
 		}
-		entities.add(shot);
+		synchronized (this) {
+			entities.add(shot);
+		}
 		return true;
 	}
 	
 	
-	public int getTotalRemainingEnnemyLife()
+	public synchronized int getTotalRemainingEnnemyLife()
 	{
 		int s = 0;
 		for (Entity e : entities.toArray(new Entity[entities.size()]))
@@ -103,17 +107,22 @@ public class EntitiesManager {
 	 * 
 	 * @param entity The entity that should be removed
 	 */
-	public synchronized void removeEntity(Entity entity) {
+	public void removeEntity(Entity entity) {
 		entity.planToRemove();
-		removeList.add(entity);
+		synchronized (this) {
+			removeList.add(entity);
+		}
 	}
 	
 	
 	
 	
-	public List<Entity> getRemovedList() { return removeList; }
+	public synchronized List<Entity> getRemovedList() { return removeList; }
 
 	
+	public synchronized Entity[] getEntityListSnapshot() {
+		return entities.toArray(new Entity[entities.size()]);
+	}
 	
 	
 	

@@ -2,15 +2,12 @@ package fr.univ_artois.iut_lens.spaceinvader.client;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
 import fr.univ_artois.iut_lens.spaceinvader.MegaSpaceInvader;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateInfos.GameInfo;
 
 public class OnScreenDisplay {
-	
-	// c'est juste une valeur entière, sauf que là on évite les conflits de Thread
-	private AtomicLong levelMaxLife = new AtomicLong(0);
 	
 	private KeyInputHandler keyHandler = Client.instance.getKeyInputHandler();
 	
@@ -19,14 +16,13 @@ public class OnScreenDisplay {
 	
 	
 	
+	private AtomicReference<GameInfo> infosFromServer = new AtomicReference<GameInfo>(new GameInfo()); // all values are set to 0;
 	
 	
 	
 	
 	
 	
-	
-	public void setLevelMaxLife(int mL) { levelMaxLife.set(mL); }
 	public void setMiddleMessage(String m) { middleMessage.set(m); }
 	
 	
@@ -37,8 +33,10 @@ public class OnScreenDisplay {
 	
 	public void drawOther(Graphics2D g) {
 		Client client = Client.instance;
-		long currentLife = 0;// TODO current ennemyLife;
-		long maxLife = levelMaxLife.get();
+		GameInfo serverInfos = infosFromServer.get();
+		
+		long currentLife = serverInfos.currentEnemyLife;
+		long maxLife = serverInfos.maxEnemyLife;
 		
 
 		if (currentLife <= maxLife
@@ -59,22 +57,22 @@ public class OnScreenDisplay {
 		
 		text_position_y = 0;
 		
-		if (keyHandler.isKeyToggle("infos"))
+		if (keyHandler.isKeyToggled("infos"))
 		{
 			g.drawString("Par Marc Baloup et Maxime Maroine, Groupe 2-C, IUT de Lens, DUT Informatique 2014-2015", 5, text_position_y+=text_interval_y);
 			g.drawString("Sources : https://github.com/marcbal/SpaceInvaderTP", 5, text_position_y+=text_interval_y);
 			
 			int fpsGraphique = (int) Math.min(MegaSpaceInvader.CLIENT_FRAME_PER_SECOND, (1000000000/client.displayFrameDuration.get()));
 			int fpsLogique = (int) Math.min(MegaSpaceInvader.SERVER_TICK_PER_SECOND, 0 /* TODO récupérer les TPS du serveur */);
-			g.drawString("Threads collisions : "+MegaSpaceInvader.SERVER_NB_THREAD_FOR_ENTITY_COLLISION+" - FPS Graphique : "+fpsGraphique+" - FPS Logique : "+fpsLogique, 5, text_position_y+=text_interval_y);
+			g.drawString("Threads collisions : "+serverInfos.nbCollisionThreads+" - FPS Graphique : "+fpsGraphique+" - FPS Logique : "+fpsLogique, 5, text_position_y+=text_interval_y);
 			
 			
-			int nbEntities = 0; // TODO nombre d'entité
+			int nbEntities = serverInfos.nbEntity;
 			g.drawString("Nombre d'entité : "+nbEntities, 5, text_position_y+=text_interval_y);
 			g.drawString("Vie énemies : "+currentLife+"/"+maxLife, 5, text_position_y+=text_interval_y);
 		}
 		
-		int[] gInfos = new int[2], gInfos2 = new int[2]; // TODO infos vaisseaux et niveaux
+		int[] gInfos = new int[2], gInfos2 = new int[] {serverInfos.currentLevel, serverInfos.nbLevel}; // TODO infos vaisseaux
 		g.drawString("Vaisseau : "+gInfos[0]+"/"+gInfos[1]+" - Niveau : "+gInfos2[0]+"/"+gInfos2[1], 5, MegaSpaceInvader.DISPLAY_HEIGHT-5);
 		
 	}
@@ -90,9 +88,16 @@ public class OnScreenDisplay {
 	
 	public void drawMiddlePause(Graphics2D g)
 	{
-		if (!keyHandler.isKeyToggle("pause")) return;
+		if (!keyHandler.isKeyToggled("pause")) return;
 		g.setColor(Color.WHITE);
 		g.drawString("--> PAUSE <--",(MegaSpaceInvader.DISPLAY_WIDTH-g.getFontMetrics().stringWidth("--> PAUSE <--"))/2,300);
+	}
+	
+	
+	
+	
+	public void setGameInfoFromServer(GameInfo infos) {
+		infosFromServer.set(infos);
 	}
 	
 	

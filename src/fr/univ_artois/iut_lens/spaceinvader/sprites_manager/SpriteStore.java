@@ -10,6 +10,7 @@ import java.net.URL;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.imageio.ImageIO;
 
@@ -40,6 +41,9 @@ public class SpriteStore {
 	
 	/** The cached sprite map, from reference to sprite instance */
 	private Map<String, Sprite> sprites = new HashMap<String, Sprite>();
+	
+	/** Les sprites nouvellement chargés */
+	private Map<String, Sprite> newSprites = new HashMap<String, Sprite>();
 	
 	/**
 	 * Retrieve a sprite from the store
@@ -85,23 +89,34 @@ public class SpriteStore {
 		
 		// create a sprite, add it the cache then return it
 		Sprite sprite = new Sprite(image);
+		
 		sprites.put(ref,sprite);
+		newSprites.put(ref, sprite);
+		
 		
 		return sprite;
 	}
 	
-	
+
 	public synchronized Map<String, Sprite> getAllSprites() {
 		return Collections.unmodifiableMap(sprites);
 	}
 	
-	public synchronized Sprite getSpriteById(int id) {
-		for (Sprite sp : sprites.values()) {
-			if (sp.id == id)
-				return sp;
-		}
-		throw new RuntimeException("Sprite id '"+id+"' n'existe pas !");
+	public synchronized Map<String, Sprite> getAllNewSprites() {
+		Map<String, Sprite> ret = newSprites;
+		newSprites = new HashMap<String, Sprite>();
+		return ret;
 	}
+	
+	public synchronized Map<Integer, String> getSpritesId(boolean onlyNew) {
+		Map<String, Sprite> spritesData = onlyNew ? getAllNewSprites() : getAllSprites();
+		Map<Integer, String> spritesId = new HashMap<Integer, String>();
+		for (Entry<String, Sprite> sp : spritesData.entrySet()) {
+			spritesId.put(sp.getValue().id, sp.getKey());
+		}
+		return spritesId;
+	}
+	
 	
 	/**
 	 * Utility method to handle resource loading failure

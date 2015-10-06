@@ -1,9 +1,9 @@
 package fr.univ_artois.iut_lens.spaceinvader.server.levels;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import fr.univ_artois.iut_lens.spaceinvader.server.EntitiesManager;
-import fr.univ_artois.iut_lens.spaceinvader.server.entities.*;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.ennemy.EntityEnnemy;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.ennemy.strategy.move.StrategyMoveEnnemyBossPremier;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.ennemy.strategy.move.StrategyMoveEnnemyDisturbed;
@@ -24,24 +24,22 @@ public class LevelAllStar extends Level {
 	}
 
 	@Override
-	public ArrayList<Entity> generateLevel() {
-		nbCount = 0;
-		SquadList = new ArrayList<Entity>();
+	public List<EntityEnnemy> generateLevel() {
+		SquadList = new ArrayList<EntityEnnemy>();
 		for (int r=0;r<row;r++) {
 			for (int l=0;l<line;l++) {
 				if((l+1)%3==1) {
-					Entity alien = new EntityEnnemy("sprites/marc.jpg", new Vector2d(pos.x+(l*space.x),pos.y+r*space.y),1000,entitiesManager);
+					EntityEnnemy alien = new EntityEnnemy("sprites/marc.jpg", new Vector2d(pos.x+(l*space.x),pos.y+r*space.y),1000,entitiesManager);
 					SquadList.add(alien);
 				}
 				else if((l+1)%2==0) {
-					Entity alien = new EntityEnnemy("sprites/max.jpg",new Vector2d(pos.x+(l*space.x),pos.y+r*space.y),1250,entitiesManager);
+					EntityEnnemy alien = new EntityEnnemy("sprites/max.jpg",new Vector2d(pos.x+(l*space.x),pos.y+r*space.y),1250,entitiesManager);
 					SquadList.add(alien);
 				}
 				else {
-					Entity alien = new EntityEnnemy(sprite,new Vector2d(pos.x+(l*space.x),pos.y+r*space.y),1500,entitiesManager);
+					EntityEnnemy alien = new EntityEnnemy(sprite,new Vector2d(pos.x+(l*space.x),pos.y+r*space.y),1500,entitiesManager);
 					SquadList.add(alien);
 				}
-				nbCount++;
 			}
 		}
 		return SquadList;
@@ -50,7 +48,7 @@ public class LevelAllStar extends Level {
 	public boolean hasOneDestroyed() {
 		
 		boolean ret = super.hasOneDestroyed();
-		if(nbCount==2) {
+		if(getCount()==2) {
 			strategyMove = new StrategyMoveEnnemyDisturbed();
 			strategyShot = new StrategyShotEnnemyAimFor(15);
 		}

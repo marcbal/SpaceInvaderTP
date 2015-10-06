@@ -79,6 +79,7 @@ public abstract class EntityShip extends Entity {
 		// is dead
 		if (other instanceof EntityEnnemy || other instanceof EntityShotFromEnnemy) {
 			associatedShipManager.getPlayer().die();
+			entitiesManager.removeEntity(associatedShipManager.getCurrentShip());
 		}
 	}
 	
@@ -108,6 +109,7 @@ public abstract class EntityShip extends Entity {
 	
 
 	public void tryToShoot(long currentTime) {
+		if (associatedShipManager.getPlayer().isDead()) return;
 		if (!canShoot(currentTime)) return;
 		lastFireTime = currentTime; //On met le dernier tire au temps actuel
 		shoot(currentTime);

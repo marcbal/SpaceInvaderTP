@@ -1,12 +1,13 @@
 package fr.univ_artois.iut_lens.spaceinvader.server.levels;
 
 import fr.univ_artois.iut_lens.spaceinvader.server.EntitiesManager;
-import fr.univ_artois.iut_lens.spaceinvader.server.entities.*;
+import fr.univ_artois.iut_lens.spaceinvader.server.entities.ennemy.EntityEnnemy;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.ennemy.strategy.move.StrategyMoveEnnemy;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.ennemy.strategy.shot.*;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class generate levels, it's an abstract class
@@ -36,10 +37,12 @@ public abstract class Level {
 	protected Vector2d space;
 	
 	/**Numeber of entities in the squad*/
-	protected int nbCount;
+	private int nbCount;
 	
 	/**Array to generating squad*/
-	ArrayList<Entity> SquadList;
+	protected ArrayList<EntityEnnemy> SquadList;
+	
+	private long maxEnemyLife = 0;
 	
 	public Level(EntitiesManager eM, int r, int l, String s, Vector2d sp,  Vector2d p, StrategyMoveEnnemy stratMove, StrategyShotEnnemy stratShot) {
 		
@@ -58,7 +61,23 @@ public abstract class Level {
 	 * The function generate a table of ennemies
 	 * @param g the game where ennemies are
 	 */
-	public abstract ArrayList<Entity> generateLevel();
+	protected abstract List<EntityEnnemy> generateLevel();
+	
+	
+	public long getMaxEnemyLife() {
+		return maxEnemyLife;
+	}
+	
+	
+	public List<EntityEnnemy> getNewlyGeneratedLevel() {
+		List<EntityEnnemy> ents = generateLevel();
+		nbCount = ents.size();
+		maxEnemyLife = 0;
+		for (EntityEnnemy e : ents) {
+			maxEnemyLife += e.getLife();
+		}
+		return ents;
+	}
 	
 	public int getCount() {
 		return nbCount;
