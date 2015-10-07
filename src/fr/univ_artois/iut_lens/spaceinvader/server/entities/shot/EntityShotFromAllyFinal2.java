@@ -29,7 +29,7 @@ public class EntityShotFromAllyFinal2 extends EntityShotFromAlly {
 	
 	public void move(long delta) {
 		if (target == null || !entitiesManager.getEntitiesList().contains(target))
-			target = TargettingUtil.searchTargetEnnemy(this, entitiesManager, Entity.class);
+			target = TargettingUtil.searchTargetEnnemy(this, entitiesManager, Entity.class, true);
 		if (target != null)
 			speed = speed.add(TargettingUtil.getTargetDirection(this, target).dotProduct(0.05));
 		
