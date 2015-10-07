@@ -1,6 +1,5 @@
 package fr.univ_artois.iut_lens.spaceinvader.server.players;
 
-import java.net.SocketAddress;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClient;
@@ -10,11 +9,11 @@ import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerTo
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientNextLevel;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientTogglePause;
 import fr.univ_artois.iut_lens.spaceinvader.server.Server;
-import fr.univ_artois.iut_lens.spaceinvader.server.network.ServerConnection;
+import fr.univ_artois.iut_lens.spaceinvader.server.network.ServerConnection.ConnectionThread;
 
 public class Player {
 	
-	private PlayerConnection connection;
+	private ConnectionThread connection;
 	
 	private ShipManager shipManager = new ShipManager(Server.serverInstance.entitiesManager, this);
 	
@@ -29,14 +28,14 @@ public class Player {
 	
 	public final String name;
 	
-	public Player(String n, SocketAddress addr, ServerConnection co) {
-		connection = new PlayerConnection(addr, co);
+	public Player(String n, ConnectionThread co) {
+		connection = co;
 		name = n;
 	}
 	
 	
 	
-	public PlayerConnection getConnection() { return connection; }
+	public ConnectionThread getConnection() { return connection; }
 	public ShipManager getShipManager() { return shipManager; }
 	
 	
@@ -93,6 +92,8 @@ public class Player {
 	
 	public void initNewLevel() {
 		dead.set(false);
+		setShipShooting(false);
+		setShipDirection(Direction.NONE);
 	}
 	
 	

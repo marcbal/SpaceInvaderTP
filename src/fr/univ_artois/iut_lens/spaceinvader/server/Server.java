@@ -73,7 +73,7 @@ public class Server extends Thread {
 		
 		serverConnection = new ServerConnection(port);
 		
-		playerManager = new PlayerManager(serverConnection);
+		playerManager = new PlayerManager();
 		
 		serverConnection.setListener(playerManager);
 	}
@@ -103,6 +103,9 @@ public class Server extends Thread {
 			
 			if (!waitingForKeyPress.get() && entitiesManager.getTotalRemainingEnnemyLife() <= 0)
 				finishLevel(true);
+			
+			if (!waitingForKeyPress.get() && playerManager.everyPlayerDead())
+				finishLevel(false);
 			
             long loop_duration = System.nanoTime()-loop_start;
 			try { Thread.sleep(Math.max(5, (delta-loop_duration)/1000000)); } catch (Exception e) {}
@@ -260,6 +263,9 @@ public class Server extends Thread {
 		Logger.info("Starting new level !");
 		
 		setLevelEndScore(null);
+		
+		playerManager.reinitPlayersForNextLevel();
+		
 		playerManager.sendToAll(new PacketServerLevelStart());
 		
 		/*

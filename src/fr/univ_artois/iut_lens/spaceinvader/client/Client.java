@@ -10,7 +10,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferStrategy;
 import java.io.IOException;
-import java.net.SocketAddress;
+import java.net.InetSocketAddress;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
@@ -94,7 +94,7 @@ public class Client extends Canvas implements NetworkReceiveListener, Runnable {
 	/**
 	 * @throws IOException si un problème survient lors de la connexion
 	 */
-	public Client(SocketAddress serverAddress, String playerName) throws IOException {
+	public Client(InetSocketAddress serverAddress, String playerName) throws IOException {
 		instance = this;
 		
 		Logger.info("Chargement de l'interface graphique ...");
@@ -330,9 +330,10 @@ public class Client extends Canvas implements NetworkReceiveListener, Runnable {
 		else if (packet instanceof PacketServerDisconnectTimeout) {
 			gameRunning.set(false);
 			Logger.severe("Déconnecté par le serveur : Timeout");
+			connection.socketThread.close();
 		}
 		else if (packet instanceof PacketServerDisconnectOk) {
-			// nothing to do, the game is already stopping at his moment
+			connection.socketThread.close();
 		}
 		else if (packet instanceof PacketServerLevelEnd) {
 			waitingForKeyPress.set(true);

@@ -1,16 +1,18 @@
 package fr.univ_artois.iut_lens.spaceinvader.server.network;
 
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.InetSocketAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.net.SocketAddress;
-import java.net.SocketException;
 import java.nio.ByteBuffer;
-import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicInteger;
 
-import fr.univ_artois.iut_lens.spaceinvader.MegaSpaceInvader;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.Packet;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClient;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServer;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerProtocolError;
 import fr.univ_artois.iut_lens.spaceinvader.util.Logger;
 
@@ -56,8 +58,10 @@ import fr.univ_artois.iut_lens.spaceinvader.util.Logger;
  *
  */
 public class ServerConnection {
+	private static AtomicInteger connectionCounterId = new AtomicInteger(0);
 	
-	private DatagramSocket socket;
+	
+	private ServerSocket socket;
 	private Thread receiverThread;
 	private NetworkReceiveListener gameListener;
 	
@@ -67,82 +71,152 @@ public class ServerConnection {
 	public ServerConnection(int port) throws IOException {
 		if (port <= 0 || port > 65535)
 			throw new IllegalArgumentException("le numéro de port est invalide");
-		socket = new DatagramSocket(port);
+		socket = new ServerSocket(port);
 		
-		receiverThread = new Thread(() -> {
-			DatagramPacket packet = new DatagramPacket(new byte[MegaSpaceInvader.NETWORK_MAX_PACKET_SIZE], MegaSpaceInvader.NETWORK_MAX_PACKET_SIZE);
-			
-			try {
-				while(true) {
-					socket.receive(packet);
-					
-					byte[] packetData = Arrays.copyOf(packet.getData(), packet.getLength());
-					
-					if (packetData.length < 5) {
-						sendProtocolError(packet.getSocketAddress(), "Erreur protocole : le packet n'est pas assez long");
-						continue;
-					}
-					
-					int declaredSize = ByteBuffer.wrap(packetData, 1, 4).getInt();
-					
-					if (packetData.length != 5+declaredSize) {
-						sendProtocolError(packet.getSocketAddress(), "Erreur protocole : le packet n'est pas de la bonne taille : "+declaredSize+" déclaré, "+(packetData.length-5)+" réel");
-						continue;
-					}
-					
-					
-					try {
-						interpreteReceivedMessage(packet.getSocketAddress(), packetData);
-					} catch (InvalidClientMessage e) {
-						Logger.severe("Message du client mal formé");
-						sendProtocolError(packet.getSocketAddress(), "Erreur protocole : "+e.getMessage());
-					} catch (Exception e) {
-						Logger.severe("Erreur lors de la prise en charge du message par le serveur");
-						e.printStackTrace();
-					}
-					
-				}
-			} catch (SocketException e) {
-				Logger.warning("Plus aucun packet ne peut être reçu du réseau");
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		});
-		receiverThread.setName("Server Net");
+		receiverThread = new ServerConnectionThread();
 		receiverThread.start();
 		
 	}
 	
-	
-	private void sendProtocolError(SocketAddress socketAddress, String string) throws IOException {
-		PacketServerProtocolError packet = new PacketServerProtocolError();
-		packet.setMessage(string);
-		send(socketAddress, packet);
-	}
+	/*
+	 * Thread qui prends en charge les nouvelles connexions
+	 */
+	private class ServerConnectionThread extends Thread {
+		
+		public ServerConnectionThread() {
+			super("Server Net");
+		}
+		
+		@Override
+		public void run() {
 
-
-	public void send(SocketAddress addr, Packet p) throws IOException {
-		byte[] bytes = p.constructAndGetDataPacket();
-		Logger.info("(Serveur) -> "+p.getClass().getSimpleName()+" -> (Client "+addr+")");
-		socket.send(new DatagramPacket(bytes, bytes.length, addr));
+			try {
+				while(true) {
+					Socket socketClient = socket.accept();
+					
+					try {
+						new ConnectionThread(socketClient).start();
+					} catch(IOException e) {
+						Logger.severe("Connexion impossible avec "+socketClient.getInetAddress());
+					}
+				}
+			} catch (Exception e) {
+				Logger.warning("Plus aucune connexion ne peux être acceptée : "+e.toString());
+			}
+		}
 	}
 	
 	
-	private synchronized void interpreteReceivedMessage(SocketAddress addr, byte[] data) {
+	
+	public class ConnectionThread extends Thread {
+		private Socket socket;
+		private Object outSynchronizer = new Object();
+		private InputStream in;
+		private OutputStream out;
+		private SocketAddress address;
+		
+		public ConnectionThread(Socket s) throws IOException {
+			super("Server Net Sock#"+connectionCounterId.getAndIncrement());
+			socket = s;
+			in = socket.getInputStream();
+			out = socket.getOutputStream();
+			address = new InetSocketAddress(socket.getInetAddress(), socket.getPort());
+		}
+		
+		@Override
+		public void run() {
+			try {
+				byte[] code = new byte[1];
+				while(!socket.isClosed() && in.read(code) != -1) {
+					byte[] sizeB = new byte[4];
+					if (in.read(sizeB) != 4)
+						throw new IOException("Socket "+address+" fermé");
+					
+					int size = ByteBuffer.wrap(sizeB).getInt();
+					
+					byte[] content = new byte[size];
+	
+					forceReadBytes(content);
+					
+					byte[] packetData = ByteBuffer.allocate(1+4+size).put(code).put(sizeB).put(content).array();
+					
+					
+					try {
+						interpreteReceivedMessage(this, packetData);
+					} catch (InvalidClientMessage e) {
+						Logger.severe("Message du client mal formé");
+						sendProtocolError("Erreur protocole : "+e.getMessage());
+					} catch (Exception e) {
+						Logger.severe("Erreur lors de la prise en charge du message par le serveur");
+						e.printStackTrace();
+					}
+				}
+				
+				
+				
+				
+			} catch (IOException e) {
+				Logger.severe("Fermeture de la connexion de "+address+" : "+e);
+			}
+		}
+		
+		public void send(PacketServer p) {
+			synchronized (outSynchronizer) {
+				try {
+					out.write(p.constructAndGetDataPacket());
+					out.flush();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		private void forceReadBytes(byte[] buff) throws IOException {
+			int pos = 0;
+			do {
+				int nbR = in.read(buff, pos, buff.length-pos);
+				if (nbR == -1)
+					throw new IOException("Can't read required amount of byte");
+				pos += nbR;
+			} while (pos < buff.length);
+		}
+		
+		public void sendProtocolError(String string) throws IOException {
+			PacketServerProtocolError packet = new PacketServerProtocolError();
+			packet.setMessage(string);
+			send(packet);
+			close();
+		}
+		
+		public void close() {
+			try {
+				socket.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	
+	
+	
+	
+	private synchronized void interpreteReceivedMessage(ConnectionThread co, byte[] data) {
 		
 		if (gameListener == null)
 			throw new InvalidClientMessage("Le serveur ne peut actuellement pas prendre en charge de nouvelles requêtes. Les listeners n'ont pas encore été définis");
 		
 		Packet p = Packet.constructPacket(data);
 		
-		Logger.info("(Serveur) <- "+p.getClass().getSimpleName()+" <- (Client "+addr+")");
+		// Logger.info("(Serveur) <- "+p.getClass().getSimpleName()+" <- (Client "+addr+")");
 		
 		if (!(p instanceof PacketClient))
 			throw new InvalidClientMessage("Le type de packet reçu n'est pas un packet attendu : "+p.getClass().getCanonicalName());
 		
 		PacketClient pc = (PacketClient) p;
 		
-		gameListener.onReceivePacket(addr, pc);
+		gameListener.onReceivePacket(co, pc);
 	}
 	
 	
@@ -153,7 +227,9 @@ public class ServerConnection {
 	}
 	
 	public void close() {
-		socket.close();
+		try {
+			socket.close();
+		} catch (IOException e) { }
 	}
 	
 	

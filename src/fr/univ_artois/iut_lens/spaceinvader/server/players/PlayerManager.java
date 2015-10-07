@@ -1,6 +1,5 @@
 package fr.univ_artois.iut_lens.spaceinvader.server.players;
 
-import java.net.SocketAddress;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,32 +23,29 @@ import fr.univ_artois.iut_lens.spaceinvader.server.Server;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.ship.EntityShip;
 import fr.univ_artois.iut_lens.spaceinvader.server.network.NetworkReceiveListener;
-import fr.univ_artois.iut_lens.spaceinvader.server.network.ServerConnection;
+import fr.univ_artois.iut_lens.spaceinvader.server.network.ServerConnection.ConnectionThread;
 import fr.univ_artois.iut_lens.spaceinvader.server.network.ServerConnection.InvalidClientMessage;
 import fr.univ_artois.iut_lens.spaceinvader.sprites_manager.SpriteStore;
 
 public class PlayerManager implements NetworkReceiveListener {
 	
-	private Map<SocketAddress, Player> players = new HashMap<SocketAddress, Player>();
+	private Map<ConnectionThread, Player> players = new HashMap<ConnectionThread, Player>();
 	
-	private ServerConnection connection;
-	
-	public PlayerManager(ServerConnection co) {
-		connection = co;
+	public PlayerManager() {
 	}
 	
-	public synchronized Player getByAddress(SocketAddress addr) {
-		return players.get(addr);
+	public synchronized void removePlayer(ConnectionThread co) {
+		players.remove(co);
 	}
 	
-	public synchronized void removePlayer(SocketAddress addr) {
-		players.remove(addr);
+	public synchronized Player getPlayerByConnection(ConnectionThread co) {
+		return players.get(co);
 	}
 	
-	public synchronized Player createPlayer(SocketAddress addr, String name) {
-		Player p = new Player(name, addr, connection);
+	public synchronized Player createPlayer(ConnectionThread co, String name) {
+		Player p = new Player(name, co);
 		
-		players.put(addr, p);
+		players.put(co, p);
 		
 		return p;
 	}
@@ -99,15 +95,15 @@ public class PlayerManager implements NetworkReceiveListener {
 	
 	
 	@Override
-	public void onReceivePacket(SocketAddress playerAddr, PacketClient packet) {
+	public void onReceivePacket(ConnectionThread co, PacketClient packet) {
 		
-		Player p = getByAddress(playerAddr);
+		Player p = getPlayerByConnection(co);
 		
 		if (packet instanceof PacketClientJoin) {
 			
 			if (p != null)
 				throw new InvalidClientMessage("Votre adresse réseau correspond déjà à un joueur en ligne");
-			p = createPlayer(playerAddr, ((PacketClientJoin)packet).getPlayerName());
+			p = createPlayer(co, ((PacketClientJoin)packet).getPlayerName());
 			p.getConnection().send(new PacketServerConnectionOk());
 			
 			// si la partie en cours se trouve entre deux niveaux (waitingForKeyPress)
@@ -162,8 +158,9 @@ public class PlayerManager implements NetworkReceiveListener {
 		else if (packet instanceof PacketClientDisconnect) {
 			if (p == null)
 				throw new InvalidClientMessage("Vous n'êtes pas connecté");
-			removePlayer(playerAddr);
+			removePlayer(co);
 			p.getConnection().send(new PacketServerDisconnectOk());
+			p.getConnection().close();
 			synchronized (this) {
 				if(players.size() == 0)
 					Server.serverInstance.commandPause.set(true);
@@ -178,9 +175,21 @@ public class PlayerManager implements NetworkReceiveListener {
 	public synchronized Player[] getPlayers() {
 		return players.values().toArray(new Player[players.size()]);
 	}
+
+	public synchronized boolean everyPlayerDead() {
+		for (Player p : players.values()) {
+			if (!p.isDead())
+				return false;
+		}
+		return true;
+	}
 	
 	
-	
+	public synchronized void reinitPlayersForNextLevel() {
+		for (Player p : players.values()) {
+			p.initNewLevel();
+		}
+	}
 	
 
 }
