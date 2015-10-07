@@ -25,11 +25,11 @@ public class StrategyShotEnnemyBasic extends StrategyShotEnnemy {
 		Random r = new Random();
 		// on doit parcourir une copie de l'entityList,
 		// car on rajoute des entité dans l'original, à l'intérieur de cette boucle
-		for(Entity entity : entMan.getEntitiesList().toArray(new Entity[1])) {
+		for(Entity entity : entMan.getEntityListSnapshot()) {
 			if (entity instanceof EntityEnnemy)
 			{
 				if (r.nextInt(scarcity)==0)
-					entMan.getEntitiesList().add(new EntityShotFromEnnemyBasic(new Vector2d(entity.getPosition().x+entity.getBoundingBox().width/2, entity.getPosition().y+entity.getBoundingBox().height), new Vector2d(0, 200), entMan));
+					entMan.add(new EntityShotFromEnnemyBasic(new Vector2d(entity.getPosition().x+entity.getBoundingBox().width/2, entity.getPosition().y+entity.getBoundingBox().height), new Vector2d(0, 200), entMan));
 			}
 		}
 	}

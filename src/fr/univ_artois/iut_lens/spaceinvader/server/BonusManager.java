@@ -22,11 +22,11 @@ public class BonusManager {
 	public void performBonus() {
 		Random r = new Random();
 		
-		if(r.nextInt(1750)<=5) {
-			entitiesManager.getEntitiesList().add(new EntityBonusPowerUp(new Vector2d(r.nextInt(MegaSpaceInvader.DISPLAY_WIDTH-sprUp.getWidth()),r.nextInt(MegaSpaceInvader.DISPLAY_HEIGHT-300)), new Vector2d(0, r.nextInt(400)+20), entitiesManager));
+		if(r.nextInt(1400)<=5) {
+			entitiesManager.add(new EntityBonusPowerUp(new Vector2d(r.nextInt(MegaSpaceInvader.DISPLAY_WIDTH-sprUp.getWidth()),r.nextInt(MegaSpaceInvader.DISPLAY_HEIGHT-300)), new Vector2d(0, r.nextInt(400)+20), entitiesManager));
 		}
-		if(r.nextInt(1750)<=5) {
-			entitiesManager.getEntitiesList().add(new EntityBonusPowerDown(new Vector2d(r.nextInt(MegaSpaceInvader.DISPLAY_WIDTH-sprDown.getWidth()),r.nextInt(MegaSpaceInvader.DISPLAY_HEIGHT-300)), new Vector2d(0, r.nextInt(500)+10), entitiesManager));
+		if(r.nextInt(1400)<=5) {
+			entitiesManager.add(new EntityBonusPowerDown(new Vector2d(r.nextInt(MegaSpaceInvader.DISPLAY_WIDTH-sprDown.getWidth()),r.nextInt(MegaSpaceInvader.DISPLAY_HEIGHT-300)), new Vector2d(0, r.nextInt(500)+10), entitiesManager));
 		}
 	}
 }

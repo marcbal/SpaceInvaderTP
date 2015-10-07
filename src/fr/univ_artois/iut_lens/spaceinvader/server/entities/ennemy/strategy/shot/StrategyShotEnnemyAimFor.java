@@ -26,7 +26,7 @@ public class StrategyShotEnnemyAimFor extends StrategyShotEnnemy {
 		Random r = new Random();
 		// on doit parcourir une copie de l'entityList,
 		// car on rajoute des entité dans l'original, à l'intérieur de cette boucle
-		for(Entity entity : entMan.getEntitiesList().toArray(new Entity[1])) {
+		for(Entity entity : entMan.getEntityListSnapshot()) {
 			if (entity instanceof EntityEnnemy)
 			{
 				if (r.nextInt(scarcity)==0)
@@ -34,7 +34,7 @@ public class StrategyShotEnnemyAimFor extends StrategyShotEnnemy {
 					EntityShip ship = TargettingUtil.searchTargetEnnemy(entity, entMan, EntityShip.class, false);
 					if (ship == null) continue;
 					Vector2d speed = ship.getPosition().add(entity.getPosition().invert()).dotProduct(0.4);
-					entMan.getEntitiesList().add(new EntityShotFromEnnemyAdvanced(new Vector2d(entity.getPosition().x+entity.getBoundingBox().width/2, entity.getPosition().y+entity.getBoundingBox().height), speed, entMan));
+					entMan.add(new EntityShotFromEnnemyAdvanced(new Vector2d(entity.getPosition().x+entity.getBoundingBox().width/2, entity.getPosition().y+entity.getBoundingBox().height), speed, entMan));
 				}
 					
 			}

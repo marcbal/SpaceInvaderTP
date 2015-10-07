@@ -22,7 +22,7 @@ public class TargettingUtil {
 		double min = Double.MAX_VALUE;
 		T target = null;
 		
-		for (Entity e : entitiesManager.getEntitiesList())
+		for (Entity e : entitiesManager.getEntityListSnapshot())
 		{
 			if (e == null) continue;
 			if (!targetType.isInstance(e)) continue;

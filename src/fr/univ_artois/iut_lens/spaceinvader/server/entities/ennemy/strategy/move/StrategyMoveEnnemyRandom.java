@@ -20,7 +20,7 @@ public class StrategyMoveEnnemyRandom extends StrategyMoveEnnemy {
 		Random r = new Random();
 		
 		
-		for(Entity entity : entMan.getEntitiesList().toArray(new Entity[entMan.getEntitiesList().size()]))
+		for(Entity entity : entMan.getEntityListSnapshot())
 	    	if (entity instanceof EntityEnnemy)
 	    	{
 	    		// direction courante de cet EntityEnnemy

@@ -126,7 +126,7 @@ public class ShipManager {
 			entitiesManager.removeEntity(getCurrentShip());
 			ships.get(newShipIndex).getPosition().x = pos.x+ships.get(actualShipIndex).getBoundingBox().width/2D-ships.get(newShipIndex).getBoundingBox().width/2D;
 			ships.get(newShipIndex).getPosition().y = pos.y;
-			entitiesManager.getEntitiesList().add(ships.get(newShipIndex));
+			entitiesManager.add(ships.get(newShipIndex));
 			ships.get(newShipIndex).setPosition(pos);
 			actualShipIndex = newShipIndex;
 		}

@@ -48,8 +48,11 @@ public class MegaSpaceInvader {
 		}
 		
 		
+		String addr = (args.length > 0) ? args[0] : "localhost";
+		
+		
 		try {
-			Client c = new Client(new InetSocketAddress(InetAddress.getByName("localhost"), SERVER_DEFAULT_PORT), "Test");
+			Client c = new Client(new InetSocketAddress(InetAddress.getByName(addr), SERVER_DEFAULT_PORT), "Test");
 			c.start();
 		} catch (IOException e) {
 			Logger.severe("Impossible de lancer l'interface graphique :");

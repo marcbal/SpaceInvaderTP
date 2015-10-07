@@ -33,16 +33,16 @@ public class StrategyShotEnnemyMegaBoss extends StrategyShotEnnemy {
 			for (int i=20; i<MegaSpaceInvader.DISPLAY_WIDTH; i+=20)
 			{
 				if (r.nextInt(4)<3)
-					entMan.getEntitiesList().add(new EntityShotFromEnnemyBasic(new Vector2d(i, -10), new Vector2d(randSpeedLR, speedVerticalShot), entMan));
+					entMan.add(new EntityShotFromEnnemyBasic(new Vector2d(i, -10), new Vector2d(randSpeedLR, speedVerticalShot), entMan));
 			}
 		}
 		
 		// normalement, yen a qu'un seul, mais bon
-		for(Entity entity : entMan.getEntitiesList().toArray(new Entity[1])) {
+		for(Entity entity : entMan.getEntityListSnapshot()) {
 			if (entity instanceof EntityEnnemy && frameCount%50==0)
 			{
 				for (double i = 0; i<2*Math.PI; i+= (2*Math.PI)/(double)nbShotCircle)
-					entMan.getEntitiesList().add(
+					entMan.add(
 							new EntityShotFromEnnemyAdvanced(
 									new Vector2d(entity.getPosition().x+entity.getBoundingBox().width/2, entity.getPosition().y+entity.getBoundingBox().height),
 									new Vector2d(Math.cos(i)*circleSpeed, Math.sin(i)*circleSpeed),

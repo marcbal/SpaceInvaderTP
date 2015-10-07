@@ -28,7 +28,7 @@ public class EntityShotFromAllyFinal2 extends EntityShotFromAlly {
 	}
 	
 	public void move(long delta) {
-		if (target == null || !entitiesManager.getEntitiesList().contains(target))
+		if (target == null || target.plannedToRemoved())
 			target = TargettingUtil.searchTargetEnnemy(this, entitiesManager, Entity.class, true);
 		if (target != null)
 			speed = speed.add(TargettingUtil.getTargetDirection(this, target).dotProduct(0.05));
@@ -39,10 +39,10 @@ public class EntityShotFromAllyFinal2 extends EntityShotFromAlly {
 			time = 0;
 			Random r = new Random();
 			for (int i=0; i<nbOfChildPerDuplication; i++) {
-			entitiesManager.getEntitiesList().add(new EntityShotFromAllyFinal2(new Vector2d(position.x, position.y), speed.add(new Vector2d(r.nextInt(400)-200,r.nextInt(400)-200)), entitiesManager, ship, duplicationInterval, nbOfChildPerDuplication));
+			entitiesManager.add(new EntityShotFromAllyFinal2(new Vector2d(position.x, position.y), speed.add(new Vector2d(r.nextInt(400)-200,r.nextInt(400)-200)), entitiesManager, ship, duplicationInterval, nbOfChildPerDuplication));
 			}
 		}
-		// colision sur la bordure de l'écranz
+		// colision sur la bordure de l'écran
 		if (position.x<0) {
 			position = position.invertX(); // équivaut à position.x=-position.x;
 			speed = speed.invertX().dotProduct(0.6);

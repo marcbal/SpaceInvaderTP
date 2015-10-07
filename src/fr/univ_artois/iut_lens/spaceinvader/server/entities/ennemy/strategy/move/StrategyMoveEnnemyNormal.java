@@ -14,7 +14,7 @@ public class StrategyMoveEnnemyNormal extends StrategyMoveEnnemy {
 		boolean changerDirection = false;
 		
 		
-		for(Entity entity : entMan.getEntitiesList())
+		for(Entity entity : entMan.getEntityListSnapshot())
 	    	if (entity instanceof EntityEnnemy)
 	    	{
 	    		
@@ -34,7 +34,7 @@ public class StrategyMoveEnnemyNormal extends StrategyMoveEnnemy {
 		
 		
 		if(changerDirection) {
-		    for(Entity entity : entMan.getEntitiesList().toArray(new Entity[entMan.getEntitiesList().size()])) {
+		    for(Entity entity : entMan.getEntityListSnapshot()) {
 		    	if (entity instanceof EntityEnnemy)
 		    	{
 		    		// swap over horizontal movement and move down the

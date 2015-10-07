@@ -13,7 +13,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.Packet;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClient;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServer;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerDisconnectOk;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerProtocolError;
+import fr.univ_artois.iut_lens.spaceinvader.server.Server;
 import fr.univ_artois.iut_lens.spaceinvader.util.Logger;
 
 
@@ -227,6 +229,7 @@ public class ServerConnection {
 	}
 	
 	public void close() {
+		Server.serverInstance.playerManager.sendToAll(new PacketServerDisconnectOk());
 		try {
 			socket.close();
 		} catch (IOException e) { }

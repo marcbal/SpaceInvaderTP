@@ -18,7 +18,7 @@ public class EntityShipFinal extends EntityShip implements ShipLimitedShot {
 
 	@Override
 	public void shoot(long currentTime) {
-			entitiesManager.getEntitiesList().add(new EntityShotFromAllyFinal(new Vector2d(position.x+getBoundingBox().width/2-5, position.y), new Vector2d(0, -300), entitiesManager, this));
+			entitiesManager.add(new EntityShotFromAllyFinal(new Vector2d(position.x+getBoundingBox().width/2-5, position.y), new Vector2d(0, -300), entitiesManager, this));
 			hasShot = true;
 	}
 	

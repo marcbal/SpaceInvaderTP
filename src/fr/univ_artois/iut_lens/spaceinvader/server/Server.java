@@ -50,6 +50,8 @@ public class Server extends Thread {
 	
 	public final EntitiesManager entitiesManager = new EntitiesManager();
 	
+	private Thread dataToClientSender;
+	
 	public final LevelManager levelManager = new LevelManager(entitiesManager);
 	
 	public final ServerConnection serverConnection;
@@ -99,13 +101,22 @@ public class Server extends Thread {
 			
 			updateLogic(delta);
 			
-			sendPackets();
+			// on attends que les packets de la boucle précédent ont tous été envoyé
+			if (dataToClientSender != null) {
+				try {
+					dataToClientSender.join();
+				} catch (InterruptedException e) { }
+			}
+			
 			
 			if (!waitingForKeyPress.get() && entitiesManager.getTotalRemainingEnnemyLife() <= 0)
 				finishLevel(true);
-			
-			if (!waitingForKeyPress.get() && playerManager.everyPlayerDead())
+			else if (!waitingForKeyPress.get() && playerManager.everyPlayerDead())
 				finishLevel(false);
+			else if (!waitingForKeyPress.get()) {
+				dataToClientSender = new Thread(() -> sendRunningGamePackets(), "Server Game data packet sender");
+				dataToClientSender.start();
+			}
 			
             long loop_duration = System.nanoTime()-loop_start;
 			try { Thread.sleep(Math.max(5, (delta-loop_duration)/1000000)); } catch (Exception e) {}
@@ -160,7 +171,7 @@ public class Server extends Thread {
 	
 	
 	
-	private void sendPackets() {
+	private void sendRunningGamePackets() {
 		// envoi des infos technique aux joueurs
 		/*
 		 * Envoi des infos de jeux aux joueurs
@@ -173,7 +184,7 @@ public class Server extends Thread {
 			globalGameInfos.nbLevel = levelProgress[1];
 			globalGameInfos.maxEnemyLife = levelManager.getCurrentLevel().getMaxEnemyLife();
 			globalGameInfos.nbCollisionThreads = MegaSpaceInvader.SERVER_NB_THREAD_FOR_ENTITY_COLLISION;
-			globalGameInfos.nbEntity = entitiesManager.getEntitiesList().size();
+			globalGameInfos.nbEntity = entitiesManager.size();
 			PacketServerUpdateInfos packetInfos = new PacketServerUpdateInfos();
 			packetInfos.setInfos(globalGameInfos);
 			playerManager.sendToAll(packetInfos);
@@ -218,7 +229,7 @@ public class Server extends Thread {
 	 */
 	public synchronized void notifyAlienKilled() {
 		
-		for(Entity entity : entitiesManager.getEntitiesList()) {
+		for(Entity entity : entitiesManager.getEntityListSnapshot()) {
 		    entity.setNotifyAlienKilled();
 		}
 	}
@@ -228,7 +239,7 @@ public class Server extends Thread {
 	 * 
 	 */
 	public void finishLevel(boolean win) {
-		entitiesManager.getEntitiesList().clear(); //nettoie l'écran des entités
+		entitiesManager.clear(); //nettoie l'écran des entités
 		waitingForKeyPress.set(true);
 		if (win) {
 			levelManager.goToNextLevel();
@@ -258,7 +269,7 @@ public class Server extends Thread {
 	 * create a new set.
 	 */
 	private void startLevel() {
-		entitiesManager.getEntitiesList().clear();
+		entitiesManager.clear();
 
 		Logger.info("Starting new level !");
 		
@@ -295,10 +306,10 @@ public class Server extends Thread {
 		
 		
 		// Placer les vaisseaux préalablement créés dans le tableau des entités
-		entitiesManager.getEntitiesList().addAll(playerManager.reinitAllPlayersShips());
+		entitiesManager.addAll(playerManager.reinitAllPlayersShips());
 		
 		// create block of aliens, with the arguments
-		entitiesManager.getEntitiesList().addAll(levelManager.getCurrentLevel().getNewlyGeneratedLevel());
+		entitiesManager.addAll(levelManager.getCurrentLevel().getNewlyGeneratedLevel());
 	}
 	
 	

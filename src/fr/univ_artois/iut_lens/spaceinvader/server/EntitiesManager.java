@@ -1,6 +1,7 @@
 package fr.univ_artois.iut_lens.spaceinvader.server;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -34,7 +35,11 @@ public class EntitiesManager {
 		ExecutorService threadpool = Executors.newFixedThreadPool(MegaSpaceInvader.SERVER_NB_THREAD_FOR_ENTITY_COLLISION);
 
 		// partie de calcul multithreadé
-		Entity[] entitiesArray = entities.toArray(new Entity[entities.size()]);
+		Entity[] entitiesArray;
+		synchronized (this) {
+			entitiesArray = entities.toArray(new Entity[entities.size()]);
+		}
+		
 		for(int i = 0; i < entitiesArray.length; i++)
 		{
 			try {
@@ -55,14 +60,17 @@ public class EntitiesManager {
 		threadpool.shutdown();
 		
 		try {
-			threadpool.awaitTermination(2, TimeUnit.SECONDS);
+			threadpool.awaitTermination(5, TimeUnit.SECONDS);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 		threadpool.shutdownNow();
 		
-		entities.removeAll(removeList);
-		removeList.clear();
+		synchronized (this) {
+			entities.removeAll(removeList);
+			removeList.clear();
+		}
+		
 	}
 	
 	public void makeEntitiesShoot(LevelManager levelMan) {
@@ -70,10 +78,23 @@ public class EntitiesManager {
 	}
 	
 	
+	public synchronized void add(Entity e) {
+		entities.add(e);
+	}
 	
 	
-	public List<Entity> getEntitiesList() { return entities; }
+	public synchronized void addAll(Collection<? extends Entity> e) {
+		entities.addAll(e);
+	}
 	
+	
+	public synchronized int size() {
+		return entities.size();
+	}
+	
+	public synchronized void clear() {
+		entities.clear();
+	}
 	
 	
 	public boolean addShotAlly(EntityShip ship, EntityShot shot) {
@@ -107,7 +128,7 @@ public class EntitiesManager {
 	 * 
 	 * @param entity The entity that should be removed
 	 */
-	public void removeEntity(Entity entity) {
+	public synchronized void removeEntity(Entity entity) {
 		entity.planToRemove();
 		synchronized (this) {
 			removeList.add(entity);

@@ -18,7 +18,7 @@ public class StrategyMoveEnnemyBossPremier extends StrategyMoveEnnemy {
 		countOfDeath++;
 		
 		
-		for(Entity entity : entMan.getEntitiesList()) {
+		for(Entity entity : entMan.getEntityListSnapshot()) {
 	    	if (entity instanceof EntityEnnemy){
 	    		// direction courante de cet EntityEnnemy
 	    		char leftRight = (entity.getSpeed().x < 0)?'l':'r';
@@ -63,7 +63,7 @@ public class StrategyMoveEnnemyBossPremier extends StrategyMoveEnnemy {
 		// fait un gros bordel
 		if (countOfDeath>10) {
 			countOfDeath = 0;
-			for(Entity entity : entMan.getEntitiesList()) {
+			for(Entity entity : entMan.getEntityListSnapshot()) {
 				if(entity instanceof EntityEnnemy) {
 					entity.setSpeed(entity.getSpeed().add(new Vector2d(1, 1)));
 				}
