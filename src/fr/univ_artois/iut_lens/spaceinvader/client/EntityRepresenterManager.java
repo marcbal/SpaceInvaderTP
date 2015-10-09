@@ -3,7 +3,10 @@ package fr.univ_artois.iut_lens.spaceinvader.client;
 import java.awt.Graphics;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
+import fr.univ_artois.iut_lens.spaceinvader.MegaSpaceInvader;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateInfos.GameInfo;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateMap.MapData;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateMap.MapData.EntityDataSpawn;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateMap.MapData.EntityDataUpdated;
@@ -14,7 +17,7 @@ public class EntityRepresenterManager {
 	
 	
 	
-	private Map<Integer, EntityRepresenter> entities = new HashMap<Integer, EntityRepresenter>();
+	private Map<Integer, EntityRepresenter> entities = new TreeMap<Integer, EntityRepresenter>();
 
 	
 	private final Map<Integer, String> spritesIds = new HashMap<Integer, String>();
@@ -24,6 +27,8 @@ public class EntityRepresenterManager {
 		// ajout des identifiants de sprites envoyé par le serveur
 		spritesIds.putAll(data.spritesData);
 		
+		long time = System.nanoTime();
+		
 		// ajout des entités qui viennent de spawner
 		for (EntityDataSpawn newEntity : data.spawningEntities) {
 			entities.put(newEntity.id, new EntityRepresenter(
@@ -32,7 +37,8 @@ public class EntityRepresenterManager {
 					new Vector2d(newEntity.speedX, newEntity.speedY),
 					newEntity.name,
 					newEntity.currentLife,
-					newEntity.maxLife))
+					newEntity.maxLife,
+					time))
 			;
 		}
 		
@@ -43,18 +49,30 @@ public class EntityRepresenterManager {
 			entity.setPosition(new Vector2d(entityData.posX, entityData.posY));
 			entity.setSpeed(new Vector2d(entityData.speedX, entityData.speedY));
 			entity.setCurrentLife(entityData.currentLife);
+			entity.setUpdateNanoTime(time);
 		}
 		
 		// remove entities
 		for (int id : data.removedEntities) {
 			entities.remove(id);
 		}
+		
+		// prediction of moving entities that are not updated with this packet data
+		long tickTime = (long) (1000000000/Client.instance.lastGameInfo.get().maxTPS);
+		for (EntityRepresenter entity : entities.values()) {
+			if (entity.getUpdateNanoTime() == time) continue;
+			// on ignore ceux qui ont été mis à jour par le serveur
+			
+			entity.setPosition(entity.getPosition().add(entity.getSpeed().dotProduct(tickTime/1000000000D)));
+			entity.setUpdateNanoTime(time);
+		}
 	}
 	
 	
-	public synchronized void drawAll(Graphics g) {
+	public synchronized void drawAll(Graphics g, long loop_start) {
+		GameInfo gInfo = Client.instance.lastGameInfo.get();
 		for (EntityRepresenter ent : entities.values()) {
-			ent.draw(g);
+			ent.draw(g, loop_start, 1000000000/gInfo.maxTPS);
 		}
 	}
 	

@@ -31,11 +31,7 @@ public class EntityShotFromAllySearch extends EntityShotFromAlly {
 		}
 		
 		
-
-		if (speed.distanceSquaredOf(new Vector2d()) > maxSpeed*maxSpeed)
-			speed = speed.dotProduct(maxSpeed/speed.distanceOf(new Vector2d()));
-		if (speed.distanceSquaredOf(new Vector2d()) < minSpeed*minSpeed)
-			speed = speed.dotProduct(minSpeed/speed.distanceOf(new Vector2d()));
+		speed = speed.minLength(minSpeed).maxLength(maxSpeed);
 		
 		super.move(delta);
 	}

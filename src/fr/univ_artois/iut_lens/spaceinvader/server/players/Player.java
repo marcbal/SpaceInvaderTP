@@ -9,11 +9,11 @@ import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerTo
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientNextLevel;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientTogglePause;
 import fr.univ_artois.iut_lens.spaceinvader.server.Server;
-import fr.univ_artois.iut_lens.spaceinvader.server.network.ServerConnection.ConnectionThread;
+import fr.univ_artois.iut_lens.spaceinvader.server.network.ServerConnection.InputConnectionThread;
 
 public class Player {
 	
-	private ConnectionThread connection;
+	private InputConnectionThread connection;
 	
 	private ShipManager shipManager = new ShipManager(Server.serverInstance.entitiesManager, this);
 	
@@ -28,14 +28,14 @@ public class Player {
 	
 	public final String name;
 	
-	public Player(String n, ConnectionThread co) {
+	public Player(String n, InputConnectionThread co) {
 		connection = co;
 		name = n;
 	}
 	
 	
 	
-	public ConnectionThread getConnection() { return connection; }
+	public InputConnectionThread getConnection() { return connection; }
 	public ShipManager getShipManager() { return shipManager; }
 	
 	

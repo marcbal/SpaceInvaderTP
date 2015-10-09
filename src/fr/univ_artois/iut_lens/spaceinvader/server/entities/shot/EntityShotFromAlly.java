@@ -31,11 +31,7 @@ public abstract class EntityShotFromAlly  extends EntityShot{
 	
 	@Override
 	public synchronized void collidedWith(Entity other) {
-		// prevents double kills, if we've already hit something,
-		// don't collide
-		if (used) {
-			return;
-		}
+		
 		
 		// if we've hit an alien, kill it!
 		if (other instanceof EntityEnnemy) {
@@ -47,8 +43,6 @@ public abstract class EntityShotFromAlly  extends EntityShot{
 				// notify the game that the alien has been killed
 				Server.serverInstance.notifyAlienKilled();
 				
-				
-			used = true;
 		}
 
 		//Si deux tirs se touchent (les 2 tirs dans les camps différents)

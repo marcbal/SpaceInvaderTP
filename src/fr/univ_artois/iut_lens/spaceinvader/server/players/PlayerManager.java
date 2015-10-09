@@ -19,25 +19,25 @@ import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerTo
 import fr.univ_artois.iut_lens.spaceinvader.server.Server;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.ship.EntityShip;
 import fr.univ_artois.iut_lens.spaceinvader.server.network.NetworkReceiveListener;
-import fr.univ_artois.iut_lens.spaceinvader.server.network.ServerConnection.ConnectionThread;
+import fr.univ_artois.iut_lens.spaceinvader.server.network.ServerConnection.InputConnectionThread;
 import fr.univ_artois.iut_lens.spaceinvader.server.network.ServerConnection.InvalidClientMessage;
 
 public class PlayerManager implements NetworkReceiveListener {
 	
-	private Map<ConnectionThread, Player> players = new HashMap<ConnectionThread, Player>();
+	private Map<InputConnectionThread, Player> players = new HashMap<InputConnectionThread, Player>();
 	
 	public PlayerManager() {
 	}
 	
-	public synchronized void removePlayer(ConnectionThread co) {
+	public synchronized void removePlayer(InputConnectionThread co) {
 		players.remove(co);
 	}
 	
-	public synchronized Player getPlayerByConnection(ConnectionThread co) {
+	public synchronized Player getPlayerByConnection(InputConnectionThread co) {
 		return players.get(co);
 	}
 	
-	public synchronized Player createPlayer(ConnectionThread co, String name) {
+	public synchronized Player createPlayer(InputConnectionThread co, String name) {
 		Player p = new Player(name, co);
 		
 		players.put(co, p);
@@ -90,7 +90,7 @@ public class PlayerManager implements NetworkReceiveListener {
 	
 	
 	@Override
-	public void onReceivePacket(ConnectionThread co, PacketClient packet) {
+	public void onReceivePacket(InputConnectionThread co, PacketClient packet) {
 		
 		Player p = getPlayerByConnection(co);
 		
@@ -144,8 +144,12 @@ public class PlayerManager implements NetworkReceiveListener {
 		
 	}
 
-	public synchronized Player[] getPlayers() {
+	public synchronized Player[] getPlayersSnapshot() {
 		return players.values().toArray(new Player[players.size()]);
+	}
+
+	public synchronized int getPlayersCount() {
+		return players.size();
 	}
 
 	public synchronized boolean everyPlayerDead() {

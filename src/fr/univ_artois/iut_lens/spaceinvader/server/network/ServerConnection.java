@@ -8,6 +8,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.nio.ByteBuffer;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.Packet;
@@ -97,7 +99,7 @@ public class ServerConnection {
 					Socket socketClient = socket.accept();
 					
 					try {
-						new ConnectionThread(socketClient).start();
+						new InputConnectionThread(socketClient, connectionCounterId.getAndIncrement()).start();
 					} catch(IOException e) {
 						Logger.severe("Connexion impossible avec "+socketClient.getInetAddress());
 					}
@@ -110,19 +112,21 @@ public class ServerConnection {
 	
 	
 	
-	public class ConnectionThread extends Thread {
+	public class InputConnectionThread extends Thread {
 		private Socket socket;
-		private Object outSynchronizer = new Object();
 		private InputStream in;
 		private OutputStream out;
 		private SocketAddress address;
+		private ConnectionSendingThread outThread;
 		
-		public ConnectionThread(Socket s) throws IOException {
-			super("Server Net Sock#"+connectionCounterId.getAndIncrement());
+		public InputConnectionThread(Socket s, int coId) throws IOException {
+			super("Sv Conn#"+coId+" in");
 			socket = s;
 			in = socket.getInputStream();
 			out = socket.getOutputStream();
 			address = new InetSocketAddress(socket.getInetAddress(), socket.getPort());
+			outThread = new ConnectionSendingThread(coId);
+			outThread.start();
 		}
 		
 		@Override
@@ -157,20 +161,16 @@ public class ServerConnection {
 				
 				
 				
-			} catch (IOException e) {
+			} catch (Exception e) {
 				Logger.severe("Fermeture de la connexion de "+address+" : "+e);
 			}
+			try {
+				socket.close();
+			} catch(Exception e) { }
 		}
 		
 		public void send(PacketServer p) {
-			synchronized (outSynchronizer) {
-				try {
-					out.write(p.constructAndGetDataPacket());
-					out.flush();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
+			outThread.addPacket(p);
 		}
 		
 		private void forceReadBytes(byte[] buff) throws IOException {
@@ -193,10 +193,40 @@ public class ServerConnection {
 		public void close() {
 			try {
 				socket.close();
+				outThread.addPacket(new PacketServer((byte)0){});	// provoque une exception dans le thread de sortie, et la termine
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
+	
+		private class ConnectionSendingThread extends Thread {
+			private BlockingQueue<PacketServer> packetQueue = new LinkedBlockingDeque<PacketServer>();
+			
+			public ConnectionSendingThread(int coId) {
+				super("Sv Conn#"+coId+" out");
+			}
+
+
+			private void addPacket(PacketServer packet) {
+				packetQueue.add(packet);
+			}
+			
+			
+			@Override
+			public void run() {
+				try {
+					while (!socket.isClosed()) {
+						PacketServer packet = packetQueue.take();
+						out.write(packet.constructAndGetDataPacket());
+					}
+				} catch (InterruptedException e) {
+				} catch (IOException e) { }
+				
+			}
+			
+			
+		}
+	
 		
 	}
 	
@@ -204,7 +234,7 @@ public class ServerConnection {
 	
 	
 	
-	private synchronized void interpreteReceivedMessage(ConnectionThread co, byte[] data) {
+	private synchronized void interpreteReceivedMessage(InputConnectionThread co, byte[] data) {
 		
 		if (gameListener == null)
 			throw new InvalidClientMessage("Le serveur ne peut actuellement pas prendre en charge de nouvelles requêtes. Les listeners n'ont pas encore été définis");

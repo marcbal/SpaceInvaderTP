@@ -16,7 +16,7 @@ public class MegaSpaceInvader {
 	 * Global configuration
 	 * 
 	 */
-	public static final int CLIENT_FRAME_PER_SECOND = 60;
+	public static final int CLIENT_FRAME_PER_SECOND = 120;
 	
 	public static final int SERVER_NB_THREAD_FOR_ENTITY_COLLISION = Runtime.getRuntime().availableProcessors();
 	
@@ -28,8 +28,6 @@ public class MegaSpaceInvader {
 	public static final int SERVER_DEFAULT_PORT = 34567;
 	
 	public static final Charset NETWORK_CHARSET = Charset.forName("UTF-8");
-	
-	public static final int NETWORK_MAX_PACKET_SIZE = 32768;
 	
 	
 	

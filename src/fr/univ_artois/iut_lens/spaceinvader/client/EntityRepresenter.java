@@ -14,13 +14,15 @@ public class EntityRepresenter {
 	private Sprite sprite;
 	private int currentLife = 0;
 	private int maxLife = 0;
+	private long lastUpdateNanoTime;
 	
-	public EntityRepresenter(Sprite spr, Vector2d pos, Vector2d sp, String n, int currLife, int maxLife) {
+	public EntityRepresenter(Sprite spr, Vector2d pos, Vector2d sp, String n, int currLife, int maxLife, long updateTime) {
 		setPosition(pos);
 		setSpeed(sp);
 		setName(n);
 		setCurrentLife(currLife);
 		setMaxLife(maxLife);
+		setUpdateNanoTime(updateTime);
 		sprite = spr;
 	}
 
@@ -44,26 +46,35 @@ public class EntityRepresenter {
 
 	public void setMaxLife(int maxLife) { this.maxLife = maxLife; }
 	
+	public long getUpdateNanoTime() { return lastUpdateNanoTime; }
+	
+	public void setUpdateNanoTime(long updateTime) { lastUpdateNanoTime = updateTime; }
+	
 
 	
 	/**
 	 * Draw this entity to the graphics context provided
 	 * 
 	 * @param g The graphics context on which to draw
+	 * @param loop_start 
 	 */
-	public void draw(Graphics g) {
-		sprite.draw(g,(int)position.x,(int)position.y);
+	public void draw(Graphics g, long loop_start, long max_interval) {
+		long timeInterval = Math.min(loop_start - lastUpdateNanoTime, max_interval);
+		double posX = position.x+timeInterval*speed.x/1000000000;
+		double posY = position.y+timeInterval*speed.y/1000000000;
+		
+		sprite.draw(g,(int)posX,(int)posY);
 
 		if (currentLife!=maxLife && currentLife > 0) {
 			g.setColor(Color.DARK_GRAY);
-			g.fillRect((int)position.x,(int)position.y, sprite.getWidth(), 3);
+			g.fillRect((int)posX,(int)posY, sprite.getWidth(), 3);
 			g.setColor(new Color((float)Math.sqrt(1-(currentLife/(float)maxLife)), (float)Math.sqrt(currentLife/(float)maxLife), 0F));
-			g.fillRect((int)position.x,(int)position.y, (int)((double)sprite.getWidth()*(currentLife/(double)maxLife)), 3);
+			g.fillRect((int)posX,(int)posY, (int)((double)sprite.getWidth()*(currentLife/(double)maxLife)), 3);
 		}
 		
 		if (name != null && name.length()>0) {
 			g.setColor(Color.WHITE);
-			g.drawString(name,(int)position.x,(int)position.y+5);
+			g.drawString(name,(int)posX,(int)posY+5);
 		}
 		
 	}

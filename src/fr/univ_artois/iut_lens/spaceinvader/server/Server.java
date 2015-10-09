@@ -9,6 +9,10 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -53,8 +57,6 @@ public class Server extends Thread {
 	
 	public final EntitiesManager entitiesManager = new EntitiesManager();
 	
-	private Thread dataToClientSender;
-	
 	public final LevelManager levelManager = new LevelManager(entitiesManager);
 	
 	public final ServerConnection serverConnection;
@@ -70,6 +72,9 @@ public class Server extends Thread {
 	
 	private AtomicReference<List<PlayerScore>> levelEndScore = new AtomicReference<List<PlayerScore>>(null);
 	
+	
+	private ExecutorService threadPacketPool = Executors.newFixedThreadPool(1);
+	private Future<?> threadPacketFuture = null;
 	
 	
 	private Server(int port) throws IOException {
@@ -105,11 +110,13 @@ public class Server extends Thread {
 			updateLogic(delta);
 			
 			// on attends que les packets de la boucle précédent ont tous été envoyé
-			if (dataToClientSender != null) {
+			if (threadPacketFuture != null) {
 				try {
-					dataToClientSender.join();
-				} catch (InterruptedException e) { }
+					threadPacketFuture.get();
+				} catch (InterruptedException | ExecutionException e) { }
+				threadPacketFuture = null;
 			}
+			
 			
 			
 			if (!waitingForKeyPress.get() && entitiesManager.getTotalRemainingEnnemyLife() <= 0)
@@ -117,8 +124,7 @@ public class Server extends Thread {
 			else if (!waitingForKeyPress.get() && playerManager.everyPlayerDead())
 				finishLevel(false);
 			else if (!waitingForKeyPress.get()) {
-				dataToClientSender = new Thread(() -> sendRunningGamePackets(), "Server Game data packet sender");
-				dataToClientSender.start();
+				threadPacketFuture = threadPacketPool.submit(() -> sendRunningGamePackets(System.nanoTime()-loop_start));
 			}
 			
             long loop_duration = System.nanoTime()-loop_start;
@@ -174,7 +180,7 @@ public class Server extends Thread {
 	
 	
 	
-	private void sendRunningGamePackets() {
+	private void sendRunningGamePackets(long currentLoopDuration) {
 		// envoi des infos technique aux joueurs
 		/*
 		 * Envoi des infos de jeux aux joueurs
@@ -188,6 +194,8 @@ public class Server extends Thread {
 			globalGameInfos.maxEnemyLife = levelManager.getCurrentLevel().getMaxEnemyLife();
 			globalGameInfos.nbCollisionThreads = MegaSpaceInvader.SERVER_NB_THREAD_FOR_ENTITY_COLLISION;
 			globalGameInfos.nbEntity = entitiesManager.size();
+			globalGameInfos.maxTPS = MegaSpaceInvader.SERVER_TICK_PER_SECOND;
+			globalGameInfos.currentTickTime = currentLoopDuration;
 			PacketServerUpdateInfos packetInfos = new PacketServerUpdateInfos();
 			packetInfos.setInfos(globalGameInfos);
 			playerManager.sendToAll(packetInfos);
@@ -226,7 +234,7 @@ public class Server extends Thread {
 		
 		// génération des scores de la partie
 		List<PlayerScore> scores = new ArrayList<PlayerScore>();
-		for (Player p : playerManager.getPlayers()) {
+		for (Player p : playerManager.getPlayersSnapshot()) {
 			PlayerScore sc = new PlayerScore();
 			sc.playerName = p.name;
 			sc.score = 0; // TODO définir le score

@@ -27,10 +27,10 @@ public class EntityShotFromAllyFinal extends EntityShotFromAlly {
 		time++;
 		if(time%20==0 && ship.getNbShotAlive()<ship.getMaxNbShot())  {
 			time = 0;
-			entitiesManager.add(new EntityShotFromAllyFinal(new Vector2d(position.x, position.y), speed.add(new Vector2d(-500,new Random().nextInt(1000)-500)), entitiesManager, ship));
-			entitiesManager.add(new EntityShotFromAllyFinal(new Vector2d(position.x, position.y), speed.add(new Vector2d(500,new Random().nextInt(1000)-500)), entitiesManager, ship));
-			entitiesManager.add(new EntityShotFromAllyFinal(new Vector2d(position.x, position.y), speed.add(new Vector2d(new Random().nextInt(1000)-500,-500)), entitiesManager, ship));
-			entitiesManager.add(new EntityShotFromAllyFinal(new Vector2d(position.x, position.y), speed.add(new Vector2d(new Random().nextInt(1000)-500,500)), entitiesManager, ship));
+			entitiesManager.add(new EntityShotFromAllyFinal(new Vector2d(position.x, position.y), speed.add(new Vector2d(-500,new Random().nextInt(1000)-500)).minLength(300), entitiesManager, ship));
+			entitiesManager.add(new EntityShotFromAllyFinal(new Vector2d(position.x, position.y), speed.add(new Vector2d(500,new Random().nextInt(1000)-500)).minLength(300), entitiesManager, ship));
+			entitiesManager.add(new EntityShotFromAllyFinal(new Vector2d(position.x, position.y), speed.add(new Vector2d(new Random().nextInt(1000)-500,-500)).minLength(300), entitiesManager, ship));
+			entitiesManager.add(new EntityShotFromAllyFinal(new Vector2d(position.x, position.y), speed.add(new Vector2d(new Random().nextInt(1000)-500,500)).minLength(300), entitiesManager, ship));
 		}
 		
 		// colision sur la bordure de l'écran

@@ -10,8 +10,6 @@ import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
  * @author Kevin Glass
  */
 public abstract class EntityShot extends Entity {
-	/** True if this shot has been "used", i.e. its hit something */
-	protected boolean used = false;
 	/** Points de dégat */
 	protected int degat = 0;
 	
@@ -32,16 +30,7 @@ public abstract class EntityShot extends Entity {
 		
 		speed = s;
 	}
-
-	/**
-	 * Request that this shot moved based on time elapsed
-	 * 
-	 * @param delta The time that has elapsed since last move
-	 */
-	public void move(long delta) {
-		// proceed with normal move
-		super.move(delta);
-	}
+	
 	
 	
 	public int getDegat() { return degat; }

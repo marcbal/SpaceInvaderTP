@@ -14,6 +14,7 @@ import java.net.InetSocketAddress;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -34,6 +35,7 @@ import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerDi
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerDisconnectTimeout;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerLevelEnd;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerLevelEnd.PlayerScore;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateInfos.GameInfo;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerLevelStart;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerProtocolError;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerTogglePause;
@@ -87,15 +89,23 @@ public class Client extends Canvas implements NetworkReceiveListener, Runnable {
 	public AtomicLong logicalFrameDuration = new AtomicLong();
 	public AtomicLong logicalCollisionDuration = new AtomicLong();
 	
-	public final Connection connection;
+	public Connection connection;
 	
 	public final Thread graphicalThread;
+	
+	public final InetSocketAddress serverAddress;
+	
+	public final String playerName;
+	
+	public AtomicReference<GameInfo> lastGameInfo = new AtomicReference<GameInfo>(new GameInfo());
 	
 	/**
 	 * @throws IOException si un problème survient lors de la connexion
 	 */
 	public Client(InetSocketAddress serverAddress, String playerName) throws IOException {
 		instance = this;
+		this.serverAddress = serverAddress;
+		this.playerName = playerName;
 		
 		Logger.info("Chargement de l'interface graphique ...");
 		// create a frame to contain our game
@@ -166,14 +176,6 @@ public class Client extends Canvas implements NetworkReceiveListener, Runnable {
 		graphicalThread.setName("Client");
 		graphicalThread.setPriority(Thread.MAX_PRIORITY);
 		
-		/*
-		 * Connexion au serveur
-		 */
-		
-		Logger.info("Tentative de connexion au serveur "+serverAddress);
-		connection = new Connection(serverAddress, playerName, this);
-		
-		onScreenDisplay.setMiddleMessage("Connexion à "+serverAddress+" ...");
 	}
 	
 
@@ -186,11 +188,29 @@ public class Client extends Canvas implements NetworkReceiveListener, Runnable {
 		
 		long delta = (long)(1000000000/MegaSpaceInvader.CLIENT_FRAME_PER_SECOND);
 		
+
+		onScreenDisplay.setMiddleMessage("Connexion à "+serverAddress+" ...");
+        updateDisplay(System.nanoTime()); // première affichage
+		/*
+		 * Connexion au serveur
+		 */
+		
+		try {
+			connection = new Connection(serverAddress, playerName, this);
+		} catch (IOException e) {
+			onScreenDisplay.setMiddleMessage("Connexion impossible.");
+	        updateDisplay(System.nanoTime());
+	        try { Thread.sleep(5000); } catch (InterruptedException e1) { }
+			container.dispose();
+	        return;
+		}
+		
+		
 		
 		// keep looping round til the game ends
 		while (gameRunning.get()) {
 			long loop_start = System.nanoTime();
-            updateDisplay();
+            updateDisplay(loop_start);
             
             // envoi des packets
             sendPackets();
@@ -207,6 +227,7 @@ public class Client extends Canvas implements NetworkReceiveListener, Runnable {
 		
 		
 		Logger.info("Arrêt de l'interface graphique");
+		container.dispose();
 	}
 	
 	
@@ -230,6 +251,7 @@ public class Client extends Canvas implements NetworkReceiveListener, Runnable {
 			try {
 				connection.send(cmdPacket);
 			} catch (IOException e) {
+				onScreenDisplay.setMiddleMessage("Connexion perdue");
 				throw new RuntimeException("Erreur lors de l'envoi du packet de commande", e);
 			}
 		}
@@ -262,7 +284,7 @@ public class Client extends Canvas implements NetworkReceiveListener, Runnable {
 
 
 
-	private void updateDisplay() {
+	private void updateDisplay(long loop_start) {
 		
 
 		
@@ -283,7 +305,7 @@ public class Client extends Canvas implements NetworkReceiveListener, Runnable {
 		
 		
 		//Afficher les entités
-		entityRepresenterManager.drawAll(g);
+		entityRepresenterManager.drawAll(g, loop_start);
 		
 		// if we're waiting for an "any key" press then draw the 
 		// current message 
@@ -353,7 +375,7 @@ public class Client extends Canvas implements NetworkReceiveListener, Runnable {
 			entityRepresenterManager.clear();
 		}
 		else if (packet instanceof PacketServerUpdateInfos) {
-			onScreenDisplay.setGameInfoFromServer(((PacketServerUpdateInfos)packet).getInfos());
+			lastGameInfo.set(((PacketServerUpdateInfos)packet).getInfos());
 		}
 		else if (packet instanceof PacketServerUpdateMap) {
 			entityRepresenterManager.putUpdateFromServer(((PacketServerUpdateMap)packet).getEntityData());
@@ -374,8 +396,5 @@ public class Client extends Canvas implements NetworkReceiveListener, Runnable {
 	public void start() {
 		graphicalThread.start();
 	}
-	
-	
-	
 	
 }

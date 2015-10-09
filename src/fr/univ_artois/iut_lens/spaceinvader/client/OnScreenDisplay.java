@@ -16,10 +16,6 @@ public class OnScreenDisplay {
 	
 	
 	
-	private AtomicReference<GameInfo> infosFromServer = new AtomicReference<GameInfo>(new GameInfo()); // all values are set to 0;
-	
-	
-	
 	
 	
 	
@@ -33,7 +29,7 @@ public class OnScreenDisplay {
 	
 	public void drawOther(Graphics2D g) {
 		Client client = Client.instance;
-		GameInfo serverInfos = infosFromServer.get();
+		GameInfo serverInfos = Client.instance.lastGameInfo.get();
 		
 		long currentLife = serverInfos.currentEnemyLife;
 		long maxLife = serverInfos.maxEnemyLife;
@@ -63,7 +59,7 @@ public class OnScreenDisplay {
 			g.drawString("Sources : https://github.com/marcbal/SpaceInvaderTP", 5, text_position_y+=text_interval_y);
 			
 			int fpsGraphique = (int) Math.min(MegaSpaceInvader.CLIENT_FRAME_PER_SECOND, (1000000000/client.displayFrameDuration.get()));
-			int fpsLogique = (int) Math.min(MegaSpaceInvader.SERVER_TICK_PER_SECOND, 0 /* TODO récupérer les TPS du serveur */);
+			int fpsLogique = (int) Math.min(serverInfos.maxTPS, 1000000000/(serverInfos.currentTickTime));
 			g.drawString("Threads collisions : "+serverInfos.nbCollisionThreads+" - FPS Graphique : "+fpsGraphique+" - FPS Logique : "+fpsLogique, 5, text_position_y+=text_interval_y);
 			
 			
@@ -94,11 +90,6 @@ public class OnScreenDisplay {
 	}
 	
 	
-	
-	
-	public void setGameInfoFromServer(GameInfo infos) {
-		infosFromServer.set(infos);
-	}
 	
 	
 	

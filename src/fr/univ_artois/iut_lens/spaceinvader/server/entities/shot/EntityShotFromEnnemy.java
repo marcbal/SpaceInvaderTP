@@ -28,17 +28,10 @@ public class EntityShotFromEnnemy extends EntityShot {
 	
 	@Override
 	public synchronized void collidedWith(Entity other) {
-		// prevents double kills, if we've already hit something,
-		// don't collide
-		if (used) {
-			return;
-		}
 		
 		// Si on a touché le vaisseau
 		if (other instanceof EntityShip) {
-			// C'est la fin de la partie
-			
-			used = true;
+			// géré dans le collidedWith() du vaisseau
 		}
 	}
 	

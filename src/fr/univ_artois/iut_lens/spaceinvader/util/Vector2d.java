@@ -57,6 +57,20 @@ public class Vector2d {
 		return new Vector2d(x, -y);
 	}
 	
+	public Vector2d minLength(double minLength) {
+		if (minLength <= 0) return new Vector2d(this);
+		if (minLength*minLength < distanceSquaredOf(new Vector2d()))
+			return new Vector2d(this);
+		return dotProduct(minLength/distanceOf(new Vector2d()));
+	}
+	
+	public Vector2d maxLength(double maxLength) {
+		if (maxLength <= 0) return new Vector2d();
+		if (maxLength*maxLength > distanceSquaredOf(new Vector2d()))
+			return new Vector2d(this);
+		return dotProduct(maxLength/distanceOf(new Vector2d()));
+	}
+	
 	public double distanceSquaredOf(Vector2d v)
 	{
 		return (x - v.x)*(x - v.x) + (y - v.y)*(y - v.y);
