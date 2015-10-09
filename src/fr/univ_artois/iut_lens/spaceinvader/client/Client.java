@@ -356,8 +356,7 @@ public class Client extends Canvas implements NetworkReceiveListener, Runnable {
 			onScreenDisplay.setGameInfoFromServer(((PacketServerUpdateInfos)packet).getInfos());
 		}
 		else if (packet instanceof PacketServerUpdateMap) {
-			entityRepresenterManager.clear();
-			entityRepresenterManager.getUpdateFromServer(((PacketServerUpdateMap)packet).getEntityData());
+			entityRepresenterManager.putUpdateFromServer(((PacketServerUpdateMap)packet).getEntityData());
 		}
 		else if (packet instanceof PacketServerTogglePause) {
 			boolean pause = ((PacketServerTogglePause)packet).getPause();

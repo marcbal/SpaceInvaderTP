@@ -16,16 +16,11 @@ import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerLe
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerLevelEnd.PlayerScore;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerLevelStart;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerTogglePause;
-import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateMap;
-import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateMap.MapData;
-import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateMap.MapData.EntityDataSpawn;
 import fr.univ_artois.iut_lens.spaceinvader.server.Server;
-import fr.univ_artois.iut_lens.spaceinvader.server.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.ship.EntityShip;
 import fr.univ_artois.iut_lens.spaceinvader.server.network.NetworkReceiveListener;
 import fr.univ_artois.iut_lens.spaceinvader.server.network.ServerConnection.ConnectionThread;
 import fr.univ_artois.iut_lens.spaceinvader.server.network.ServerConnection.InvalidClientMessage;
-import fr.univ_artois.iut_lens.spaceinvader.sprites_manager.SpriteStore;
 
 public class PlayerManager implements NetworkReceiveListener {
 	
@@ -119,30 +114,7 @@ public class PlayerManager implements NetworkReceiveListener {
 				// une partie est en cours
 				p.die();
 				p.getConnection().send(new PacketServerLevelStart());
-				/*
-				 *  envoi des données de jeux (début de level, données complètes)
-				 */
-				MapData mapData = new MapData();
-				
-				mapData.spritesData = SpriteStore.get().getSpritesId(false);
-				
-				for (Entity e : Server.serverInstance.entitiesManager.getEntityListSnapshot()) {
-					EntityDataSpawn eData = new EntityDataSpawn();
-					eData.id = e.id;
-					eData.currentLife = (e.getMaxLife() > 1) ? e.getLife() : 0;
-					eData.maxLife = (e.getMaxLife() > 1) ? e.getMaxLife() : 0;
-					eData.name = (e instanceof EntityShip) ? ((EntityShip)e).associatedShipManager.getPlayer().name : "";
-					eData.spriteId = e.getSprite().id;
-					eData.posX = e.getPosition().x;
-					eData.posY = e.getPosition().y;
-					eData.speedX = e.getSpeed().x;
-					eData.speedY = e.getSpeed().y;
-					mapData.spawningEntities.add(eData);
-				}
-				
-				PacketServerUpdateMap packetMap = new PacketServerUpdateMap();
-				packetMap.setEntityData(mapData);
-				p.getConnection().send(packetMap);
+				p.getConnection().send(Server.serverInstance.createFullUpdateMapPacket());
 			}
 			if (Server.serverInstance.commandPause.get()) {
 				PacketServerTogglePause packetPause = new PacketServerTogglePause();
@@ -190,6 +162,8 @@ public class PlayerManager implements NetworkReceiveListener {
 			p.initNewLevel();
 		}
 	}
+	
+	
 	
 
 }

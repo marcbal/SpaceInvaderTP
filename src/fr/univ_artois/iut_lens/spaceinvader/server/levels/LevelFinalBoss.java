@@ -42,9 +42,9 @@ public class LevelFinalBoss extends Level {
 		return SquadList;
 	}
 	
-	public boolean hasOneDestroyed() {
+	public boolean hasOneEnnemyDestroyed() {
 		
-		boolean ret = super.hasOneDestroyed();
+		boolean ret = super.hasOneEnnemyDestroyed();
 		
 		if(getCount()==2) {
 			strategyMove = new StrategyMoveEnnemyDisturbed();

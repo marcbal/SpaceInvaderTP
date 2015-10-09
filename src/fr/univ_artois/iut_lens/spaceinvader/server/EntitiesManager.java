@@ -3,26 +3,30 @@ package fr.univ_artois.iut_lens.spaceinvader.server;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.Future;
 
 import org.apache.commons.collections4.list.TreeList;
 
 import fr.univ_artois.iut_lens.spaceinvader.MegaSpaceInvader;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.ennemy.EntityEnnemy;
-import fr.univ_artois.iut_lens.spaceinvader.server.entities.ship.EntityShip;
-import fr.univ_artois.iut_lens.spaceinvader.server.entities.ship.ShipLimitedShot;
-import fr.univ_artois.iut_lens.spaceinvader.server.entities.shot.EntityShot;
 /**
  * Cette classe sert juste à gérer les entitées
  *
  */
 public class EntitiesManager {
 
+	private ExecutorService threadpool = Executors.newFixedThreadPool(MegaSpaceInvader.SERVER_NB_THREAD_FOR_ENTITY_COLLISION);
+
 	private final List<Entity> entities = new TreeList<Entity>();
 	private final List<Entity> removeList = new ArrayList<Entity>();
+	
+	// ces deux listes servent pour l'optimisation du réseau
+	private List<Integer> idsAddedEntity = new ArrayList<Integer>();
+	private List<Integer> idsRemovedEntity = new ArrayList<Integer>();
 	
 	
 	
@@ -32,8 +36,8 @@ public class EntitiesManager {
 		
 		levelMan.getCurrentLevel().getCurrentStrategyMove().performMove(delta, this);
 		
-		ExecutorService threadpool = Executors.newFixedThreadPool(MegaSpaceInvader.SERVER_NB_THREAD_FOR_ENTITY_COLLISION);
-
+		List<Future<?>> pendingCollisionTasks = new ArrayList<Future<?>>();
+		
 		// partie de calcul multithreadé
 		Entity[] entitiesArray;
 		synchronized (this) {
@@ -54,17 +58,17 @@ public class EntitiesManager {
 				e.printStackTrace();
 			}
 	    	
-	    	threadpool.submit(new CollisionThread(i, entitiesArray));
+	    	pendingCollisionTasks.add(threadpool.submit(new CollisionThread(i, entitiesArray)));
 		}
 
-		threadpool.shutdown();
-		
-		try {
-			threadpool.awaitTermination(5, TimeUnit.SECONDS);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
+		for (Future<?> pendingTask : pendingCollisionTasks) {
+			try {
+				pendingTask.get();
+			} catch (InterruptedException | ExecutionException e) {
+				e.printStackTrace();
+			}
 		}
-		threadpool.shutdownNow();
+		
 		
 		synchronized (this) {
 			entities.removeAll(removeList);
@@ -80,11 +84,15 @@ public class EntitiesManager {
 	
 	public synchronized void add(Entity e) {
 		entities.add(e);
+		idsAddedEntity.add(e.id);
 	}
 	
 	
-	public synchronized void addAll(Collection<? extends Entity> e) {
-		entities.addAll(e);
+	public synchronized void addAll(Collection<? extends Entity> ents) {
+		entities.addAll(ents);
+		for (Entity e : ents) {
+			idsAddedEntity.add(e.id);
+		}
 	}
 	
 	
@@ -94,19 +102,8 @@ public class EntitiesManager {
 	
 	public synchronized void clear() {
 		entities.clear();
-	}
-	
-	
-	public boolean addShotAlly(EntityShip ship, EntityShot shot) {
-		if (ship instanceof ShipLimitedShot) {
-			ShipLimitedShot limitedShip = (ShipLimitedShot) ship;
-			if (limitedShip.getNbShotAlive() >= limitedShip.getMaxNbShot())
-				return false;
-		}
-		synchronized (this) {
-			entities.add(shot);
-		}
-		return true;
+		idsAddedEntity.clear();
+		idsRemovedEntity.clear();
 	}
 	
 	
@@ -128,10 +125,11 @@ public class EntitiesManager {
 	 * 
 	 * @param entity The entity that should be removed
 	 */
-	public synchronized void removeEntity(Entity entity) {
+	public synchronized void remove(Entity entity) {
 		entity.planToRemove();
 		synchronized (this) {
 			removeList.add(entity);
+			idsRemovedEntity.add(entity.id);
 		}
 	}
 	
@@ -143,6 +141,18 @@ public class EntitiesManager {
 	
 	public synchronized Entity[] getEntityListSnapshot() {
 		return entities.toArray(new Entity[entities.size()]);
+	}
+	
+	public synchronized List<Integer> getRemovedEntities() {
+		List<Integer> list = idsRemovedEntity;
+		idsRemovedEntity = new ArrayList<Integer>();
+		return list;
+	}
+	
+	public synchronized List<Integer> getAddedEntities() {
+		List<Integer> list = idsAddedEntity;
+		idsAddedEntity = new ArrayList<Integer>();
+		return list;
 	}
 	
 	

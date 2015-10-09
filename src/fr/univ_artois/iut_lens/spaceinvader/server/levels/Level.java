@@ -84,7 +84,7 @@ public abstract class Level {
 	}
 	
 	/** This function remove 1 at nbCount when called */
-	public boolean hasOneDestroyed() {
+	public boolean hasOneEnnemyDestroyed() {
 		
 		nbCount--;
 		

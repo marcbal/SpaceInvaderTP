@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -20,8 +21,10 @@ import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerLe
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateInfos.GameInfo;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateMap.MapData;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateMap.MapData.EntityDataSpawn;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateMap.MapData.EntityDataUpdated;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.ship.EntityShip;
+import fr.univ_artois.iut_lens.spaceinvader.server.entities.shot.EntityShotFromAlly;
 import fr.univ_artois.iut_lens.spaceinvader.server.network.ServerConnection;
 import fr.univ_artois.iut_lens.spaceinvader.server.players.Player;
 import fr.univ_artois.iut_lens.spaceinvader.server.players.PlayerManager;
@@ -191,35 +194,7 @@ public class Server extends Thread {
 		}
 		
 		if (!waitingForKeyPress.get() && !commandPause.get()) {
-			// TODO faire une méthode moins lourde pour le réseau
-			
-			/*
-			 *  envoi des données de jeux (début de level, données complètes)
-			 */
-			MapData mapData = new MapData();
-			
-			mapData.spritesData = SpriteStore.get().getSpritesId(false);
-			
-			for (Entity e : Server.serverInstance.entitiesManager.getEntityListSnapshot()) {
-				EntityDataSpawn eData = new EntityDataSpawn();
-				eData.id = e.id;
-				eData.currentLife = (e.getMaxLife() > 1) ? e.getLife() : 0;
-				eData.maxLife = (e.getMaxLife() > 1) ? e.getMaxLife() : 0;
-				eData.name = (e instanceof EntityShip) ? ((EntityShip)e).associatedShipManager.getPlayer().name : "";
-				eData.spriteId = e.getSprite().id;
-				eData.posX = e.getPosition().x;
-				eData.posY = e.getPosition().y;
-				eData.speedX = e.getSpeed().x;
-				eData.speedY = e.getSpeed().y;
-				mapData.spawningEntities.add(eData);
-			}
-			
-			PacketServerUpdateMap packetMap = new PacketServerUpdateMap();
-			packetMap.setEntityData(mapData);
-			playerManager.sendToAll(packetMap);
-			
-			
-			
+			playerManager.sendToAll(createPartialUpdateMapPacket());
 		}
 	}
 	
@@ -228,6 +203,8 @@ public class Server extends Thread {
 	 * Notification that an alien has been killed
 	 */
 	public synchronized void notifyAlienKilled() {
+		
+		levelManager.getCurrentLevel().hasOneEnnemyDestroyed();
 		
 		for(Entity entity : entitiesManager.getEntityListSnapshot()) {
 		    entity.setNotifyAlienKilled();
@@ -282,27 +259,8 @@ public class Server extends Thread {
 		/*
 		 *  envoi des données de jeux (début de level, données complètes)
 		 */
-		MapData mapData = new MapData();
 		
-		mapData.spritesData = SpriteStore.get().getSpritesId(false);
-		
-		for (Entity e : Server.serverInstance.entitiesManager.getEntityListSnapshot()) {
-			EntityDataSpawn eData = new EntityDataSpawn();
-			eData.id = e.id;
-			eData.currentLife = (e.getMaxLife() > 1) ? e.getLife() : 0;
-			eData.maxLife = (e.getMaxLife() > 1) ? e.getMaxLife() : 0;
-			eData.name = (e instanceof EntityShip) ? ((EntityShip)e).associatedShipManager.getPlayer().name : "";
-			eData.spriteId = e.getSprite().id;
-			eData.posX = e.getPosition().x;
-			eData.posY = e.getPosition().y;
-			eData.speedX = e.getSpeed().x;
-			eData.speedY = e.getSpeed().y;
-			mapData.spawningEntities.add(eData);
-		}
-		
-		PacketServerUpdateMap packetMap = new PacketServerUpdateMap();
-		packetMap.setEntityData(mapData);
-		playerManager.sendToAll(packetMap);
+		playerManager.sendToAll(createFullUpdateMapPacket());
 		
 		
 		// Placer les vaisseaux préalablement créés dans le tableau des entités
@@ -347,6 +305,94 @@ public class Server extends Thread {
 	public List<PlayerScore> getPlayerScores() {
 		return levelEndScore.get();
 	}
+	
+	
+	
+	
+	
+	
+	
+
+
+	public PacketServerUpdateMap createFullUpdateMapPacket() {
+		MapData mapData = new MapData();
+		
+		mapData.spritesData = SpriteStore.get().getSpritesId(false);
+		
+		for (Entity e : Server.serverInstance.entitiesManager.getEntityListSnapshot()) {
+			EntityDataSpawn eData = new EntityDataSpawn();
+			eData.id = e.id;
+			eData.currentLife = (e.getMaxLife() > 1) ? e.getLife() : 0;
+			eData.maxLife = (e.getMaxLife() > 1) ? e.getMaxLife() : 0;
+			eData.name = (e instanceof EntityShip) ? ((EntityShip)e).associatedShipManager.getPlayer().name : "";
+			eData.spriteId = e.getSprite().id;
+			eData.posX = e.getPosition().x;
+			eData.posY = e.getPosition().y;
+			eData.speedX = e.getSpeed().x;
+			eData.speedY = e.getSpeed().y;
+			mapData.spawningEntities.add(eData);
+		}
+		
+		PacketServerUpdateMap packetMap = new PacketServerUpdateMap();
+		packetMap.setEntityData(mapData);
+		return packetMap;
+	}
+
+	public PacketServerUpdateMap createPartialUpdateMapPacket() {
+		Random r = new Random();
+		MapData mapData = new MapData();
+		
+		mapData.spritesData = SpriteStore.get().getSpritesId(true);
+		Entity[] entities;
+		List<Integer> entityRemoved, entityAdded;
+		synchronized (entitiesManager) {
+			entities = entitiesManager.getEntityListSnapshot();
+			entityRemoved = entitiesManager.getRemovedEntities();
+			entityAdded = entitiesManager.getAddedEntities();
+		}
+		
+		for (Entity e : entities) {
+			if (entityRemoved.contains(e.id))
+				continue;	// entité supprimé
+			else if (entityAdded.contains(e.id)) {
+				// entité ajouté
+				EntityDataSpawn eData = new EntityDataSpawn();
+				eData.id = e.id;
+				eData.currentLife = (e.getMaxLife() > 1) ? e.getLife() : 0;
+				eData.maxLife = (e.getMaxLife() > 1) ? e.getMaxLife() : 0;
+				eData.name = (e instanceof EntityShip) ? ((EntityShip)e).associatedShipManager.getPlayer().name : "";
+				eData.spriteId = e.getSprite().id;
+				eData.posX = e.getPosition().x;
+				eData.posY = e.getPosition().y;
+				eData.speedX = e.getSpeed().x;
+				eData.speedY = e.getSpeed().y;
+				mapData.spawningEntities.add(eData);
+			}
+			else {
+				// entité déjà existante
+				EntityDataUpdated eData = new EntityDataUpdated();
+				if (e instanceof EntityShotFromAlly && r.nextInt(entities.length) > 1000)
+					continue;
+				eData.id = e.id;
+				eData.currentLife = (e.getMaxLife() > 1) ? e.getLife() : 0;
+				eData.posX = e.getPosition().x;
+				eData.posY = e.getPosition().y;
+				eData.speedX = e.getSpeed().x;
+				eData.speedY = e.getSpeed().y;
+				mapData.updatingEntities.add(eData);
+			}
+		}
+		
+		mapData.removedEntities = entityRemoved;
+		
+		PacketServerUpdateMap packetMap = new PacketServerUpdateMap();
+		packetMap.setEntityData(mapData);
+		return packetMap;
+	}
+	
+	
+	
+	
 	
 	
 }

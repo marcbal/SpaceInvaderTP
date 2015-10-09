@@ -150,7 +150,7 @@ public abstract class Entity {
 		life -= shot.getDegat();
 		if (life <= 0)
 		{
-			entitiesManager.removeEntity(this);
+			entitiesManager.remove(this);
 			return true;
 		}
 		return false;

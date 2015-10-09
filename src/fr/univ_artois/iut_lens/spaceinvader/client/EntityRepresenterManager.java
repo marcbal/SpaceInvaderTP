@@ -20,7 +20,7 @@ public class EntityRepresenterManager {
 	private final Map<Integer, String> spritesIds = new HashMap<Integer, String>();
 	
 	
-	public synchronized void getUpdateFromServer(MapData data) {
+	public synchronized void putUpdateFromServer(MapData data) {
 		// ajout des identifiants de sprites envoyé par le serveur
 		spritesIds.putAll(data.spritesData);
 		
@@ -39,6 +39,7 @@ public class EntityRepresenterManager {
 		// update entities
 		for (EntityDataUpdated entityData : data.updatingEntities) {
 			EntityRepresenter entity = entities.get(entityData.id);
+			if (entity == null) continue;
 			entity.setPosition(new Vector2d(entityData.posX, entityData.posY));
 			entity.setSpeed(new Vector2d(entityData.speedX, entityData.speedY));
 			entity.setCurrentLife(entityData.currentLife);

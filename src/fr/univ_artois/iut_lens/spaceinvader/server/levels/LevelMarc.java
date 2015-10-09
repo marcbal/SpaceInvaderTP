@@ -40,9 +40,9 @@ public class LevelMarc extends Level {
 		return SquadList;
 	}
 	
-	public boolean hasOneDestroyed() {
+	public boolean hasOneEnnemyDestroyed() {
 		
-		boolean ret = super.hasOneDestroyed();
+		boolean ret = super.hasOneEnnemyDestroyed();
 		
 		if (getCount() == 40)
 		{

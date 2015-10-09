@@ -14,7 +14,7 @@ public class EntityBonusPowerDown extends EntityBonus {
 	public synchronized void collidedWith(Entity other) {
 		if(other instanceof EntityShip) {
 			((EntityShip)other).associatedShipManager.decreaseShipType();
-			entitiesManager.removeEntity(this);
+			entitiesManager.remove(this);
 		}
 	}
 

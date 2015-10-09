@@ -41,7 +41,7 @@ public abstract class EntityShotFromAlly  extends EntityShot{
 		if (other instanceof EntityEnnemy) {
 			
 			// remove the affected entities
-			entitiesManager.removeEntity(this);
+			entitiesManager.remove(this);
 			// other prends les dégats donnés par le tir
 			if (other.receiveDegat(this))
 				// notify the game that the alien has been killed
@@ -55,11 +55,11 @@ public abstract class EntityShotFromAlly  extends EntityShot{
 		if(other instanceof EntityShotFromEnnemy) {
 			if (receiveDegat((EntityShot) other))
 			{
-				entitiesManager.removeEntity(this);
+				entitiesManager.remove(this);
 				// la suite sers car en appelant entitiesManager.removeEntity(),
 				// on ne calcule pas le retrait de point de vie de l'autre tir
 				if(other.receiveDegat((EntityShot) this))
-					entitiesManager.removeEntity(other);
+					entitiesManager.remove(other);
 			}
 		}
 	}
@@ -69,7 +69,7 @@ public abstract class EntityShotFromAlly  extends EntityShot{
 		
 		// if we shot off the screen, remove ourselfs
 		if (position.y < -50 || position.y > MegaSpaceInvader.DISPLAY_HEIGHT + 50 || position.x < -50 || position.x > MegaSpaceInvader.DISPLAY_WIDTH + 50) {
-			entitiesManager.removeEntity(this);
+			entitiesManager.remove(this);
 		}
 	}
 	

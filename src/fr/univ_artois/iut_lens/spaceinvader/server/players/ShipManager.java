@@ -123,7 +123,7 @@ public class ShipManager {
 	private void processShipChange() {
 		if(newShipIndex != actualShipIndex) {
 			Vector2d pos = ships.get(actualShipIndex).getPosition();
-			entitiesManager.removeEntity(getCurrentShip());
+			entitiesManager.remove(getCurrentShip());
 			ships.get(newShipIndex).getPosition().x = pos.x+ships.get(actualShipIndex).getBoundingBox().width/2D-ships.get(newShipIndex).getBoundingBox().width/2D;
 			ships.get(newShipIndex).getPosition().y = pos.y;
 			entitiesManager.add(ships.get(newShipIndex));

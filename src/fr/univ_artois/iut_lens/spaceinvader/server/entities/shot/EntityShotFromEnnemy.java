@@ -48,7 +48,7 @@ public class EntityShotFromEnnemy extends EntityShot {
 		
 		// if we shot off the screen, remove ourselfs
 		if (position.y < -sprite.getHeight() || position.y > MegaSpaceInvader.DISPLAY_HEIGHT || position.x < -sprite.getWidth() || position.x > MegaSpaceInvader.DISPLAY_WIDTH) {
-			entitiesManager.removeEntity(this);
+			entitiesManager.remove(this);
 		}
 	}
 

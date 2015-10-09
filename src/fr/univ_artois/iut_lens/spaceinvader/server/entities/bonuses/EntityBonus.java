@@ -38,7 +38,7 @@ public abstract class EntityBonus extends Entity {
 		
 		// if we shot off the screen, remove ourselfs
 		if (position.y > MegaSpaceInvader.DISPLAY_HEIGHT) {
-			entitiesManager.removeEntity(this);
+			entitiesManager.remove(this);
 		}
 	}
 }

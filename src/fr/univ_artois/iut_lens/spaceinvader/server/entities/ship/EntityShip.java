@@ -79,7 +79,7 @@ public abstract class EntityShip extends Entity {
 		// is dead
 		if (other instanceof EntityEnnemy || other instanceof EntityShotFromEnnemy) {
 			associatedShipManager.getPlayer().die();
-			entitiesManager.removeEntity(associatedShipManager.getCurrentShip());
+			entitiesManager.remove(associatedShipManager.getCurrentShip());
 		}
 	}
 	

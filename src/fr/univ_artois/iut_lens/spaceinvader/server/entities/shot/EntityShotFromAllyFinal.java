@@ -70,7 +70,7 @@ public class EntityShotFromAllyFinal extends EntityShotFromAlly {
 
 		//Si deux tirs se touchent (les 2 tirs dans les camps différents)
 		if(other instanceof EntityShotFromEnnemy) {
-			entitiesManager.removeEntity(other);
+			entitiesManager.remove(other);
 		}
 	}
 	

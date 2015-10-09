@@ -76,7 +76,7 @@ public class PacketServerUpdateMap extends PacketServer {
 	public void setEntityData(MapData data) {
 		ByteBuffer bb = ByteBuffer.allocate(
 				4+data.spawningEntities.size()*(4+4+4+50+4+8+8+8+8+4)
-				+4+data.updatingEntities.size()*(8+8+8+8+4)
+				+4+data.updatingEntities.size()*(4+8+8+8+8+4)
 				+4+data.removedEntities.size()*4
 				+4+data.spritesData.size()*(4+4+100)
 				+1000);
