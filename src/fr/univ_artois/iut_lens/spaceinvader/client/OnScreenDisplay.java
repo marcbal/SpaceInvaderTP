@@ -68,7 +68,7 @@ public class OnScreenDisplay {
 			g.drawString("Vie énemies : "+currentLife+"/"+maxLife, 5, text_position_y+=text_interval_y);
 		}
 		
-		int[] gInfos = new int[2], gInfos2 = new int[] {serverInfos.currentLevel, serverInfos.nbLevel}; // TODO infos vaisseaux
+		int[] gInfos = new int[] {serverInfos.currentShip, serverInfos.nbShip}, gInfos2 = new int[] {serverInfos.currentLevel, serverInfos.nbLevel}; // TODO infos vaisseaux
 		g.drawString("Vaisseau : "+gInfos[0]+"/"+gInfos[1]+" - Niveau : "+gInfos2[0]+"/"+gInfos2[1], 5, MegaSpaceInvader.DISPLAY_HEIGHT-5);
 		
 	}

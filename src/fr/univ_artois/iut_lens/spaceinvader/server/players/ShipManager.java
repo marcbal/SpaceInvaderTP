@@ -6,6 +6,7 @@ import java.util.List;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientCommand;
 import fr.univ_artois.iut_lens.spaceinvader.server.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.ship.*;
+import fr.univ_artois.iut_lens.spaceinvader.util.Logger;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
 /**
@@ -122,6 +123,7 @@ public class ShipManager {
 	
 	private void processShipChange() {
 		if(newShipIndex != actualShipIndex) {
+			Logger.info(player.name+" changed from ship #"+(actualShipIndex+1)+" to #"+(newShipIndex+1));
 			Vector2d pos = ships.get(actualShipIndex).getPosition();
 			entitiesManager.remove(getCurrentShip());
 			ships.get(newShipIndex).getPosition().x = pos.x+ships.get(actualShipIndex).getBoundingBox().width/2D-ships.get(newShipIndex).getBoundingBox().width/2D;

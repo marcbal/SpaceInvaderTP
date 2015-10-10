@@ -20,19 +20,23 @@ public class PacketServerUpdateInfos extends PacketServer {
 		data.maxEnemyLife = bb.getLong();
 		data.currentLevel = bb.getInt();
 		data.nbLevel = bb.getInt();
+		data.currentShip = bb.getInt();
+		data.nbShip = bb.getInt();
 		data.maxTPS = bb.getInt();
 		data.currentTickTime = bb.getLong();
 		return data;
 	}
 	
 	public void setInfos(GameInfo data) {
-		ByteBuffer bb = ByteBuffer.allocate(4+4+8+8+4+4+4+8);
+		ByteBuffer bb = ByteBuffer.allocate(4+4+8+8+4+4+4+4+4+8);
 		bb.putInt(data.nbEntity);
 		bb.putInt(data.nbCollisionThreads);
 		bb.putLong(data.currentEnemyLife);
 		bb.putLong(data.maxEnemyLife);
 		bb.putInt(data.currentLevel);
 		bb.putInt(data.nbLevel);
+		bb.putInt(data.currentShip);
+		bb.putInt(data.nbShip);
 		bb.putInt(data.maxTPS);
 		bb.putLong(data.currentTickTime);
 
@@ -49,6 +53,8 @@ public class PacketServerUpdateInfos extends PacketServer {
 		public long maxEnemyLife;
 		public int currentLevel;
 		public int nbLevel;
+		public int currentShip;
+		public int nbShip;
 		public int maxTPS = 1;
 		public long currentTickTime = 1;
 	}

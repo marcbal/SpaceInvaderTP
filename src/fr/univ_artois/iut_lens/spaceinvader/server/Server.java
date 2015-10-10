@@ -186,7 +186,7 @@ public class Server extends Thread {
 		 * Envoi des infos de jeux aux joueurs
 		 */
 		if (!waitingForKeyPress.get()) {
-			playerManager.sendToAll(createGameInfoPacket(currentLoopDuration));
+			createAndSendGameInfoPacket(currentLoopDuration);
 		}
 		
 		if (!waitingForKeyPress.get() && !commandPause.get()) {
@@ -245,7 +245,7 @@ public class Server extends Thread {
 		PacketServerLevelEnd packet = new PacketServerLevelEnd();
 		packet.setScores(scores);
 		playerManager.sendToAll(packet);
-		playerManager.sendToAll(createGameInfoPacket(1));
+		createAndSendGameInfoPacket(1);
 		
 	}
 	
@@ -402,20 +402,28 @@ public class Server extends Thread {
 	
 
 
-	public PacketServerUpdateInfos createGameInfoPacket(long currentLoopDuration) {
-		GameInfo globalGameInfos = new GameInfo();
-		globalGameInfos.currentEnemyLife = entitiesManager.getTotalRemainingEnnemyLife();
-		int[] levelProgress = levelManager.getLevelProgress();
-		globalGameInfos.currentLevel = levelProgress[0];
-		globalGameInfos.nbLevel = levelProgress[1];
-		globalGameInfos.maxEnemyLife = levelManager.getCurrentLevel().getMaxEnemyLife();
-		globalGameInfos.nbCollisionThreads = MegaSpaceInvader.SERVER_NB_THREAD_FOR_ENTITY_COLLISION;
-		globalGameInfos.nbEntity = entitiesManager.size();
-		globalGameInfos.maxTPS = MegaSpaceInvader.SERVER_TICK_PER_SECOND;
-		globalGameInfos.currentTickTime = currentLoopDuration;
-		PacketServerUpdateInfos packetInfos = new PacketServerUpdateInfos();
-		packetInfos.setInfos(globalGameInfos);
-		return packetInfos;
+	public void createAndSendGameInfoPacket(long currentLoopDuration) {
+		for (Player p : playerManager.getPlayersSnapshot()) {
+			GameInfo globalGameInfos = new GameInfo();
+			globalGameInfos.currentEnemyLife = entitiesManager.getTotalRemainingEnnemyLife();
+			int[] levelProgress = levelManager.getLevelProgress();
+			globalGameInfos.currentLevel = levelProgress[0];
+			globalGameInfos.nbLevel = levelProgress[1];
+			globalGameInfos.maxEnemyLife = levelManager.getCurrentLevel().getMaxEnemyLife();
+			globalGameInfos.nbCollisionThreads = MegaSpaceInvader.SERVER_NB_THREAD_FOR_ENTITY_COLLISION;
+			globalGameInfos.nbEntity = entitiesManager.size();
+			globalGameInfos.maxTPS = MegaSpaceInvader.SERVER_TICK_PER_SECOND;
+			globalGameInfos.currentTickTime = currentLoopDuration;
+			
+			// spécifique au joueur
+			int[] shipProg = p.getShipManager().getShipProgress();
+			globalGameInfos.currentShip = shipProg[0];
+			globalGameInfos.nbShip = shipProg[1];
+			
+			PacketServerUpdateInfos packetInfos = new PacketServerUpdateInfos();
+			packetInfos.setInfos(globalGameInfos);
+			p.getConnection().send(packetInfos);
+		}
 	}
 	
 	
