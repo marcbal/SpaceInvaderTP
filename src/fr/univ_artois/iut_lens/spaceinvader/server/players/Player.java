@@ -10,6 +10,7 @@ import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientNe
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientTogglePause;
 import fr.univ_artois.iut_lens.spaceinvader.server.Server;
 import fr.univ_artois.iut_lens.spaceinvader.server.network.ServerConnection.InputConnectionThread;
+import fr.univ_artois.iut_lens.spaceinvader.util.Logger;
 
 public class Player {
 	
@@ -61,6 +62,9 @@ public class Player {
 		else if (packet instanceof PacketClientTogglePause) {
 			boolean pause = ((PacketClientTogglePause)packet).getPause();
 			Server.serverInstance.setPause(pause);
+			
+			Logger.info(name+" set pause to "+pause);
+			
 			PacketServerTogglePause responsePacket = new PacketServerTogglePause();
 			responsePacket.setPause(pause);
 			Server.serverInstance.playerManager.sendToAll(responsePacket);

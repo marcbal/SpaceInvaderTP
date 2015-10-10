@@ -21,6 +21,7 @@ import fr.univ_artois.iut_lens.spaceinvader.server.entities.ship.EntityShip;
 import fr.univ_artois.iut_lens.spaceinvader.server.network.NetworkReceiveListener;
 import fr.univ_artois.iut_lens.spaceinvader.server.network.ServerConnection.InputConnectionThread;
 import fr.univ_artois.iut_lens.spaceinvader.server.network.ServerConnection.InvalidClientMessage;
+import fr.univ_artois.iut_lens.spaceinvader.util.Logger;
 
 public class PlayerManager implements NetworkReceiveListener {
 	
@@ -100,6 +101,7 @@ public class PlayerManager implements NetworkReceiveListener {
 				throw new InvalidClientMessage("Votre adresse réseau correspond déjà à un joueur en ligne");
 			p = createPlayer(co, ((PacketClientJoin)packet).getPlayerName());
 			p.getConnection().send(new PacketServerConnectionOk());
+			Logger.info("Join : "+p.name+". "+getPlayersCount()+" player(s) online now.");
 			
 			// si la partie en cours se trouve entre deux niveaux (waitingForKeyPress)
 			if (Server.serverInstance.waitingForKeyPress.get()) {
@@ -133,9 +135,12 @@ public class PlayerManager implements NetworkReceiveListener {
 			removePlayer(co);
 			p.getConnection().send(new PacketServerDisconnectOk());
 			p.getConnection().close();
+			Logger.info("Disconnect : "+p.name+". "+getPlayersCount()+" player(s) left.");
 			synchronized (this) {
-				if(players.size() == 0)
+				if(players.size() == 0) {
 					Server.serverInstance.commandPause.set(true);
+					Logger.info("Pause autoset to true (no player online)");
+				}
 			}
 		}
 		else {

@@ -186,25 +186,15 @@ public class Server extends Thread {
 		 * Envoi des infos de jeux aux joueurs
 		 */
 		if (!waitingForKeyPress.get()) {
-			GameInfo globalGameInfos = new GameInfo();
-			globalGameInfos.currentEnemyLife = entitiesManager.getTotalRemainingEnnemyLife();
-			int[] levelProgress = levelManager.getLevelProgress();
-			globalGameInfos.currentLevel = levelProgress[0];
-			globalGameInfos.nbLevel = levelProgress[1];
-			globalGameInfos.maxEnemyLife = levelManager.getCurrentLevel().getMaxEnemyLife();
-			globalGameInfos.nbCollisionThreads = MegaSpaceInvader.SERVER_NB_THREAD_FOR_ENTITY_COLLISION;
-			globalGameInfos.nbEntity = entitiesManager.size();
-			globalGameInfos.maxTPS = MegaSpaceInvader.SERVER_TICK_PER_SECOND;
-			globalGameInfos.currentTickTime = currentLoopDuration;
-			PacketServerUpdateInfos packetInfos = new PacketServerUpdateInfos();
-			packetInfos.setInfos(globalGameInfos);
-			playerManager.sendToAll(packetInfos);
+			playerManager.sendToAll(createGameInfoPacket(currentLoopDuration));
 		}
 		
 		if (!waitingForKeyPress.get() && !commandPause.get()) {
 			playerManager.sendToAll(createPartialUpdateMapPacket());
 		}
 	}
+
+
 	
 
 	/**
@@ -227,8 +217,10 @@ public class Server extends Thread {
 		entitiesManager.clear(); //nettoie l'écran des entités
 		waitingForKeyPress.set(true);
 		if (win) {
+			Logger.info("Players won level "+levelManager.getLevelProgress()[0]+". Let's go to next level.");
 			levelManager.goToNextLevel();
 		} else {
+			Logger.info("Aliens won level "+levelManager.getLevelProgress()[0]+". Returning to first level.");
 			levelManager.goToFirstLevel();
 		}
 		
@@ -242,9 +234,18 @@ public class Server extends Thread {
 		}
 		setLevelEndScore(scores);
 		
+		// afichage des scores dans la console
+		Logger.info("========== Scoreboard ==========");
+		for (PlayerScore score : scores) {
+			Logger.info(score.playerName+" : "+score.score);
+		}
+		Logger.info("================================");
+		Logger.info("Waiting for key press from a player ...");
+		
 		PacketServerLevelEnd packet = new PacketServerLevelEnd();
 		packet.setScores(scores);
 		playerManager.sendToAll(packet);
+		playerManager.sendToAll(createGameInfoPacket(1));
 		
 	}
 	
@@ -256,7 +257,7 @@ public class Server extends Thread {
 	private void startLevel() {
 		entitiesManager.clear();
 
-		Logger.info("Starting new level !");
+		Logger.info("Starting level "+levelManager.getLevelProgress()[0]);
 		
 		setLevelEndScore(null);
 		
@@ -399,7 +400,23 @@ public class Server extends Thread {
 	}
 	
 	
-	
+
+
+	public PacketServerUpdateInfos createGameInfoPacket(long currentLoopDuration) {
+		GameInfo globalGameInfos = new GameInfo();
+		globalGameInfos.currentEnemyLife = entitiesManager.getTotalRemainingEnnemyLife();
+		int[] levelProgress = levelManager.getLevelProgress();
+		globalGameInfos.currentLevel = levelProgress[0];
+		globalGameInfos.nbLevel = levelProgress[1];
+		globalGameInfos.maxEnemyLife = levelManager.getCurrentLevel().getMaxEnemyLife();
+		globalGameInfos.nbCollisionThreads = MegaSpaceInvader.SERVER_NB_THREAD_FOR_ENTITY_COLLISION;
+		globalGameInfos.nbEntity = entitiesManager.size();
+		globalGameInfos.maxTPS = MegaSpaceInvader.SERVER_TICK_PER_SECOND;
+		globalGameInfos.currentTickTime = currentLoopDuration;
+		PacketServerUpdateInfos packetInfos = new PacketServerUpdateInfos();
+		packetInfos.setInfos(globalGameInfos);
+		return packetInfos;
+	}
 	
 	
 	
