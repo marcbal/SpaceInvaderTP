@@ -136,12 +136,6 @@ public class PlayerManager implements NetworkReceiveListener {
 			p.getConnection().send(new PacketServerDisconnectOk());
 			p.getConnection().close();
 			Logger.info("Disconnect : "+p.name+". "+getPlayersCount()+" player(s) left.");
-			synchronized (this) {
-				if(players.size() == 0) {
-					Server.serverInstance.commandPause.set(true);
-					Logger.info("Pause autoset to true (no player online)");
-				}
-			}
 		}
 		else {
 			p.handlePacket(packet);

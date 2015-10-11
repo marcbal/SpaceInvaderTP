@@ -7,7 +7,7 @@ public class EntityShotFromAllySubComplex extends EntityShotFromAlly {
 
 	public EntityShotFromAllySubComplex(Vector2d p, Vector2d s,
 			EntitiesManager eM) {
-		super("sprites/UnderComplexShot.png", p, 10, 2, s, eM);
+		super("sprites/UnderComplexShot.png", p, 20, 2, s, eM);
 		
 	}
 

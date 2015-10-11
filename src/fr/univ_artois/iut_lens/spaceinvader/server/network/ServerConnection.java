@@ -70,6 +70,9 @@ public class ServerConnection {
 	private NetworkReceiveListener gameListener;
 	
 	
+	public final BandwidthCalculation bandwidthCalculation = new BandwidthCalculation();
+	
+	
 	
 	
 	public ServerConnection(int port) throws IOException {
@@ -146,6 +149,7 @@ public class ServerConnection {
 					
 					byte[] packetData = ByteBuffer.allocate(1+4+size).put(code).put(sizeB).put(content).array();
 					
+					bandwidthCalculation.addPacket(this, true, packetData.length);
 					
 					try {
 						interpreteReceivedMessage(this, packetData);
@@ -217,7 +221,9 @@ public class ServerConnection {
 				try {
 					while (!socket.isClosed()) {
 						PacketServer packet = packetQueue.take();
-						out.write(packet.constructAndGetDataPacket());
+						byte[] data = packet.constructAndGetDataPacket();
+						bandwidthCalculation.addPacket(InputConnectionThread.this, false, data.length);
+						out.write(data);
 					}
 				} catch (InterruptedException e) {
 				} catch (IOException e) { }
@@ -240,8 +246,6 @@ public class ServerConnection {
 			throw new InvalidClientMessage("Le serveur ne peut actuellement pas prendre en charge de nouvelles requêtes. Les listeners n'ont pas encore été définis");
 		
 		Packet p = Packet.constructPacket(data);
-		
-		// Logger.info("(Serveur) <- "+p.getClass().getSimpleName()+" <- (Client "+addr+")");
 		
 		if (!(p instanceof PacketClient))
 			throw new InvalidClientMessage("Le type de packet reçu n'est pas un packet attendu : "+p.getClass().getCanonicalName());

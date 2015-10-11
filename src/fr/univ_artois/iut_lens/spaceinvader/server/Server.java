@@ -23,11 +23,13 @@ import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUp
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerLevelEnd;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerLevelEnd.PlayerScore;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateInfos.GameInfo;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateInfos.GameInfo.PlayerInfo;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateMap.MapData;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateMap.MapData.EntityDataSpawn;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateMap.MapData.EntityDataUpdated;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.ship.EntityShip;
+import fr.univ_artois.iut_lens.spaceinvader.server.entities.shot.EntityShot;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.shot.EntityShotFromAlly;
 import fr.univ_artois.iut_lens.spaceinvader.server.network.ServerConnection;
 import fr.univ_artois.iut_lens.spaceinvader.server.players.Player;
@@ -220,7 +222,7 @@ public class Server extends Thread {
 			Logger.info("Players won level "+levelManager.getLevelProgress()[0]+". Let's go to next level.");
 			levelManager.goToNextLevel();
 		} else {
-			Logger.info("Aliens won level "+levelManager.getLevelProgress()[0]+". Returning to first level.");
+			Logger.info("Players lost level "+levelManager.getLevelProgress()[0]+". Returning to first level.");
 			levelManager.goToFirstLevel();
 		}
 		
@@ -235,12 +237,17 @@ public class Server extends Thread {
 		setLevelEndScore(scores);
 		
 		// afichage des scores dans la console
-		Logger.info("========== Scoreboard ==========");
-		for (PlayerScore score : scores) {
-			Logger.info(score.playerName+" : "+score.score);
+		if (playerManager.getPlayersCount() != 0) {
+			Logger.info("========== Scoreboard ==========");
+			for (PlayerScore score : scores) {
+				Logger.info(score.playerName+" : "+score.score);
+			}
+			Logger.info("================================");
+			Logger.info("Waiting for key press from a player ...");
 		}
-		Logger.info("================================");
-		Logger.info("Waiting for key press from a player ...");
+		else {
+			Logger.info("Nobody is online. Waiting for a player ...");
+		}
 		
 		PacketServerLevelEnd packet = new PacketServerLevelEnd();
 		packet.setScores(scores);
@@ -335,10 +342,10 @@ public class Server extends Thread {
 			eData.maxLife = (e.getMaxLife() > 1) ? e.getMaxLife() : 0;
 			eData.name = (e instanceof EntityShip) ? ((EntityShip)e).associatedShipManager.getPlayer().name : "";
 			eData.spriteId = e.getSprite().id;
-			eData.posX = e.getPosition().x;
-			eData.posY = e.getPosition().y;
-			eData.speedX = e.getSpeed().x;
-			eData.speedY = e.getSpeed().y;
+			eData.posX = (float)e.getPosition().x;
+			eData.posY = (float)e.getPosition().y;
+			eData.speedX = (float)e.getSpeed().x;
+			eData.speedY = (float)e.getSpeed().y;
 			mapData.spawningEntities.add(eData);
 		}
 		
@@ -371,23 +378,26 @@ public class Server extends Thread {
 				eData.maxLife = (e.getMaxLife() > 1) ? e.getMaxLife() : 0;
 				eData.name = (e instanceof EntityShip) ? ((EntityShip)e).associatedShipManager.getPlayer().name : "";
 				eData.spriteId = e.getSprite().id;
-				eData.posX = e.getPosition().x;
-				eData.posY = e.getPosition().y;
-				eData.speedX = e.getSpeed().x;
-				eData.speedY = e.getSpeed().y;
+				eData.posX = (float)e.getPosition().x;
+				eData.posY = (float)e.getPosition().y;
+				eData.speedX = (float)e.getSpeed().x;
+				eData.speedY = (float)e.getSpeed().y;
 				mapData.spawningEntities.add(eData);
 			}
 			else {
 				// entité déjà existante
 				EntityDataUpdated eData = new EntityDataUpdated();
-				if (e instanceof EntityShotFromAlly && r.nextInt(entities.length) > 1000)
+				if (e instanceof EntityShot && !e.hasChangedSpeed())
+					continue;
+				e.resetOldSpeed();
+				if (e instanceof EntityShotFromAlly && r.nextInt(entities.length) > 500)
 					continue;
 				eData.id = e.id;
 				eData.currentLife = (e.getMaxLife() > 1) ? e.getLife() : 0;
-				eData.posX = e.getPosition().x;
-				eData.posY = e.getPosition().y;
-				eData.speedX = e.getSpeed().x;
-				eData.speedY = e.getSpeed().y;
+				eData.posX = (float)e.getPosition().x;
+				eData.posY = (float)e.getPosition().y;
+				eData.speedX = (float)e.getSpeed().x;
+				eData.speedY = (float)e.getSpeed().y;
 				mapData.updatingEntities.add(eData);
 			}
 		}
@@ -403,7 +413,21 @@ public class Server extends Thread {
 
 
 	public void createAndSendGameInfoPacket(long currentLoopDuration) {
-		for (Player p : playerManager.getPlayersSnapshot()) {
+		Player[] players = playerManager.getPlayersSnapshot();
+		List<PlayerInfo> playersInfo = new ArrayList<PlayerInfo>();
+		for (Player p : players) {
+			PlayerInfo pInfo = new PlayerInfo();
+			pInfo.name = p.name;
+			pInfo.ping = 0; // TODO définir le ping
+			pInfo.score = 0; // TODO définir le score
+			pInfo.upBandwidth = serverConnection.bandwidthCalculation.getBandWidth(false, p.getConnection());
+			pInfo.downBandwidth = serverConnection.bandwidthCalculation.getBandWidth(true, p.getConnection());
+			playersInfo.add(pInfo);
+		}
+		
+		
+		
+		for (Player p : players) {
 			GameInfo globalGameInfos = new GameInfo();
 			globalGameInfos.currentEnemyLife = entitiesManager.getTotalRemainingEnnemyLife();
 			int[] levelProgress = levelManager.getLevelProgress();
@@ -414,6 +438,7 @@ public class Server extends Thread {
 			globalGameInfos.nbEntity = entitiesManager.size();
 			globalGameInfos.maxTPS = MegaSpaceInvader.SERVER_TICK_PER_SECOND;
 			globalGameInfos.currentTickTime = currentLoopDuration;
+			globalGameInfos.playerInfos = playersInfo;
 			
 			// spécifique au joueur
 			int[] shipProg = p.getShipManager().getShipProgress();

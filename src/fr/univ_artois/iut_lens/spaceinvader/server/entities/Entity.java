@@ -29,6 +29,9 @@ public abstract class Entity {
 	protected Sprite sprite;
 	/** The current speed of this entity horizontally (pixels/sec) */
 	protected Vector2d speed = new Vector2d();
+	
+	private Vector2d oldSpeed = new Vector2d();
+	
 	/** Points de vie restants pour l'entité courante. Par défaut, tué en un coup */
 	protected int life = 1;
 	
@@ -162,7 +165,14 @@ public abstract class Entity {
 	
 	
 	public Vector2d getPosition() { return position; }
+	
+	
 	public Vector2d getSpeed() { return speed; }
+	public boolean hasChangedSpeed() {
+		return !oldSpeed.equals(speed);
+	}
+	public void resetOldSpeed() { oldSpeed = new Vector2d(speed); }
+	
 	public void setPosition(Vector2d newPos) { position = newPos; }
 	public void setSpeed(Vector2d newSpeed) { speed = newSpeed; }
 	public int getLife() { return life; }

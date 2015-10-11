@@ -58,10 +58,10 @@ public class EntityRepresenter {
 	 * @param g The graphics context on which to draw
 	 * @param loop_start 
 	 */
-	public void draw(Graphics g, long loop_start, long max_interval) {
+	public void draw(Graphics g, long loop_start, long max_interval, float coeff) {
 		long timeInterval = Math.min(loop_start - lastUpdateNanoTime, max_interval);
-		double posX = position.x+timeInterval*speed.x/1000000000;
-		double posY = position.y+timeInterval*speed.y/1000000000;
+		double posX = position.x+timeInterval*coeff*speed.x/1000000000;
+		double posY = position.y+timeInterval*coeff*speed.y/1000000000;
 		
 		sprite.draw(g,(int)posX,(int)posY);
 

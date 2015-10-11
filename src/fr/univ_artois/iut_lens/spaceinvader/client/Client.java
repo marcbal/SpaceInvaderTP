@@ -3,6 +3,7 @@ package fr.univ_artois.iut_lens.spaceinvader.client;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
@@ -292,6 +293,7 @@ public class Client extends Canvas implements NetworkReceiveListener, Runnable {
 		// surface and blank it out
 		Graphics2D g = (Graphics2D) bufferStrategy.getDrawGraphics();
 		g.setBackground(Color.BLACK);
+		g.setFont(new Font("SansSerif", Font.PLAIN, 11));
 		
 		
 		// dessin du background
@@ -316,7 +318,7 @@ public class Client extends Canvas implements NetworkReceiveListener, Runnable {
 		// affiche le message comme quoi on est en pause
 		onScreenDisplay.drawMiddlePause(g);
 		
-		onScreenDisplay.drawOther(g);
+		onScreenDisplay.drawOtherInfos(g);
 		
 		// finally, we've completed drawing so clear up the graphics
 		// and flip the buffer over

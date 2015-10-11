@@ -80,4 +80,13 @@ public class Vector2d {
 	{
 		return Math.sqrt(distanceSquaredOf(v));
 	}
+	
+	
+	@Override
+	public boolean equals(Object o) {
+		if (o == null) return false;
+		if (!(o instanceof Vector2d)) return false;
+		Vector2d v = (Vector2d) o;
+		return (v.x == x && v.y == y);
+	}
 }

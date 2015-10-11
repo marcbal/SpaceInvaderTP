@@ -12,9 +12,7 @@ public class TargettingUtil {
 	 * @param target la cible visée
 	 */
 	public static Vector2d getTargetDirection(Entity shot, Entity target) {
-		Vector2d targetPos = new Vector2d(target.getBoundingBox().getCenterX(),target.getBoundingBox().getCenterY());
-		Vector2d actualPos = shot.getPosition().add(new Vector2d(shot.getBoundingBox().getWidth()/2D, shot.getBoundingBox().getHeight()/2D));
-		return actualPos.invert().add(targetPos);
+		return shot.getCenter().invert().add(target.getCenter());
 	}
 	
 	
@@ -29,7 +27,7 @@ public class TargettingUtil {
 			if (current.getCamp() == e.getCamp()) continue;
 			if (ignoreNeutral && e.getCamp() == Camp.NEUTRAL) continue;
 			
-			double distSq = current.getPosition().distanceSquaredOf(e.getPosition());
+			double distSq = current.getCenter().distanceSquaredOf(e.getCenter());
 			
 			if (distSq < min) {
 				min = distSq;

@@ -18,6 +18,8 @@ public class MegaSpaceInvader {
 	 */
 	public static final int CLIENT_FRAME_PER_SECOND = 120;
 	
+	public static final boolean CLIENT_SMOOTH_ENTITY_MOVEMENT = true; // usefull if framerate is greater than server tickrate
+	
 	public static final int SERVER_NB_THREAD_FOR_ENTITY_COLLISION = Runtime.getRuntime().availableProcessors();
 	
 	public static final int SERVER_TICK_PER_SECOND = 30;
@@ -28,7 +30,6 @@ public class MegaSpaceInvader {
 	public static final int SERVER_DEFAULT_PORT = 34567;
 	
 	public static final Charset NETWORK_CHARSET = Charset.forName("UTF-8");
-	
 	
 	
 	

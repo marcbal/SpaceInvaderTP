@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
+import fr.univ_artois.iut_lens.spaceinvader.MegaSpaceInvader;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateInfos.GameInfo;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateMap.MapData;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateMap.MapData.EntityDataSpawn;
@@ -69,9 +70,17 @@ public class EntityRepresenterManager {
 	
 	
 	public synchronized void drawAll(Graphics g, long loop_start) {
+		
+		// infos pour l'adoucicement du mouvement des entités
 		GameInfo gInfo = Client.instance.lastGameInfo.get();
+		int maxInterval = (MegaSpaceInvader.CLIENT_SMOOTH_ENTITY_MOVEMENT) ? 1000000000/gInfo.maxTPS : 0;
+		float coeff = 1; // plus petit = plus lent
+		if (MegaSpaceInvader.CLIENT_SMOOTH_ENTITY_MOVEMENT && maxInterval < gInfo.currentTickTime)
+			coeff = maxInterval/(float)gInfo.currentTickTime;
+		// -----
+		
 		for (EntityRepresenter ent : entities.values()) {
-			ent.draw(g, loop_start, 1000000000/gInfo.maxTPS);
+			ent.draw(g, loop_start, maxInterval, coeff);
 		}
 	}
 	

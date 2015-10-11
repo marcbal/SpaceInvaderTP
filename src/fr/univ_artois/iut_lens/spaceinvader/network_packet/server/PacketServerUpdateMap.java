@@ -33,10 +33,10 @@ public class PacketServerUpdateMap extends PacketServer {
 			bb.get(name);
 			ent.name = new String(name, CHARSET);
 			ent.maxLife = bb.getInt();
-			ent.posX = bb.getDouble();
-			ent.posY = bb.getDouble();
-			ent.speedX = bb.getDouble();
-			ent.speedY = bb.getDouble();
+			ent.posX = bb.getFloat();
+			ent.posY = bb.getFloat();
+			ent.speedX = bb.getFloat();
+			ent.speedY = bb.getFloat();
 			ent.currentLife = bb.getInt();
 			
 			data.spawningEntities.add(ent);
@@ -47,10 +47,10 @@ public class PacketServerUpdateMap extends PacketServer {
 		for (int i=0; i<nbUpdatedEntity; i++) {
 			EntityDataUpdated ent = new EntityDataUpdated();
 			ent.id = bb.getInt();
-			ent.posX = bb.getDouble();
-			ent.posY = bb.getDouble();
-			ent.speedX = bb.getDouble();
-			ent.speedY = bb.getDouble();
+			ent.posX = bb.getFloat();
+			ent.posY = bb.getFloat();
+			ent.speedX = bb.getFloat();
+			ent.speedY = bb.getFloat();
 			ent.currentLife = bb.getInt();
 			
 			data.updatingEntities.add(ent);
@@ -75,8 +75,8 @@ public class PacketServerUpdateMap extends PacketServer {
 	
 	public void setEntityData(MapData data) {
 		ByteBuffer bb = ByteBuffer.allocate(
-				4+data.spawningEntities.size()*(4+4+4+50+4+8+8+8+8+4)
-				+4+data.updatingEntities.size()*(4+8+8+8+8+4)
+				4+data.spawningEntities.size()*(4+4+4+50+4+4+4+4+4+4)
+				+4+data.updatingEntities.size()*(4+4+4+4+4+4)
 				+4+data.removedEntities.size()*4
 				+4+data.spritesData.size()*(4+4+100)
 				+1000);
@@ -88,10 +88,10 @@ public class PacketServerUpdateMap extends PacketServer {
 			bb.putInt(ent.name.getBytes(CHARSET).length);
 			bb.put(ent.name.getBytes(CHARSET));
 			bb.putInt(ent.maxLife);
-			bb.putDouble(ent.posX);
-			bb.putDouble(ent.posY);
-			bb.putDouble(ent.speedX);
-			bb.putDouble(ent.speedY);
+			bb.putFloat(ent.posX);
+			bb.putFloat(ent.posY);
+			bb.putFloat(ent.speedX);
+			bb.putFloat(ent.speedY);
 			bb.putInt(ent.currentLife);
 		}
 		
@@ -99,10 +99,10 @@ public class PacketServerUpdateMap extends PacketServer {
 		bb.putInt(data.updatingEntities.size());
 		for (EntityDataUpdated ent : data.updatingEntities) {
 			bb.putInt(ent.id);
-			bb.putDouble(ent.posX);
-			bb.putDouble(ent.posY);
-			bb.putDouble(ent.speedX);
-			bb.putDouble(ent.speedY);
+			bb.putFloat(ent.posX);
+			bb.putFloat(ent.posY);
+			bb.putFloat(ent.speedX);
+			bb.putFloat(ent.speedY);
 			bb.putInt(ent.currentLife);
 		}
 
@@ -134,20 +134,20 @@ public class PacketServerUpdateMap extends PacketServer {
 			public String name;
 			public int maxLife = 0;
 			
-			public double posX;
-			public double posY;
-			public double speedX;
-			public double speedY;
+			public float posX;
+			public float posY;
+			public float speedX;
+			public float speedY;
 			public int currentLife = 0;
 		}
 
 		public List<EntityDataUpdated> updatingEntities = new ArrayList<EntityDataUpdated>();
 		public static class EntityDataUpdated {
 			public int id;
-			public double posX;
-			public double posY;
-			public double speedX;
-			public double speedY;
+			public float posX;
+			public float posY;
+			public float speedX;
+			public float speedY;
 			public int currentLife = 0;
 		}
 
@@ -156,31 +156,5 @@ public class PacketServerUpdateMap extends PacketServer {
 		public Map<Integer, String> spritesData = new HashMap<Integer, String>();
 		
 	}
-	/*
-	 * 
-	public Map<Integer, String> getSpriteData() {
-		Map<Integer, String> ret = new 
-		ByteBuffer bb = ByteBuffer.wrap(getData());
-		int nbSprite = bb.getInt();
-		for (int i=0; i<nbSprite; i++) {
-			int id = bb.getInt();
-			byte[] path = new byte[bb.getInt()];
-			bb.get(path);
-			ret.put(id, new String(path, CHARSET));
-		}
-		return ret;
-	}
-	
-	public void setSpriteData(Map<String, Sprite> data) {
-		ByteBuffer bb = ByteBuffer.allocate(4+data.size()*(4+4+100));
-		bb.putInt(data.size());
-		for (Entry<String, Sprite> sp : data.entrySet()) {
-			bb.putInt(sp.getValue().id);
-			bb.putInt(sp.getKey().getBytes(CHARSET).length);
-			bb.put(sp.getKey().getBytes(CHARSET));
-		}
-		setData(Arrays.copyOf(bb.array(), bb.position()));
-	}
-	 * */
 	
 }
