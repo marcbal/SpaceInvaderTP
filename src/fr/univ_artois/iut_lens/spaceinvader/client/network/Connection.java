@@ -9,6 +9,7 @@ import java.net.SocketAddress;
 import java.net.SocketTimeoutException;
 import java.nio.ByteBuffer;
 
+import fr.univ_artois.iut_lens.spaceinvader.MegaSpaceInvader;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.Packet;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClient;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientJoin;
@@ -29,7 +30,10 @@ public class Connection {
 	public Connection(InetSocketAddress a, String name, NetworkReceiveListener l) throws IOException {
 		if (a == null || name == null || l == null)
 			throw new IllegalArgumentException("les arguments ne peuvent pas être null");
-		socket = new Socket(a.getAddress(), a.getPort());
+		socket = new Socket();
+		socket.setReceiveBufferSize(MegaSpaceInvader.NETWORK_TCP_BUFFER_SIZE);
+		socket.setSendBufferSize(MegaSpaceInvader.NETWORK_TCP_BUFFER_SIZE);
+		socket.connect(a);
 		addr = a;
 		listener = l;
 		

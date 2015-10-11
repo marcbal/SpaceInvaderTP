@@ -5,7 +5,11 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.nio.charset.Charset;
 
+import javax.swing.UIManager;
+
 import fr.univ_artois.iut_lens.spaceinvader.client.Client;
+import fr.univ_artois.iut_lens.spaceinvader.launcher.LauncherDialog;
+import fr.univ_artois.iut_lens.spaceinvader.launcher.LauncherDialog.LaunchingConfiguration;
 import fr.univ_artois.iut_lens.spaceinvader.server.Server;
 import fr.univ_artois.iut_lens.spaceinvader.util.Logger;
 
@@ -31,34 +35,75 @@ public class MegaSpaceInvader {
 	
 	public static final Charset NETWORK_CHARSET = Charset.forName("UTF-8");
 	
+	public static final int NETWORK_TCP_BUFFER_SIZE = 1024*1024;
+	
 	
 	
 	public static void main(String[] args) {
 		shutdownHook();
 		Thread.currentThread().setName("Main");
 		
-		// ici, mettre une interface de configuration du serveur (avec Java Swing, ça serai bien :3 )
-		
+
 		try {
-			Server.initServer(SERVER_DEFAULT_PORT);
-		} catch (IOException e) {
-			Logger.severe("Impossible de lancer le serveur :");
+			// donne à l'interface graphique le thème associé au système d'exploitation
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		
-		String addr = (args.length > 0) ? args[0] : "localhost";
 		
 		
-		try {
-			Client c = new Client(new InetSocketAddress(InetAddress.getByName(addr), SERVER_DEFAULT_PORT), "Test");
-			c.start();
-		} catch (IOException e) {
-			Logger.severe("Impossible de lancer l'interface graphique :");
-			e.printStackTrace();
+		LauncherDialog diag = new LauncherDialog();
+		diag.waitForDispose();
+		
+		LaunchingConfiguration launchConfig = diag.generateConfig();
+		
+		
+		
+		
+		
+		
+		if (launchConfig.serverEnabled) {
+			
+			try {
+				Server.initServer(launchConfig.serverPort);
+			} catch (IOException e) {
+				Logger.severe("Impossible de lancer le serveur :");
+				e.printStackTrace();
+			}
+			
 		}
 		
 		
+		
+		if (launchConfig.clientEnabled) {
+			
+			String addr = launchConfig.clientConnectionAddress;
+			int port;
+			String[] addrSplit = addr.split(":", 2);
+			if (addrSplit.length <= 1) {
+				addr = addrSplit[0];
+				port = SERVER_DEFAULT_PORT;
+			}
+			else {
+				addr = addrSplit[0];
+				try {
+					port = Integer.parseInt(addrSplit[1]);
+				} catch(NumberFormatException e) {
+					port = SERVER_DEFAULT_PORT;
+				}
+			}
+			
+			try {
+				Client c = new Client(new InetSocketAddress(InetAddress.getByName(addr), port), launchConfig.clientPlayerName);
+				c.start();
+			} catch (IOException e) {
+				Logger.severe("Impossible de lancer l'interface graphique :");
+				e.printStackTrace();
+			}
+		
+		}
 		
 		
 		

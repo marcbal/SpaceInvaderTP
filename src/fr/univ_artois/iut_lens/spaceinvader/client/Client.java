@@ -45,6 +45,7 @@ import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUp
 import fr.univ_artois.iut_lens.spaceinvader.sprites_manager.Sprite;
 import fr.univ_artois.iut_lens.spaceinvader.sprites_manager.SpriteStore;
 import fr.univ_artois.iut_lens.spaceinvader.util.Logger;
+import fr.univ_artois.iut_lens.spaceinvader.util.WindowUtil;
 
 /**
  * The main hook of our game. This class with both act as a manager
@@ -108,9 +109,9 @@ public class Client extends Canvas implements NetworkReceiveListener, Runnable {
 		this.serverAddress = serverAddress;
 		this.playerName = playerName;
 		
-		Logger.info("Chargement de l'interface graphique ...");
 		// create a frame to contain our game
 		container = new JFrame("Méga Space Invader");
+		container.setIconImage(SpriteStore.get().getSprite("sprites/ComplexShot.png").image);
 		
 		// get hold the content of the frame and set up the resolution of the game
 		JPanel panel = (JPanel) container.getContentPane();
@@ -119,7 +120,11 @@ public class Client extends Canvas implements NetworkReceiveListener, Runnable {
 		
 		
 		// setup our canvas size and put it into the content of the frame
-		setBounds(0,0,MegaSpaceInvader.DISPLAY_WIDTH,MegaSpaceInvader.DISPLAY_HEIGHT);
+		setSize(MegaSpaceInvader.DISPLAY_WIDTH,MegaSpaceInvader.DISPLAY_HEIGHT);
+		container.setSize(MegaSpaceInvader.DISPLAY_WIDTH,MegaSpaceInvader.DISPLAY_HEIGHT);
+
+		WindowUtil.centerWindow(container);
+		
 		panel.add(this);
 		
 		// Tell AWT not to bother repainting our canvas since we're
@@ -185,7 +190,6 @@ public class Client extends Canvas implements NetworkReceiveListener, Runnable {
 	
 	@Override
 	public void run() {
-		Logger.info("Interface graphique démarrée à "+MegaSpaceInvader.CLIENT_FRAME_PER_SECOND+" FPS");
 		
 		long delta = (long)(1000000000/MegaSpaceInvader.CLIENT_FRAME_PER_SECOND);
 		

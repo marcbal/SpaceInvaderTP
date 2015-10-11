@@ -12,6 +12,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import fr.univ_artois.iut_lens.spaceinvader.MegaSpaceInvader;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.Packet;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClient;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServer;
@@ -78,7 +79,9 @@ public class ServerConnection {
 	public ServerConnection(int port) throws IOException {
 		if (port <= 0 || port > 65535)
 			throw new IllegalArgumentException("le numéro de port est invalide");
-		socket = new ServerSocket(port);
+		socket = new ServerSocket();
+		socket.setReceiveBufferSize(MegaSpaceInvader.NETWORK_TCP_BUFFER_SIZE);
+		socket.bind(new InetSocketAddress(port));
 		
 		receiverThread = new ServerConnectionThread();
 		receiverThread.start();
@@ -100,6 +103,7 @@ public class ServerConnection {
 			try {
 				while(true) {
 					Socket socketClient = socket.accept();
+					socketClient.setSendBufferSize(MegaSpaceInvader.NETWORK_TCP_BUFFER_SIZE);
 					
 					try {
 						new InputConnectionThread(socketClient, connectionCounterId.getAndIncrement()).start();

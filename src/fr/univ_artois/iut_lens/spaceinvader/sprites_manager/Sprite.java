@@ -15,7 +15,7 @@ import java.awt.Image;
 public class Sprite {
 	private static int identifierIncrement = 0;
 	/** The image to be drawn for this sprite */
-	private Image image;
+	public final Image image;
 	public final int id;
 	
 	/**
