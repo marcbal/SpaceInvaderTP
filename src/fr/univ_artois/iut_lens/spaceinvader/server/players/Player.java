@@ -37,6 +37,9 @@ public class Player {
 	}
 	
 	
+	public void setConnection(InputConnectionThread newCo) {
+		connection = newCo;
+	}
 	
 	public InputConnectionThread getConnection() { return connection; }
 	public ShipManager getShipManager() { return shipManager; }
@@ -99,6 +102,7 @@ public class Player {
 			score /= 2;
 		else
 			score -= 50;
+		Logger.info(name+" was killed by an ennemy.");
 	}
 	
 	public void initNewLevel() {

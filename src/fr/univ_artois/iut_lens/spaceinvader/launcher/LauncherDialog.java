@@ -20,6 +20,7 @@ import javax.swing.JTextField;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.text.ParseException;
+import java.util.Random;
 import java.awt.event.ActionEvent;
 import javax.swing.JTabbedPane;
 import javax.swing.JSpinner;
@@ -118,6 +119,7 @@ public class LauncherDialog extends JFrame {
 				}
 				{
 					textFieldPlayerName = new JTextField();
+					textFieldPlayerName.setText(randomString(3, LETTERS)+randomString(2, NUMBERS));
 					GridBagConstraints gbc_textFieldPlayerName = new GridBagConstraints();
 					gbc_textFieldPlayerName.insets = new Insets(0, 0, 5, 0);
 					gbc_textFieldPlayerName.fill = GridBagConstraints.BOTH;
@@ -178,7 +180,7 @@ public class LauncherDialog extends JFrame {
 					serverPanel.add(spinnerServerPort, gbc_spinnerServerPort);
 				}
 				{
-					JLabel lblNewLabel_1 = new JLabel("<html><b>Liste des adresses IP de cet ordinateur</b><br/></html>");
+					JLabel lblNewLabel_1 = new JLabel("<html><b>Liste des adresses IP de cet ordinateur</b><br/><i>Non implémenté ..</i></html>");
 					lblNewLabel_1.setVerticalAlignment(SwingConstants.TOP);
 					lblNewLabel_1.setHorizontalAlignment(SwingConstants.LEFT);
 					GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
@@ -310,6 +312,21 @@ public class LauncherDialog extends JFrame {
 	
 	
 	
+	
+	/*
+	 * Source : http://stackoverflow.com/a/157202
+	 */
+	private static final String LETTERS = "azertyuiopmlkjhgfdsqwxcvbn";
+	private static final String NUMBERS = "0123456789";
+	private static Random rnd = new Random();
+
+	public static String randomString( int len , String chars){
+	   StringBuilder sb = new StringBuilder( len );
+	   for( int i = 0; i < len; i++ ) 
+	      sb.append( chars.charAt( rnd.nextInt(chars.length()) ) );
+	   return sb.toString();
+	}
+	// -----------------------------------
 	
 	
 	

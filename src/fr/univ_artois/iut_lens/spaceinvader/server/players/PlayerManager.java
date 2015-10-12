@@ -24,37 +24,46 @@ import fr.univ_artois.iut_lens.spaceinvader.server.network.ServerConnection.Inva
 import fr.univ_artois.iut_lens.spaceinvader.util.Logger;
 
 public class PlayerManager implements NetworkReceiveListener {
-	
-	private Map<InputConnectionThread, Player> players = new HashMap<InputConnectionThread, Player>();
+
+	private Map<InputConnectionThread, Player> playersByConnection = new HashMap<InputConnectionThread, Player>();
+	private Map<String, Player> playersByName = new HashMap<String, Player>();
 	
 	public PlayerManager() {
 	}
 	
-	public synchronized void removePlayer(InputConnectionThread co) {
-		players.remove(co);
+	public synchronized void hasDisconnected(InputConnectionThread co) {
+		playersByConnection.remove(co);
 	}
 	
 	public synchronized Player getPlayerByConnection(InputConnectionThread co) {
-		return players.get(co);
+		return playersByConnection.get(co);
 	}
 	
-	public synchronized Player createPlayer(InputConnectionThread co, String name) {
-		Player p = new Player(name, co);
+	public synchronized Player getNewlyConnectedPlayer(InputConnectionThread co, String name) {
+		Player p;
 		
-		players.put(co, p);
+		if (playersByName.containsKey(name)) {
+			p = playersByName.get(name);
+			p.setConnection(co);
+		}
+		else {
+			p = new Player(name, co);
+			playersByName.put(name, p);
+		}
+		playersByConnection.put(co, p);
 		
 		return p;
 	}
 	
 	public synchronized void applyCommandToGame() {
-		for (Player p : players.values()) {
+		for (Player p : playersByConnection.values()) {
 			p.applyCommandToGame();
 		}
 	}
 	
 	public synchronized List<EntityShip> reinitAllPlayersShips() {
 		List<EntityShip> ships = new ArrayList<EntityShip>();
-		for (Player p : players.values()) {
+		for (Player p : playersByConnection.values()) {
 			p.getShipManager().reinitAllShip();
 			
 			EntityShip ship = p.getShipManager().getCurrentShip();
@@ -69,7 +78,7 @@ public class PlayerManager implements NetworkReceiveListener {
 	
 	public synchronized boolean isPlayerAskedForNextLevel() {
 		boolean ret = false;
-		for (Player p : players.values()) {
+		for (Player p : playersByConnection.values()) {
 			if (p.hasAskedForNextLevel()) {
 				ret = true;
 				p.reinitAskingForNextLevel();
@@ -80,7 +89,7 @@ public class PlayerManager implements NetworkReceiveListener {
 	
 	
 	public synchronized void sendToAll(PacketServer packet) {
-		for (Player p : players.values()) {
+		for (Player p : playersByConnection.values()) {
 			p.getConnection().send(packet);
 		}
 	}
@@ -99,7 +108,7 @@ public class PlayerManager implements NetworkReceiveListener {
 			
 			if (p != null)
 				throw new InvalidClientMessage("Votre adresse réseau correspond déjà à un joueur en ligne");
-			p = createPlayer(co, ((PacketClientJoin)packet).getPlayerName());
+			p = getNewlyConnectedPlayer(co, ((PacketClientJoin)packet).getPlayerName());
 			p.getConnection().send(new PacketServerConnectionOk());
 			Logger.info("Join : "+p.name+". "+getPlayersCount()+" player(s) online now.");
 			
@@ -132,7 +141,7 @@ public class PlayerManager implements NetworkReceiveListener {
 		else if (packet instanceof PacketClientDisconnect) {
 			if (p == null)
 				throw new InvalidClientMessage("Vous n'êtes pas connecté");
-			removePlayer(co);
+			hasDisconnected(co);
 			p.getConnection().send(new PacketServerDisconnectOk());
 			p.getConnection().close();
 			Logger.info("Disconnect : "+p.name+". "+getPlayersCount()+" player(s) left.");
@@ -144,15 +153,15 @@ public class PlayerManager implements NetworkReceiveListener {
 	}
 
 	public synchronized Player[] getPlayersSnapshot() {
-		return players.values().toArray(new Player[players.size()]);
+		return playersByConnection.values().toArray(new Player[playersByConnection.size()]);
 	}
 
 	public synchronized int getPlayersCount() {
-		return players.size();
+		return playersByConnection.size();
 	}
 
 	public synchronized boolean everyPlayerDead() {
-		for (Player p : players.values()) {
+		for (Player p : playersByConnection.values()) {
 			if (!p.isDead())
 				return false;
 		}
@@ -161,7 +170,7 @@ public class PlayerManager implements NetworkReceiveListener {
 	
 	
 	public synchronized void reinitPlayersForNextLevel() {
-		for (Player p : players.values()) {
+		for (Player p : playersByConnection.values()) {
 			p.initNewLevel();
 		}
 	}

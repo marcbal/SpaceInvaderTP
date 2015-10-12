@@ -123,7 +123,7 @@ public class ShipManager {
 	
 	private void processShipChange() {
 		if(newShipIndex != actualShipIndex) {
-			Logger.info(player.name+" changed from ship #"+(actualShipIndex+1)+" to #"+(newShipIndex+1));
+			Logger.info(player.name+" has now the ship #"+(newShipIndex+1));
 			Vector2d pos = ships.get(actualShipIndex).getPosition();
 			entitiesManager.remove(getCurrentShip());
 			ships.get(newShipIndex).getPosition().x = pos.x+ships.get(actualShipIndex).getBoundingBox().width/2D-ships.get(newShipIndex).getBoundingBox().width/2D;

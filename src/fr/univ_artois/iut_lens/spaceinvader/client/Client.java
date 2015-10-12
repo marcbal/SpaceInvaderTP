@@ -227,11 +227,9 @@ public class Client extends Canvas implements NetworkReceiveListener, Runnable {
 		
 		
 		
-		Logger.info("Déconnexion du serveur");
 		connection.silentSend(new PacketClientDisconnect());
 		
 		
-		Logger.info("Arrêt de l'interface graphique");
 		container.dispose();
 	}
 	
