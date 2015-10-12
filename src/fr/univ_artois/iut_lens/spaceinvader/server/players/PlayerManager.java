@@ -44,6 +44,8 @@ public class PlayerManager implements NetworkReceiveListener {
 		
 		if (playersByName.containsKey(name)) {
 			p = playersByName.get(name);
+			if (playersByConnection.containsValue(p))
+				throw new InvalidClientMessage("Un joueur avec ce pseudo est déjà en ligne");
 			p.setConnection(co);
 		}
 		else {
