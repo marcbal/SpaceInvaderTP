@@ -7,6 +7,7 @@ import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientCo
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientCommand.Direction;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerTogglePause;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientNextLevel;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientPong;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientTogglePause;
 import fr.univ_artois.iut_lens.spaceinvader.server.Server;
 import fr.univ_artois.iut_lens.spaceinvader.server.network.ServerConnection.InputConnectionThread;
@@ -57,7 +58,10 @@ public class Player {
 	
 	
 	public void handlePacket(PacketClient packet) {
-		if (packet instanceof PacketClientCommand) {
+		if (packet instanceof PacketClientPong) {
+			connection.handlePong((PacketClientPong)packet);
+		}
+		else if (packet instanceof PacketClientCommand) {
 			setShipDirection(((PacketClientCommand)packet).getDirection());
 			setShipShooting(((PacketClientCommand)packet).isShooting());
 		}
@@ -113,9 +117,15 @@ public class Player {
 	
 	public long getScore() { return score; }
 	
-	public void addScore(long val) { score += val; }
+	public void addScore(long val) {
+		if (!Server.serverInstance.scoringEnabled) return;
+		score += val;
+	}
 	
-	public void removeScore(long val) { score -= val; }
+	public void removeScore(long val) {
+		if (!Server.serverInstance.scoringEnabled) return;
+		score -= val;
+	}
 	
 	
 }

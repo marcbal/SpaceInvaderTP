@@ -15,8 +15,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import fr.univ_artois.iut_lens.spaceinvader.MegaSpaceInvader;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.Packet;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClient;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientPong;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServer;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerDisconnectOk;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerPing;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerProtocolError;
 import fr.univ_artois.iut_lens.spaceinvader.server.Server;
 import fr.univ_artois.iut_lens.spaceinvader.util.Logger;
@@ -41,6 +43,7 @@ import fr.univ_artois.iut_lens.spaceinvader.util.Logger;
  * 	<li><code>0x01:&lt;cmd&gt;</code> état des commandes, envoyé à chaque tick (gauche droite, tir)</li>
  *  <li><code>0x02:</code> Activer / désactiver la pause</li>
  *  <li><code>0x03:</code> Passer au niveau suivant</li>
+ * 	<li><code>0x0D:</code> pong</li>
  * 	<li><code>0x0F:</code> Déconnexion</li>
  * </ul>
  * <p><b>Packet serveur</b></p>
@@ -53,6 +56,7 @@ import fr.univ_artois.iut_lens.spaceinvader.util.Logger;
  *  <li><code>0x42:</code> lance un nouveau niveau. Réinitialise le contenu de la map : vide la liste des entités côté client</li>
  *  <li><code>0x43:</code> envoi/mise à jour des données d'entités (ajout / déplacement / suppression) et des sprites</li>
  *  <li><code>0x44:</code> envoi/mise à jour des infos de la partie</li>
+ *  <li><code>0x4D:</code> ping</li>
  *  <li><code>0x4E:</code> Fin du niveau : score des joueurs</li>
  *  
  * 	<li><code>0x4F:</code> Déconnexion OK</li>
@@ -126,6 +130,13 @@ public class ServerConnection {
 		private SocketAddress address;
 		private ConnectionSendingThread outThread;
 		
+
+		private long lastPongTime = 0;
+		private long lastPingNanotime = 0;
+		private long lastPingNanoDuration = 0;
+		private boolean waitingForPong = false;
+		private Object pingLocker = new Object();
+		
 		public InputConnectionThread(Socket s, int coId) throws IOException {
 			super("Sv Conn#"+coId+" in");
 			socket = s;
@@ -158,7 +169,7 @@ public class ServerConnection {
 					try {
 						interpreteReceivedMessage(this, packetData);
 					} catch (InvalidClientMessage e) {
-						Logger.severe("Message du client mal formé");
+						Logger.severe("Message du client mal formé : "+e);
 						sendProtocolError("Erreur protocole : "+e.getMessage());
 					} catch (Exception e) {
 						Logger.severe("Erreur lors de la prise en charge du message par le serveur");
@@ -206,6 +217,23 @@ public class ServerConnection {
 				e.printStackTrace();
 			}
 		}
+		
+		public void handlePong(PacketClientPong packet) {
+			synchronized (pingLocker) {
+				lastPongTime = System.currentTimeMillis();
+				lastPingNanoDuration = System.nanoTime() - lastPingNanotime;
+				waitingForPong = false;
+			}
+		}
+		
+		
+		public long getPing() {
+			synchronized (pingLocker) {
+				if (waitingForPong && System.nanoTime() - lastPingNanotime > lastPingNanoDuration)
+					return System.nanoTime() - lastPingNanotime;
+				return lastPingNanoDuration;
+			}
+		}
 	
 		private class ConnectionSendingThread extends Thread {
 			private BlockingQueue<PacketServer> packetQueue = new LinkedBlockingDeque<PacketServer>();
@@ -228,6 +256,20 @@ public class ServerConnection {
 						byte[] data = packet.constructAndGetDataPacket();
 						bandwidthCalculation.addPacket(InputConnectionThread.this, false, data.length);
 						out.write(data);
+						out.flush();
+						
+						// envoi d'un ping, si le précédent date de plus d'une demi-seconde.
+						synchronized (pingLocker) {
+							if (!waitingForPong && lastPongTime < System.currentTimeMillis() - 500) {
+								data = PacketServerPing.generateNewPing().constructAndGetDataPacket();
+								bandwidthCalculation.addPacket(InputConnectionThread.this, false, data.length);
+								out.write(data);
+								out.flush();
+								waitingForPong = true;
+								lastPingNanotime = System.nanoTime();
+							}
+						}
+						
 					}
 				} catch (InterruptedException e) {
 				} catch (IOException e) { }

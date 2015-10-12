@@ -75,7 +75,7 @@ public class OnScreenDisplay {
 		txtLine = 1;
 		for (PlayerInfo pInfo : serverInfos.playerInfos) {
 			if (displayDetails) {
-				drawAlignedString(g, "Up="+DataSizeUtil.humanReadableByteCount(pInfo.upBandwidth, false)+"/s Down="+DataSizeUtil.humanReadableByteCount(pInfo.downBandwidth, false)+"/s Ping="+pInfo.ping+" - "+pInfo.name+" : "+pInfo.score, TextHorizontalAlign.RIGHT, TextVerticalAlign.BOTTOM, txtLine++);
+				drawAlignedString(g, "Up="+DataSizeUtil.humanReadableByteCount(pInfo.upBandwidth, false)+"/s Down="+DataSizeUtil.humanReadableByteCount(pInfo.downBandwidth, false)+"/s Ping="+(pInfo.ping/1000000)+"ms - "+pInfo.name+" : "+pInfo.score, TextHorizontalAlign.RIGHT, TextVerticalAlign.BOTTOM, txtLine++);
 			}
 			else {
 				drawAlignedString(g, pInfo.name+" : "+pInfo.score, TextHorizontalAlign.RIGHT, TextVerticalAlign.BOTTOM, txtLine++);

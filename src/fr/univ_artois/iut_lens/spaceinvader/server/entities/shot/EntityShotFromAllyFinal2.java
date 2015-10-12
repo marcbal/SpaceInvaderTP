@@ -41,9 +41,12 @@ public class EntityShotFromAllyFinal2 extends EntityShotFromAlly {
 		time++;
 		if(time%duplicationInterval==0 && limitedShip.getNbShotAlive()<limitedShip.getMaxNbShot())  {
 			time = 0;
-			Random r = new Random();
+			Random r = MegaSpaceInvader.RANDOM;
 			for (int i=0; i<nbOfChildPerDuplication; i++) {
-			entitiesManager.add(new EntityShotFromAllyFinal2(new Vector2d(position.x, position.y), speed.add(new Vector2d(r.nextInt(400)-200,r.nextInt(400)-200)), entitiesManager, ship, duplicationInterval, nbOfChildPerDuplication));
+				if (!entitiesManager.add(new EntityShotFromAllyFinal2(new Vector2d(position.x, position.y), speed.add(new Vector2d(r.nextInt(400)-200,r.nextInt(400)-200)), entitiesManager, ship, duplicationInterval, nbOfChildPerDuplication))) {
+					limitedShip.removeAliveShot();
+					break;
+				}
 			}
 		}
 		// colision sur la bordure de l'écran

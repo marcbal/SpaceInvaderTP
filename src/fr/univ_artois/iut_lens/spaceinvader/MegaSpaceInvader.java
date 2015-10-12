@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.nio.charset.Charset;
+import java.util.Random;
 
 import javax.swing.UIManager;
 
@@ -33,11 +34,20 @@ public class MegaSpaceInvader {
 	
 	public static final int SERVER_DEFAULT_PORT = 34567;
 	
+	public static final int SERVER_NB_MAX_ENTITY = 7000;
+	
 	public static final Charset NETWORK_CHARSET = Charset.forName("UTF-8");
 	
 	public static final int NETWORK_TCP_BUFFER_SIZE = 1024*1024;
 	
 	
+	
+	
+	
+	
+	
+	
+	public static final Random RANDOM = new Random();
 	
 	public static void main(String[] args) {
 		shutdownHook();
@@ -67,7 +77,7 @@ public class MegaSpaceInvader {
 		if (launchConfig.serverEnabled) {
 			
 			try {
-				Server.initServer(launchConfig.serverPort);
+				Server.initServer(launchConfig.serverPort, launchConfig.serverScoring);
 			} catch (IOException e) {
 				Logger.severe("Impossible de lancer le serveur :");
 				e.printStackTrace();

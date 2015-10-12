@@ -20,7 +20,7 @@ public class BonusManager {
 	}
 	
 	public void performBonus() {
-		Random r = new Random();
+		Random r = MegaSpaceInvader.RANDOM;
 		
 		int nbPlayer = Server.serverInstance.playerManager.getPlayersCount();
 		

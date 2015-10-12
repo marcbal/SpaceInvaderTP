@@ -14,7 +14,7 @@ public class StrategyMoveEnnemyDisturbed extends StrategyMoveEnnemy {
 	
 	@Override
 	public void performMove(long delta, EntitiesManager entMan) {
-		Random r = new Random();
+		Random r = MegaSpaceInvader.RANDOM;
 		countOfDeath++;
 		
 		

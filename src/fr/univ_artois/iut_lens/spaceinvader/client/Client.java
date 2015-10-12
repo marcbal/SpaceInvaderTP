@@ -28,6 +28,7 @@ import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientCo
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientCommand.Direction;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientDisconnect;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientNextLevel;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientPong;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientTogglePause;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServer;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerCantJoin;
@@ -38,6 +39,7 @@ import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerLe
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerLevelEnd.PlayerScore;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateInfos.GameInfo;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerLevelStart;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerPing;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerProtocolError;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerTogglePause;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateInfos;
@@ -348,6 +350,16 @@ public class Client extends Canvas implements NetworkReceiveListener, Runnable {
 		}
 		else if (packet instanceof PacketServerConnectionOk) {
 			onScreenDisplay.setMiddleMessage("Vous êtes maintenant connecté !");
+		}
+		else if (packet instanceof PacketServerPing) {
+			PacketClientPong pong = new PacketClientPong();
+			pong.setPingId(((PacketServerPing)packet).getPingId());
+			try {
+				connection.send(pong);
+			} catch (IOException e) {
+				Logger.severe("Impossible d'envoyer un pong : "+e);
+				e.printStackTrace();
+			}
 		}
 		else if (packet instanceof PacketServerProtocolError) {
 			gameRunning.set(false);

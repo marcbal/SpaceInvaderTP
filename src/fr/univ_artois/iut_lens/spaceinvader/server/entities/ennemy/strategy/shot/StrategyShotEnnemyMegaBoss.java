@@ -24,7 +24,7 @@ public class StrategyShotEnnemyMegaBoss extends StrategyShotEnnemy {
 	public void performShot(EntitiesManager entMan) {
 		frameCount++;
 		
-		Random r = new Random();
+		Random r = MegaSpaceInvader.RANDOM;
 		
 		// tir du haut de l'écran
 		if (frameCount%400==0)

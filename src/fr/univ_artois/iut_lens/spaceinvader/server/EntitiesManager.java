@@ -13,6 +13,7 @@ import org.apache.commons.collections4.list.TreeList;
 import fr.univ_artois.iut_lens.spaceinvader.MegaSpaceInvader;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.ennemy.EntityEnnemy;
+import fr.univ_artois.iut_lens.spaceinvader.server.entities.shot.EntityShotFromAlly;
 /**
  * Cette classe sert juste à gérer les entitées
  *
@@ -82,17 +83,19 @@ public class EntitiesManager {
 	}
 	
 	
-	public synchronized void add(Entity e) {
+	public synchronized boolean add(Entity e) {
+		if (e instanceof EntityShotFromAlly && size() > MegaSpaceInvader.SERVER_NB_MAX_ENTITY)
+			if (MegaSpaceInvader.RANDOM.nextInt(500) > 1)
+				return false;
 		entities.add(e);
 		idsAddedEntity.add(e.id);
+		return true;
 	}
 	
 	
 	public synchronized void addAll(Collection<? extends Entity> ents) {
-		entities.addAll(ents);
-		for (Entity e : ents) {
-			idsAddedEntity.add(e.id);
-		}
+		for (Entity e : ents)
+			add(e);
 	}
 	
 	

@@ -2,6 +2,7 @@ package fr.univ_artois.iut_lens.spaceinvader.server.entities.ennemy.strategy.sho
 
 import java.util.Random;
 
+import fr.univ_artois.iut_lens.spaceinvader.MegaSpaceInvader;
 import fr.univ_artois.iut_lens.spaceinvader.server.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.ennemy.EntityEnnemy;
@@ -23,7 +24,7 @@ public class StrategyShotEnnemyAimFor extends StrategyShotEnnemy {
 
 	@Override
 	public void performShot(EntitiesManager entMan) {
-		Random r = new Random();
+		Random r = MegaSpaceInvader.RANDOM;
 		// on doit parcourir une copie de l'entityList,
 		// car on rajoute des entité dans l'original, à l'intérieur de cette boucle
 		for(Entity entity : entMan.getEntityListSnapshot()) {

@@ -17,7 +17,7 @@ public class StrategyMoveEnnemyRandom extends StrategyMoveEnnemy {
 
 		frameCount++;
 		
-		Random r = new Random();
+		Random r = MegaSpaceInvader.RANDOM;
 		
 		
 		for(Entity entity : entMan.getEntityListSnapshot())

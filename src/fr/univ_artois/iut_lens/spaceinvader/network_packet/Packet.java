@@ -11,6 +11,7 @@ import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientCo
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientDisconnect;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientJoin;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientNextLevel;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientPong;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientTogglePause;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerCantJoin;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerConnectionOk;
@@ -18,6 +19,7 @@ import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerDi
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerDisconnectTimeout;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerLevelEnd;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerLevelStart;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerPing;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerProtocolError;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerTogglePause;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateInfos;
@@ -91,6 +93,7 @@ public abstract class Packet {
 		addPacket(PacketClientDisconnect.class);
 		addPacket(PacketClientJoin.class);
 		addPacket(PacketClientNextLevel.class);
+		addPacket(PacketClientPong.class);
 		addPacket(PacketClientTogglePause.class);
 		
 		
@@ -101,6 +104,7 @@ public abstract class Packet {
 		addPacket(PacketServerDisconnectTimeout.class);
 		addPacket(PacketServerLevelEnd.class);
 		addPacket(PacketServerLevelStart.class);
+		addPacket(PacketServerPing.class);
 		addPacket(PacketServerProtocolError.class);
 		addPacket(PacketServerTogglePause.class);
 		addPacket(PacketServerUpdateInfos.class);

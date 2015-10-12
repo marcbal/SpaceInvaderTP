@@ -87,7 +87,7 @@ public class Connection {
 					try {
 						interpreteReceivedMessage(packetData);
 					} catch (InvalidClientMessage e) {
-						Logger.severe("Message du client mal formé");
+						Logger.severe("Message du serveur mal formé : "+e);
 					} catch (Exception e) {
 						Logger.severe("Erreur lors de la prise en charge du message par le serveur");
 						e.printStackTrace();

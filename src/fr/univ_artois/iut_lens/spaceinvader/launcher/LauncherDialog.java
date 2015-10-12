@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import fr.univ_artois.iut_lens.spaceinvader.MegaSpaceInvader;
+import fr.univ_artois.iut_lens.spaceinvader.server.Server;
 import fr.univ_artois.iut_lens.spaceinvader.sprites_manager.SpriteStore;
 import fr.univ_artois.iut_lens.spaceinvader.util.WindowUtil;
 
@@ -19,6 +20,7 @@ import javax.swing.JTextField;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
+import java.net.InetAddress;
 import java.text.ParseException;
 import java.util.Random;
 import java.awt.event.ActionEvent;
@@ -30,6 +32,8 @@ import javax.swing.JCheckBox;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 
 @SuppressWarnings("serial")
 public class LauncherDialog extends JFrame {
@@ -37,6 +41,7 @@ public class LauncherDialog extends JFrame {
 	private JTextField textFieldServerAddr;
 	private JTextField textFieldPlayerName;
 	private JCheckBox chckbxLancerLeServeur;
+	private JCheckBox chckbxServerScoring;
 	private JSpinner spinnerServerPort;
 
 
@@ -135,9 +140,9 @@ public class LauncherDialog extends JFrame {
 				serverPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 				GridBagLayout gbl_serverPanel = new GridBagLayout();
 				gbl_serverPanel.columnWidths = new int[] {142, 182, 0};
-				gbl_serverPanel.rowHeights = new int[] {25, 30, 70, 0};
+				gbl_serverPanel.rowHeights = new int[] {25, 30, 30, 30};
 				gbl_serverPanel.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
-				gbl_serverPanel.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+				gbl_serverPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0};
 				serverPanel.setLayout(gbl_serverPanel);
 				{
 					chckbxLancerLeServeur = new JCheckBox("Lancer le serveur local");
@@ -180,17 +185,41 @@ public class LauncherDialog extends JFrame {
 					serverPanel.add(spinnerServerPort, gbc_spinnerServerPort);
 				}
 				{
-					JLabel lblNewLabel_1 = new JLabel("<html><b>Liste des adresses IP de cet ordinateur</b><br/><i>Non implémenté ..</i></html>");
-					lblNewLabel_1.setVerticalAlignment(SwingConstants.TOP);
-					lblNewLabel_1.setHorizontalAlignment(SwingConstants.LEFT);
-					GridBagConstraints gbc_lblNewLabel_1 = new GridBagConstraints();
-					gbc_lblNewLabel_1.fill = GridBagConstraints.BOTH;
-					gbc_lblNewLabel_1.gridwidth = 2;
-					gbc_lblNewLabel_1.insets = new Insets(0, 0, 0, 5);
-					gbc_lblNewLabel_1.gridx = 0;
-					gbc_lblNewLabel_1.gridy = 2;
-					serverPanel.add(lblNewLabel_1, gbc_lblNewLabel_1);
+					chckbxServerScoring = new JCheckBox("Activer le scoring");
+					chckbxServerScoring.setSelected(false);
+					GridBagConstraints gbc_chckbxLancerLeServeur = new GridBagConstraints();
+					gbc_chckbxLancerLeServeur.gridwidth = 2;
+					gbc_chckbxLancerLeServeur.fill = GridBagConstraints.BOTH;
+					gbc_chckbxLancerLeServeur.insets = new Insets(0, 0, 5, 0);
+					gbc_chckbxLancerLeServeur.gridx = 0;
+					gbc_chckbxLancerLeServeur.gridy = 2;
+					serverPanel.add(chckbxServerScoring, gbc_chckbxLancerLeServeur);
 				}
+				{
+					JScrollPane scrollPane = new JScrollPane();
+					scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+					GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+					gbc_scrollPane.gridwidth = 2;
+					gbc_scrollPane.fill = GridBagConstraints.BOTH;
+					gbc_scrollPane.gridx = 0;
+					gbc_scrollPane.gridy = 3;
+					serverPanel.add(scrollPane, gbc_scrollPane);
+					{
+						
+						String IPAdressesList = "<html><b>Liste des adresses IP de cet ordinateur</b><br/>";
+						for (InetAddress addr : Server.getAllNetworkInterfacesAddress()) {
+							IPAdressesList += addr+"<br/>";
+						}
+						IPAdressesList += "</html>";
+						
+						
+						JLabel lblNewLabel_1 = new JLabel(IPAdressesList);
+						lblNewLabel_1.setVerticalAlignment(SwingConstants.TOP);
+						lblNewLabel_1.setHorizontalAlignment(SwingConstants.LEFT);
+						scrollPane.setViewportView(lblNewLabel_1);
+					}
+				}
+					
 			}
 		}
 		{
@@ -273,6 +302,7 @@ public class LauncherDialog extends JFrame {
 		config.serverEnabled = chckbxLancerLeServeur.isSelected();
 		if (config.serverEnabled) {
 			config.serverPort = (Integer) spinnerServerPort.getValue();
+			config.serverScoring = chckbxServerScoring.isSelected();
 		}
 		
 		
@@ -318,7 +348,7 @@ public class LauncherDialog extends JFrame {
 	 */
 	private static final String LETTERS = "azertyuiopmlkjhgfdsqwxcvbn";
 	private static final String NUMBERS = "0123456789";
-	private static Random rnd = new Random();
+	private static Random rnd = MegaSpaceInvader.RANDOM;
 
 	public static String randomString( int len , String chars){
 	   StringBuilder sb = new StringBuilder( len );
@@ -334,6 +364,7 @@ public class LauncherDialog extends JFrame {
 	public class LaunchingConfiguration {
 		public boolean serverEnabled;
 		public int serverPort;
+		public boolean serverScoring;
 		public boolean clientEnabled;
 		public String clientConnectionAddress;
 		public String clientPlayerName;

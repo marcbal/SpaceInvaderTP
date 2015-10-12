@@ -41,9 +41,9 @@ public class Server extends Thread {
 	
 	public static Server serverInstance = null;
 	
-	public static void initServer(int port) throws IOException {
+	public static void initServer(int port, boolean scoring) throws IOException {
 		if (serverInstance == null) {
-			serverInstance = new Server(port);
+			serverInstance = new Server(port, scoring);
 			serverInstance.start();
 		}
 	}
@@ -78,8 +78,10 @@ public class Server extends Thread {
 	private ExecutorService threadPacketPool = Executors.newFixedThreadPool(1);
 	private Future<?> threadPacketFuture = null;
 	
+	public final boolean scoringEnabled;
 	
-	private Server(int port) throws IOException {
+	
+	private Server(int port, boolean scoring) throws IOException {
 		super("Server");
 		Logger.info("Initialisation du serveur Méga Space Invader sur le port "+port+" ...");
 		
@@ -88,6 +90,8 @@ public class Server extends Thread {
 		playerManager = new PlayerManager();
 		
 		serverConnection.setListener(playerManager);
+		
+		scoringEnabled = scoring;
 	}
 	
 	
@@ -355,7 +359,7 @@ public class Server extends Thread {
 	}
 
 	public PacketServerUpdateMap createPartialUpdateMapPacket() {
-		Random r = new Random();
+		Random r = MegaSpaceInvader.RANDOM;
 		MapData mapData = new MapData();
 		
 		mapData.spritesData = SpriteStore.get().getSpritesId(true);
@@ -418,7 +422,7 @@ public class Server extends Thread {
 		for (Player p : players) {
 			PlayerInfo pInfo = new PlayerInfo();
 			pInfo.name = p.name;
-			pInfo.ping = 0; // TODO définir le ping
+			pInfo.ping = p.getConnection().getPing();
 			pInfo.score = p.getScore();
 			pInfo.upBandwidth = serverConnection.bandwidthCalculation.getBandWidth(false, p.getConnection());
 			pInfo.downBandwidth = serverConnection.bandwidthCalculation.getBandWidth(true, p.getConnection());

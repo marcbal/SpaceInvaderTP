@@ -1,7 +1,5 @@
 package fr.univ_artois.iut_lens.spaceinvader.server.entities.shot;
 
-import java.util.Random;
-
 import fr.univ_artois.iut_lens.spaceinvader.MegaSpaceInvader;
 import fr.univ_artois.iut_lens.spaceinvader.server.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.server.Server;
@@ -31,10 +29,15 @@ public class EntityShotFromAllyFinal extends EntityShotFromAlly {
 		time++;
 		if(time%20==0 && limitedShip.getNbShotAlive()<limitedShip.getMaxNbShot())  {
 			time = 0;
-			entitiesManager.add(new EntityShotFromAllyFinal(new Vector2d(position.x, position.y), speed.add(new Vector2d(-500,new Random().nextInt(1000)-500)).minLength(300), entitiesManager, ship));
-			entitiesManager.add(new EntityShotFromAllyFinal(new Vector2d(position.x, position.y), speed.add(new Vector2d(500,new Random().nextInt(1000)-500)).minLength(300), entitiesManager, ship));
-			entitiesManager.add(new EntityShotFromAllyFinal(new Vector2d(position.x, position.y), speed.add(new Vector2d(new Random().nextInt(1000)-500,-500)).minLength(300), entitiesManager, ship));
-			entitiesManager.add(new EntityShotFromAllyFinal(new Vector2d(position.x, position.y), speed.add(new Vector2d(new Random().nextInt(1000)-500,500)).minLength(300), entitiesManager, ship));
+			
+			if (!entitiesManager.add(new EntityShotFromAllyFinal(new Vector2d(position.x, position.y), speed.add(new Vector2d(-500,MegaSpaceInvader.RANDOM.nextInt(1000)-500)).minLength(300), entitiesManager, ship)))
+				limitedShip.removeAliveShot();
+			if (!entitiesManager.add(new EntityShotFromAllyFinal(new Vector2d(position.x, position.y), speed.add(new Vector2d(500,MegaSpaceInvader.RANDOM.nextInt(1000)-500)).minLength(300), entitiesManager, ship)))
+				limitedShip.removeAliveShot();
+			if (!entitiesManager.add(new EntityShotFromAllyFinal(new Vector2d(position.x, position.y), speed.add(new Vector2d(MegaSpaceInvader.RANDOM.nextInt(1000)-500,-500)).minLength(300), entitiesManager, ship)))
+				limitedShip.removeAliveShot();
+			if (!entitiesManager.add(new EntityShotFromAllyFinal(new Vector2d(position.x, position.y), speed.add(new Vector2d(MegaSpaceInvader.RANDOM.nextInt(1000)-500,500)).minLength(300), entitiesManager, ship)))
+				limitedShip.removeAliveShot();
 		}
 		
 		// colision sur la bordure de l'écran
