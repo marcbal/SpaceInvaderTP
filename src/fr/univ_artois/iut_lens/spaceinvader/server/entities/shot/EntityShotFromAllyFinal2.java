@@ -5,26 +5,30 @@ import java.util.Random;
 import fr.univ_artois.iut_lens.spaceinvader.MegaSpaceInvader;
 import fr.univ_artois.iut_lens.spaceinvader.server.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.Entity;
+import fr.univ_artois.iut_lens.spaceinvader.server.entities.ship.EntityShip;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.ship.ShipLimitedShot;
 import fr.univ_artois.iut_lens.spaceinvader.util.TargettingUtil;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
 public class EntityShotFromAllyFinal2 extends EntityShotFromAlly {
 	private long time = 0;
-	private final ShipLimitedShot ship;
 	private long duplicationInterval;
 	private int nbOfChildPerDuplication;
 
 	private Entity target = null;
 	
+	private ShipLimitedShot limitedShip;
+	
 	
 	public EntityShotFromAllyFinal2(Vector2d p, Vector2d s,
-			EntitiesManager eM, ShipLimitedShot ship, long dupInterval, int nbOfChild) {
-		super("sprites/shotFinal.png", p, 10, 2, s, eM);
-		this.ship = ship;
+			EntitiesManager eM, EntityShip ship, long dupInterval, int nbOfChild) {
+		super("sprites/shotFinal.png", p, 10, 2, s, eM, ship);
+		if (!(ship instanceof ShipLimitedShot))
+			throw new ClassCastException("le vaisseau associé à ce tir doit être un vaisseau à tir actif limité (implements ShipLimitedShot)");
+		limitedShip = (ShipLimitedShot)ship;
 		duplicationInterval = dupInterval;
 		nbOfChildPerDuplication = nbOfChild;
-		ship.addAliveShot();
+		limitedShip.addAliveShot();
 	}
 	
 	public void move(long delta) {
@@ -35,7 +39,7 @@ public class EntityShotFromAllyFinal2 extends EntityShotFromAlly {
 		
 		super.move(delta);
 		time++;
-		if(time%duplicationInterval==0 && ship.getNbShotAlive()<ship.getMaxNbShot())  {
+		if(time%duplicationInterval==0 && limitedShip.getNbShotAlive()<limitedShip.getMaxNbShot())  {
 			time = 0;
 			Random r = new Random();
 			for (int i=0; i<nbOfChildPerDuplication; i++) {
@@ -64,6 +68,6 @@ public class EntityShotFromAllyFinal2 extends EntityShotFromAlly {
 	
 	@Override
 	public void willDie() {
-		ship.removeAliveShot();
+		limitedShip.removeAliveShot();
 	}
 }

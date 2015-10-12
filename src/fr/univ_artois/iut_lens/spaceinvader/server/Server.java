@@ -231,7 +231,7 @@ public class Server extends Thread {
 		for (Player p : playerManager.getPlayersSnapshot()) {
 			PlayerScore sc = new PlayerScore();
 			sc.playerName = p.name;
-			sc.score = 0; // TODO définir le score
+			sc.score = p.getScore();
 			scores.add(sc);
 		}
 		setLevelEndScore(scores);
@@ -419,7 +419,7 @@ public class Server extends Thread {
 			PlayerInfo pInfo = new PlayerInfo();
 			pInfo.name = p.name;
 			pInfo.ping = 0; // TODO définir le ping
-			pInfo.score = 0; // TODO définir le score
+			pInfo.score = p.getScore();
 			pInfo.upBandwidth = serverConnection.bandwidthCalculation.getBandWidth(false, p.getConnection());
 			pInfo.downBandwidth = serverConnection.bandwidthCalculation.getBandWidth(true, p.getConnection());
 			playersInfo.add(pInfo);

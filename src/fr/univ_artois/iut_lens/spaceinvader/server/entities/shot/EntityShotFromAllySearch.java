@@ -2,6 +2,7 @@ package fr.univ_artois.iut_lens.spaceinvader.server.entities.shot;
 
 import fr.univ_artois.iut_lens.spaceinvader.server.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.Entity;
+import fr.univ_artois.iut_lens.spaceinvader.server.entities.ship.EntityShip;
 import fr.univ_artois.iut_lens.spaceinvader.util.TargettingUtil;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
@@ -12,8 +13,8 @@ public class EntityShotFromAllySearch extends EntityShotFromAlly {
 	private int maxSpeed = 500;
 	private int minSpeed = 250;
 
-	public EntityShotFromAllySearch(Vector2d p, Vector2d s, EntitiesManager eM) {
-		super("sprites/shot_search.png", p, 20, 5, s, eM);
+	public EntityShotFromAllySearch(Vector2d p, Vector2d s, EntitiesManager eM, EntityShip ship) {
+		super("sprites/shot_search.png", p, 20, 5, s, eM, ship);
 	}
 	
 	

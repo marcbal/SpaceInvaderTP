@@ -5,6 +5,7 @@ import fr.univ_artois.iut_lens.spaceinvader.server.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.server.Server;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.ennemy.EntityEnnemy;
+import fr.univ_artois.iut_lens.spaceinvader.server.entities.ship.EntityShip;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
 /**
@@ -15,6 +16,8 @@ import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 public abstract class EntityShotFromAlly  extends EntityShot{
 	/** The vertical speed at which the players shot moves */
 	
+	protected EntityShip ship;
+	
 	/**
 	 * Create a new shot from the player
 	 * 
@@ -24,8 +27,9 @@ public abstract class EntityShotFromAlly  extends EntityShot{
 	 * @param d Degats
 	 * @param s Speed vector
 	 */
-	public EntityShotFromAlly(String sprite,Vector2d p, int d, int l, Vector2d s, EntitiesManager eM) {
+	public EntityShotFromAlly(String sprite,Vector2d p, int d, int l, Vector2d s, EntitiesManager eM, EntityShip ship) {
 		super(sprite,p,d,l,s,eM);
+		this.ship = ship;
 	}
 	
 	
@@ -35,6 +39,7 @@ public abstract class EntityShotFromAlly  extends EntityShot{
 		
 		// if we've hit an alien, kill it!
 		if (other instanceof EntityEnnemy) {
+			ship.associatedShipManager.getPlayer().addScore(getDegat());
 			
 			// remove the affected entities
 			entitiesManager.remove(this);
@@ -47,6 +52,7 @@ public abstract class EntityShotFromAlly  extends EntityShot{
 
 		//Si deux tirs se touchent (les 2 tirs dans les camps différents)
 		if(other instanceof EntityShotFromEnnemy) {
+			ship.associatedShipManager.getPlayer().addScore(1);
 			if (receiveDegat((EntityShot) other))
 			{
 				entitiesManager.remove(this);

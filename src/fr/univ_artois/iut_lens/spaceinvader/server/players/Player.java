@@ -18,6 +18,8 @@ public class Player {
 	
 	private ShipManager shipManager = new ShipManager(Server.serverInstance.entitiesManager, this);
 	
+	private long score = 0;
+	
 	// ship command
 	private Direction shipDirection = Direction.NONE;
 	private boolean shipSooting = false;
@@ -92,6 +94,11 @@ public class Player {
 	public void die() {
 		dead.set(true);
 		shipManager.decreaseShipType();
+		Server.serverInstance.entitiesManager.remove(shipManager.getCurrentShip());
+		if (score > 100)
+			score /= 2;
+		else
+			score -= 50;
 	}
 	
 	public void initNewLevel() {
@@ -100,7 +107,11 @@ public class Player {
 		setShipDirection(Direction.NONE);
 	}
 	
+	public long getScore() { return score; }
 	
+	public void addScore(long val) { score += val; }
+	
+	public void removeScore(long val) { score -= val; }
 	
 	
 }

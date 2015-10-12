@@ -3,6 +3,7 @@ package fr.univ_artois.iut_lens.spaceinvader.server.entities.bonuses;
 import fr.univ_artois.iut_lens.spaceinvader.server.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.ship.EntityShip;
+import fr.univ_artois.iut_lens.spaceinvader.server.players.ShipManager;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
 public class EntityBonusPowerDown extends EntityBonus {
@@ -13,8 +14,10 @@ public class EntityBonusPowerDown extends EntityBonus {
 	
 	public synchronized void collidedWith(Entity other) {
 		if(other instanceof EntityShip) {
-			((EntityShip)other).associatedShipManager.decreaseShipType();
+			ShipManager shipMan = ((EntityShip)other).associatedShipManager;
+			shipMan.decreaseShipType();
 			entitiesManager.remove(this);
+			shipMan.getPlayer().removeScore(20*(shipMan.getCurrentShipIndex()+1));
 		}
 	}
 

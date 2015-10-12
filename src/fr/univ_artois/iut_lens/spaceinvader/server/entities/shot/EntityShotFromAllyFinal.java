@@ -7,25 +7,29 @@ import fr.univ_artois.iut_lens.spaceinvader.server.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.server.Server;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.ennemy.EntityEnnemy;
+import fr.univ_artois.iut_lens.spaceinvader.server.entities.ship.EntityShip;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.ship.ShipLimitedShot;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
 public class EntityShotFromAllyFinal extends EntityShotFromAlly {
 	long time = 0;
-	private final ShipLimitedShot ship;
+	
+	private ShipLimitedShot limitedShip;
 	
 	
 	public EntityShotFromAllyFinal(Vector2d p, Vector2d s,
-			EntitiesManager eM, ShipLimitedShot ship) {
-		super("sprites/UnderComplexShot.png", p, 10, 2, s, eM);
-		this.ship = ship;
-		ship.addAliveShot();
+			EntitiesManager eM, EntityShip ship) {
+		super("sprites/UnderComplexShot.png", p, 10, 2, s, eM, ship);
+		if (!(ship instanceof ShipLimitedShot))
+			throw new ClassCastException("le vaisseau associé à ce tir doit être un vaisseau à tir actif limité (implements ShipLimitedShot)");
+		limitedShip = (ShipLimitedShot)ship;
+		limitedShip.addAliveShot();
 	}
 	
 	public void move(long delta) {
 		super.move(delta);
 		time++;
-		if(time%20==0 && ship.getNbShotAlive()<ship.getMaxNbShot())  {
+		if(time%20==0 && limitedShip.getNbShotAlive()<limitedShip.getMaxNbShot())  {
 			time = 0;
 			entitiesManager.add(new EntityShotFromAllyFinal(new Vector2d(position.x, position.y), speed.add(new Vector2d(-500,new Random().nextInt(1000)-500)).minLength(300), entitiesManager, ship));
 			entitiesManager.add(new EntityShotFromAllyFinal(new Vector2d(position.x, position.y), speed.add(new Vector2d(500,new Random().nextInt(1000)-500)).minLength(300), entitiesManager, ship));
@@ -61,6 +65,7 @@ public class EntityShotFromAllyFinal extends EntityShotFromAlly {
 		
 		// if we've hit an alien, kill it!
 		if (other instanceof EntityEnnemy) {
+			ship.associatedShipManager.getPlayer().addScore(getDegat());
 			// other prends les dégats donnés par le tir
 			if (other.receiveDegat(this)) {
 				// notify the game that the alien has been killed
@@ -70,6 +75,7 @@ public class EntityShotFromAllyFinal extends EntityShotFromAlly {
 
 		//Si deux tirs se touchent (les 2 tirs dans les camps différents)
 		if(other instanceof EntityShotFromEnnemy) {
+			ship.associatedShipManager.getPlayer().addScore(1);
 			entitiesManager.remove(other);
 		}
 	}
@@ -77,6 +83,6 @@ public class EntityShotFromAllyFinal extends EntityShotFromAlly {
 	
 	@Override
 	public void willDie() {
-		ship.removeAliveShot();
+		limitedShip.removeAliveShot();
 	}
 }

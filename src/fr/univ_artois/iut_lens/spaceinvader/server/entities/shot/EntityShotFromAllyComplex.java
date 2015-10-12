@@ -4,20 +4,21 @@ import fr.univ_artois.iut_lens.spaceinvader.server.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.server.Server;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.ennemy.EntityEnnemy;
+import fr.univ_artois.iut_lens.spaceinvader.server.entities.ship.EntityShip;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
 public class EntityShotFromAllyComplex extends EntityShotFromAlly {
 
 	double i = 0;
 	double tourParSeconde = 4;
-	public EntityShotFromAllyComplex(Vector2d p, EntitiesManager eM) {
-		super("sprites/ComplexShot.png", p, 50, 50, new Vector2d(0, -50), eM);
+	public EntityShotFromAllyComplex(Vector2d p, EntitiesManager eM, EntityShip ship) {
+		super("sprites/ComplexShot.png", p, 50, 50, new Vector2d(0, -50), eM, ship);
 	}
 	
 	public void move(long delta) {
 		super.move(delta);
-		entitiesManager.add(new EntityShotFromAllySubComplex(new Vector2d(position.x+getBoundingBox().width/2.0-5, position.y+getBoundingBox().height/2.0-5), new Vector2d((Math.cos(i)*300),(Math.sin(i)*300)), entitiesManager));
-		entitiesManager.add(new EntityShotFromAllySubComplex2(new Vector2d(position.x+getBoundingBox().width/2.0-5, position.y+getBoundingBox().height/2.0-5), new Vector2d((Math.cos(Math.PI+i)*300),(Math.sin(Math.PI+i)*300)), entitiesManager));
+		entitiesManager.add(new EntityShotFromAllySubComplex(new Vector2d(position.x+getBoundingBox().width/2.0-5, position.y+getBoundingBox().height/2.0-5), new Vector2d((Math.cos(i)*300),(Math.sin(i)*300)), entitiesManager, ship));
+		entitiesManager.add(new EntityShotFromAllySubComplex2(new Vector2d(position.x+getBoundingBox().width/2.0-5, position.y+getBoundingBox().height/2.0-5), new Vector2d((Math.cos(Math.PI+i)*300),(Math.sin(Math.PI+i)*300)), entitiesManager, ship));
 		
 		i += tourParSeconde*2*Math.PI*(delta/1000000000D);
 	}
