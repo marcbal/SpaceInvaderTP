@@ -10,8 +10,9 @@ import javax.swing.UIManager;
 
 import fr.univ_artois.iut_lens.spaceinvader.client.Client;
 import fr.univ_artois.iut_lens.spaceinvader.launcher.CommandArgsParser;
+import fr.univ_artois.iut_lens.spaceinvader.launcher.ConfigurationSaver;
 import fr.univ_artois.iut_lens.spaceinvader.launcher.LauncherDialog;
-import fr.univ_artois.iut_lens.spaceinvader.launcher.LauncherDialog.LaunchingConfiguration;
+import fr.univ_artois.iut_lens.spaceinvader.launcher.LaunchingConfiguration;
 import fr.univ_artois.iut_lens.spaceinvader.server.Server;
 import fr.univ_artois.iut_lens.spaceinvader.util.Logger;
 
@@ -84,10 +85,19 @@ public class MegaSpaceInvader {
 		// si la ligne de commande ne donne rien de concluant, affichage du launcher.
 		if (launchConfig == null) {
 			LauncherDialog diag = new LauncherDialog();
+			
+			ConfigurationSaver saver = new ConfigurationSaver();
+			
+			LaunchingConfiguration savedConfig = saver.getConfigFromFile();
+			if (savedConfig != null)
+			diag.applyConfiguration(savedConfig);
+			
 			diag.waitForDispose();
 			// si le launcher est fermé avec "Annuler" ou la croix fermé, le programme est quitté
 			
 			launchConfig = diag.generateConfig();
+			
+			saver.saveConfiguration(launchConfig);
 		}
 		
 		

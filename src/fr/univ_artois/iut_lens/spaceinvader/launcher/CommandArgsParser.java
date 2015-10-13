@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import fr.univ_artois.iut_lens.spaceinvader.MegaSpaceInvader;
-import fr.univ_artois.iut_lens.spaceinvader.launcher.LauncherDialog.LaunchingConfiguration;
 
 public class CommandArgsParser {
 	

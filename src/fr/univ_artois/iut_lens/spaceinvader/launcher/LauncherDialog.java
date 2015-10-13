@@ -257,12 +257,14 @@ public class LauncherDialog extends JFrame {
 		if (chckbxLancerLeClient.isSelected())
 			textFieldServerAddr.setEnabled(true);
 		spinnerServerPort.setEnabled(false);
+		chckbxServerScoring.setEnabled(false);
 	}
 	
 	private void enableInternalServer() {
 		textFieldServerAddr.setEnabled(false);
 		spinnerServerPort.setEnabled(true);
 		textFieldServerAddr.setText("localhost:"+spinnerServerPort.getValue());
+		chckbxServerScoring.setEnabled(true);
 	}
 	
 	private void changeServerPortValue() {
@@ -357,17 +359,26 @@ public class LauncherDialog extends JFrame {
 	   return sb.toString();
 	}
 	// -----------------------------------
-	
-	
-	
-	
-	public static class LaunchingConfiguration {
-		public boolean serverEnabled;
-		public int serverPort;
-		public boolean serverScoring;
-		public boolean clientEnabled;
-		public String clientConnectionAddress;
-		public String clientPlayerName;
+
+
+
+
+	public void applyConfiguration(LaunchingConfiguration savedConfig) {
+		
+		if (chckbxLancerLeClient.isSelected() != savedConfig.clientEnabled)
+			chckbxLancerLeClient.setSelected(savedConfig.clientEnabled);
+		if (savedConfig.clientEnabled) {
+			textFieldPlayerName.setText(savedConfig.clientPlayerName);
+			if (!savedConfig.serverEnabled)
+				textFieldServerAddr.setText(savedConfig.clientConnectionAddress);
+		}
+		
+		if (chckbxLancerLeServeur.isSelected() != savedConfig.serverEnabled)
+			chckbxLancerLeServeur.setSelected(savedConfig.serverEnabled);
+		if (savedConfig.serverEnabled) {
+			chckbxServerScoring.setSelected(savedConfig.serverScoring);
+			spinnerServerPort.setValue(new Integer(savedConfig.serverPort));
+		}
 	}
 
 }
