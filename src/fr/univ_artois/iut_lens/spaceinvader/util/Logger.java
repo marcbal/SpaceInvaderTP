@@ -1,13 +1,13 @@
 package fr.univ_artois.iut_lens.spaceinvader.util;
 
-import java.util.ArrayList;
-import java.util.List;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerLog;
+import fr.univ_artois.iut_lens.spaceinvader.server.Server;
 
 public class Logger {
 	
 	
 	
-	private static final List<String> messages = new ArrayList<String>();
+	// private static final List<String> messages = new ArrayList<String>();
 	
 
 	public synchronized static void info(String message) {
@@ -28,11 +28,17 @@ public class Logger {
 	
 	private static void log(Level l, String message) {
 		String line = "["+Thread.currentThread().getName()+"] ["+l.name()+"] "+message;
-		messages.add(line);
+		// messages.add(line);
 		if (l == Level.INFO)
 			System.out.println(line);
 		else
 			System.err.println(line);
+		
+		try {
+			PacketServerLog packet = new PacketServerLog();
+			packet.setMessage(line);
+			Server.serverInstance.playerManager.sendToAll(packet);
+		} catch(Exception e) {  }
 	}
 	
 	

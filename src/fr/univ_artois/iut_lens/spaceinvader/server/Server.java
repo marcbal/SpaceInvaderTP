@@ -443,6 +443,9 @@ public class Server extends Thread {
 			globalGameInfos.maxTPS = MegaSpaceInvader.SERVER_TICK_PER_SECOND;
 			globalGameInfos.currentTickTime = currentLoopDuration;
 			globalGameInfos.playerInfos = playersInfo;
+			globalGameInfos.maxMem = Runtime.getRuntime().maxMemory();
+			globalGameInfos.allocMem = Runtime.getRuntime().totalMemory();
+			globalGameInfos.freeMem = Runtime.getRuntime().freeMemory();
 			
 			// spécifique au joueur
 			int[] shipProg = p.getShipManager().getShipProgress();

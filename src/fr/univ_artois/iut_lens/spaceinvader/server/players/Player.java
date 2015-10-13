@@ -102,10 +102,12 @@ public class Player {
 		dead.set(true);
 		shipManager.decreaseShipType();
 		Server.serverInstance.entitiesManager.remove(shipManager.getCurrentShip());
-		if (score > 100)
-			score /= 2;
-		else
-			score -= 50;
+		if (Server.serverInstance.scoringEnabled) {
+			if (score > 100)
+				score /= 2;
+			else
+				score -= 50;
+		}
 		Logger.info(name+" was killed by an ennemy.");
 	}
 	

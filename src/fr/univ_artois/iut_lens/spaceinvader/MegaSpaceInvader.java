@@ -9,6 +9,7 @@ import java.util.Random;
 import javax.swing.UIManager;
 
 import fr.univ_artois.iut_lens.spaceinvader.client.Client;
+import fr.univ_artois.iut_lens.spaceinvader.launcher.CommandArgsParser;
 import fr.univ_artois.iut_lens.spaceinvader.launcher.LauncherDialog;
 import fr.univ_artois.iut_lens.spaceinvader.launcher.LauncherDialog.LaunchingConfiguration;
 import fr.univ_artois.iut_lens.spaceinvader.server.Server;
@@ -49,6 +50,16 @@ public class MegaSpaceInvader {
 	
 	public static final Random RANDOM = new Random();
 	
+	// paramètres : [-s [PORT_NUMBER [score]]] [-c NICKNAME [SERVER_ADDR:PORT]]
+	/*
+	 * -s : activer le serveur local
+	 * 		PORT_NUMBER : numéro de port attribué au serveur (par défaut 34567)
+	 * 		'score' pour activer le système de score (désactivé par défaut)
+	 * -c : activer le client local
+	 * 		NICKNAME le pseudo du joueur
+	 * 		SERVER_ADDR:PORT : adresse de connexion au serveur. Ignoré si le serveur local est démarré, obligatoire sinon.
+	 */
+	
 	public static void main(String[] args) {
 		shutdownHook();
 		Thread.currentThread().setName("Main");
@@ -61,15 +72,23 @@ public class MegaSpaceInvader {
 			e.printStackTrace();
 		}
 		
+		LaunchingConfiguration launchConfig = null;
 		
+		// analyse de la ligne de commande.
+		try {
+			launchConfig = CommandArgsParser.getConfigurationFromArgs(args);
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
 		
-		
-		LauncherDialog diag = new LauncherDialog();
-		diag.waitForDispose();
-		
-		LaunchingConfiguration launchConfig = diag.generateConfig();
-		
-		
+		// si la ligne de commande ne donne rien de concluant, affichage du launcher.
+		if (launchConfig == null) {
+			LauncherDialog diag = new LauncherDialog();
+			diag.waitForDispose();
+			// si le launcher est fermé avec "Annuler" ou la croix fermé, le programme est quitté
+			
+			launchConfig = diag.generateConfig();
+		}
 		
 		
 		

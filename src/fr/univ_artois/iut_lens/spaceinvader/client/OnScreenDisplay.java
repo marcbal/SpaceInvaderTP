@@ -2,7 +2,10 @@ package fr.univ_artois.iut_lens.spaceinvader.client;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.util.Queue;
 import java.util.concurrent.atomic.AtomicReference;
+
+import org.apache.commons.collections4.queue.CircularFifoQueue;
 
 import fr.univ_artois.iut_lens.spaceinvader.MegaSpaceInvader;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateInfos.GameInfo;
@@ -12,6 +15,8 @@ import fr.univ_artois.iut_lens.spaceinvader.util.DataSizeUtil;
 public class OnScreenDisplay {
 	
 	private KeyInputHandler keyHandler = Client.instance.getKeyInputHandler();
+	
+	private Queue<String> logLines = new CircularFifoQueue<String>(10);
 	
 	/** The message to display which waiting for a key press */
 	private AtomicReference<String> middleMessage = new AtomicReference<String>("");
@@ -25,7 +30,11 @@ public class OnScreenDisplay {
 	
 	
 	
-	
+	public void addLogLine(String line) {
+		synchronized (logLines) {
+			logLines.add(line);
+		}
+	}
 	
 	
 	
@@ -60,8 +69,15 @@ public class OnScreenDisplay {
 			drawAlignedString(g, "Par Maxime Maroine et Marc Baloup, DUT Informatique, IUT de Lens, 2014-2015", TextHorizontalAlign.LEFT, TextVerticalAlign.TOP, 0);
 			drawAlignedString(g, "Sources : https://github.com/marcbal/SpaceInvaderTP", TextHorizontalAlign.LEFT, TextVerticalAlign.TOP, 1);
 
+			long maxMem = Runtime.getRuntime().maxMemory();
+			long allocMem = Runtime.getRuntime().totalMemory();
+			long freeMem = Runtime.getRuntime().freeMemory();
+			drawAlignedString(g, "Mémoire client : Utilisée="+DataSizeUtil.humanReadableByteCount(allocMem - freeMem, false)+
+					" Allouée="+DataSizeUtil.humanReadableByteCount(allocMem, false)+
+					" Maxi="+DataSizeUtil.humanReadableByteCount(maxMem, false), TextHorizontalAlign.LEFT, TextVerticalAlign.TOP, 2);
+			
 			int fpsGraphique = (int) Math.min(MegaSpaceInvader.CLIENT_FRAME_PER_SECOND, (1000000000/client.displayFrameDuration.get()));
-			drawAlignedString(g, "Framerate : "+fpsGraphique+"/s", TextHorizontalAlign.LEFT, TextVerticalAlign.TOP, 2);
+			drawAlignedString(g, "Framerate : "+fpsGraphique+"/s", TextHorizontalAlign.LEFT, TextVerticalAlign.TOP, 3);
 
 		}
 		
@@ -93,7 +109,19 @@ public class OnScreenDisplay {
 			int nbEntities = serverInfos.nbEntity;
 			drawAlignedString(g, "Threads collisions : "+serverInfos.nbCollisionThreads+" - Tickrate : "+fpsLogique+"/s - Nombre d'entité : "+nbEntities, TextHorizontalAlign.LEFT, TextVerticalAlign.BOTTOM, 0);
 			
-			// TODO afficher le log du serveur
+			
+			drawAlignedString(g, "Mémoire serveur : Utilisée="+DataSizeUtil.humanReadableByteCount(serverInfos.allocMem - serverInfos.freeMem, false)+
+					" Allouée="+DataSizeUtil.humanReadableByteCount(serverInfos.allocMem, false)+
+					" Maxi="+DataSizeUtil.humanReadableByteCount(serverInfos.maxMem, false), TextHorizontalAlign.LEFT, TextVerticalAlign.BOTTOM, 1);
+			
+			synchronized (logLines) {
+				int numLine = 1+logLines.size();
+				for (String line : logLines) {
+					drawAlignedString(g, line, TextHorizontalAlign.LEFT, TextVerticalAlign.BOTTOM, numLine--);
+				}
+				
+			}
+			
 		}
 	}
 	

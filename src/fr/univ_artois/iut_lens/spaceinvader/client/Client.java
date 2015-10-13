@@ -39,6 +39,7 @@ import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerLe
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerLevelEnd.PlayerScore;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateInfos.GameInfo;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerLevelStart;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerLog;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerPing;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerProtocolError;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerTogglePause;
@@ -62,7 +63,7 @@ import fr.univ_artois.iut_lens.spaceinvader.util.WindowUtil;
  * detect events (e.g. alient killed, played died) and will take
  * appropriate game actions.
  * 
- * @author Kevin Glass (original), Marc Baloup, Maxime Maroine
+ * @author Kevin Glass (original), Maxime Maroine, Marc Baloup
  */
 public class Client extends Canvas implements NetworkReceiveListener, Runnable {
 	private static final long serialVersionUID = 1L;
@@ -401,8 +402,11 @@ public class Client extends Canvas implements NetworkReceiveListener, Runnable {
 			keyHandler.manualToggle("pause",pause);
 			serverSidePause.set(pause);
 		}
+		else if (packet instanceof PacketServerLog) {
+			onScreenDisplay.addLogLine(((PacketServerLog)packet).getMessage());
+		}
 		else
-			throw new InvalidServerMessage("Le packet n'est pas prise en charge");
+			throw new InvalidServerMessage("Le packet n'est pas prise en charge : "+packet.getClass().getName());
 	}
 	
 	

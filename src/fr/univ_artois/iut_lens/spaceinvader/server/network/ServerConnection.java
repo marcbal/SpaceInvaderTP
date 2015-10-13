@@ -56,6 +56,7 @@ import fr.univ_artois.iut_lens.spaceinvader.util.Logger;
  *  <li><code>0x42:</code> lance un nouveau niveau. Réinitialise le contenu de la map : vide la liste des entités côté client</li>
  *  <li><code>0x43:</code> envoi/mise à jour des données d'entités (ajout / déplacement / suppression) et des sprites</li>
  *  <li><code>0x44:</code> envoi/mise à jour des infos de la partie</li>
+ *  <li><code>0x4C:</code> log</li>
  *  <li><code>0x4D:</code> ping</li>
  *  <li><code>0x4E:</code> Fin du niveau : score des joueurs</li>
  *  

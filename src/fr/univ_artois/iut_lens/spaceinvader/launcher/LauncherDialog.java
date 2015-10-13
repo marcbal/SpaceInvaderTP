@@ -346,8 +346,8 @@ public class LauncherDialog extends JFrame {
 	/*
 	 * Source : http://stackoverflow.com/a/157202
 	 */
-	private static final String LETTERS = "azertyuiopmlkjhgfdsqwxcvbn";
-	private static final String NUMBERS = "0123456789";
+	static final String LETTERS = "azertyuiopmlkjhgfdsqwxcvbn";
+	static final String NUMBERS = "0123456789";
 	private static Random rnd = MegaSpaceInvader.RANDOM;
 
 	public static String randomString( int len , String chars){
@@ -361,7 +361,7 @@ public class LauncherDialog extends JFrame {
 	
 	
 	
-	public class LaunchingConfiguration {
+	public static class LaunchingConfiguration {
 		public boolean serverEnabled;
 		public int serverPort;
 		public boolean serverScoring;

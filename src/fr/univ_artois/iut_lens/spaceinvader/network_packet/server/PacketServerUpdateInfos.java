@@ -28,6 +28,9 @@ public class PacketServerUpdateInfos extends PacketServer {
 		data.nbShip = bb.getInt();
 		data.maxTPS = bb.getInt();
 		data.currentTickTime = bb.getLong();
+		data.maxMem = bb.getLong();
+		data.allocMem = bb.getLong();
+		data.freeMem = bb.getLong();
 		
 		
 		int playerDataSize = bb.getInt();
@@ -51,7 +54,7 @@ public class PacketServerUpdateInfos extends PacketServer {
 	
 	
 	public void setInfos(GameInfo data) {
-		ByteBuffer bb = ByteBuffer.allocate(4+4+8+8+4+4+4+4+4+8+4
+		ByteBuffer bb = ByteBuffer.allocate(4+4+8+8+4+4+4+4+4+8+8+8+8+4
 				+data.playerInfos.size()*(4+50+8+8+8+8)
 				+100);
 		bb.putInt(data.nbEntity);
@@ -64,6 +67,9 @@ public class PacketServerUpdateInfos extends PacketServer {
 		bb.putInt(data.nbShip);
 		bb.putInt(data.maxTPS);
 		bb.putLong(data.currentTickTime);
+		bb.putLong(data.maxMem);
+		bb.putLong(data.allocMem);
+		bb.putLong(data.freeMem);
 		
 		bb.putInt(data.playerInfos.size());
 		for (PlayerInfo pInfo : data.playerInfos) {
@@ -92,6 +98,11 @@ public class PacketServerUpdateInfos extends PacketServer {
 		public int nbShip;
 		public int maxTPS = 1;
 		public long currentTickTime = 1;
+
+		public long maxMem;
+		public long allocMem;
+		public long freeMem;
+		
 		public List<PlayerInfo> playerInfos = new ArrayList<PlayerInfo>();
 		
 		public static class PlayerInfo {
