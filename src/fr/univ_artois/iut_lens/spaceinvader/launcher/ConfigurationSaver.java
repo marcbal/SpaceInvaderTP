@@ -12,7 +12,7 @@ import com.google.gson.JsonSyntaxException;
 
 public class ConfigurationSaver {
 	
-	public static final File configFile = new File("config.json");
+	public static final File configFile = new File("space_invader.json");
 	
 	public LaunchingConfiguration getConfigFromFile() {
 		try {
