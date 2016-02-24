@@ -1,5 +1,6 @@
 package fr.univ_artois.iut_lens.spaceinvader;
 
+import java.awt.GraphicsEnvironment;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -65,10 +66,13 @@ public class MegaSpaceInvader {
 		shutdownHook();
 		Thread.currentThread().setName("Main");
 		
+		boolean headless = GraphicsEnvironment.isHeadless();
+		
 
 		try {
 			// donne à l'interface graphique le thème associé au système d'exploitation
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			if (!headless)
+				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -84,6 +88,12 @@ public class MegaSpaceInvader {
 		
 		// si la ligne de commande ne donne rien de concluant, affichage du launcher.
 		if (launchConfig == null) {
+			if (headless) {
+				showCommandLineHelp();
+				System.exit(1);
+			}
+			
+			
 			LauncherDialog diag = new LauncherDialog();
 			
 			ConfigurationSaver saver = new ConfigurationSaver();
@@ -116,7 +126,8 @@ public class MegaSpaceInvader {
 		
 		
 		
-		if (launchConfig.clientEnabled) {
+		if (launchConfig.clientEnabled && !headless) {
+			
 			
 			String addr = launchConfig.clientConnectionAddress;
 			int port;
@@ -148,6 +159,22 @@ public class MegaSpaceInvader {
 		
 		
 	}
+	
+	
+	
+	private static void showCommandLineHelp() {
+		System.out.println("paramètres : [-s [PORT_NUMBER [score]]] [-c NICKNAME [SERVER_ADDR:PORT]]");
+		System.out.println();
+		System.out.println("-s : activer le serveur local");
+		System.out.println("    PORT_NUMBER : numéro de port attribué au serveur (par défaut 34567)");
+		System.out.println("    'score' pour activer le système de score (désactivé par défaut)");
+		System.out.println("-c : activer le client local (ignoré si le mode headless est activé)");
+		System.out.println("    NICKNAME le pseudo du joueur");
+		System.out.println("    SERVER_ADDR:PORT : adresse de connexion au serveur. Ignoré si le serveur local est démarré, obligatoire sinon.");
+	}
+	
+	
+	
 	
 	
 	

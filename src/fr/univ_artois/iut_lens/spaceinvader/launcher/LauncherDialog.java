@@ -49,7 +49,7 @@ public class LauncherDialog extends JFrame {
 	 * Create the dialog.
 	 */
 	public LauncherDialog() {
-		setIconImage(SpriteStore.get().getSprite("sprites/ComplexShot.png").image);
+		setIconImage(SpriteStore.get().getSprite("sprites/ComplexShot.png").getAWTImage());
 		setResizable(false);
 		
 		setDefaultCloseOperation(JDialog.EXIT_ON_CLOSE);

@@ -114,7 +114,7 @@ public class Client extends Canvas implements NetworkReceiveListener, Runnable {
 		
 		// create a frame to contain our game
 		container = new JFrame("Méga Space Invader");
-		container.setIconImage(SpriteStore.get().getSprite("sprites/ComplexShot.png").image);
+		container.setIconImage(SpriteStore.get().getSprite("sprites/ComplexShot.png").getAWTImage());
 		
 		// get hold the content of the frame and set up the resolution of the game
 		JPanel panel = (JPanel) container.getContentPane();
