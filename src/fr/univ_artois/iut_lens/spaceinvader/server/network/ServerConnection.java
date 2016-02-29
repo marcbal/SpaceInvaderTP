@@ -10,6 +10,7 @@ import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import fr.univ_artois.iut_lens.spaceinvader.MegaSpaceInvader;
@@ -86,7 +87,6 @@ public class ServerConnection {
 			throw new IllegalArgumentException("le numéro de port est invalide");
 		socket = new ServerSocket();
 		socket.setReceiveBufferSize(MegaSpaceInvader.NETWORK_TCP_BUFFER_SIZE);
-		socket.setSoTimeout(MegaSpaceInvader.NETWORK_TIMEOUT);
 		socket.setPerformancePreferences(0, 2, 1);
 		socket.bind(new InetSocketAddress(port));
 		
@@ -111,6 +111,7 @@ public class ServerConnection {
 				while(true) {
 					Socket socketClient = socket.accept();
 					socketClient.setSendBufferSize(MegaSpaceInvader.NETWORK_TCP_BUFFER_SIZE);
+					socketClient.setSoTimeout(MegaSpaceInvader.NETWORK_TIMEOUT);
 					
 					try {
 						new InputConnectionThread(socketClient, connectionCounterId.getAndIncrement()).start();
@@ -255,11 +256,15 @@ public class ServerConnection {
 			public void run() {
 				try {
 					while (!socket.isClosed()) {
-						PacketServer packet = packetQueue.take();
-						byte[] data = packet.constructAndGetDataPacket();
-						bandwidthCalculation.addPacket(InputConnectionThread.this, false, data.length);
-						out.write(data);
-						out.flush();
+						PacketServer packet = packetQueue.poll(1, TimeUnit.SECONDS);
+						byte[]  data;
+						if (packet != null) {
+							data = packet.constructAndGetDataPacket();
+							bandwidthCalculation.addPacket(InputConnectionThread.this, false, data.length);
+							out.write(data);
+							out.flush();
+						}
+						
 						
 						// envoi d'un ping, si le précédent date de plus d'une demi-seconde.
 						synchronized (pingLocker) {
