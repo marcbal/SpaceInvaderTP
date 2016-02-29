@@ -173,7 +173,6 @@ public class ServerConnection {
 					try {
 						interpreteReceivedMessage(this, packetData);
 					} catch (InvalidClientMessage e) {
-						Logger.severe("Message du client mal formé : "+e);
 						sendProtocolError("Erreur protocole : "+e.getMessage());
 					} catch (Exception e) {
 						Logger.severe("Erreur lors de la prise en charge du message par le serveur");
@@ -187,9 +186,9 @@ public class ServerConnection {
 			} catch (Exception e) {
 				Logger.severe("Fermeture de la connexion de "+address+" : "+e);
 			}
-			try {
-				socket.close();
-			} catch(Exception e) { }
+			
+			
+			close();
 		}
 		
 		public void send(PacketServer p) {
@@ -214,9 +213,15 @@ public class ServerConnection {
 		}
 		
 		public void close() {
+			if (socket.isClosed()) return;
+			
+			if (gameListener != null)
+				gameListener.onConnectionClose(this);
+			
 			try {
 				socket.close();
-				outThread.addPacket(new PacketServer((byte)0){});	// provoque une exception dans le thread de sortie, et la termine
+				if (!Thread.currentThread().equals(outThread))
+					send(new PacketServer((byte)0){});	// provoque une exception dans le thread de sortie, et la termine
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -282,6 +287,7 @@ public class ServerConnection {
 				} catch (InterruptedException e) {
 				} catch (IOException e) { }
 				
+				close();
 			}
 			
 			

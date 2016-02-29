@@ -7,4 +7,6 @@ public interface NetworkReceiveListener {
 	
 	public void onReceivePacket(InputConnectionThread co, PacketClient packet);
 	
+	public void onConnectionClose(InputConnectionThread co);
+	
 }

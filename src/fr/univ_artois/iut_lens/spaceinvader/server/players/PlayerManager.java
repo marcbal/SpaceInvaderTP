@@ -153,6 +153,17 @@ public class PlayerManager implements NetworkReceiveListener {
 		}
 		
 	}
+	
+	@Override
+	public void onConnectionClose(InputConnectionThread co) {
+		
+		Player p = getPlayerByConnection(co);
+		if (p == null) return; // le joueur n'était pas encore connecté
+							// ou il s'est déjà déconnecté proprement
+		hasDisconnected(co);
+		Logger.info("Disconnect : "+p.name+". "+getPlayersCount()+" player(s) left.");
+		
+	}
 
 	public synchronized Player[] getPlayersSnapshot() {
 		return playersByConnection.values().toArray(new Player[playersByConnection.size()]);
