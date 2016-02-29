@@ -2,9 +2,9 @@ package fr.univ_artois.iut_lens.spaceinvader.network_packet.client;
 
 import java.nio.ByteBuffer;
 
-public class PacketClientPong extends PacketClient {
+public class PacketClientPingReply extends PacketClient {
 
-	public PacketClientPong() {
+	public PacketClientPingReply() {
 		super((byte)0x0D);
 	}
 	

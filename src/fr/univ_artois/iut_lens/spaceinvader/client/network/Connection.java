@@ -10,6 +10,7 @@ import java.net.SocketTimeoutException;
 import java.nio.ByteBuffer;
 
 import fr.univ_artois.iut_lens.spaceinvader.MegaSpaceInvader;
+import fr.univ_artois.iut_lens.spaceinvader.client.Client;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.Packet;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClient;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientJoin;
@@ -33,6 +34,7 @@ public class Connection {
 		socket = new Socket();
 		socket.setReceiveBufferSize(MegaSpaceInvader.NETWORK_TCP_BUFFER_SIZE);
 		socket.setSendBufferSize(MegaSpaceInvader.NETWORK_TCP_BUFFER_SIZE);
+		socket.setSoTimeout(MegaSpaceInvader.NETWORK_TIMEOUT);
 		socket.connect(a);
 		addr = a;
 		listener = l;
@@ -70,7 +72,7 @@ public class Connection {
 			
 			try {
 				byte[] code = new byte[1];
-				while(!socket.isClosed() && in.read(code) != -1) {
+				while(!socket.isClosed() && in.read(code) != -1 && Client.instance.gameRunning.get()) {
 					byte[] sizeB = new byte[4];
 					if (in.read(sizeB) != 4)
 						throw new IOException("Socket "+addr+" fermé");
@@ -94,11 +96,16 @@ public class Connection {
 					}
 				}
 				
+				
 			} catch (SocketTimeoutException e) {
 				System.err.println("Le serveur a prit trop de temps à répondre");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			try {
+				socket.close();
+			} catch (Exception e) { }
+			Client.instance.gameRunning.set(false);
 		}
 		
 		

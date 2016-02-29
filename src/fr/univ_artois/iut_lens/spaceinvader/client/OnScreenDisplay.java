@@ -136,7 +136,7 @@ public class OnScreenDisplay {
 	
 	public void drawMiddlePause(Graphics2D g)
 	{
-		if (!keyHandler.isKeyToggled("pause")) return;
+		if (!Client.instance.serverSidePause.get()) return;
 		g.setColor(Color.WHITE);
 		drawAlignedString(g, "--> PAUSE <--", TextHorizontalAlign.CENTER, TextVerticalAlign.MIDDLE, 0);
 	}

@@ -28,7 +28,7 @@ import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientCo
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientCommand.Direction;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientDisconnect;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientNextLevel;
-import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientPong;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientPingReply;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientTogglePause;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServer;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerCantJoin;
@@ -84,7 +84,7 @@ public class Client extends Canvas implements NetworkReceiveListener, Runnable {
 	
 	private KeyInputHandler keyHandler = new KeyInputHandler();
 	private AtomicBoolean waitingForKeyPress = new AtomicBoolean(true);
-	private AtomicBoolean serverSidePause = new AtomicBoolean(false);
+	public AtomicBoolean serverSidePause = new AtomicBoolean(false);
 	
 	
 	private Sprite background;
@@ -353,7 +353,7 @@ public class Client extends Canvas implements NetworkReceiveListener, Runnable {
 			onScreenDisplay.setMiddleMessage("Vous êtes maintenant connecté !");
 		}
 		else if (packet instanceof PacketServerPing) {
-			PacketClientPong pong = new PacketClientPong();
+			PacketClientPingReply pong = new PacketClientPingReply();
 			pong.setPingId(((PacketServerPing)packet).getPingId());
 			try {
 				connection.send(pong);

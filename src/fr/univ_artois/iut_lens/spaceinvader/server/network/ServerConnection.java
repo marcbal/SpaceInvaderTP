@@ -15,7 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import fr.univ_artois.iut_lens.spaceinvader.MegaSpaceInvader;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.Packet;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClient;
-import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientPong;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientPingReply;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServer;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerDisconnectOk;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerPing;
@@ -86,6 +86,8 @@ public class ServerConnection {
 			throw new IllegalArgumentException("le numéro de port est invalide");
 		socket = new ServerSocket();
 		socket.setReceiveBufferSize(MegaSpaceInvader.NETWORK_TCP_BUFFER_SIZE);
+		socket.setSoTimeout(MegaSpaceInvader.NETWORK_TIMEOUT);
+		socket.setPerformancePreferences(0, 2, 1);
 		socket.bind(new InetSocketAddress(port));
 		
 		receiverThread = new ServerConnectionThread();
@@ -219,7 +221,7 @@ public class ServerConnection {
 			}
 		}
 		
-		public void handlePong(PacketClientPong packet) {
+		public void handlePong(PacketClientPingReply packet) {
 			synchronized (pingLocker) {
 				lastPongTime = System.currentTimeMillis();
 				lastPingNanoDuration = System.nanoTime() - lastPingNanotime;

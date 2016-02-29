@@ -7,7 +7,7 @@ import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientCo
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientCommand.Direction;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerTogglePause;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientNextLevel;
-import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientPong;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientPingReply;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientTogglePause;
 import fr.univ_artois.iut_lens.spaceinvader.server.Server;
 import fr.univ_artois.iut_lens.spaceinvader.server.network.ServerConnection.InputConnectionThread;
@@ -58,8 +58,8 @@ public class Player {
 	
 	
 	public void handlePacket(PacketClient packet) {
-		if (packet instanceof PacketClientPong) {
-			connection.handlePong((PacketClientPong)packet);
+		if (packet instanceof PacketClientPingReply) {
+			connection.handlePong((PacketClientPingReply)packet);
 		}
 		else if (packet instanceof PacketClientCommand) {
 			setShipDirection(((PacketClientCommand)packet).getDirection());
@@ -70,6 +70,9 @@ public class Player {
 		}
 		else if (packet instanceof PacketClientTogglePause) {
 			boolean pause = ((PacketClientTogglePause)packet).getPause();
+			if (pause == Server.serverInstance.commandPause.get())
+				return;
+			
 			Server.serverInstance.setPause(pause);
 			
 			Logger.info(name+" set pause to "+pause);

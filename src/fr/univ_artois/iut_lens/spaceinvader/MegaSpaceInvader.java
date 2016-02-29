@@ -43,6 +43,8 @@ public class MegaSpaceInvader {
 	
 	public static final int NETWORK_TCP_BUFFER_SIZE = 1024*1024;
 	
+	public static final int NETWORK_TIMEOUT = 10*1000; // 10 secondes
+	
 	
 	
 	

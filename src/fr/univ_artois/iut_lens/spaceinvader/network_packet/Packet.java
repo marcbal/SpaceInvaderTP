@@ -11,7 +11,7 @@ import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientCo
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientDisconnect;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientJoin;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientNextLevel;
-import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientPong;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientPingReply;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientTogglePause;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerCantJoin;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerConnectionOk;
@@ -94,7 +94,7 @@ public abstract class Packet {
 		addPacket(PacketClientDisconnect.class);
 		addPacket(PacketClientJoin.class);
 		addPacket(PacketClientNextLevel.class);
-		addPacket(PacketClientPong.class);
+		addPacket(PacketClientPingReply.class);
 		addPacket(PacketClientTogglePause.class);
 		
 		
