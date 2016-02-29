@@ -3,6 +3,8 @@ package fr.univ_artois.iut_lens.spaceinvader.server.entities;
 import java.awt.Rectangle;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateMap.MapData.EntityDataSpawn;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateMap.MapData.EntityDataUpdated;
 import fr.univ_artois.iut_lens.spaceinvader.server.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.shot.EntityShot;
 import fr.univ_artois.iut_lens.spaceinvader.sprites_manager.Sprite;
@@ -43,6 +45,8 @@ public abstract class Entity {
 	
 	private static AtomicInteger idCounter = new AtomicInteger(0);
 	public final int id;
+	
+	private String displayName = null;
 	
 	public boolean plannedToRemoved() {
 		 return plannedToRemoved;
@@ -164,6 +168,35 @@ public abstract class Entity {
 	}
 	
 	
+	
+	public EntityDataSpawn getEntityDataSpawn() {
+		EntityDataSpawn eData = new EntityDataSpawn();
+		eData.id = id;
+		eData.currentLife = (getMaxLife() > 1) ? getLife() : 0;
+		eData.maxLife = (getMaxLife() > 1) ? getMaxLife() : 0;
+		eData.name = (getDisplayName() != null) ? getDisplayName() : "";
+		eData.spriteId = getSprite().id;
+		eData.posX = (float)position.x;
+		eData.posY = (float)position.y;
+		eData.speedX = (float)speed.x;
+		eData.speedY = (float)speed.y;
+		return eData;
+	}
+	
+	
+	public EntityDataUpdated getEntityDataUpdated() {
+		EntityDataUpdated eData = new EntityDataUpdated();
+		eData.id = id;
+		eData.currentLife = (getMaxLife() > 1) ? getLife() : 0;
+		eData.posX = (float)position.x;
+		eData.posY = (float)position.y;
+		eData.speedX = (float)speed.x;
+		eData.speedY = (float)speed.y;
+		return eData;
+	}
+	
+	
+	
 	public Vector2d getPosition() { return position; }
 	
 	
@@ -178,6 +211,9 @@ public abstract class Entity {
 	public int getLife() { return life; }
 	public int getMaxLife() { return maxLife; }
 	public Sprite getSprite() { return sprite; }
+	
+	public void setDisplayName(String n) { displayName = n; }
+	public String getDisplayName() { return displayName; }
 	
 	
 	

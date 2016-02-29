@@ -144,9 +144,7 @@ public class Connection {
 	public void silentSend(PacketClient packet) {
 		try {
 			send(packet);
-		} catch (IOException e) {
-			Logger.warning("IOException lors de l'envoi du packet "+packet.getClass().getName());
-		}
+		} catch (IOException e) { }
 	}
 	
 	

@@ -130,6 +130,7 @@ public class ShipManager {
 			ships.get(newShipIndex).getPosition().y = pos.y;
 			entitiesManager.add(ships.get(newShipIndex));
 			ships.get(newShipIndex).setPosition(pos);
+			ships.get(newShipIndex).setDisplayName(player.name);
 			actualShipIndex = newShipIndex;
 		}
 	}

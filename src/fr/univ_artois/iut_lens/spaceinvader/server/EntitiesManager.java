@@ -142,8 +142,8 @@ public class EntitiesManager {
 	public synchronized List<Entity> getRemovedList() { return removeList; }
 
 	
-	public synchronized Entity[] getEntityListSnapshot() {
-		return entities.toArray(new Entity[entities.size()]);
+	public synchronized List<Entity> getEntityListSnapshot() {
+		return new ArrayList<>(entities);
 	}
 	
 	public synchronized List<Integer> getRemovedEntities() {

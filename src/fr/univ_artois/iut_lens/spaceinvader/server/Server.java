@@ -7,6 +7,7 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
@@ -26,7 +27,6 @@ import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUp
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateInfos.GameInfo.PlayerInfo;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateMap.MapData;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateMap.MapData.EntityDataSpawn;
-import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateMap.MapData.EntityDataUpdated;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.ship.EntityShip;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.shot.EntityShot;
@@ -363,7 +363,7 @@ public class Server extends Thread {
 		MapData mapData = new MapData();
 		
 		mapData.spritesData = SpriteStore.get().getSpritesId(true);
-		Entity[] entities;
+		List<Entity> entities;
 		List<Integer> entityRemoved, entityAdded;
 		synchronized (entitiesManager) {
 			entities = entitiesManager.getEntityListSnapshot();
@@ -371,42 +371,56 @@ public class Server extends Thread {
 			entityAdded = entitiesManager.getAddedEntities();
 		}
 		
-		for (Entity e : entities) {
-			if (entityRemoved.contains(e.id))
-				continue;	// entité supprimé
-			else if (entityAdded.contains(e.id)) {
-				// entité ajouté
-				EntityDataSpawn eData = new EntityDataSpawn();
-				eData.id = e.id;
-				eData.currentLife = (e.getMaxLife() > 1) ? e.getLife() : 0;
-				eData.maxLife = (e.getMaxLife() > 1) ? e.getMaxLife() : 0;
-				eData.name = (e instanceof EntityShip) ? ((EntityShip)e).associatedShipManager.getPlayer().name : "";
-				eData.spriteId = e.getSprite().id;
-				eData.posX = (float)e.getPosition().x;
-				eData.posY = (float)e.getPosition().y;
-				eData.speedX = (float)e.getSpeed().x;
-				eData.speedY = (float)e.getSpeed().y;
-				mapData.spawningEntities.add(eData);
+		mapData.removedEntities = entityRemoved;
+		
+		for (Iterator<Entity> itE = entities.iterator(); itE.hasNext();) {
+			Entity e = itE.next();
+			if (entityRemoved.contains(e.id)) {
+				itE.remove(); // on ignore les entités supprimés (traité de manière différente)
 			}
-			else {
-				// entité déjà existante
-				EntityDataUpdated eData = new EntityDataUpdated();
-				if (e instanceof EntityShot && !e.hasChangedSpeed())
-					continue;
+			else if (entityAdded.contains(e.id)) {
+				// entité ajouté (qui vient de spawn), traité de manière différente aussi
+				mapData.spawningEntities.add(e.getEntityDataSpawn());
+				itE.remove();
+			}
+			// ce qui suit, on a uniquement les entités déjà vivantes depuis le tick précédent
+			// et qui ne sont pas supprimés.
+			else if (e instanceof EntityShot && !e.hasChangedSpeed()) {
+				// - le client est capable de calculer lui même la nouvelle position
+				//   alors on ignore les entités qui ne changent pas de vitesse
+				// - par contre, cette limitation n'est appliquée qu'au tirs
+				//   car ces items n'ont pas de comportement imprévisible (changement brusque de vitesse)
+				//   que les vaisseaux peuvent avoir
+				itE.remove();
+			}
+			else if (!(e instanceof EntityShotFromAlly)) {
+				/* Parmis les éléments restants (qui ne sont pas pris en charge au dessus) :
+				 *   - ce sont des entités en cours de vie, qui ne viennent pas de naitre
+				 *   - leur vecteur vitesse est différence que lors du tick précédent
+				 * il y a alors une bonne raison d'envoyer une mise à jour au client.
+				 * - les items ne correspondant pas à des tirs alliés sont envoyé au client,
+				 *   car c'est plus facile d'esquiver des tirs énemies quand ils sont bien mis à jour
+				 */
 				e.resetOldSpeed();
-				if (e instanceof EntityShotFromAlly && r.nextInt(entities.length) > 500)
-					continue;
-				eData.id = e.id;
-				eData.currentLife = (e.getMaxLife() > 1) ? e.getLife() : 0;
-				eData.posX = (float)e.getPosition().x;
-				eData.posY = (float)e.getPosition().y;
-				eData.speedX = (float)e.getSpeed().x;
-				eData.speedY = (float)e.getSpeed().y;
-				mapData.updatingEntities.add(eData);
+				mapData.updatingEntities.add(e.getEntityDataUpdated());
+				itE.remove();
 			}
 		}
 		
-		mapData.removedEntities = entityRemoved;
+
+		/* Parmis les éléments restants (qui ne sont pas pris en charge au dessus) :
+		 *   - ce sont des entités en cours de vie, qui ne viennent pas de naitre
+		 *   - leur vecteur vitesse est différence que lors du tick précédent
+		 *   - le fait qu'ils ne soient pas à jour n'a pas d'impacte sur le gameplay
+		 */
+		int remainingEntityToSend = MegaSpaceInvader.NETWORK_NB_ENTITY_PER_UPDATE_PACKET - entities.size() - entityAdded.size();
+		remainingEntityToSend = Math.max(remainingEntityToSend, MegaSpaceInvader.NETWORK_NB_ENTITY_PER_UPDATE_PACKET / 10);
+		for (Entity e : entities) {
+			if (r.nextInt(entities.size()) >= remainingEntityToSend) continue;
+			e.resetOldSpeed();
+			mapData.updatingEntities.add(e.getEntityDataUpdated());
+		}
+		
 		
 		PacketServerUpdateMap packetMap = new PacketServerUpdateMap();
 		packetMap.setEntityData(mapData);
@@ -429,23 +443,23 @@ public class Server extends Thread {
 			playersInfo.add(pInfo);
 		}
 		
+		GameInfo globalGameInfos = new GameInfo();
+		globalGameInfos.currentEnemyLife = entitiesManager.getTotalRemainingEnnemyLife();
+		int[] levelProgress = levelManager.getLevelProgress();
+		globalGameInfos.currentLevel = levelProgress[0];
+		globalGameInfos.nbLevel = levelProgress[1];
+		globalGameInfos.maxEnemyLife = levelManager.getCurrentLevel().getMaxEnemyLife();
+		globalGameInfos.nbCollisionThreads = MegaSpaceInvader.SERVER_NB_THREAD_FOR_ENTITY_COLLISION;
+		globalGameInfos.nbEntity = entitiesManager.size();
+		globalGameInfos.maxTPS = MegaSpaceInvader.SERVER_TICK_PER_SECOND;
+		globalGameInfos.currentTickTime = currentLoopDuration;
+		globalGameInfos.playerInfos = playersInfo;
+		globalGameInfos.maxMem = Runtime.getRuntime().maxMemory();
+		globalGameInfos.allocMem = Runtime.getRuntime().totalMemory();
+		globalGameInfos.freeMem = Runtime.getRuntime().freeMemory();
 		
 		
 		for (Player p : players) {
-			GameInfo globalGameInfos = new GameInfo();
-			globalGameInfos.currentEnemyLife = entitiesManager.getTotalRemainingEnnemyLife();
-			int[] levelProgress = levelManager.getLevelProgress();
-			globalGameInfos.currentLevel = levelProgress[0];
-			globalGameInfos.nbLevel = levelProgress[1];
-			globalGameInfos.maxEnemyLife = levelManager.getCurrentLevel().getMaxEnemyLife();
-			globalGameInfos.nbCollisionThreads = MegaSpaceInvader.SERVER_NB_THREAD_FOR_ENTITY_COLLISION;
-			globalGameInfos.nbEntity = entitiesManager.size();
-			globalGameInfos.maxTPS = MegaSpaceInvader.SERVER_TICK_PER_SECOND;
-			globalGameInfos.currentTickTime = currentLoopDuration;
-			globalGameInfos.playerInfos = playersInfo;
-			globalGameInfos.maxMem = Runtime.getRuntime().maxMemory();
-			globalGameInfos.allocMem = Runtime.getRuntime().totalMemory();
-			globalGameInfos.freeMem = Runtime.getRuntime().freeMemory();
 			
 			// spécifique au joueur
 			int[] shipProg = p.getShipManager().getShipProgress();

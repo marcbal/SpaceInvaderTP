@@ -29,6 +29,11 @@ public class EntityRepresenterManager {
 		
 		long time = System.nanoTime();
 		
+		// remove entities
+		for (int id : data.removedEntities) {
+			entities.remove(id);
+		}
+		
 		// ajout des entités qui viennent de spawner
 		for (EntityDataSpawn newEntity : data.spawningEntities) {
 			entities.put(newEntity.id, new EntityRepresenter(
@@ -52,11 +57,6 @@ public class EntityRepresenterManager {
 			entity.setUpdateNanoTime(time);
 		}
 		
-		// remove entities
-		for (int id : data.removedEntities) {
-			entities.remove(id);
-		}
-		
 		// prediction of moving entities that are not updated with this packet data
 		long tickTime = (long) (1000000000/Client.instance.lastGameInfo.get().maxTPS);
 		for (EntityRepresenter entity : entities.values()) {
@@ -73,14 +73,14 @@ public class EntityRepresenterManager {
 		
 		// infos pour l'adoucicement du mouvement des entités
 		GameInfo gInfo = Client.instance.lastGameInfo.get();
-		int maxInterval = (MegaSpaceInvader.CLIENT_SMOOTH_ENTITY_MOVEMENT) ? 1000000000/gInfo.maxTPS : 0;
-		float coeff = 1; // plus petit = plus lent
-		if (MegaSpaceInvader.CLIENT_SMOOTH_ENTITY_MOVEMENT && maxInterval < gInfo.currentTickTime)
-			coeff = maxInterval/(float)gInfo.currentTickTime;
+		int defaultTickDuration = (MegaSpaceInvader.CLIENT_SMOOTH_ENTITY_MOVEMENT) ? 1000000000/gInfo.maxTPS : 0;
+		float slowDownCoeff = 1; // plus petit = plus lent
+		if (MegaSpaceInvader.CLIENT_SMOOTH_ENTITY_MOVEMENT && defaultTickDuration < gInfo.currentTickTime)
+			slowDownCoeff = gInfo.currentTickTime/(float)defaultTickDuration;
 		// -----
 		
 		for (EntityRepresenter ent : entities.values()) {
-			ent.draw(g, loop_start, maxInterval, coeff);
+			ent.draw(g, loop_start, defaultTickDuration, slowDownCoeff);
 		}
 	}
 	
