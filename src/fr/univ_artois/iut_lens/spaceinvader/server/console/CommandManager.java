@@ -5,6 +5,7 @@ import java.util.Map;
 
 import fr.univ_artois.iut_lens.spaceinvader.server.console.commands.AbstractCommand;
 import fr.univ_artois.iut_lens.spaceinvader.server.console.commands.CommandStop;
+import fr.univ_artois.iut_lens.spaceinvader.server.console.commands.CommandThread;
 import fr.univ_artois.iut_lens.spaceinvader.server.console.commands.CommandThreads;
 
 public class CommandManager implements CommandManagerInterface {
@@ -15,6 +16,7 @@ public class CommandManager implements CommandManagerInterface {
 	public CommandManager() {
 		addCommand(new CommandStop());
 		addCommand(new CommandThreads());
+		addCommand(new CommandThread());
 	}
 	
 	
