@@ -29,10 +29,15 @@ public class Logger {
 	private static void log(Level l, String message) {
 		String line = "["+Thread.currentThread().getName()+"] ["+l.name()+"] "+message;
 		// messages.add(line);
-		if (l == Level.INFO)
-			System.out.println(line);
-		else
-			System.err.println(line);
+		if (Server.serverInstance != null) {
+			Server.serverInstance.console.println(line);
+		}
+		else {
+			if (l == Level.INFO)
+				System.out.println(line);
+			else
+				System.err.println(line);
+		}
 		
 		try {
 			PacketServerLog packet = new PacketServerLog();

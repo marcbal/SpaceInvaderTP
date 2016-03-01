@@ -27,6 +27,8 @@ import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUp
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateInfos.GameInfo.PlayerInfo;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateMap.MapData;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateMap.MapData.EntityDataSpawn;
+import fr.univ_artois.iut_lens.spaceinvader.server.console.CommandManager;
+import fr.univ_artois.iut_lens.spaceinvader.server.console.ConsoleInterface;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.ship.EntityShip;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.shot.EntityShot;
@@ -65,6 +67,8 @@ public class Server extends Thread {
 	
 	public final PlayerManager playerManager;
 	
+	public final ConsoleInterface console = new ConsoleInterface(new CommandManager());
+	
 	
 	public final AtomicBoolean commandPause = new AtomicBoolean(false);
 
@@ -92,6 +96,8 @@ public class Server extends Thread {
 		serverConnection.setListener(playerManager);
 		
 		scoringEnabled = scoring;
+		
+		new Thread(() -> console.loop(), "Console Thread").start();
 	}
 	
 	
