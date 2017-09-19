@@ -30,7 +30,7 @@ public class LevelMegaAllStars extends Level {
 
 	@Override
 	public List<EntityEnnemy> generateLevel() {
-		SquadList = new ArrayList<EntityEnnemy>();
+		SquadList = new ArrayList<>();
 		for (int r=0;r<row;r++) {
 			for (int l=0;l<line;l++) {
 				if (SquadList.size()%2 == 0)

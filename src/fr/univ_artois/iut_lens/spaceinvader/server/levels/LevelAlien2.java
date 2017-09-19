@@ -27,7 +27,7 @@ public class LevelAlien2 extends Level {
 
 	@Override
 	public List<EntityEnnemy> generateLevel() {
-		SquadList = new ArrayList<EntityEnnemy>();
+		SquadList = new ArrayList<>();
 		for (int r=0;r<row;r++) {
 			for (int l=0;l<line;l++) {
 				EntityEnnemy alien = new EntityEnnemy(sprite,new Vector2d(pos.x+(l*space.x),pos.y+r*space.y),100,entitiesManager);

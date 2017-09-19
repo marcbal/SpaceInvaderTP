@@ -22,12 +22,12 @@ public class EntitiesManager {
 
 	private ExecutorService threadpool = Executors.newFixedThreadPool(MegaSpaceInvader.SERVER_NB_THREAD_FOR_ENTITY_COLLISION);
 
-	private final List<Entity> entities = new TreeList<Entity>();
-	private final List<Entity> removeList = new ArrayList<Entity>();
+	private final List<Entity> entities = new TreeList<>();
+	private final List<Entity> removeList = new ArrayList<>();
 	
 	// ces deux listes servent pour l'optimisation du réseau
-	private List<Integer> idsAddedEntity = new ArrayList<Integer>();
-	private List<Integer> idsRemovedEntity = new ArrayList<Integer>();
+	private List<Integer> idsAddedEntity = new ArrayList<>();
+	private List<Integer> idsRemovedEntity = new ArrayList<>();
 	
 	
 	
@@ -37,7 +37,7 @@ public class EntitiesManager {
 		
 		levelMan.getCurrentLevel().getCurrentStrategyMove().performMove(delta, this);
 		
-		List<Future<?>> pendingCollisionTasks = new ArrayList<Future<?>>();
+		List<Future<?>> pendingCollisionTasks = new ArrayList<>();
 		
 		// partie de calcul multithreadé
 		Entity[] entitiesArray;
@@ -148,13 +148,13 @@ public class EntitiesManager {
 	
 	public synchronized List<Integer> getRemovedEntities() {
 		List<Integer> list = idsRemovedEntity;
-		idsRemovedEntity = new ArrayList<Integer>();
+		idsRemovedEntity = new ArrayList<>();
 		return list;
 	}
 	
 	public synchronized List<Integer> getAddedEntities() {
 		List<Integer> list = idsAddedEntity;
-		idsAddedEntity = new ArrayList<Integer>();
+		idsAddedEntity = new ArrayList<>();
 		return list;
 	}
 	

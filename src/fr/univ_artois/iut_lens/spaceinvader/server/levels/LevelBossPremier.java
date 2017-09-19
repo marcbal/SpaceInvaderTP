@@ -29,7 +29,7 @@ public class LevelBossPremier extends Level {
 	
 	@Override
 	public List<EntityEnnemy> generateLevel() {
-		SquadList = new ArrayList<EntityEnnemy>();
+		SquadList = new ArrayList<>();
 		EntityEnnemy alien = new EntityEnnemy(sprite,new Vector2d(400,0), 2500, entitiesManager);
 		SquadList.add(alien);
 		return SquadList;

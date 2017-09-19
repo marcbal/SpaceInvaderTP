@@ -72,7 +72,7 @@ public class ServerConnection {
 	private static AtomicInteger connectionCounterId = new AtomicInteger(0);
 	
 	
-	private ServerSocket socket;
+	private ServerSocket svSocket;
 	private Thread receiverThread;
 	private NetworkReceiveListener gameListener;
 	
@@ -85,10 +85,10 @@ public class ServerConnection {
 	public ServerConnection(int port) throws IOException {
 		if (port <= 0 || port > 65535)
 			throw new IllegalArgumentException("le numéro de port est invalide");
-		socket = new ServerSocket();
-		socket.setReceiveBufferSize(MegaSpaceInvader.NETWORK_TCP_BUFFER_SIZE);
-		socket.setPerformancePreferences(0, 2, 1);
-		socket.bind(new InetSocketAddress(port));
+		svSocket = new ServerSocket();
+		svSocket.setReceiveBufferSize(MegaSpaceInvader.NETWORK_TCP_BUFFER_SIZE);
+		svSocket.setPerformancePreferences(0, 2, 1);
+		svSocket.bind(new InetSocketAddress(port));
 		
 		receiverThread = new ServerConnectionThread();
 		receiverThread.start();
@@ -109,7 +109,7 @@ public class ServerConnection {
 
 			try {
 				while(true) {
-					Socket socketClient = socket.accept();
+					Socket socketClient = svSocket.accept();
 					socketClient.setSendBufferSize(MegaSpaceInvader.NETWORK_TCP_BUFFER_SIZE);
 					socketClient.setSoTimeout(MegaSpaceInvader.NETWORK_TIMEOUT);
 					
@@ -205,7 +205,7 @@ public class ServerConnection {
 			} while (pos < buff.length);
 		}
 		
-		public void sendProtocolError(String string) throws IOException {
+		public void sendProtocolError(String string) {
 			PacketServerProtocolError packet = new PacketServerProtocolError();
 			packet.setMessage(string);
 			send(packet);
@@ -227,7 +227,7 @@ public class ServerConnection {
 			}
 		}
 		
-		public void handlePong(PacketClientPingReply packet) {
+		public void handlePong(@SuppressWarnings("unused") PacketClientPingReply packet) {
 			synchronized (pingLocker) {
 				lastPongTime = System.currentTimeMillis();
 				lastPingNanoDuration = System.nanoTime() - lastPingNanotime;
@@ -245,7 +245,7 @@ public class ServerConnection {
 		}
 	
 		private class ConnectionSendingThread extends Thread {
-			private BlockingQueue<PacketServer> packetQueue = new LinkedBlockingDeque<PacketServer>();
+			private BlockingQueue<PacketServer> packetQueue = new LinkedBlockingDeque<>();
 			
 			public ConnectionSendingThread(int coId) {
 				super("Sv Conn#"+coId+" out");
@@ -325,7 +325,7 @@ public class ServerConnection {
 	public void close() {
 		Server.serverInstance.playerManager.sendToAll(new PacketServerDisconnectOk());
 		try {
-			socket.close();
+			svSocket.close();
 		} catch (IOException e) { }
 	}
 	

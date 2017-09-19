@@ -41,7 +41,7 @@ public class StrategyShotEnnemyMegaBoss extends StrategyShotEnnemy {
 		for(Entity entity : entMan.getEntityListSnapshot()) {
 			if (entity instanceof EntityEnnemy && frameCount%50==0)
 			{
-				for (double i = 0; i<2*Math.PI; i+= (2*Math.PI)/(double)nbShotCircle)
+				for (double i = 0; i<2*Math.PI; i+= (2*Math.PI)/nbShotCircle)
 					entMan.add(
 							new EntityShotFromEnnemyAdvanced(
 									new Vector2d(entity.getPosition().x+entity.getBoundingBox().width/2, entity.getPosition().y+entity.getBoundingBox().height),

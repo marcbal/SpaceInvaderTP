@@ -76,7 +76,7 @@ public class Server extends Thread {
 
 	private BonusManager bonusManager = new BonusManager(entitiesManager);
 	
-	private AtomicReference<List<PlayerScore>> levelEndScore = new AtomicReference<List<PlayerScore>>(null);
+	private AtomicReference<List<PlayerScore>> levelEndScore = new AtomicReference<>(null);
 	
 	
 	private ExecutorService threadPacketPool = Executors.newFixedThreadPool(1);
@@ -108,7 +108,7 @@ public class Server extends Thread {
 
 		Logger.info("Serveur démarré avec succès");
 
-		long delta = (long) (1000000000/MegaSpaceInvader.SERVER_TICK_PER_SECOND);
+		long delta = 1000000000/MegaSpaceInvader.SERVER_TICK_PER_SECOND;
 		// keep looping round til the game ends
 		while (gameRunning.get()) {
 			long loop_start = System.nanoTime();
@@ -237,7 +237,7 @@ public class Server extends Thread {
 		}
 		
 		// génération des scores de la partie
-		List<PlayerScore> scores = new ArrayList<PlayerScore>();
+		List<PlayerScore> scores = new ArrayList<>();
 		for (Player p : playerManager.getPlayersSnapshot()) {
 			PlayerScore sc = new PlayerScore();
 			sc.playerName = p.name;
@@ -305,7 +305,7 @@ public class Server extends Thread {
 	
 	
 	public static List<InetAddress> getAllNetworkInterfacesAddress() {
-		List<InetAddress> addr = new ArrayList<InetAddress>();
+		List<InetAddress> addr = new ArrayList<>();
 		Enumeration<NetworkInterface> interfaces;
 		try {
 			interfaces = NetworkInterface.getNetworkInterfaces();
@@ -438,7 +438,7 @@ public class Server extends Thread {
 
 	public void createAndSendGameInfoPacket(long currentLoopDuration) {
 		Player[] players = playerManager.getPlayersSnapshot();
-		List<PlayerInfo> playersInfo = new ArrayList<PlayerInfo>();
+		List<PlayerInfo> playersInfo = new ArrayList<>();
 		for (Player p : players) {
 			PlayerInfo pInfo = new PlayerInfo();
 			pInfo.name = p.name;

@@ -25,8 +25,8 @@ import fr.univ_artois.iut_lens.spaceinvader.util.Logger;
 
 public class PlayerManager implements NetworkReceiveListener {
 
-	private Map<InputConnectionThread, Player> playersByConnection = new HashMap<InputConnectionThread, Player>();
-	private Map<String, Player> playersByName = new HashMap<String, Player>();
+	private Map<InputConnectionThread, Player> playersByConnection = new HashMap<>();
+	private Map<String, Player> playersByName = new HashMap<>();
 	
 	public PlayerManager() {
 	}
@@ -64,7 +64,7 @@ public class PlayerManager implements NetworkReceiveListener {
 	}
 	
 	public synchronized List<EntityShip> reinitAllPlayersShips() {
-		List<EntityShip> ships = new ArrayList<EntityShip>();
+		List<EntityShip> ships = new ArrayList<>();
 		for (Player p : playersByConnection.values()) {
 			p.getShipManager().reinitAllShip();
 			

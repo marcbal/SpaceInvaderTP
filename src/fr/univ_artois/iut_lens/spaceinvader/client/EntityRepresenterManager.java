@@ -17,10 +17,10 @@ public class EntityRepresenterManager {
 	
 	
 	
-	private Map<Integer, EntityRepresenter> entities = new TreeMap<Integer, EntityRepresenter>();
+	private Map<Integer, EntityRepresenter> entities = new TreeMap<>();
 
 	
-	private final Map<Integer, String> spritesIds = new HashMap<Integer, String>();
+	private final Map<Integer, String> spritesIds = new HashMap<>();
 	
 	
 	public synchronized void putUpdateFromServer(MapData data) {
@@ -58,7 +58,7 @@ public class EntityRepresenterManager {
 		}
 		
 		// prediction of moving entities that are not updated with this packet data
-		long tickTime = (long) (1000000000/Client.instance.lastGameInfo.get().maxTPS);
+		long tickTime = 1000000000/Client.instance.lastGameInfo.get().maxTPS;
 		for (EntityRepresenter entity : entities.values()) {
 			if (entity.getUpdateNanoTime() == time) continue;
 			// on ignore ceux qui ont été mis à jour par le serveur

@@ -58,7 +58,7 @@ public abstract class EntityShotFromAlly  extends EntityShot{
 				entitiesManager.remove(this);
 				// la suite sers car en appelant entitiesManager.removeEntity(),
 				// on ne calcule pas le retrait de point de vie de l'autre tir
-				if(other.receiveDegat((EntityShot) this))
+				if(other.receiveDegat(this))
 					entitiesManager.remove(other);
 			}
 		}

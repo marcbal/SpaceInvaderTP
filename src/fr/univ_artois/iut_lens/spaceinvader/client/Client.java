@@ -102,7 +102,7 @@ public class Client extends Canvas implements NetworkReceiveListener, Runnable {
 	
 	public final String playerName;
 	
-	public AtomicReference<GameInfo> lastGameInfo = new AtomicReference<GameInfo>(new GameInfo());
+	public AtomicReference<GameInfo> lastGameInfo = new AtomicReference<>(new GameInfo());
 	
 	/**
 	 * @throws IOException si un problème survient lors de la connexion
@@ -195,7 +195,7 @@ public class Client extends Canvas implements NetworkReceiveListener, Runnable {
 	@Override
 	public void run() {
 		
-		long delta = (long)(1000000000/MegaSpaceInvader.CLIENT_FRAME_PER_SECOND);
+		long delta = 1000000000/MegaSpaceInvader.CLIENT_FRAME_PER_SECOND;
 		
 
 		onScreenDisplay.setMiddleMessage("Connexion à "+serverAddress+" ...");

@@ -41,7 +41,7 @@ public class Connection {
 		
 		Logger.info("Connexion au serveur à l'adresse "+addr.toString());
 		
-		socketThread = new ClientConnectionThread(socket);
+		socketThread = new ClientConnectionThread();
 		socketThread.setName("Client Net");
 		socketThread.start();
 		
@@ -53,15 +53,12 @@ public class Connection {
 	
 	public class ClientConnectionThread extends Thread {
 		
-
-		private Socket socket;
 		private Object outSynchronizer = new Object();
 		private InputStream in;
 		private OutputStream out;
 		
-		public ClientConnectionThread(Socket s) throws IOException {
+		public ClientConnectionThread() throws IOException {
 			super("Client Net");
-			socket = s;
 			in = socket.getInputStream();
 			out = socket.getOutputStream();
 		}

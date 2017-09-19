@@ -8,7 +8,7 @@ import fr.univ_artois.iut_lens.spaceinvader.server.network.ServerConnection.Inpu
 
 public class BandwidthCalculation {
 	
-	private List<PacketStat> packetHistory = new LinkedList<PacketStat>();
+	private List<PacketStat> packetHistory = new LinkedList<>();
 	
 	
 	public synchronized void addPacket(InputConnectionThread co, boolean in, long size) {

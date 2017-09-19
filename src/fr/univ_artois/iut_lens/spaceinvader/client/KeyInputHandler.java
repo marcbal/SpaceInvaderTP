@@ -23,9 +23,9 @@ import fr.univ_artois.iut_lens.spaceinvader.util.Logger;
 public class KeyInputHandler extends KeyAdapter {
 	
 	
-	private Map<String, KeySetting> keyState = new ConcurrentHashMap<String, KeySetting>();
-	private Map<String, KeySetting> keyToggle = new ConcurrentHashMap<String, KeySetting>();
-	private Map<String, KeySetting> keyWaitPress = new ConcurrentHashMap<String, KeySetting>();
+	private Map<String, KeySetting> keyState = new ConcurrentHashMap<>();
+	private Map<String, KeySetting> keyToggle = new ConcurrentHashMap<>();
+	private Map<String, KeySetting> keyWaitPress = new ConcurrentHashMap<>();
 	
 	
 	

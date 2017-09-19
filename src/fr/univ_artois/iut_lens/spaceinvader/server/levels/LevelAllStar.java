@@ -25,7 +25,7 @@ public class LevelAllStar extends Level {
 
 	@Override
 	public List<EntityEnnemy> generateLevel() {
-		SquadList = new ArrayList<EntityEnnemy>();
+		SquadList = new ArrayList<>();
 		for (int r=0;r<row;r++) {
 			for (int l=0;l<line;l++) {
 				if((l+1)%3==1) {

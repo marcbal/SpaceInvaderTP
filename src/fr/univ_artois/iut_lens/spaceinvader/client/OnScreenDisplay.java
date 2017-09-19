@@ -16,10 +16,10 @@ public class OnScreenDisplay {
 	
 	private KeyInputHandler keyHandler = Client.instance.getKeyInputHandler();
 	
-	private Queue<String> logLines = new CircularFifoQueue<String>(10);
+	private Queue<String> logLines = new CircularFifoQueue<>(10);
 	
 	/** The message to display which waiting for a key press */
-	private AtomicReference<String> middleMessage = new AtomicReference<String>("");
+	private AtomicReference<String> middleMessage = new AtomicReference<>("");
 	
 	
 	

@@ -47,10 +47,10 @@ public class SpriteStore {
 	}
 	
 	/** The cached sprite map, from reference to sprite instance */
-	private Map<String, Sprite> sprites = new HashMap<String, Sprite>();
+	private Map<String, Sprite> sprites = new HashMap<>();
 	
 	/** Les sprites nouvellement chargés */
-	private Map<String, Sprite> newSprites = new HashMap<String, Sprite>();
+	private Map<String, Sprite> newSprites = new HashMap<>();
 	
 	/**
 	 * Retrieve a sprite from the store
@@ -62,7 +62,7 @@ public class SpriteStore {
 		// if we've already got the sprite in the cache
 		// then just return the existing version
 		if (sprites.get(ref) != null) {
-			return (Sprite) sprites.get(ref);
+			return sprites.get(ref);
 		}
 		
 		// otherwise, go away and grab the sprite from the resource
@@ -104,13 +104,13 @@ public class SpriteStore {
 	
 	public synchronized Map<String, Sprite> getAllNewSprites() {
 		Map<String, Sprite> ret = newSprites;
-		newSprites = new HashMap<String, Sprite>();
+		newSprites = new HashMap<>();
 		return ret;
 	}
 	
 	public synchronized Map<Integer, String> getSpritesId(boolean onlyNew) {
 		Map<String, Sprite> spritesData = onlyNew ? getAllNewSprites() : getAllSprites();
-		Map<Integer, String> spritesId = new HashMap<Integer, String>();
+		Map<Integer, String> spritesId = new HashMap<>();
 		for (Entry<String, Sprite> sp : spritesData.entrySet()) {
 			spritesId.put(sp.getValue().id, sp.getKey());
 		}

@@ -103,7 +103,7 @@ public class PacketServerUpdateInfos extends PacketServer {
 		public long allocMem;
 		public long freeMem;
 		
-		public List<PlayerInfo> playerInfos = new ArrayList<PlayerInfo>();
+		public List<PlayerInfo> playerInfos = new ArrayList<>();
 		
 		public static class PlayerInfo {
 			public String name;

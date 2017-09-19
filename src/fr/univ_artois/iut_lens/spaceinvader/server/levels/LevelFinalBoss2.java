@@ -27,7 +27,7 @@ public class LevelFinalBoss2 extends Level {
 	
 	@Override
 	public List<EntityEnnemy> generateLevel() {
-		SquadList = new ArrayList<EntityEnnemy>();
+		SquadList = new ArrayList<>();
 		SquadList.add(new EntityEnnemy(sprite,new Vector2d(10,10), 999999, entitiesManager));
 		SquadList.add(new EntityEnnemy(sprite,new Vector2d(250,10), 999999, entitiesManager));
 		SquadList.add(new EntityEnnemy(sprite,new Vector2d(510,10), 999999, entitiesManager));

@@ -16,7 +16,7 @@ public class ConfigurationSaver {
 	
 	public LaunchingConfiguration getConfigFromFile() {
 		try {
-			return (LaunchingConfiguration) new Gson().fromJson(new FileReader(configFile), LaunchingConfiguration.class);
+			return new Gson().fromJson(new FileReader(configFile), LaunchingConfiguration.class);
 		} catch (JsonSyntaxException | JsonIOException e) {
 			e.printStackTrace();
 		} catch (FileNotFoundException e) {

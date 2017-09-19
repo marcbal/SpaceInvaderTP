@@ -18,7 +18,7 @@ import fr.univ_artois.iut_lens.spaceinvader.server.levels.LevelMegaAllStars;
 public class LevelManager {
 	
 	
-	private List<Level> levels = new ArrayList<Level>();
+	private List<Level> levels = new ArrayList<>();
 	
 	private EntitiesManager entitiesManager;
 	

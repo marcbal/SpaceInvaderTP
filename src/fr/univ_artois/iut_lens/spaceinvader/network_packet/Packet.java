@@ -56,7 +56,7 @@ public abstract class Packet {
 	
 	public static final Charset CHARSET = MegaSpaceInvader.NETWORK_CHARSET;
 	
-	private static Map<Byte, Class<? extends Packet>> packetTypes = new HashMap<Byte, Class<? extends Packet>>();
+	private static Map<Byte, Class<? extends Packet>> packetTypes = new HashMap<>();
 	
 	public static Packet constructPacket(byte[] data) {
 		if (!packetTypes.containsKey(data[0]))
@@ -74,7 +74,7 @@ public abstract class Packet {
 	
 	private static <T extends Packet> void addPacket(Class<T> packetClass) {
 		try {
-			Packet p = (Packet)packetClass.newInstance();
+			Packet p = packetClass.newInstance();
 			packetTypes.put(p.code, packetClass);
 		} catch (Exception e) {
 			e.printStackTrace();

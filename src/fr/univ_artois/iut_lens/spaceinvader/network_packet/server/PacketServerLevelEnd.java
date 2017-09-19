@@ -15,7 +15,7 @@ public class PacketServerLevelEnd extends PacketServer {
 		byte[] data = getData();
 		ByteBuffer bb = ByteBuffer.wrap(data);
 		int nbScores = bb.getInt();
-		List<PlayerScore> scores = new ArrayList<PlayerScore>(nbScores);
+		List<PlayerScore> scores = new ArrayList<>(nbScores);
 		for (int i = 0; i<nbScores; i++) {
 			PlayerScore ps = new PlayerScore();
 			ps.score = bb.getLong();

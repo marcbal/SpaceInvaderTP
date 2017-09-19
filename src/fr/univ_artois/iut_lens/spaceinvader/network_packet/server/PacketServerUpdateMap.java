@@ -127,7 +127,7 @@ public class PacketServerUpdateMap extends PacketServer {
 	
 	public static class MapData {
 
-		public List<EntityDataSpawn> spawningEntities = new ArrayList<EntityDataSpawn>();
+		public List<EntityDataSpawn> spawningEntities = new ArrayList<>();
 		public static class EntityDataSpawn {
 			public int id;
 			public int spriteId;
@@ -141,7 +141,7 @@ public class PacketServerUpdateMap extends PacketServer {
 			public int currentLife = 0;
 		}
 
-		public List<EntityDataUpdated> updatingEntities = new ArrayList<EntityDataUpdated>();
+		public List<EntityDataUpdated> updatingEntities = new ArrayList<>();
 		public static class EntityDataUpdated {
 			public int id;
 			public float posX;
@@ -151,9 +151,9 @@ public class PacketServerUpdateMap extends PacketServer {
 			public int currentLife = 0;
 		}
 
-		public List<Integer> removedEntities = new ArrayList<Integer>();
+		public List<Integer> removedEntities = new ArrayList<>();
 		
-		public Map<Integer, String> spritesData = new HashMap<Integer, String>();
+		public Map<Integer, String> spritesData = new HashMap<>();
 		
 	}
 	

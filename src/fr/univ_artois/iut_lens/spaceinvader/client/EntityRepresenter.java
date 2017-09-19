@@ -69,7 +69,7 @@ public class EntityRepresenter {
 			g.setColor(Color.DARK_GRAY);
 			g.fillRect((int)posX,(int)posY, sprite.getWidth(), 3);
 			g.setColor(new Color((float)Math.sqrt(1-(currentLife/(float)maxLife)), (float)Math.sqrt(currentLife/(float)maxLife), 0F));
-			g.fillRect((int)posX,(int)posY, (int)((double)sprite.getWidth()*(currentLife/(double)maxLife)), 3);
+			g.fillRect((int)posX,(int)posY, (int)(sprite.getWidth()*(currentLife/(double)maxLife)), 3);
 		}
 		
 		if (name != null && name.length()>0) {
