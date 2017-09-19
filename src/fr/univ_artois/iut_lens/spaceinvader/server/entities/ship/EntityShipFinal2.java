@@ -25,6 +25,7 @@ public class EntityShipFinal2 extends EntityShip implements ShipLimitedShot {
 	}
 	
 	
+	@Override
 	public int getNbShotAlive() {
 		return nbShotAlive;
 	}

@@ -32,6 +32,7 @@ public abstract class EntityBonus extends Entity {
 	 * 
 	 * @param delta The time that has elapsed since last move
 	 */
+	@Override
 	public void move(long delta) {
 		// proceed with normal move
 		super.move(delta);

@@ -35,6 +35,7 @@ public class LevelAlien3 extends Level {
 		return SquadList;
 	}
 	
+	@Override
 	public boolean hasOneEnnemyDestroyed() {
 		
 		boolean ret = super.hasOneEnnemyDestroyed();

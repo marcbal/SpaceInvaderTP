@@ -42,6 +42,7 @@ public class LevelFinalBoss extends Level {
 		return SquadList;
 	}
 	
+	@Override
 	public boolean hasOneEnnemyDestroyed() {
 		
 		boolean ret = super.hasOneEnnemyDestroyed();

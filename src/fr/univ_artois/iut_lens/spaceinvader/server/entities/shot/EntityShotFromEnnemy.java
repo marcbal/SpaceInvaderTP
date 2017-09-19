@@ -35,6 +35,7 @@ public class EntityShotFromEnnemy extends EntityShot {
 		}
 	}
 	
+	@Override
 	public void move(long delta) {
 		// proceed with normal move
 		super.move(delta);

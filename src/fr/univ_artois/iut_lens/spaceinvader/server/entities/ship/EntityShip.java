@@ -51,6 +51,7 @@ public abstract class EntityShip extends Entity {
 	 * 
 	 * @param delta The time that has elapsed since last move (ms)
 	 */
+	@Override
 	public void move(long delta) {
 		// if we're moving left and have reached the left hand side
 		// of the screen, don't move
@@ -74,6 +75,7 @@ public abstract class EntityShip extends Entity {
 	 * 
 	 * @param other The entity with which the ship has collided
 	 */
+	@Override
 	public synchronized void collidedWith(Entity other) {
 		// if its an alien or a shoot, notify the game that the player
 		// is dead
@@ -98,6 +100,7 @@ public abstract class EntityShip extends Entity {
 			speed.x = moveSpeed;
 	}
 	
+	@Override
 	public void setPosition(Vector2d pos) {
 		position = pos;
 	}

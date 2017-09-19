@@ -229,6 +229,7 @@ public class LauncherDialog extends JFrame {
 			{
 				JButton okButton = new JButton("Lancer");
 				okButton.addActionListener(new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent arg0) {
 						dispose();
 					}
@@ -239,6 +240,7 @@ public class LauncherDialog extends JFrame {
 			{
 				JButton cancelButton = new JButton("Fermer");
 				cancelButton.addActionListener(new ActionListener() {
+					@Override
 					public void actionPerformed(ActionEvent arg0) {
 						System.exit(0);
 					}

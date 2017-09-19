@@ -15,6 +15,7 @@ public class EntityShotFromAllyComplex extends EntityShotFromAlly {
 		super("sprites/ComplexShot.png", p, 50, 50, new Vector2d(0, -50), eM, ship);
 	}
 	
+	@Override
 	public void move(long delta) {
 		super.move(delta);
 		entitiesManager.add(new EntityShotFromAllySubComplex(new Vector2d(position.x+getBoundingBox().width/2.0-5, position.y+getBoundingBox().height/2.0-5), new Vector2d((Math.cos(i)*300),(Math.sin(i)*300)), entitiesManager, ship));

@@ -34,6 +34,7 @@ public class EntityEnnemy extends Entity {
 	 * 
 	 * @param delta The time that has elapsed since last move
 	 */
+	@Override
 	public void move(long delta) {
 		// les mouvements sont calculés dans le strategyMoveEnnemy;
 		
@@ -46,6 +47,7 @@ public class EntityEnnemy extends Entity {
 	 * 
 	 * @param other The other entity
 	 */
+	@Override
 	public synchronized void collidedWith(Entity other) {
 		// collisions with aliens are handled elsewhere
 	}

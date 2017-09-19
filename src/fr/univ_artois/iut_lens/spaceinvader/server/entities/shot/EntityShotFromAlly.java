@@ -63,6 +63,7 @@ public abstract class EntityShotFromAlly  extends EntityShot{
 			}
 		}
 	}
+	@Override
 	public void move(long delta) {
 		// proceed with normal move
 		super.move(delta);

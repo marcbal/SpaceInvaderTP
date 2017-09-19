@@ -53,6 +53,7 @@ public class KeyInputHandler extends KeyAdapter {
 	 *
 	 * @param e The details of the key that was pressed 
 	 */
+	@Override
 	public void keyPressed(KeyEvent e) {
 		/*
 		 * Parcours la liste des configuration de touche et met à true les valeurs correspondante à la touche pressée
@@ -83,6 +84,7 @@ public class KeyInputHandler extends KeyAdapter {
 	 *
 	 * @param e The details of the key that was released 
 	 */
+	@Override
 	public void keyReleased(KeyEvent e) {
 		/*
 		 * Parcours la liste des configuration de touche et met à false les valeurs correspondante à la touche relachée
@@ -99,6 +101,7 @@ public class KeyInputHandler extends KeyAdapter {
 	 *
 	 * @param e The details of the key that was typed. 
 	 */
+	@Override
 	public void keyTyped(KeyEvent e) {
 		
 	}

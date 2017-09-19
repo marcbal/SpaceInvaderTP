@@ -45,6 +45,7 @@ public class LevelAllStar extends Level {
 		return SquadList;
 	}
 	
+	@Override
 	public boolean hasOneEnnemyDestroyed() {
 		
 		boolean ret = super.hasOneEnnemyDestroyed();

@@ -143,6 +143,7 @@ public class Client extends Canvas implements NetworkReceiveListener, Runnable {
 		// add a listener to respond to the user closing the window. If they
 		// do we'd like to exit the game
 		container.addWindowListener(new WindowAdapter() {
+			@Override
 			public void windowClosing(WindowEvent e) {
 				gameRunning.set(false);
 			}

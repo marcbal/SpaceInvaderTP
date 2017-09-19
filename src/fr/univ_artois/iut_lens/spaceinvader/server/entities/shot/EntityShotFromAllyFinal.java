@@ -24,6 +24,7 @@ public class EntityShotFromAllyFinal extends EntityShotFromAlly {
 		limitedShip.addAliveShot();
 	}
 	
+	@Override
 	public void move(long delta) {
 		super.move(delta);
 		time++;

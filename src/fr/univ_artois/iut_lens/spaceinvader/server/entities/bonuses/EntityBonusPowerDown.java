@@ -12,6 +12,7 @@ public class EntityBonusPowerDown extends EntityBonus {
 		super("sprites/powerDown.png", p, s, eM);
 	}
 	
+	@Override
 	public synchronized void collidedWith(Entity other) {
 		if(other instanceof EntityShip) {
 			ShipManager shipMan = ((EntityShip)other).associatedShipManager;
