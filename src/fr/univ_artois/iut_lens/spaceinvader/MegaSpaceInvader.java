@@ -37,7 +37,7 @@ public class MegaSpaceInvader {
 	
 	public static final int SERVER_DEFAULT_PORT = 34567;
 	
-	public static final int SERVER_NB_MAX_ENTITY = 7000;
+	public static final int SERVER_NB_MAX_ENTITY = 4000;
 	
 	public static final Charset NETWORK_CHARSET = Charset.forName("UTF-8");
 	

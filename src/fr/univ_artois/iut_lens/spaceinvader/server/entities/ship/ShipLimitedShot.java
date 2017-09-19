@@ -1,14 +1,25 @@
 package fr.univ_artois.iut_lens.spaceinvader.server.entities.ship;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public interface ShipLimitedShot {
-	
-	public int getNbShotAlive();
 	
 	public int getMaxNbShot();
 	
-	public void addAliveShot();
+	public abstract AtomicInteger getRefNbShotAlive();
 	
-	public void removeAliveShot();
+	public default int getNbShotAlive() {
+		return getRefNbShotAlive().get();
+	}
+	
+	
+	public default void addAliveShot() {
+		getRefNbShotAlive().incrementAndGet();
+	}
+	
+	public default void removeAliveShot() {
+		getRefNbShotAlive().decrementAndGet();
+	}
 	
 
 }

@@ -1,5 +1,7 @@
 package fr.univ_artois.iut_lens.spaceinvader.server.entities.ship;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import fr.univ_artois.iut_lens.spaceinvader.server.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.shot.EntityShotFromAllyFinal2;
 import fr.univ_artois.iut_lens.spaceinvader.server.players.ShipManager;
@@ -9,7 +11,7 @@ public class EntityShipFinal2 extends EntityShip implements ShipLimitedShot {
 	public final int nbMaxShotAlive;
 	private long duplicationInterval;
 	private int nbOfChildPerDuplication;
-	private int nbShotAlive;
+	private AtomicInteger nbShotAlive = new AtomicInteger(0);
 	
 
 	public EntityShipFinal2(EntitiesManager eM, ShipManager sm, int fireInterval, int maxShot, long dupInterval, int nbOfChildPerDup) {
@@ -26,7 +28,7 @@ public class EntityShipFinal2 extends EntityShip implements ShipLimitedShot {
 	
 	
 	@Override
-	public int getNbShotAlive() {
+	public AtomicInteger getRefNbShotAlive() {
 		return nbShotAlive;
 	}
 
@@ -34,20 +36,11 @@ public class EntityShipFinal2 extends EntityShip implements ShipLimitedShot {
 	public int getMaxNbShot() {
 		return nbMaxShotAlive;
 	}
-
-	@Override
-	public void addAliveShot() {
-		nbShotAlive++;
-	}
-
-	@Override
-	public void removeAliveShot() {
-		nbShotAlive--;
-	}
 	
 	@Override
 	public void reinitShot() {
 		super.reinitShot();
-		nbShotAlive = 0;
+		if (nbShotAlive != null)
+			nbShotAlive.set(0);
 	}
 }
