@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.zip.DataFormatException;
+import java.util.zip.Deflater;
+import java.util.zip.Inflater;
 
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateMap.MapData.EntityDataSpawn;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateMap.MapData.EntityDataUpdated;
@@ -20,10 +23,27 @@ public class PacketServerUpdateMap extends PacketServer {
 	public MapData getEntityData() {
 		if (getData().length == 0)
 			return null;
-		MapData data = new MapData();
-		ByteBuffer bb = ByteBuffer.wrap(getData());
 		
-
+		// uncompress all data
+		int uncompressedSize = ByteBuffer.wrap(getData()).getInt(0);
+		Inflater inflater = new Inflater();
+		inflater.setInput(getData(), 4, getData().length - 4);
+		byte[] uncompressedData = new byte[uncompressedSize];
+		int uncompressionPos = 0, ret;
+		try {
+			while((ret = inflater.inflate(uncompressedData, uncompressionPos, uncompressedSize - uncompressionPos)) != 0)
+				uncompressionPos += ret;
+		} catch (DataFormatException e) {
+			throw new RuntimeException("Error while uncompressing packet", e);
+		}
+		if (uncompressionPos != uncompressedSize) {
+			throw new RuntimeException("Uncompressed data size ("+uncompressionPos+") does not correspond to the expected size ("+uncompressedSize+")");
+		}
+		
+		
+		
+		ByteBuffer bb = ByteBuffer.wrap(uncompressedData);
+		MapData data = new MapData();
 		int nbSpawningEntity = bb.getInt();
 		for (int i=0; i<nbSpawningEntity; i++) {
 			EntityDataSpawn ent = new EntityDataSpawn();
@@ -74,12 +94,17 @@ public class PacketServerUpdateMap extends PacketServer {
 	}
 	
 	public void setEntityData(MapData data) {
+		if (data == null) {
+			setData(new byte[0]);
+			return;
+		}
+		
 		ByteBuffer bb = ByteBuffer.allocate(
 				4+data.spawningEntities.size()*(4+4+4+50+4+4+4+4+4+4)
 				+4+data.updatingEntities.size()*(4+4+4+4+4+4)
 				+4+data.removedEntities.size()*4
 				+4+data.spritesData.size()*(4+4+100)
-				+1000);
+				+2000);
 		
 		bb.putInt(data.spawningEntities.size());
 		for (EntityDataSpawn ent : data.spawningEntities) {
@@ -117,9 +142,23 @@ public class PacketServerUpdateMap extends PacketServer {
 			bb.putInt(spr.getValue().getBytes(CHARSET).length);
 			bb.put(spr.getValue().getBytes(CHARSET));
 		}
-
-		setData(Arrays.copyOf(bb.array(), bb.position()));
 		
+		
+		
+		// compress data
+		Deflater def = new Deflater(6);
+		def.setInput(Arrays.copyOf(bb.array(), bb.position()));
+		int uncompressedSize = bb.position();
+		def.finish();
+		int compSize = 0, ret;
+		// recycling byte buffer, but starting at byte 4
+		while ((ret = def.deflate(bb.array(), compSize + 4, bb.array().length - 4 - compSize, Deflater.FULL_FLUSH)) != 0)
+			compSize += ret;
+		
+		// write size of uncompressed data in the byte buffer
+		bb.putInt(0, uncompressedSize);
+		
+		setData(Arrays.copyOf(bb.array(), compSize + 4));
 	}
 	
 	

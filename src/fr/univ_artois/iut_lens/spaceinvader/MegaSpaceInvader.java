@@ -45,7 +45,7 @@ public class MegaSpaceInvader {
 	
 	public static final int NETWORK_TIMEOUT = 10*1000; // 10 secondes
 	
-	public static final int NETWORK_NB_ENTITY_PER_UPDATE_PACKET = 500;
+	public static final int NETWORK_NB_ENTITY_PER_UPDATE_PACKET = 1000;
 	
 	
 	
