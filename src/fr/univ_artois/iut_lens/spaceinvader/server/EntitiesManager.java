@@ -6,10 +6,6 @@ import java.util.Collection;
 import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import org.apache.commons.collections4.list.TreeList;
 
@@ -18,13 +14,12 @@ import fr.univ_artois.iut_lens.spaceinvader.server.entities.Entity;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.Entity.Camp;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.ennemy.EntityEnnemy;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.shot.EntityShotFromAlly;
+import fr.univ_artois.iut_lens.spaceinvader.util.Logger;
 /**
  * Cette classe sert juste à gérer les entitées
  *
  */
 public class EntitiesManager {
-
-	private ExecutorService threadpool = Executors.newFixedThreadPool(MegaSpaceInvader.SERVER_NB_THREAD_FOR_ENTITY_COLLISION);
 
 	private final Map<Camp, List<Entity>> entities = new EnumMap<>(Camp.class);
 	
@@ -48,9 +43,6 @@ public class EntitiesManager {
 		
 		levelMan.getCurrentLevel().getCurrentStrategyMove().performMove(delta, this);
 		
-		List<Future<?>> pendingCollisionTasks = new ArrayList<>();
-		
-		// partie de calcul multithreadé
 		
 		/* Pour gagner du temps de calcul de collision, nous utilisons la
 		 * stratégie suivante :
@@ -90,39 +82,47 @@ public class EntitiesManager {
 		
 		Arrays.sort(lists, (l1, l2) -> Integer.compare(l2.size(), l1.size()));
 		
+		
 		for (int i = 0; i < lists.length; i++)
 		{
-			List<Entity> l1 = lists[i];
+			int iF = i;
+			lists[i].parallelStream()
+					.filter(el1 -> {
+						try {
+					    	if (!(el1 instanceof EntityEnnemy))
+					    		// les enemies sont gérés par la stratégie de mouvement du level courant
+					    		el1.move(delta);
+					    	
+					    	// some move() method's implementation want to remove the entity,
+					    	// so we check after the move() method call
+						} catch(Exception e) {
+							Logger.severe(e.getMessage());
+							e.printStackTrace();
+						}
+						return !el1.plannedToRemoved();
+					})
+					.forEach(el1 -> {
+						for (int j = iF + 1; j < lists.length; j++) {
+							for (Entity him : lists[j]) {
+								try
+								{
+									if (him.plannedToRemoved()) continue;
+									
+									if (him.collidesWith(el1)) {
+										el1.collidedWith(him);
+										him.collidedWith(el1);
+									}
+								}
+								catch (Exception e)
+								{
+									Logger.severe(e.getMessage());
+									e.printStackTrace();
+								}
+							}
+						}
+					});
 			
-			for (Entity el1 : l1) {
-				
-				try {
-			    	if (!(el1 instanceof EntityEnnemy))
-			    		// les enemies sont gérés par la stratégie de mouvement du level courant
-			    		el1.move(delta);
-			    	
-			    	// some move() method's implementation want to remove the entity,
-			    	// so we check after the move() method call
-					if (el1.plannedToRemoved())
-						continue;
-				} catch(Exception e) {
-					e.printStackTrace();
-				}
-				
-				for (int j = i + 1; j < lists.length; j++) {
-					pendingCollisionTasks.add(threadpool.submit(new CollisionThread(el1, lists[j])));
-				}
-			}
 		}
-
-		for (Future<?> pendingTask : pendingCollisionTasks) {
-			try {
-				pendingTask.get();
-			} catch (InterruptedException | ExecutionException e) {
-				e.printStackTrace();
-			}
-		}
-		// fin de la partie multi threadé
 		
 		synchronized (this) {
 			entities.values().forEach(l -> l.removeAll(removeList));
