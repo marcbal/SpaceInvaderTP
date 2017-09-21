@@ -55,13 +55,13 @@ public abstract class EntityShip extends Entity {
 	public void move(long delta) {
 		// if we're moving left and have reached the left hand side
 		// of the screen, don't move
-		if ((speed.x < 0) && (position.x < 0)) {
+		if ((getSpeed().x < 0) && (getPosition().x < 0)) {
 			setHorizontalDirection(Direction.NONE);
 			return;
 		}
 		// if we're moving right and have reached the right hand side
 		// of the screen, don't move
-		if ((speed.x > 0) && (position.x > MegaSpaceInvader.DISPLAY_WIDTH - sprite.getWidth())) {
+		if ((getSpeed().x > 0) && (getPosition().x > MegaSpaceInvader.DISPLAY_WIDTH - sprite.getWidth())) {
 			setHorizontalDirection(Direction.NONE);
 			return;
 		}
@@ -93,16 +93,11 @@ public abstract class EntityShip extends Entity {
 	public void setHorizontalDirection(Direction dir)
 	{
 		if (dir == Direction.NONE)
-			speed.x = 0;
+			getSpeed().x = 0;
 		if (dir == Direction.LEFT)
-			speed.x = -moveSpeed;
+			getSpeed().x = -moveSpeed;
 		if (dir == Direction.RIGHT)
-			speed.x = moveSpeed;
-	}
-	
-	@Override
-	public void setPosition(Vector2d pos) {
-		position = pos;
+			getSpeed().x = moveSpeed;
 	}
 	
 

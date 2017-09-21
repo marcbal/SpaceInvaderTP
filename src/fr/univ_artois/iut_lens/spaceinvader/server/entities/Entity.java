@@ -3,6 +3,7 @@ package fr.univ_artois.iut_lens.spaceinvader.server.entities;
 import java.awt.Rectangle;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateMap;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateMap.MapData.EntityDataSpawn;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateMap.MapData.EntityDataUpdated;
 import fr.univ_artois.iut_lens.spaceinvader.server.EntitiesManager;
@@ -26,11 +27,11 @@ import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
  */
 public abstract class Entity {
 	/** The current x location of this entity */ 
-	protected Vector2d position = new Vector2d();
+	private Vector2d position = new Vector2d();
 	/** The sprite that represents this entity */
 	protected Sprite sprite;
 	/** The current speed of this entity horizontally (pixels/sec) */
-	protected Vector2d speed = new Vector2d();
+	private Vector2d speed = new Vector2d();
 	
 	private Vector2d oldSpeed = new Vector2d();
 	
@@ -82,9 +83,28 @@ public abstract class Entity {
 	 * @param delta The ammount of time that has passed in milliseconds
 	 */
 	public void move(long delta) {
+		// the speed is limited by the range allowed by the packet
+		if (speed.x < PacketServerUpdateMap.MIN_SPEED_ALLOWED)
+			speed.x = PacketServerUpdateMap.MIN_SPEED_ALLOWED;
+		if (speed.x > PacketServerUpdateMap.MAX_SPEED_ALLOWED)
+			speed.x = PacketServerUpdateMap.MAX_SPEED_ALLOWED;
+		if (speed.y < PacketServerUpdateMap.MIN_SPEED_ALLOWED)
+			speed.y = PacketServerUpdateMap.MIN_SPEED_ALLOWED;
+		if (speed.y > PacketServerUpdateMap.MAX_SPEED_ALLOWED)
+			speed.y = PacketServerUpdateMap.MAX_SPEED_ALLOWED;
+			
+		
 		// update the location of the entity based on move speeds
 		position.x+=(delta * speed.x) / 1000000000;
 		position.y+=(delta * speed.y) / 1000000000;
+		
+		// because we can't send packet to the player because the entity
+		// is out of range, we remove it from the game
+		if (position.x < PacketServerUpdateMap.MIN_X_POS_ALLOWED
+				|| position.x > PacketServerUpdateMap.MAX_X_POS_ALLOWED
+				|| position.y < PacketServerUpdateMap.MIN_Y_POS_ALLOWED
+				|| position.y > PacketServerUpdateMap.MAX_Y_POS_ALLOWED)
+			planToRemove();
 	}
 	
 	/**
@@ -178,10 +198,10 @@ public abstract class Entity {
 		eData.maxLife = (getMaxLife() > 1) ? getMaxLife() : 0;
 		eData.name = (getDisplayName() != null) ? getDisplayName() : "";
 		eData.spriteId = getSprite().id;
-		eData.posX = (float)position.x;
-		eData.posY = (float)position.y;
-		eData.speedX = (float)speed.x;
-		eData.speedY = (float)speed.y;
+		eData.posX = position.x;
+		eData.posY = position.y;
+		eData.speedX = speed.x;
+		eData.speedY = speed.y;
 		return eData;
 	}
 	
@@ -190,10 +210,10 @@ public abstract class Entity {
 		EntityDataUpdated eData = new EntityDataUpdated();
 		eData.id = id;
 		eData.currentLife = (getMaxLife() > 1) ? getLife() : 0;
-		eData.posX = (float)position.x;
-		eData.posY = (float)position.y;
-		eData.speedX = (float)speed.x;
-		eData.speedY = (float)speed.y;
+		eData.posX = position.x;
+		eData.posY = position.y;
+		eData.speedX = speed.x;
+		eData.speedY = speed.y;
 		return eData;
 	}
 	

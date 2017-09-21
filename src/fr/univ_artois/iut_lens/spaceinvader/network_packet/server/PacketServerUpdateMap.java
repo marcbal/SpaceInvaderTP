@@ -11,11 +11,67 @@ import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
 
+import fr.univ_artois.iut_lens.spaceinvader.MegaSpaceInvader;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateMap.MapData.EntityDataSpawn;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateMap.MapData.EntityDataUpdated;
 
 public class PacketServerUpdateMap extends PacketServer {
+	
+	/*
+	 * Utilities to convert short values to double values and vice-versa
+	 * this packet use short value to send to player the position and speed of entities
+	 * It's to use less bytes (short = 2 bytes) instead of 4 for a float.
+	 * So we need conversion methods to easily convert values
+	 */
+	public static final double POS_COEFF = Short.MAX_VALUE / Math.max(MegaSpaceInvader.DISPLAY_WIDTH, MegaSpaceInvader.DISPLAY_HEIGHT);
+	public static final double SPEED_COEFF = POS_COEFF / 5; // if we dont divide, very fast entities will slow down to fit into Short limits
 
+	// +- 1 only to avoid number overflow when converting from double and rounding the value before cast to short
+	public static final double MIN_X_POS_ALLOWED = (Short.MIN_VALUE+1) / POS_COEFF + (MegaSpaceInvader.DISPLAY_WIDTH / 2d);
+	public static final double MAX_X_POS_ALLOWED = (Short.MAX_VALUE-1) / POS_COEFF + (MegaSpaceInvader.DISPLAY_WIDTH / 2d);
+	public static final double MIN_Y_POS_ALLOWED = (Short.MIN_VALUE+1) / POS_COEFF + (MegaSpaceInvader.DISPLAY_HEIGHT / 2d);
+	public static final double MAX_Y_POS_ALLOWED = (Short.MAX_VALUE-1) / POS_COEFF + (MegaSpaceInvader.DISPLAY_HEIGHT / 2d);
+	public static final double MIN_SPEED_ALLOWED = (Short.MIN_VALUE+1) / SPEED_COEFF;
+	public static final double MAX_SPEED_ALLOWED = (Short.MAX_VALUE-1) / SPEED_COEFF; // equals to 1 screen/frame
+
+	public static double shortToPosX(short posX) {
+		return posX / POS_COEFF + (MegaSpaceInvader.DISPLAY_WIDTH / 2d);
+	}
+	public static double shortToPosY(short posY) {
+		return posY / POS_COEFF + (MegaSpaceInvader.DISPLAY_HEIGHT / 2d);
+	}
+	public static double shortToSpeed(short speed) {
+		return speed / SPEED_COEFF;
+	}
+	
+	public static short speedToShort(double speed) {
+		if (speed < MIN_SPEED_ALLOWED) speed = MIN_SPEED_ALLOWED;
+		else if (speed > MAX_SPEED_ALLOWED) speed = MAX_SPEED_ALLOWED;
+		return (short) Math.round(speed * SPEED_COEFF);
+	}
+	
+	public static short posXToShort(double posX) {
+		if (posX < MIN_X_POS_ALLOWED) posX = MIN_X_POS_ALLOWED;
+		else if (posX > MAX_X_POS_ALLOWED) posX = MAX_X_POS_ALLOWED;
+		return (short) Math.round((posX - (MegaSpaceInvader.DISPLAY_WIDTH / 2d)) * POS_COEFF);
+	}
+	
+	public static short posYToShort(double posY) {
+		if (posY < MIN_Y_POS_ALLOWED) posY = MIN_Y_POS_ALLOWED;
+		else if (posY > MAX_Y_POS_ALLOWED) posY = MAX_Y_POS_ALLOWED;
+		return (short) Math.round((posY - (MegaSpaceInvader.DISPLAY_HEIGHT / 2d)) * POS_COEFF);
+	}
+	
+	
+	public static void main(String[] args) {
+		System.out.println(shortToPosX(posXToShort(200)));
+		System.out.println(shortToPosY(posYToShort(-30)));
+		System.out.println(shortToSpeed(speedToShort(3000.1)));
+	}
+	
+	
+	
+	
 	public PacketServerUpdateMap() {
 		super((byte)0x43);
 	}
@@ -53,10 +109,10 @@ public class PacketServerUpdateMap extends PacketServer {
 			bb.get(name);
 			ent.name = new String(name, CHARSET);
 			ent.maxLife = bb.getInt();
-			ent.posX = bb.getFloat();
-			ent.posY = bb.getFloat();
-			ent.speedX = bb.getFloat();
-			ent.speedY = bb.getFloat();
+			ent.posX = shortToPosX(bb.getShort());
+			ent.posY = shortToPosY(bb.getShort());
+			ent.speedX = shortToSpeed(bb.getShort());
+			ent.speedY = shortToSpeed(bb.getShort());
 			ent.currentLife = bb.getInt();
 			
 			data.spawningEntities.add(ent);
@@ -67,10 +123,10 @@ public class PacketServerUpdateMap extends PacketServer {
 		for (int i=0; i<nbUpdatedEntity; i++) {
 			EntityDataUpdated ent = new EntityDataUpdated();
 			ent.id = bb.getInt();
-			ent.posX = bb.getFloat();
-			ent.posY = bb.getFloat();
-			ent.speedX = bb.getFloat();
-			ent.speedY = bb.getFloat();
+			ent.posX = shortToPosX(bb.getShort());
+			ent.posY = shortToPosY(bb.getShort());
+			ent.speedX = shortToSpeed(bb.getShort());
+			ent.speedY = shortToSpeed(bb.getShort());
 			ent.currentLife = bb.getInt();
 			
 			data.updatingEntities.add(ent);
@@ -100,8 +156,8 @@ public class PacketServerUpdateMap extends PacketServer {
 		}
 		
 		ByteBuffer bb = ByteBuffer.allocate(
-				4+data.spawningEntities.size()*(4+4+4+50+4+4+4+4+4+4)
-				+4+data.updatingEntities.size()*(4+4+4+4+4+4)
+				4+data.spawningEntities.size()*(4+4+4+50+4+2+2+2+2+4)
+				+4+data.updatingEntities.size()*(4+2+2+2+2+4)
 				+4+data.removedEntities.size()*4
 				+4+data.spritesData.size()*(4+4+100)
 				+2000);
@@ -113,10 +169,10 @@ public class PacketServerUpdateMap extends PacketServer {
 			bb.putInt(ent.name.getBytes(CHARSET).length);
 			bb.put(ent.name.getBytes(CHARSET));
 			bb.putInt(ent.maxLife);
-			bb.putFloat(ent.posX);
-			bb.putFloat(ent.posY);
-			bb.putFloat(ent.speedX);
-			bb.putFloat(ent.speedY);
+			bb.putShort(posXToShort(ent.posX));
+			bb.putShort(posYToShort(ent.posY));
+			bb.putShort(speedToShort(ent.speedX));
+			bb.putShort(speedToShort(ent.speedY));
 			bb.putInt(ent.currentLife);
 		}
 		
@@ -124,10 +180,10 @@ public class PacketServerUpdateMap extends PacketServer {
 		bb.putInt(data.updatingEntities.size());
 		for (EntityDataUpdated ent : data.updatingEntities) {
 			bb.putInt(ent.id);
-			bb.putFloat(ent.posX);
-			bb.putFloat(ent.posY);
-			bb.putFloat(ent.speedX);
-			bb.putFloat(ent.speedY);
+			bb.putShort(posXToShort(ent.posX));
+			bb.putShort(posYToShort(ent.posY));
+			bb.putShort(speedToShort(ent.speedX));
+			bb.putShort(speedToShort(ent.speedY));
 			bb.putInt(ent.currentLife);
 		}
 
@@ -173,20 +229,20 @@ public class PacketServerUpdateMap extends PacketServer {
 			public String name;
 			public int maxLife = 0;
 			
-			public float posX;
-			public float posY;
-			public float speedX;
-			public float speedY;
+			public double posX;
+			public double posY;
+			public double speedX;
+			public double speedY;
 			public int currentLife = 0;
 		}
 
 		public List<EntityDataUpdated> updatingEntities = new ArrayList<>();
 		public static class EntityDataUpdated {
 			public int id;
-			public float posX;
-			public float posY;
-			public float speedX;
-			public float speedY;
+			public double posX;
+			public double posY;
+			public double speedX;
+			public double speedY;
 			public int currentLife = 0;
 		}
 

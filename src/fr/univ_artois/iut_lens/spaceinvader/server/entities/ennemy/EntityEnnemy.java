@@ -23,7 +23,7 @@ public class EntityEnnemy extends Entity {
 	 */
 	public EntityEnnemy(String ref,Vector2d p, int l, EntitiesManager eM) {
 		super(ref,p,eM);
-		speed.x = -moveSpeed;
+		getSpeed().x = -moveSpeed;
 		
 		life = l;
 		maxLife = life;
@@ -58,7 +58,7 @@ public class EntityEnnemy extends Entity {
 	@Override
 	public void setNotifyAlienKilled()
 	{
-		speed.x *= 1.02;
+		getSpeed().x *= 1.02;
 	}
 	
 

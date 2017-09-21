@@ -28,11 +28,11 @@ public class EntityShotFromAllySearch extends EntityShotFromAlly {
 		{
 			Vector2d vectDist = TargettingUtil.getTargetDirection(this, target);
 			
-			speed = vectDist.dotProduct(20);
+			setSpeed(vectDist.dotProduct(20));
 		}
 		
 		
-		speed = speed.minLength(minSpeed).maxLength(maxSpeed);
+		setSpeed(getSpeed().minLength(minSpeed).maxLength(maxSpeed));
 		
 		super.move(delta);
 	}

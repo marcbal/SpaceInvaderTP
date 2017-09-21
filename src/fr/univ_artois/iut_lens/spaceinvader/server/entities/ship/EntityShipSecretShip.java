@@ -14,7 +14,7 @@ public class EntityShipSecretShip extends EntityShip {
 	@Override
 	public void shoot(long currentTime) {
 		
-		entitiesManager.add(new EntityShotFromAllyComplex(new Vector2d(position.x+getBoundingBox().width/2-10, position.y), entitiesManager, this));
+		entitiesManager.add(new EntityShotFromAllyComplex(new Vector2d(getPosition().x+getBoundingBox().width/2-10, getPosition().y), entitiesManager, this));
 	}
 
 }

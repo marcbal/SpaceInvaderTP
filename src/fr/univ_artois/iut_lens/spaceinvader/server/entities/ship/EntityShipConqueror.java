@@ -18,10 +18,10 @@ public class EntityShipConqueror extends EntityShip {
 	public void shoot(long currentTime) {
 		
 		
-		double pos_x0 = position.x+getBoundingBox().width/2-5*nbrShotPerInterval;
+		double pos_x0 = getPosition().x+getBoundingBox().width/2-5*nbrShotPerInterval;
 		for (int i=0; i<nbrShotPerInterval; i++)
 		{
-			entitiesManager.add(new EntityShotFromAllySearch(new Vector2d(pos_x0 + 10*i, position.y), new Vector2d(0, -100), entitiesManager, this));
+			entitiesManager.add(new EntityShotFromAllySearch(new Vector2d(pos_x0 + 10*i, getPosition().y), new Vector2d(0, -100), entitiesManager, this));
 		}
 		
 	}

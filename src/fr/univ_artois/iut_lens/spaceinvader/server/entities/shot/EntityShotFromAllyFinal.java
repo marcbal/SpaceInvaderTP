@@ -31,32 +31,32 @@ public class EntityShotFromAllyFinal extends EntityShotFromAlly {
 		if(time%20==0 && limitedShip.getNbShotAlive()<limitedShip.getMaxNbShot())  {
 			time = 0;
 			
-			if (!entitiesManager.add(new EntityShotFromAllyFinal(new Vector2d(position.x, position.y), speed.add(new Vector2d(-500,MegaSpaceInvader.RANDOM.nextInt(1000)-500)).minLength(300), entitiesManager, ship)))
+			if (!entitiesManager.add(new EntityShotFromAllyFinal(new Vector2d(getPosition().x, getPosition().y), getSpeed().add(new Vector2d(-500,MegaSpaceInvader.RANDOM.nextInt(1000)-500)).minLength(300), entitiesManager, ship)))
 				limitedShip.removeAliveShot();
-			if (!entitiesManager.add(new EntityShotFromAllyFinal(new Vector2d(position.x, position.y), speed.add(new Vector2d(500,MegaSpaceInvader.RANDOM.nextInt(1000)-500)).minLength(300), entitiesManager, ship)))
+			if (!entitiesManager.add(new EntityShotFromAllyFinal(new Vector2d(getPosition().x, getPosition().y), getSpeed().add(new Vector2d(500,MegaSpaceInvader.RANDOM.nextInt(1000)-500)).minLength(300), entitiesManager, ship)))
 				limitedShip.removeAliveShot();
-			if (!entitiesManager.add(new EntityShotFromAllyFinal(new Vector2d(position.x, position.y), speed.add(new Vector2d(MegaSpaceInvader.RANDOM.nextInt(1000)-500,-500)).minLength(300), entitiesManager, ship)))
+			if (!entitiesManager.add(new EntityShotFromAllyFinal(new Vector2d(getPosition().x, getPosition().y), getSpeed().add(new Vector2d(MegaSpaceInvader.RANDOM.nextInt(1000)-500,-500)).minLength(300), entitiesManager, ship)))
 				limitedShip.removeAliveShot();
-			if (!entitiesManager.add(new EntityShotFromAllyFinal(new Vector2d(position.x, position.y), speed.add(new Vector2d(MegaSpaceInvader.RANDOM.nextInt(1000)-500,500)).minLength(300), entitiesManager, ship)))
+			if (!entitiesManager.add(new EntityShotFromAllyFinal(new Vector2d(getPosition().x, getPosition().y), getSpeed().add(new Vector2d(MegaSpaceInvader.RANDOM.nextInt(1000)-500,500)).minLength(300), entitiesManager, ship)))
 				limitedShip.removeAliveShot();
 		}
 		
 		// colision sur la bordure de l'écran
-		if (position.x<0) {
-			position = position.invertX(); // équivaut à position.x=-position.x;
-			speed = speed.invertX();
+		if (getPosition().x<0) {
+			setPosition(getPosition().invertX()); // équivaut à getPosition().x=-getPosition().x;
+			setSpeed(getSpeed().invertX());
 		}
-		if (position.x+sprite.getWidth()>MegaSpaceInvader.DISPLAY_WIDTH) {
-			position.x -= (position.x+sprite.getWidth()-MegaSpaceInvader.DISPLAY_WIDTH);
-			speed = speed.invertX();
+		if (getPosition().x+sprite.getWidth()>MegaSpaceInvader.DISPLAY_WIDTH) {
+			getPosition().x -= (getPosition().x+sprite.getWidth()-MegaSpaceInvader.DISPLAY_WIDTH);
+			setSpeed(getSpeed().invertX());
 		}
-		if (position.y<0) {
-			position = position.invertY();
-			speed = speed.invertY();
+		if (getPosition().y<0) {
+			setPosition(getPosition().invertY());
+			setSpeed(getSpeed().invertY());
 		}
-		if (position.y+sprite.getHeight()>MegaSpaceInvader.DISPLAY_HEIGHT) {
-			position.y -= (position.y+sprite.getHeight()-MegaSpaceInvader.DISPLAY_HEIGHT);
-			speed = speed.invertY();
+		if (getPosition().y+sprite.getHeight()>MegaSpaceInvader.DISPLAY_HEIGHT) {
+			getPosition().y -= (getPosition().y+sprite.getHeight()-MegaSpaceInvader.DISPLAY_HEIGHT);
+			setSpeed(getSpeed().invertY());
 		}
 			
 			

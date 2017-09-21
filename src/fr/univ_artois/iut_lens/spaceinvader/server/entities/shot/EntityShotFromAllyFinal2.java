@@ -36,7 +36,7 @@ public class EntityShotFromAllyFinal2 extends EntityShotFromAlly {
 		if (target == null || target.plannedToRemoved())
 			target = TargettingUtil.searchTargetEnnemy(this, entitiesManager, Entity.class, true);
 		if (target != null)
-			speed = speed.add(TargettingUtil.getTargetDirection(this, target).dotProduct(0.05));
+			setSpeed(getSpeed().add(TargettingUtil.getTargetDirection(this, target).dotProduct(0.05)));
 		
 		super.move(delta);
 		time++;
@@ -44,28 +44,28 @@ public class EntityShotFromAllyFinal2 extends EntityShotFromAlly {
 			time = 0;
 			Random r = MegaSpaceInvader.RANDOM;
 			for (int i=0; i<nbOfChildPerDuplication; i++) {
-				if (!entitiesManager.add(new EntityShotFromAllyFinal2(new Vector2d(position.x, position.y), speed.add(new Vector2d(r.nextInt(400)-200,r.nextInt(400)-200)), entitiesManager, ship, duplicationInterval, nbOfChildPerDuplication))) {
+				if (!entitiesManager.add(new EntityShotFromAllyFinal2(new Vector2d(getPosition().x, getPosition().y), getSpeed().add(new Vector2d(r.nextInt(400)-200,r.nextInt(400)-200)), entitiesManager, ship, duplicationInterval, nbOfChildPerDuplication))) {
 					limitedShip.removeAliveShot();
 					break;
 				}
 			}
 		}
 		// colision sur la bordure de l'écran
-		if (position.x<0) {
-			position = position.invertX(); // équivaut à position.x=-position.x;
-			speed = speed.invertX().dotProduct(0.6);
+		if (getPosition().x<0) {
+			setPosition(getPosition().invertX()); // équivaut à position.x=-position.x;
+			setSpeed(getSpeed().invertX().dotProduct(0.6));
 		}
-		if (position.x+sprite.getWidth()>MegaSpaceInvader.DISPLAY_WIDTH) {
-			position.x -= (position.x+sprite.getWidth()-MegaSpaceInvader.DISPLAY_WIDTH);
-			speed = speed.invertX().dotProduct(0.6);
+		if (getPosition().x+sprite.getWidth()>MegaSpaceInvader.DISPLAY_WIDTH) {
+			getPosition().x -= (getPosition().x+sprite.getWidth()-MegaSpaceInvader.DISPLAY_WIDTH);
+			setSpeed(getSpeed().invertX().dotProduct(0.6));
 		}
-		if (position.y<0) {
-			position = position.invertY();
-			speed = speed.invertY().dotProduct(0.6);
+		if (getPosition().y<0) {
+			setPosition(getPosition().invertY());
+			setSpeed(getSpeed().invertY().dotProduct(0.6));
 		}
-		if (position.y+sprite.getHeight()>MegaSpaceInvader.DISPLAY_HEIGHT) {
-			position.y -= (position.y+sprite.getHeight()-MegaSpaceInvader.DISPLAY_HEIGHT);
-			speed = speed.invertY().dotProduct(0.6);
+		if (getPosition().y+sprite.getHeight()>MegaSpaceInvader.DISPLAY_HEIGHT) {
+			getPosition().y -= (getPosition().y+sprite.getHeight()-MegaSpaceInvader.DISPLAY_HEIGHT);
+			setSpeed(getSpeed().invertY().dotProduct(0.6));
 		}
 			
 	}

@@ -14,8 +14,8 @@ public class EntityShipPowered extends EntityShip {
 	@Override
 	public void shoot(long currentTime) {
 		
-		entitiesManager.add(new EntityShotFromAllyBasic(new Vector2d(position.x+getBoundingBox().width/2-10, position.y), new Vector2d(-100, -1000), entitiesManager, this));
-		entitiesManager.add(new EntityShotFromAllyBasic(new Vector2d(position.x+getBoundingBox().width/2, position.y), new Vector2d(100, -1000), entitiesManager, this));
+		entitiesManager.add(new EntityShotFromAllyBasic(new Vector2d(getPosition().x+getBoundingBox().width/2-10, getPosition().y), new Vector2d(-100, -1000), entitiesManager, this));
+		entitiesManager.add(new EntityShotFromAllyBasic(new Vector2d(getPosition().x+getBoundingBox().width/2, getPosition().y), new Vector2d(100, -1000), entitiesManager, this));
 		
 	}
 

@@ -248,11 +248,13 @@ public class Server extends Thread {
 		
 		// afichage des scores dans la console
 		if (playerManager.getPlayersCount() != 0) {
-			Logger.info("========== Scoreboard ==========");
-			for (PlayerScore score : scores) {
-				Logger.info(score.playerName+" : "+score.score);
+			if (scoringEnabled) {
+				Logger.info("========== Scoreboard ==========");
+				for (PlayerScore score : scores) {
+					Logger.info(score.playerName+" : "+score.score);
+				}
+				Logger.info("================================");
 			}
-			Logger.info("================================");
 			Logger.info("Waiting for key press from a player ...");
 		}
 		else {

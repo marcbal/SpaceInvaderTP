@@ -69,7 +69,7 @@ public abstract class EntityShotFromAlly  extends EntityShot{
 		super.move(delta);
 		
 		// if we shot off the screen, remove ourselfs
-		if (position.y < -50 || position.y > MegaSpaceInvader.DISPLAY_HEIGHT + 50 || position.x < -50 || position.x > MegaSpaceInvader.DISPLAY_WIDTH + 50) {
+		if (getPosition().y < -50 || getPosition().y > MegaSpaceInvader.DISPLAY_HEIGHT + 50 || getPosition().x < -50 || getPosition().x > MegaSpaceInvader.DISPLAY_WIDTH + 50) {
 			entitiesManager.remove(this);
 		}
 	}

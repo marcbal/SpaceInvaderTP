@@ -24,7 +24,7 @@ public abstract class EntityBonus extends Entity {
 	 */
 	public EntityBonus(String sprite,Vector2d p, Vector2d s, EntitiesManager eM) {
 		super(sprite,p,eM);
-		speed = s;
+		setSpeed(s);
 	}
 
 	/**
@@ -38,7 +38,7 @@ public abstract class EntityBonus extends Entity {
 		super.move(delta);
 		
 		// if we shot off the screen, remove ourselfs
-		if (position.y > MegaSpaceInvader.DISPLAY_HEIGHT) {
+		if (getPosition().y > MegaSpaceInvader.DISPLAY_HEIGHT) {
 			entitiesManager.remove(this);
 		}
 	}

@@ -28,7 +28,7 @@ public abstract class EntityShot extends Entity {
 		
 		degat = d;
 		
-		speed = s;
+		setSpeed(s);
 	}
 	
 	
