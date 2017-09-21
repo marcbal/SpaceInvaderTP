@@ -52,7 +52,9 @@ public abstract class Entity {
 		 return plannedToRemoved;
 	}
 	
-	public void planToRemove() {
+	public synchronized void planToRemove() {
+		if (plannedToRemoved)
+			return;
 		plannedToRemoved = true;
 		willDie();
 	}

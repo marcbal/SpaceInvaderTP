@@ -1,36 +1,27 @@
 package fr.univ_artois.iut_lens.spaceinvader.server;
 
+import java.util.List;
+
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.Entity;
 
 public class CollisionThread implements Runnable {
 	
+	private Entity me;
+	private List<Entity> others;
 	
-	private int itemIndex;
-	private Entity[] entitiesMT = null;
-	
-	public CollisionThread(int index, Entity[] ents) {
-		if (ents == null)
-			throw new IllegalArgumentException("ents ne peut être null");
-		if (index < 0 || index >= ents.length)
-			throw new IllegalArgumentException("index n'est pas entre 0 et la taille de ents");
-		itemIndex = index;
-		entitiesMT = ents;
+	public CollisionThread(Entity m, List<Entity> o) {
+		me = m;
+		others = o;
 	}
 	
 	
 	@Override
 	public void run() {
-		Entity me = entitiesMT[itemIndex];
-		if (me.plannedToRemoved())
-			return;
 		
-		for (int i=0; i<itemIndex; i++) {
-			Entity him = entitiesMT[i];
+		for (Entity him : others) {
 			try
 			{
-				if (him.getCamp().equals(me.getCamp())) continue;
 				if (him.plannedToRemoved()) continue;
-				
 				
 				if (him.collidesWith(me)) {
 					me.collidedWith(him);
