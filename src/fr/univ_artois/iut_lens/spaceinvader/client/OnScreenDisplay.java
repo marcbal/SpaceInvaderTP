@@ -1,7 +1,5 @@
 package fr.univ_artois.iut_lens.spaceinvader.client;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
 import java.util.Queue;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -11,6 +9,9 @@ import fr.univ_artois.iut_lens.spaceinvader.MegaSpaceInvader;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateInfos.GameInfo;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateInfos.GameInfo.PlayerInfo;
 import fr.univ_artois.iut_lens.spaceinvader.util.DataSizeUtil;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+import javafx.scene.text.TextAlignment;
 
 public class OnScreenDisplay {
 	
@@ -38,8 +39,7 @@ public class OnScreenDisplay {
 	
 	
 	
-	public void drawOtherInfos(Graphics2D g) {
-		Client client = Client.instance;
+	public void drawOtherInfos(GraphicsContext g) {
 		GameInfo serverInfos = Client.instance.lastGameInfo.get();
 		
 		boolean displayDetails = keyHandler.isKeyToggled("infos");
@@ -51,11 +51,11 @@ public class OnScreenDisplay {
 		long maxLife = serverInfos.maxEnemyLife;
 		if (currentLife <= maxLife
 				&& currentLife >= 0) {
-			g.setColor(new Color((float)Math.sqrt(1-(currentLife/(float)maxLife)), (float)Math.sqrt(currentLife/(float)maxLife), 0F));
+			g.setFill(new Color(Math.sqrt(1-(currentLife/(float)maxLife)), Math.sqrt(currentLife/(float)maxLife), 0, 1));
 			g.fillRect(0, 0, (int)Math.ceil((currentLife/(float)maxLife)*MegaSpaceInvader.DISPLAY_WIDTH), 3);
 		}
 		
-		g.setColor(Color.WHITE);
+		g.setFill(Color.WHITE);
 		String[] mCommand = {"Commandes :", "[Gauche/Droite] : bouger", "[Espace] : tirer", "[Echap] : pause", "[F3] : infos"};
 		int txtLine = 0;
 		for (String m : mCommand) {
@@ -75,10 +75,6 @@ public class OnScreenDisplay {
 			drawAlignedString(g, "Mémoire client : Utilisée="+DataSizeUtil.humanReadableByteCount(allocMem - freeMem, false)+
 					" Allouée="+DataSizeUtil.humanReadableByteCount(allocMem, false)+
 					" Maxi="+DataSizeUtil.humanReadableByteCount(maxMem, false), TextHorizontalAlign.LEFT, TextVerticalAlign.TOP, 2);
-			
-			int fpsGraphique = (int) Math.min(MegaSpaceInvader.CLIENT_FRAME_PER_SECOND, (1000000000/client.displayFrameDuration.get()));
-			drawAlignedString(g, "Framerate : "+fpsGraphique+"/s", TextHorizontalAlign.LEFT, TextVerticalAlign.TOP, 3);
-
 		}
 		
 		/*
@@ -125,26 +121,26 @@ public class OnScreenDisplay {
 		}
 	}
 	
-	public void drawMiddleWaiting(Graphics2D g)
+	public void drawMiddleWaiting(GraphicsContext g)
 	{
 		String message = middleMessage.get();
-		g.setColor(Color.WHITE);
+		g.setFill(Color.WHITE);
 		drawAlignedString(g, message, TextHorizontalAlign.CENTER, TextVerticalAlign.MIDDLE, -1);
 		drawAlignedString(g, "Appuyez sur Entrée", TextHorizontalAlign.CENTER, TextVerticalAlign.MIDDLE, 1);
 	}
 	
 	
-	public void drawMiddlePause(Graphics2D g)
+	public void drawMiddlePause(GraphicsContext g)
 	{
 		if (!Client.instance.serverSidePause.get()) return;
-		g.setColor(Color.WHITE);
+		g.setFill(Color.WHITE);
 		drawAlignedString(g, "--> PAUSE <--", TextHorizontalAlign.CENTER, TextVerticalAlign.MIDDLE, 0);
 	}
 	
 	
 	
 	
-	private void drawAlignedString(Graphics2D g, String text, TextHorizontalAlign hAlign, TextVerticalAlign vAlign, int offset) {
+	private void drawAlignedString(GraphicsContext g, String text, TextHorizontalAlign hAlign, TextVerticalAlign vAlign, int offset) {
 		// border margin
 		int margin = 5;
 		// space between lines
@@ -160,10 +156,18 @@ public class OnScreenDisplay {
 		int x = (hAlign == TextHorizontalAlign.LEFT)
 				? margin
 				: (hAlign == TextHorizontalAlign.RIGHT)
-				? MegaSpaceInvader.DISPLAY_WIDTH-5-g.getFontMetrics().stringWidth(text)
-				: MegaSpaceInvader.DISPLAY_WIDTH/2-g.getFontMetrics().stringWidth(text)/2;
+				? MegaSpaceInvader.DISPLAY_WIDTH-margin
+				: MegaSpaceInvader.DISPLAY_WIDTH/2;
+		TextAlignment align = (hAlign == TextHorizontalAlign.LEFT)
+				? TextAlignment.LEFT
+				: (hAlign == TextHorizontalAlign.RIGHT)
+				? TextAlignment.RIGHT
+				: TextAlignment.CENTER;
 		
-		g.drawString(text, x, y);
+		TextAlignment old = g.getTextAlign();
+		g.setTextAlign(align);
+		g.fillText(text, x, y);
+		g.setTextAlign(old);
 		
 		
 		

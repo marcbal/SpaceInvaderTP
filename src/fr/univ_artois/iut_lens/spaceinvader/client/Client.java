@@ -1,24 +1,11 @@
 package fr.univ_artois.iut_lens.spaceinvader.client;
 
-import java.awt.Canvas;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.image.BufferStrategy;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 import fr.univ_artois.iut_lens.spaceinvader.MegaSpaceInvader;
 import fr.univ_artois.iut_lens.spaceinvader.client.network.Connection;
@@ -37,18 +24,28 @@ import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerDi
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerDisconnectTimeout;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerLevelEnd;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerLevelEnd.PlayerScore;
-import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateInfos.GameInfo;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerLevelStart;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerLog;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerPing;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerProtocolError;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerTogglePause;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateInfos;
+import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateInfos.GameInfo;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateMap;
 import fr.univ_artois.iut_lens.spaceinvader.sprites_manager.Sprite;
 import fr.univ_artois.iut_lens.spaceinvader.sprites_manager.SpriteStore;
 import fr.univ_artois.iut_lens.spaceinvader.util.Logger;
-import fr.univ_artois.iut_lens.spaceinvader.util.WindowUtil;
+import javafx.animation.AnimationTimer;
+import javafx.application.Platform;
+import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontSmoothingType;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 /**
  * The main hook of our game. This class with both act as a manager
@@ -65,14 +62,11 @@ import fr.univ_artois.iut_lens.spaceinvader.util.WindowUtil;
  * 
  * @author Kevin Glass (original), Maxime Maroine, Marc Baloup
  */
-public class Client extends Canvas implements NetworkReceiveListener, Runnable {
-	private static final long serialVersionUID = 1L;
+public class Client extends Canvas implements NetworkReceiveListener {
 
 	public static Client instance;
 
-	/** The stragey that allows us to use accelerate page flipping */
-	private BufferStrategy bufferStrategy;
-	private JFrame container;
+	private Stage stage;
 	
 	private OnScreenDisplay onScreenDisplay;
 	
@@ -90,13 +84,10 @@ public class Client extends Canvas implements NetworkReceiveListener, Runnable {
 	private Sprite background;
 	
 	
-	public AtomicLong displayFrameDuration = new AtomicLong();
 	public AtomicLong logicalFrameDuration = new AtomicLong();
 	public AtomicLong logicalCollisionDuration = new AtomicLong();
 	
 	public Connection connection;
-	
-	public final Thread graphicalThread;
 	
 	public final InetSocketAddress serverAddress;
 	
@@ -107,136 +98,103 @@ public class Client extends Canvas implements NetworkReceiveListener, Runnable {
 	/**
 	 * @throws IOException si un problème survient lors de la connexion
 	 */
-	public Client(InetSocketAddress serverAddress, String playerName) throws IOException {
+	public Client(Stage primaryStage, InetSocketAddress serverAddress, String playerName) throws IOException {
+		super(MegaSpaceInvader.DISPLAY_WIDTH, MegaSpaceInvader.DISPLAY_HEIGHT);
 		instance = this;
 		this.serverAddress = serverAddress;
 		this.playerName = playerName;
 		
-		// create a frame to contain our game
-		container = new JFrame("Méga Space Invader");
-		container.setIconImage(SpriteStore.get().getSprite("sprites/ComplexShot.png").getAWTImage());
-		
-		// get hold the content of the frame and set up the resolution of the game
-		JPanel panel = (JPanel) container.getContentPane();
-		panel.setPreferredSize(new Dimension(MegaSpaceInvader.DISPLAY_WIDTH,MegaSpaceInvader.DISPLAY_HEIGHT));
-		panel.setLayout(null);
+		stage = primaryStage;
 		
 		
-		// setup our canvas size and put it into the content of the frame
-		setSize(MegaSpaceInvader.DISPLAY_WIDTH,MegaSpaceInvader.DISPLAY_HEIGHT);
-		container.setSize(MegaSpaceInvader.DISPLAY_WIDTH,MegaSpaceInvader.DISPLAY_HEIGHT);
+		// create a scene to contain our game
+		stage.setScene(new Scene(new BorderPane(this)));
+		stage.setTitle("Mega Space Invader");
+		stage.setResizable(false);
 
-		WindowUtil.centerWindow(container);
+		stage.sizeToScene();
 		
-		panel.add(this);
-		
-		// Tell AWT not to bother repainting our canvas since we're
-		// going to do that our self in accelerated mode
-		setIgnoreRepaint(true);
-		
-		// finally make the window visible 
-		container.pack();
-		container.setResizable(false);
-		container.setVisible(true);
-		
-		
-		// add a listener to respond to the user closing the window. If they
-		// do we'd like to exit the game
-		container.addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
+		stage.setOnCloseRequest(event -> {
+			if (event.getEventType() == WindowEvent.WINDOW_CLOSE_REQUEST) {
 				gameRunning.set(false);
 			}
 		});
-		container.addComponentListener(new ComponentListener() {
-			
-			@Override
-			public void componentShown(ComponentEvent event) { }
-			
-			@Override
-			public void componentResized(ComponentEvent event) { }
-			
-			@Override
-			public void componentHidden(ComponentEvent event) {
+		stage.iconifiedProperty().addListener((obj, oldV, newV) -> {
+			if (newV) {
 				keyHandler.manualToggle("pause", true);
 			}
-
-			@Override
-			public void componentMoved(ComponentEvent event) { }
 		});
 		
 		// add a key input system (defined below) to our canvas
 		// so we can respond to key pressed
-		addKeyListener(keyHandler);
+		setOnKeyPressed(keyHandler::keyPressed);
+		setOnKeyReleased(keyHandler::keyReleased);
+		
+		stage.show();
+		stage.centerOnScreen();
+		
+		
+
+		background = SpriteStore.get().getSprite("sprites/background_1080p.jpg");
+		
 		
 		// request the focus so key events come to us
 		requestFocus();
-
-		// create the buffering strategy which will allow AWT
-		// to manage our accelerated graphics
-		createBufferStrategy(2);
-		bufferStrategy = getBufferStrategy();
 		
 		
 		onScreenDisplay = new OnScreenDisplay();
+
+		
+		
+		getGraphicsContext2D().setFontSmoothingType(FontSmoothingType.LCD);
+		getGraphicsContext2D().setFont(Font.font("SansSerif", 12));
+		
+		
+		Platform.runLater(() -> {
+			onScreenDisplay.setMiddleMessage("Connexion à "+serverAddress+" ...");
+	        updateDisplay(System.nanoTime()); // première affichage
+	        
+			/*
+			 * Connexion au serveur
+			 */
+			
+			try {
+				connection = new Connection(serverAddress, playerName, this);
+			} catch (IOException e) {
+				onScreenDisplay.setMiddleMessage("Connexion impossible.");
+		        updateDisplay(System.nanoTime());
+		        try { Thread.sleep(5000); } catch (InterruptedException e1) { }
+				stage.hide();
+		        return;
+			}
+			
+			AnimationTimer timer = new AnimationTimer() {
+				
+				@Override
+				public void handle(long now) {
+					if (!gameRunning.get()) {
+						connection.silentSend(new PacketClientDisconnect());
+						stage.hide();
+						stop();
+					}
+					long loop_start = System.nanoTime();
+		            updateDisplay(loop_start);
+		            
+		            // envoi des packets
+		            sendPackets();
+				}
+			};
+			timer.start();
+			
+		});
 		
 		
 		
-		graphicalThread = new Thread(this);
-		graphicalThread.setName("Client");
-		graphicalThread.setPriority(Thread.MAX_PRIORITY);
+		
 		
 	}
 	
 
-	
-	
-	
-	@Override
-	public void run() {
-		
-		long delta = 1000000000/MegaSpaceInvader.CLIENT_FRAME_PER_SECOND;
-		
-
-		onScreenDisplay.setMiddleMessage("Connexion à "+serverAddress+" ...");
-        updateDisplay(System.nanoTime()); // première affichage
-		/*
-		 * Connexion au serveur
-		 */
-		
-		try {
-			connection = new Connection(serverAddress, playerName, this);
-		} catch (IOException e) {
-			onScreenDisplay.setMiddleMessage("Connexion impossible.");
-	        updateDisplay(System.nanoTime());
-	        try { Thread.sleep(5000); } catch (InterruptedException e1) { }
-			container.dispose();
-	        return;
-		}
-		
-		
-		
-		// keep looping round til the game ends
-		while (gameRunning.get()) {
-			long loop_start = System.nanoTime();
-            updateDisplay(loop_start);
-            
-            // envoi des packets
-            sendPackets();
-            
-            
-            displayFrameDuration.set(System.nanoTime()-loop_start);
-			try { Thread.sleep((delta-(displayFrameDuration.get()))/1000000); } catch (Exception e) {}
-		}
-		
-		
-		
-		connection.silentSend(new PacketClientDisconnect());
-		
-		
-		container.dispose();
-	}
-	
 	
 	
 	
@@ -297,13 +255,10 @@ public class Client extends Canvas implements NetworkReceiveListener, Runnable {
 		
 		// Get hold of a graphics context for the accelerated 
 		// surface and blank it out
-		Graphics2D g = (Graphics2D) bufferStrategy.getDrawGraphics();
-		g.setBackground(Color.BLACK);
-		g.setFont(new Font("SansSerif", Font.PLAIN, 11));
-		
+		GraphicsContext g = getGraphicsContext2D();
+		g.setFill(Color.BLACK);
 		
 		// dessin du background
-		background = SpriteStore.get().getSprite("sprites/background_1080p.jpg");
 		background.draw(g,
 				(int)(MegaSpaceInvader.DISPLAY_WIDTH/2D - background.getWidth()/2D),
 				(int)(MegaSpaceInvader.DISPLAY_HEIGHT/2D - background.getHeight()/2D));
@@ -326,10 +281,7 @@ public class Client extends Canvas implements NetworkReceiveListener, Runnable {
 		
 		onScreenDisplay.drawOtherInfos(g);
 		
-		// finally, we've completed drawing so clear up the graphics
-		// and flip the buffer over
-		g.dispose();
-		bufferStrategy.show();
+		
 	}
 	
 	
@@ -412,10 +364,5 @@ public class Client extends Canvas implements NetworkReceiveListener, Runnable {
 	
 	
 	
-	
-	
-	public void start() {
-		graphicalThread.start();
-	}
 	
 }

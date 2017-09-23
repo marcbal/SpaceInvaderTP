@@ -1,11 +1,11 @@
 package fr.univ_artois.iut_lens.spaceinvader.client;
 
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import fr.univ_artois.iut_lens.spaceinvader.util.Logger;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 
 /**
@@ -14,13 +14,9 @@ import fr.univ_artois.iut_lens.spaceinvader.util.Logger;
  * and shoot, and more static type input (i.e. press any key to
  * continue)
  * 
- * This has been implemented as an inner class more through 
- * habbit then anything else. Its perfectly normal to implement
- * this as seperate class if slight less convienient.
- * 
  * @author Kevin Glass
  */
-public class KeyInputHandler extends KeyAdapter {
+public class KeyInputHandler {
 	
 	
 	private Map<String, KeySetting> keyState = new ConcurrentHashMap<>();
@@ -33,16 +29,16 @@ public class KeyInputHandler extends KeyAdapter {
 	
 	public KeyInputHandler() {
 		// la configuration des touche se fait ici
-		keyState.put("shipLeft", new KeySetting(KeyEvent.VK_LEFT));
-		keyState.put("shipRight", new KeySetting(KeyEvent.VK_RIGHT));
-		keyState.put("shipFire", new KeySetting(KeyEvent.VK_SPACE));
+		keyState.put("shipLeft", new KeySetting(KeyCode.LEFT));
+		keyState.put("shipRight", new KeySetting(KeyCode.RIGHT));
+		keyState.put("shipFire", new KeySetting(KeyCode.SPACE));
 		
 		
-		keyToggle.put("pause", new KeySetting(KeyEvent.VK_ESCAPE));
-		keyToggle.put("infos", new KeySetting(KeyEvent.VK_F3));
+		keyToggle.put("pause", new KeySetting(KeyCode.ESCAPE));
+		keyToggle.put("infos", new KeySetting(KeyCode.F3));
 		
 		
-		keyWaitPress.put("start", new KeySetting(KeyEvent.VK_ENTER));
+		keyWaitPress.put("start", new KeySetting(KeyCode.ENTER));
 	
 	}
 	
@@ -53,29 +49,28 @@ public class KeyInputHandler extends KeyAdapter {
 	 *
 	 * @param e The details of the key that was pressed 
 	 */
-	@Override
 	public void keyPressed(KeyEvent e) {
 		/*
 		 * Parcours la liste des configuration de touche et met à true les valeurs correspondante à la touche pressée
 		 */
-		for (Map.Entry<String, KeySetting> k : keyState.entrySet()){
-			if (e.getKeyCode() == k.getValue().keyCode)
-				k.getValue().state = 1;
+		for (KeySetting k : keyState.values()){
+			if (e.getCode() == k.keyCode)
+				k.state = 1;
 		}
 		/*
 		 * Parcours la liste des configuration de touche et met change la valeur correspondante à la touche pressée
 		 * c'est à dire : true->false ou false->true
 		 */
-		for (Map.Entry<String, KeySetting> k : keyToggle.entrySet()){
-			if (e.getKeyCode() == k.getValue().keyCode)
-				k.getValue().state = (k.getValue().state==1)?0:1;
+		for (KeySetting k : keyToggle.values()){
+			if (e.getCode() == k.keyCode)
+				k.state = (k.state==1)?0:1;
 		}
 		/*
 		 * Parcours la liste des configuration de touche et incrémente la valeur correspondante à la touche pressée
 		 */
-		for (Map.Entry<String, KeySetting> k : keyWaitPress.entrySet()){
-			if (e.getKeyCode() == k.getValue().keyCode)
-				k.getValue().state++;
+		for (KeySetting k : keyWaitPress.values()){
+			if (e.getCode() == k.keyCode)
+				k.state++;
 		}
 	} 
 	
@@ -84,27 +79,18 @@ public class KeyInputHandler extends KeyAdapter {
 	 *
 	 * @param e The details of the key that was released 
 	 */
-	@Override
 	public void keyReleased(KeyEvent e) {
 		/*
 		 * Parcours la liste des configuration de touche et met à false les valeurs correspondante à la touche relachée
 		 */
-		for (Map.Entry<String, KeySetting> k : keyState.entrySet()){
-			if (e.getKeyCode() == k.getValue().keyCode)
-				k.getValue().state = 0;
+		for (KeySetting k : keyState.values()){
+			if (e.getCode() == k.keyCode)
+				k.state = 0;
 		}
 	}
-
-	/**
-	 * Notification from AWT that a key has been typed. Note that
-	 * typing a key means to both press and then release it.
-	 *
-	 * @param e The details of the key that was typed. 
-	 */
-	@Override
-	public void keyTyped(KeyEvent e) {
-		
-	}
+	
+	
+	
 	
 	
 	
@@ -150,9 +136,9 @@ public class KeyInputHandler extends KeyAdapter {
 	
 	
 	private class KeySetting {
-		public int keyCode;
+		public KeyCode keyCode;
 		public int state = 0;
-		public KeySetting(int kCode) {
+		public KeySetting(KeyCode kCode) {
 			keyCode = kCode;
 		}
 	}

@@ -1,294 +1,217 @@
 package fr.univ_artois.iut_lens.spaceinvader.launcher;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
-
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
+import java.net.InetAddress;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 import fr.univ_artois.iut_lens.spaceinvader.MegaSpaceInvader;
 import fr.univ_artois.iut_lens.spaceinvader.server.Server;
-import fr.univ_artois.iut_lens.spaceinvader.sprites_manager.SpriteStore;
-import fr.univ_artois.iut_lens.spaceinvader.util.WindowUtil;
+import javafx.geometry.HPos;
+import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
+import javafx.scene.control.TabPane.TabClosingPolicy;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.net.InetAddress;
-import java.text.ParseException;
-import java.util.Random;
-import java.awt.event.ActionEvent;
-import javax.swing.JTabbedPane;
-import javax.swing.JSpinner;
-import javax.swing.SwingConstants;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.JCheckBox;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
-
-@SuppressWarnings("serial")
-public class LauncherDialog extends JFrame {
-	private JCheckBox chckbxLancerLeClient;
-	private JTextField textFieldServerAddr;
-	private JTextField textFieldPlayerName;
-	private JCheckBox chckbxLancerLeServeur;
-	private JCheckBox chckbxServerScoring;
-	private JSpinner spinnerServerPort;
+public class LauncherDialog extends Scene {
+	private CheckBox chckbxRunClient;
+	private TextField textFieldServerAddr;
+	private TextField textFieldPlayerName;
+	private CheckBox chckbxRunServer;
+	private CheckBox chckbxServerScoring;
+	private Spinner<Integer> spinnerServerPort;
+	
+	private Stage stage;
 
 
 	/**
 	 * Create the dialog.
 	 */
-	public LauncherDialog() {
-		setIconImage(SpriteStore.get().getSprite("sprites/ComplexShot.png").getAWTImage());
-		setResizable(false);
+	public LauncherDialog(Stage primaryStage) {
+		super(new BorderPane());
+		stage = primaryStage;
+		stage.setScene(this);
+		stage.setTitle("Launcher - Mega Space Invader");
+
+		stage.setWidth(350);
+		stage.setHeight(286);
+		stage.centerOnScreen();
 		
-		setDefaultCloseOperation(JDialog.EXIT_ON_CLOSE);
-		setTitle("Launcher - Mega Space Invader");
-		setSize(350, 286);
-		WindowUtil.centerWindow(this);
-		getContentPane().setLayout(new BorderLayout());
-		{
-			JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-			getContentPane().add(tabbedPane, BorderLayout.CENTER);
-			{
-				JPanel clientPanel = new JPanel();
-				clientPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-				tabbedPane.addTab("Client", null, clientPanel, null);
-				GridBagLayout gbl_clientPanel = new GridBagLayout();
-				gbl_clientPanel.columnWidths = new int[] {142, 182, 0};
-				gbl_clientPanel.rowHeights = new int[] {25, 30, 30, 0};
-				gbl_clientPanel.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
-				gbl_clientPanel.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
-				clientPanel.setLayout(gbl_clientPanel);
-				{
-					chckbxLancerLeClient = new JCheckBox("Lancer le client");
-					chckbxLancerLeClient.setSelected(true);
-					chckbxLancerLeClient.addItemListener((event) -> {
-						if (event.getStateChange() == ItemEvent.SELECTED)
-							enableInternalClient();
-						else
-							disableInternalClient();
-					});
-					GridBagConstraints gbc_chckbxLancerLeClient = new GridBagConstraints();
-					gbc_chckbxLancerLeClient.gridwidth = 2;
-					gbc_chckbxLancerLeClient.insets = new Insets(0, 0, 5, 0);
-					gbc_chckbxLancerLeClient.fill = GridBagConstraints.BOTH;
-					gbc_chckbxLancerLeClient.gridx = 0;
-					gbc_chckbxLancerLeClient.gridy = 0;
-					clientPanel.add(chckbxLancerLeClient, gbc_chckbxLancerLeClient);
-				}
-				{
-					JLabel lblServerAddr = new JLabel("Adresse du serveur");
-					lblServerAddr.setHorizontalAlignment(SwingConstants.LEFT);
-					GridBagConstraints gbc_lblServerAddr = new GridBagConstraints();
-					gbc_lblServerAddr.fill = GridBagConstraints.BOTH;
-					gbc_lblServerAddr.anchor = GridBagConstraints.WEST;
-					gbc_lblServerAddr.insets = new Insets(0, 0, 5, 5);
-					gbc_lblServerAddr.gridx = 0;
-					gbc_lblServerAddr.gridy = 1;
-					clientPanel.add(lblServerAddr, gbc_lblServerAddr);
-				}
-				{
-					textFieldServerAddr = new JTextField();
-					textFieldServerAddr.setText("localhost:"+MegaSpaceInvader.SERVER_DEFAULT_PORT);
-					textFieldServerAddr.setEnabled(false); // par défaut, c'est le serveur local. Il faut le désactiver pour configurer un serveur distant.
-					textFieldServerAddr.setToolTipText("Ce champ n'est accessible que si le serveur interne est désactivé.");
-					GridBagConstraints gbc_textFieldServerAddr = new GridBagConstraints();
-					gbc_textFieldServerAddr.insets = new Insets(0, 0, 5, 0);
-					gbc_textFieldServerAddr.fill = GridBagConstraints.BOTH;
-					gbc_textFieldServerAddr.gridx = 1;
-					gbc_textFieldServerAddr.gridy = 1;
-					clientPanel.add(textFieldServerAddr, gbc_textFieldServerAddr);
-					textFieldServerAddr.setColumns(10);
-				}
-				{
-					JLabel lblNewLabel = new JLabel("Nom du joueur");
-					lblNewLabel.setHorizontalAlignment(SwingConstants.LEFT);
-					GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-					gbc_lblNewLabel.anchor = GridBagConstraints.EAST;
-					gbc_lblNewLabel.fill = GridBagConstraints.BOTH;
-					gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-					gbc_lblNewLabel.gridx = 0;
-					gbc_lblNewLabel.gridy = 2;
-					clientPanel.add(lblNewLabel, gbc_lblNewLabel);
-				}
-				{
-					textFieldPlayerName = new JTextField();
-					textFieldPlayerName.setText(randomString(3, LETTERS)+randomString(2, NUMBERS));
-					GridBagConstraints gbc_textFieldPlayerName = new GridBagConstraints();
-					gbc_textFieldPlayerName.insets = new Insets(0, 0, 5, 0);
-					gbc_textFieldPlayerName.fill = GridBagConstraints.BOTH;
-					gbc_textFieldPlayerName.gridx = 1;
-					gbc_textFieldPlayerName.gridy = 2;
-					clientPanel.add(textFieldPlayerName, gbc_textFieldPlayerName);
-					textFieldPlayerName.setColumns(10);
-				}
+		stage.setOnCloseRequest(event -> {
+			if (event.getEventType() == WindowEvent.WINDOW_CLOSE_REQUEST) {
+				System.exit(0);
 			}
-			{
-				JPanel serverPanel = new JPanel();
-				tabbedPane.addTab("Serveur", null, serverPanel, null);
-				serverPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-				GridBagLayout gbl_serverPanel = new GridBagLayout();
-				gbl_serverPanel.columnWidths = new int[] {142, 182, 0};
-				gbl_serverPanel.rowHeights = new int[] {25, 30, 30, 30};
-				gbl_serverPanel.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
-				gbl_serverPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0};
-				serverPanel.setLayout(gbl_serverPanel);
-				{
-					chckbxLancerLeServeur = new JCheckBox("Lancer le serveur local");
-					chckbxLancerLeServeur.setSelected(true);
-					chckbxLancerLeServeur.addItemListener((event) -> {
-						if (event.getStateChange() == ItemEvent.SELECTED)
-							enableInternalServer();
-						else
-							disableInternalServer();
-					});
-					GridBagConstraints gbc_chckbxLancerLeServeur = new GridBagConstraints();
-					gbc_chckbxLancerLeServeur.gridwidth = 2;
-					gbc_chckbxLancerLeServeur.fill = GridBagConstraints.BOTH;
-					gbc_chckbxLancerLeServeur.insets = new Insets(0, 0, 5, 0);
-					gbc_chckbxLancerLeServeur.gridx = 0;
-					gbc_chckbxLancerLeServeur.gridy = 0;
-					serverPanel.add(chckbxLancerLeServeur, gbc_chckbxLancerLeServeur);
-				}
-				{
-					JLabel lblSvPort = new JLabel("Port d'écoute");
-					lblSvPort.setHorizontalAlignment(SwingConstants.LEFT);
-					GridBagConstraints gbc_lblSvPort = new GridBagConstraints();
-					gbc_lblSvPort.fill = GridBagConstraints.BOTH;
-					gbc_lblSvPort.insets = new Insets(0, 0, 5, 5);
-					gbc_lblSvPort.gridx = 0;
-					gbc_lblSvPort.gridy = 1;
-					serverPanel.add(lblSvPort, gbc_lblSvPort);
-				}
-				{
-					spinnerServerPort = new JSpinner();
-					spinnerServerPort.setModel(new SpinnerNumberModel(MegaSpaceInvader.SERVER_DEFAULT_PORT, 1, 65535, 1));
-					spinnerServerPort.addChangeListener((event) -> {
-						changeServerPortValue();
-					});
-					GridBagConstraints gbc_spinnerServerPort = new GridBagConstraints();
-					gbc_spinnerServerPort.insets = new Insets(0, 0, 5, 0);
-					gbc_spinnerServerPort.fill = GridBagConstraints.BOTH;
-					gbc_spinnerServerPort.gridx = 1;
-					gbc_spinnerServerPort.gridy = 1;
-					serverPanel.add(spinnerServerPort, gbc_spinnerServerPort);
-				}
-				{
-					chckbxServerScoring = new JCheckBox("Activer le scoring");
-					chckbxServerScoring.setSelected(false);
-					GridBagConstraints gbc_chckbxLancerLeServeur = new GridBagConstraints();
-					gbc_chckbxLancerLeServeur.gridwidth = 2;
-					gbc_chckbxLancerLeServeur.fill = GridBagConstraints.BOTH;
-					gbc_chckbxLancerLeServeur.insets = new Insets(0, 0, 5, 0);
-					gbc_chckbxLancerLeServeur.gridx = 0;
-					gbc_chckbxLancerLeServeur.gridy = 2;
-					serverPanel.add(chckbxServerScoring, gbc_chckbxLancerLeServeur);
-				}
-				{
-					JScrollPane scrollPane = new JScrollPane();
-					scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-					GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-					gbc_scrollPane.gridwidth = 2;
-					gbc_scrollPane.fill = GridBagConstraints.BOTH;
-					gbc_scrollPane.gridx = 0;
-					gbc_scrollPane.gridy = 3;
-					serverPanel.add(scrollPane, gbc_scrollPane);
-					{
-						
-						String IPAdressesList = "<html><b>Liste des adresses IP de cet ordinateur</b><br/>";
-						for (InetAddress addr : Server.getAllNetworkInterfacesAddress()) {
-							IPAdressesList += addr+"<br/>";
-						}
-						IPAdressesList += "</html>";
-						
-						
-						JLabel lblNewLabel_1 = new JLabel(IPAdressesList);
-						lblNewLabel_1.setVerticalAlignment(SwingConstants.TOP);
-						lblNewLabel_1.setHorizontalAlignment(SwingConstants.LEFT);
-						scrollPane.setViewportView(lblNewLabel_1);
-					}
-				}
-					
-			}
-		}
-		{
-			JPanel buttonPane = new JPanel();
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonPane, BorderLayout.SOUTH);
-			{
-				JButton okButton = new JButton("Lancer");
-				okButton.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
-						dispose();
-					}
-				});
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
-			}
-			{
-				JButton cancelButton = new JButton("Fermer");
-				cancelButton.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
-						System.exit(0);
-					}
-				});
-				buttonPane.add(cancelButton);
-			}
-		}
+		});
 		
-		setVisible(true);
+		
+		// CLIENT TAB
+		
+		// tab elements
+		chckbxRunClient = new CheckBox("Lancer le client");
+		chckbxRunClient.setSelected(true);
+		chckbxRunClient.selectedProperty().addListener((ob, oldV, newV) -> {
+			if (newV)
+				enableInternalClient();
+			else
+				disableInternalClient();
+		});
+		Label lblServerAddr = new Label("Adresse du serveur");
+		textFieldServerAddr = new TextField("localhost:"+MegaSpaceInvader.SERVER_DEFAULT_PORT);
+		textFieldServerAddr.setDisable(true); // par défaut, c'est le serveur local. Il faut le désactiver pour configurer un serveur distant.
+		textFieldServerAddr.setTooltip(new Tooltip("Ce champ n'est accessible que si le serveur interne est désactivé."));
+		Label lblPlayerName = new Label("Nom du joueur");
+		textFieldPlayerName = new TextField(randomString(3, LETTERS)+randomString(2, NUMBERS));
+		
+		// tab content structure
+		GridPane tabClientContainer = new GridPane();
+		tabClientContainer.setBorder(new Border(new BorderStroke(Color.TRANSPARENT, null, null, new BorderWidths(5))));
+		tabClientContainer.getColumnConstraints().add(new ColumnConstraints(120, 120, 120, Priority.NEVER, HPos.LEFT, true));
+		tabClientContainer.getColumnConstraints().add(new ColumnConstraints(200, 250, 250, Priority.ALWAYS, HPos.LEFT, true));
+		tabClientContainer.add(chckbxRunClient, 0, 0, 2, 1);
+		tabClientContainer.add(lblServerAddr, 0, 1);
+		tabClientContainer.add(textFieldServerAddr, 1, 1);
+		tabClientContainer.add(lblPlayerName, 0, 2);
+		tabClientContainer.add(textFieldPlayerName, 1, 2);
+		Tab tabClient = new Tab("Client", tabClientContainer);
+		// end CLIENT TAB
+		
+		
+		
+		
+		
+		
+		// SERVER TAB
+
+		// tab elements
+		chckbxRunServer = new CheckBox("Lancer le serveur local");
+		chckbxRunServer.setSelected(true);
+		chckbxRunServer.selectedProperty().addListener((ob, oldV, newV) -> {
+			if (newV)
+				enableInternalServer();
+			else
+				disableInternalServer();
+		});
+		Label lblServerPort = new Label("Post d'écoute");
+		spinnerServerPort = new Spinner<>(1, 65535, MegaSpaceInvader.SERVER_DEFAULT_PORT);
+		spinnerServerPort.valueProperty().addListener((obj, oldV, newV) -> {
+			changeServerPortValue(newV);
+		});
+		chckbxServerScoring = new CheckBox("Activer le scoring");
+		chckbxServerScoring.setSelected(false);
+		Label lblAddress = new Label("Liste des adresses IP de cet ordinateur :");
+		ScrollPane scrollAddress = new ScrollPane(new Label(String.join("\n",
+				Server.getAllNetworkInterfacesAddress().stream()
+						.map(InetAddress::toString)
+						.collect(Collectors.toList())
+				)));
+
+		// tab content structure
+		GridPane tabServerContainer = new GridPane();
+		tabServerContainer.setBorder(new Border(new BorderStroke(Color.TRANSPARENT, null, null, new BorderWidths(5))));
+		tabServerContainer.getColumnConstraints().add(new ColumnConstraints(120, 120, 120, Priority.NEVER, HPos.LEFT, true));
+		tabServerContainer.getColumnConstraints().add(new ColumnConstraints(200, 250, 250, Priority.ALWAYS, HPos.LEFT, true));
+		tabServerContainer.add(chckbxRunServer, 0, 0, 2, 1);
+		tabServerContainer.add(lblServerPort, 0, 1);
+		tabServerContainer.add(spinnerServerPort, 1, 1);
+		tabServerContainer.add(chckbxServerScoring, 0, 2, 2, 1);
+		tabServerContainer.add(lblAddress, 0, 3, 2, 1);
+		tabServerContainer.add(scrollAddress, 0, 4, 2, 1);
+		Tab tabServer = new Tab("Serveur", tabServerContainer);
+		// end SERVER TAB
+		
+		
+		
+		
+		// global tab structure
+		TabPane tabbedPane = new TabPane(tabClient, tabServer);
+		tabbedPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
+		
+		
+		
+		// START/CLOSE BUTTONS
+		
+		Button okButton = new Button("Lancer");
+		okButton.setOnAction(event -> {
+			stage.hide();
+			MegaSpaceInvader.afterLauncherUI(getLaunchConfig());
+		});
+		okButton.setDefaultButton(true);
+		
+		
+		Button closeButton = new Button("Fermer");
+		closeButton.setOnAction(event -> {
+			System.exit(0);
+		});
+		closeButton.setCancelButton(true);
+		
+		FlowPane buttonPane = new FlowPane(Orientation.HORIZONTAL, 5, 0, okButton, closeButton);
+		buttonPane.setAlignment(Pos.CENTER_RIGHT);
+		buttonPane.setBorder(new Border(new BorderStroke(Color.TRANSPARENT, null, null, new BorderWidths(5))));
+		
+		// end START/CLOSE BUTTONS
+		
+		
+		
+		
+		BorderPane rootPane = (BorderPane) getRoot();
+		rootPane.setCenter(tabbedPane);
+		rootPane.setBottom(buttonPane);
+		
+		
+		
+		stage.show();
+		
 	}
 	
 	
 	
 	
 	private void disableInternalServer() {
-		if (chckbxLancerLeClient.isSelected())
-			textFieldServerAddr.setEnabled(true);
-		spinnerServerPort.setEnabled(false);
-		chckbxServerScoring.setEnabled(false);
+		if (chckbxRunClient.isSelected())
+			textFieldServerAddr.setDisable(false);
+		spinnerServerPort.setDisable(true);
+		chckbxServerScoring.setDisable(true);
 	}
 	
 	private void enableInternalServer() {
-		textFieldServerAddr.setEnabled(false);
-		spinnerServerPort.setEnabled(true);
+		textFieldServerAddr.setDisable(true);
+		spinnerServerPort.setDisable(false);
 		textFieldServerAddr.setText("localhost:"+spinnerServerPort.getValue());
-		chckbxServerScoring.setEnabled(true);
+		chckbxServerScoring.setDisable(false);
 	}
 	
-	private void changeServerPortValue() {
-		try {
-			spinnerServerPort.commitEdit();
-		} catch (ParseException e) {
-			spinnerServerPort.setBackground(new Color(255, 240, 240));
-			return;
-		}
-		spinnerServerPort.setBackground(Color.WHITE);
-		textFieldServerAddr.setText("localhost:"+spinnerServerPort.getValue());
+	private void changeServerPortValue(int newValue) {
+		textFieldServerAddr.setText("localhost:"+newValue);
 	}
 	
 	private void disableInternalClient() {
-		textFieldServerAddr.setEnabled(false);
-		textFieldPlayerName.setEnabled(false);
+		textFieldServerAddr.setDisable(true);
+		textFieldPlayerName.setDisable(true);
 	}
 	
 	private void enableInternalClient() {
-		if (!chckbxLancerLeServeur.isSelected())
-			textFieldServerAddr.setEnabled(true);
-		textFieldPlayerName.setEnabled(true);
+		if (!chckbxRunServer.isSelected())
+			textFieldServerAddr.setDisable(false);
+		textFieldPlayerName.setDisable(false);
 	}
 	
 	
@@ -296,16 +219,16 @@ public class LauncherDialog extends JFrame {
 	
 	
 	
-	public LaunchingConfiguration generateConfig() {
+	private LaunchingConfiguration getLaunchConfig() {
 		LaunchingConfiguration config = new LaunchingConfiguration();
-		config.clientEnabled = chckbxLancerLeClient.isSelected();
+		config.clientEnabled = chckbxRunClient.isSelected();
 		if (config.clientEnabled) {
 			config.clientConnectionAddress = textFieldServerAddr.getText();
 			config.clientPlayerName = textFieldPlayerName.getText().substring(0, Math.min(50, textFieldPlayerName.getText().length()));
 		}
-		config.serverEnabled = chckbxLancerLeServeur.isSelected();
+		config.serverEnabled = chckbxRunServer.isSelected();
 		if (config.serverEnabled) {
-			config.serverPort = (Integer) spinnerServerPort.getValue();
+			config.serverPort = spinnerServerPort.getValue();
 			config.serverScoring = chckbxServerScoring.isSelected();
 		}
 		
@@ -321,28 +244,6 @@ public class LauncherDialog extends JFrame {
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	@Override
-	public synchronized void dispose() {
-		super.dispose();
-		notify();
-	}
-	
-	public synchronized void waitForDispose() {
-		try {
-			wait();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
 	
 	
 	
@@ -367,19 +268,19 @@ public class LauncherDialog extends JFrame {
 
 	public void applyConfiguration(LaunchingConfiguration savedConfig) {
 		
-		if (chckbxLancerLeClient.isSelected() != savedConfig.clientEnabled)
-			chckbxLancerLeClient.setSelected(savedConfig.clientEnabled);
+		if (chckbxRunClient.isSelected() != savedConfig.clientEnabled)
+			chckbxRunClient.setSelected(savedConfig.clientEnabled);
 		if (savedConfig.clientEnabled) {
 			textFieldPlayerName.setText(savedConfig.clientPlayerName);
 			if (!savedConfig.serverEnabled)
 				textFieldServerAddr.setText(savedConfig.clientConnectionAddress);
 		}
 		
-		if (chckbxLancerLeServeur.isSelected() != savedConfig.serverEnabled)
-			chckbxLancerLeServeur.setSelected(savedConfig.serverEnabled);
+		if (chckbxRunServer.isSelected() != savedConfig.serverEnabled)
+			chckbxRunServer.setSelected(savedConfig.serverEnabled);
 		if (savedConfig.serverEnabled) {
 			chckbxServerScoring.setSelected(savedConfig.serverScoring);
-			spinnerServerPort.setValue(new Integer(savedConfig.serverPort));
+			spinnerServerPort.getValueFactory().setValue(savedConfig.serverPort);
 		}
 	}
 

@@ -1,19 +1,13 @@
 package fr.univ_artois.iut_lens.spaceinvader.sprites_manager;
 
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsEnvironment;
-import java.awt.HeadlessException;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.net.URL;
+import java.io.InputStream;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.imageio.ImageIO;
-
 import fr.univ_artois.iut_lens.spaceinvader.util.Logger;
+import javafx.scene.image.Image;
 
 /**
  * A resource manager for sprites in the game. Its often quite important
@@ -29,13 +23,6 @@ public class SpriteStore {
 	/** The single instance of this class */
 	private static SpriteStore single = new SpriteStore();
 	
-	static GraphicsConfiguration graphicsConfig = null;
-	
-	static {
-		try {
-			graphicsConfig = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
-		} catch (HeadlessException e) { }
-	}
 	
 	/**
 	 * Get the single instance of this class 
@@ -67,28 +54,20 @@ public class SpriteStore {
 		
 		// otherwise, go away and grab the sprite from the resource
 		// loader
-		BufferedImage sourceImage = null;
 		
-		try {
-			// The ClassLoader.getResource() ensures we get the sprite
-			// from the appropriate place, this helps with deploying the game
-			// with things like webstart. You could equally do a file look
-			// up here.
-			URL url = this.getClass().getClassLoader().getResource(ref);
-			
-			if (url == null) {
-				fail("Can't find ref: "+ref);
-			}
-			
-			// use ImageIO to read the image in
-			sourceImage = ImageIO.read(url);
-		} catch (IOException e) {
-			e.printStackTrace();
-			fail("Failed to load: "+ref);
+		// The ClassLoader.getResource() ensures we get the sprite
+		// from the appropriate place, this helps with deploying the game
+		// with things like webstart. You could equally do a file look
+		// up here.
+		InputStream imgStr = this.getClass().getClassLoader().getResourceAsStream(ref);
+		
+		if (imgStr == null) {
+			fail("Can't find ref: "+ref);
 		}
 		
+		// use ImageIO to read the image in
 		// create a sprite, add it the cache then return it
-		Sprite sprite = new Sprite(sourceImage);
+		Sprite sprite = new Sprite(new Image(imgStr));
 		
 		sprites.put(ref,sprite);
 		newSprites.put(ref, sprite);

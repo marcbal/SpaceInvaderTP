@@ -7,37 +7,28 @@ import java.net.InetSocketAddress;
 import java.nio.charset.Charset;
 import java.util.Random;
 
-import javax.swing.UIManager;
-
 import fr.univ_artois.iut_lens.spaceinvader.client.Client;
 import fr.univ_artois.iut_lens.spaceinvader.launcher.CommandArgsParser;
 import fr.univ_artois.iut_lens.spaceinvader.launcher.ConfigurationSaver;
 import fr.univ_artois.iut_lens.spaceinvader.launcher.LauncherDialog;
 import fr.univ_artois.iut_lens.spaceinvader.launcher.LaunchingConfiguration;
 import fr.univ_artois.iut_lens.spaceinvader.server.Server;
+import fr.univ_artois.iut_lens.spaceinvader.sprites_manager.SpriteStore;
 import fr.univ_artois.iut_lens.spaceinvader.util.Logger;
+import javafx.application.Application;
+import javafx.stage.Stage;
 
-public class MegaSpaceInvader {
+public class MegaSpaceInvader extends Application {
 	
 	/*
-	 * 
 	 * Global configuration
-	 * 
+	 * _ /!\ : Some values may affect game behaviour if there
+	 * are different between the server and the client instance
 	 */
-	public static final int CLIENT_FRAME_PER_SECOND = 120;
-	
-	public static final boolean CLIENT_SMOOTH_ENTITY_MOVEMENT = true; // usefull if framerate is greater than server tickrate
-	
-	public static final int SERVER_NB_THREAD_FOR_ENTITY_COLLISION = Runtime.getRuntime().availableProcessors();
-	
-	public static final int SERVER_TICK_PER_SECOND = 30;
-
 	public static final int DISPLAY_WIDTH = 960;
 	public static final int DISPLAY_HEIGHT = 540;
 	
 	public static final int SERVER_DEFAULT_PORT = 34567;
-	
-	public static final int SERVER_NB_MAX_ENTITY = 4000;
 	
 	public static final Charset NETWORK_CHARSET = Charset.forName("UTF-8");
 	
@@ -47,6 +38,22 @@ public class MegaSpaceInvader {
 	
 	public static final int NETWORK_NB_ENTITY_PER_UPDATE_PACKET = 1300;
 	
+	/*
+	 * Client configuration (doesn't affect server)
+	 */
+	public static final int CLIENT_FRAME_PER_SECOND = 120;
+	
+	public static final boolean CLIENT_SMOOTH_ENTITY_MOVEMENT = true; // usefull if framerate is greater than server tickrate
+	
+	/*
+	 * Server configuration (doesn't affect client)
+	 */
+	public static final int SERVER_NB_THREAD_FOR_ENTITY_COLLISION = Runtime.getRuntime().availableProcessors();
+	
+	public static final int SERVER_NB_MAX_ENTITY = 4000;
+	
+	public static final int SERVER_TICK_PER_SECOND = 30;
+	
 	
 	
 	
@@ -55,6 +62,11 @@ public class MegaSpaceInvader {
 	
 	
 	public static final Random RANDOM = new Random();
+	
+	
+	public static boolean headless;
+	private static LaunchingConfiguration launchConfig = null;
+	private static Stage primaryStage;
 	
 	// paramètres : [-s [PORT_NUMBER [score]]] [-c NICKNAME [SERVER_ADDR:PORT]]
 	/*
@@ -70,18 +82,10 @@ public class MegaSpaceInvader {
 		shutdownHook();
 		Thread.currentThread().setName("Main");
 		
-		boolean headless = GraphicsEnvironment.isHeadless();
+		headless = GraphicsEnvironment.isHeadless();
 		
-
-		try {
-			// donne à l'interface graphique le thème associé au système d'exploitation
-			if (!headless)
-				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		
-		LaunchingConfiguration launchConfig = null;
+		
 		
 		// analyse de la ligne de commande.
 		try {
@@ -90,32 +94,64 @@ public class MegaSpaceInvader {
 			e.printStackTrace();
 		}
 		
-		// si la ligne de commande ne donne rien de concluant, affichage du launcher.
-		if (launchConfig == null) {
-			if (headless) {
+		if (headless) {
+			
+			if (launchConfig == null) {
 				showCommandLineHelp();
 				System.exit(1);
 			}
+			else {
+				postLauncher();
+			}
 			
-			
-			LauncherDialog diag = new LauncherDialog();
-			
-			ConfigurationSaver saver = new ConfigurationSaver();
-			
-			LaunchingConfiguration savedConfig = saver.getConfigFromFile();
-			if (savedConfig != null)
-			diag.applyConfiguration(savedConfig);
-			
-			diag.waitForDispose();
-			// si le launcher est fermé avec "Annuler" ou la croix fermé, le programme est quitté
-			
-			launchConfig = diag.generateConfig();
-			
-			saver.saveConfiguration(launchConfig);
+		}
+		else {
+			// run JavaFX
+			Application.launch(args);
 		}
 		
 		
 		
+	}
+	
+	
+	
+	@Override
+	public void start(Stage stage) throws Exception {
+		
+		primaryStage = stage;
+		
+		primaryStage.getIcons().add(SpriteStore.get().getSprite("sprites/ComplexShot.png").getImage());
+		primaryStage.setResizable(false);
+		
+		// si la ligne de commande ne donne rien de concluant, affichage du launcher.
+		if (launchConfig == null) {
+			
+			
+			LauncherDialog diag = new LauncherDialog(primaryStage);
+			
+			LaunchingConfiguration savedConfig = new ConfigurationSaver().getConfigFromFile();
+			if (savedConfig != null)
+				diag.applyConfiguration(savedConfig);
+			
+		}
+		else {
+			postLauncher();
+		}
+	}
+	
+	
+	public static void afterLauncherUI(LaunchingConfiguration config) {
+		
+		launchConfig = config;
+
+		new ConfigurationSaver().saveConfiguration(launchConfig);
+		
+		postLauncher();
+	}
+	
+	
+	private static void postLauncher() {
 		
 		if (launchConfig.serverEnabled) {
 			
@@ -150,17 +186,13 @@ public class MegaSpaceInvader {
 			}
 			
 			try {
-				Client c = new Client(new InetSocketAddress(InetAddress.getByName(addr), port), launchConfig.clientPlayerName);
-				c.start();
+				new Client(primaryStage, new InetSocketAddress(InetAddress.getByName(addr), port), launchConfig.clientPlayerName);
 			} catch (IOException e) {
 				Logger.severe("Impossible de lancer l'interface graphique :");
 				e.printStackTrace();
 			}
 		
 		}
-		
-		
-		
 		
 	}
 	

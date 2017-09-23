@@ -27,10 +27,8 @@ public class ConfigurationSaver {
 	
 	
 	public void saveConfiguration(LaunchingConfiguration config) {
-		try {
-			FileWriter fw= new FileWriter(configFile, false);
-			fw.append(new Gson().toJson(config));
-			fw.close();
+		try(FileWriter fw = new FileWriter(configFile, false)) {
+			new Gson().toJson(config, fw);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

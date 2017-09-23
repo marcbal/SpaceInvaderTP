@@ -1,6 +1,5 @@
 package fr.univ_artois.iut_lens.spaceinvader.client;
 
-import java.awt.Graphics;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -12,6 +11,7 @@ import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUp
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateMap.MapData.EntityDataUpdated;
 import fr.univ_artois.iut_lens.spaceinvader.sprites_manager.SpriteStore;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
+import javafx.scene.canvas.GraphicsContext;
 
 public class EntityRepresenterManager {
 	
@@ -69,7 +69,7 @@ public class EntityRepresenterManager {
 	}
 	
 	
-	public synchronized void drawAll(Graphics g, long loop_start) {
+	public synchronized void drawAll(GraphicsContext g, long loop_start) {
 		
 		// infos pour l'adoucicement du mouvement des entités
 		GameInfo gInfo = Client.instance.lastGameInfo.get();

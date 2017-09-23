@@ -1,10 +1,9 @@
 package fr.univ_artois.iut_lens.spaceinvader.client;
 
-import java.awt.Color;
-import java.awt.Graphics;
-
 import fr.univ_artois.iut_lens.spaceinvader.sprites_manager.Sprite;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 public class EntityRepresenter {
 	
@@ -58,7 +57,7 @@ public class EntityRepresenter {
 	 * @param g The graphics context on which to draw
 	 * @param loopStart 
 	 */
-	public void draw(Graphics g, long loopStart, long defaultTickDuration, float slowdownCoeff) {
+	public void draw(GraphicsContext g, long loopStart, long defaultTickDuration, float slowdownCoeff) {
 		long supposedElapsedTickTime = Math.min((long) ((loopStart - lastUpdateNanoTime)/slowdownCoeff), defaultTickDuration);
 		double posX = position.x+supposedElapsedTickTime*speed.x/1000000000;
 		double posY = position.y+supposedElapsedTickTime*speed.y/1000000000;
@@ -66,15 +65,15 @@ public class EntityRepresenter {
 		sprite.draw(g,(int)posX,(int)posY);
 
 		if (currentLife!=maxLife && currentLife > 0) {
-			g.setColor(Color.DARK_GRAY);
-			g.fillRect((int)posX,(int)posY, sprite.getWidth(), 3);
-			g.setColor(new Color((float)Math.sqrt(1-(currentLife/(float)maxLife)), (float)Math.sqrt(currentLife/(float)maxLife), 0F));
-			g.fillRect((int)posX,(int)posY, (int)(sprite.getWidth()*(currentLife/(double)maxLife)), 3);
+			g.setFill(Color.DARKGRAY);
+			g.fillRect(posX, posY, sprite.getWidth(), 3);
+			g.setFill(new Color(Math.sqrt(1-(currentLife/(float)maxLife)), Math.sqrt(currentLife/(float)maxLife), 0, 1));
+			g.fillRect(posX, posY,  (sprite.getWidth()*(currentLife/(double)maxLife)), 3);
 		}
 		
 		if (name != null && name.length()>0) {
-			g.setColor(Color.WHITE);
-			g.drawString(name,(int)posX,(int)posY+5);
+			g.setFill(Color.WHITE);
+			g.fillText(name, posX, posY + 5);
 		}
 		
 	}
