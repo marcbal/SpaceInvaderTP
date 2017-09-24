@@ -1,6 +1,5 @@
 package fr.univ_artois.iut_lens.spaceinvader.sprites_manager;
 
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 /**
@@ -57,16 +56,4 @@ public class Sprite {
 		return image;
 	}
 	
-	
-	
-	/**
-	 * Draw the sprite onto the graphics context provided
-	 * 
-	 * @param g The graphics context on which to draw the sprite
-	 * @param x The x location at which to draw the sprite
-	 * @param y The y location at which to draw the sprite
-	 */
-	public void draw(GraphicsContext g, double x, double y) {
-		g.drawImage(image, x, y);
-	}
 }

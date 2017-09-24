@@ -62,8 +62,8 @@ public class EntityRepresenter {
 		double posX = position.x+supposedElapsedTickTime*speed.x/1000000000;
 		double posY = position.y+supposedElapsedTickTime*speed.y/1000000000;
 		
-		sprite.draw(g,(int)posX,(int)posY);
-
+		g.drawImage(sprite.getImage(), posX, posY);
+		
 		if (currentLife!=maxLife && currentLife > 0) {
 			g.setFill(Color.DARKGRAY);
 			g.fillRect(posX, posY, sprite.getWidth(), 3);

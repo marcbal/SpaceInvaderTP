@@ -1,6 +1,8 @@
 package fr.univ_artois.iut_lens.spaceinvader.sprites_manager;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -59,21 +61,23 @@ public class SpriteStore {
 		// from the appropriate place, this helps with deploying the game
 		// with things like webstart. You could equally do a file look
 		// up here.
-		InputStream imgStr = this.getClass().getClassLoader().getResourceAsStream(ref);
-		
-		if (imgStr == null) {
-			fail("Can't find ref: "+ref);
+		try (InputStream imgStr = this.getClass().getClassLoader().getResourceAsStream(ref)) {
+			if (imgStr == null) {
+				fail("Can't find ref: "+ref);
+			}
+			
+			// use ImageIO to read the image in
+			// create a sprite, add it the cache then return it
+			Sprite sprite = new Sprite(new Image(imgStr));
+			
+			sprites.put(ref,sprite);
+			newSprites.put(ref, sprite);
+			
+			return sprite;
+		} catch (IOException e) {
+			throw new UncheckedIOException(e);
 		}
 		
-		// use ImageIO to read the image in
-		// create a sprite, add it the cache then return it
-		Sprite sprite = new Sprite(new Image(imgStr));
-		
-		sprites.put(ref,sprite);
-		newSprites.put(ref, sprite);
-		
-		
-		return sprite;
 	}
 	
 

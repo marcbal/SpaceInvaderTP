@@ -63,7 +63,7 @@ public abstract class Packet {
 			throw new InvalidClientMessage("le code du packet ne correspond à aucun type de packet : "+data[0]);
 		
 		try {
-			Packet p = packetTypes.get(data[0]).newInstance();
+			Packet p = packetTypes.get(data[0]).getDeclaredConstructor().newInstance();
 			p.setData(Arrays.copyOfRange(data, 5, data.length));
 			return p;
 		} catch (Exception e) {
@@ -74,7 +74,7 @@ public abstract class Packet {
 	
 	private static <T extends Packet> void addPacket(Class<T> packetClass) {
 		try {
-			Packet p = packetClass.newInstance();
+			Packet p = packetClass.getDeclaredConstructor().newInstance();
 			packetTypes.put(p.code, packetClass);
 		} catch (Exception e) {
 			e.printStackTrace();

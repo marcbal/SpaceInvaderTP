@@ -44,6 +44,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontSmoothingType;
+import javafx.scene.transform.Affine;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -110,7 +111,7 @@ public class Client extends Canvas implements NetworkReceiveListener {
 		// create a scene to contain our game
 		stage.setScene(new Scene(new BorderPane(this)));
 		stage.setTitle("Mega Space Invader");
-		stage.setResizable(false);
+		stage.setResizable(true);
 
 		stage.sizeToScene();
 		
@@ -148,6 +149,10 @@ public class Client extends Canvas implements NetworkReceiveListener {
 		
 		getGraphicsContext2D().setFontSmoothingType(FontSmoothingType.LCD);
 		getGraphicsContext2D().setFont(Font.font("SansSerif", 12));
+		
+
+		widthProperty().bind(stage.getScene().widthProperty());
+		heightProperty().bind(stage.getScene().heightProperty());
 		
 		
 		Platform.runLater(() -> {
@@ -251,18 +256,34 @@ public class Client extends Canvas implements NetworkReceiveListener {
 
 	private void updateDisplay(long loop_start) {
 		
-
-		
-		// Get hold of a graphics context for the accelerated 
-		// surface and blank it out
 		GraphicsContext g = getGraphicsContext2D();
+		g.setTransform(new Affine()); // reset transform matrix
 		g.setFill(Color.BLACK);
+		g.fillRect(0, 0, getWidth(), getHeight());
+		
+
+		// compute sizes for rescaling
+		double zoom = Math.min(getWidth() / MegaSpaceInvader.DISPLAY_WIDTH,
+				getHeight() / MegaSpaceInvader.DISPLAY_HEIGHT);
+		double zoomImage = Math.max(getWidth() / background.getWidth(),
+				getHeight() / background.getHeight());
+
+		double translateX = (getWidth() - zoom * MegaSpaceInvader.DISPLAY_WIDTH) / 2;
+		double translateY = (getHeight() - zoom * MegaSpaceInvader.DISPLAY_HEIGHT) / 2;
 		
 		// dessin du background
-		background.draw(g,
-				(int)(MegaSpaceInvader.DISPLAY_WIDTH/2D - background.getWidth()/2D),
-				(int)(MegaSpaceInvader.DISPLAY_HEIGHT/2D - background.getHeight()/2D));
-
+		g.drawImage(background.getImage(), 
+				getWidth()/2D - background.getWidth()/2D*zoomImage,
+				getHeight()/2D - background.getHeight()/2D*zoomImage,
+				background.getWidth() * zoomImage,
+				background.getHeight() * zoomImage);
+		
+		g.translate(translateX, translateY);
+		g.scale(zoom, zoom);
+		
+		
+		
+		
 		
 		
 		
