@@ -68,12 +68,11 @@ import fr.univ_artois.iut_lens.spaceinvader.util.Logger;
  * @author Marc Baloup
  *
  */
-public class ServerConnection {
+public class ServerConnection extends Thread {
 	private static AtomicInteger connectionCounterId = new AtomicInteger(0);
 	
 	
 	private ServerSocket svSocket;
-	private Thread receiverThread;
 	private NetworkReceiveListener gameListener;
 	
 	
@@ -83,6 +82,7 @@ public class ServerConnection {
 	
 	
 	public ServerConnection(int port) throws IOException {
+		super("Server Net");
 		if (port <= 0 || port > 65535)
 			throw new IllegalArgumentException("le numéro de port est invalide");
 		svSocket = new ServerSocket();
@@ -90,41 +90,29 @@ public class ServerConnection {
 		svSocket.setPerformancePreferences(0, 2, 1);
 		svSocket.bind(new InetSocketAddress(port));
 		
-		receiverThread = new ServerConnectionThread();
-		receiverThread.start();
+		start();
 		
 	}
 	
-	/*
-	 * Thread qui prends en charge les nouvelles connexions
-	 */
-	private class ServerConnectionThread extends Thread {
-		
-		public ServerConnectionThread() {
-			super("Server Net");
-		}
-		
-		@Override
-		public void run() {
+	@Override
+	public void run() {
 
-			try {
-				while(true) {
-					Socket socketClient = svSocket.accept();
-					socketClient.setSendBufferSize(MegaSpaceInvader.NETWORK_TCP_BUFFER_SIZE);
-					socketClient.setSoTimeout(MegaSpaceInvader.NETWORK_TIMEOUT);
-					
-					try {
-						new InputConnectionThread(socketClient, connectionCounterId.getAndIncrement()).start();
-					} catch(IOException e) {
-						Logger.severe("Connexion impossible avec "+socketClient.getInetAddress());
-					}
+		try {
+			while(true) {
+				Socket socketClient = svSocket.accept();
+				socketClient.setSendBufferSize(MegaSpaceInvader.NETWORK_TCP_BUFFER_SIZE);
+				socketClient.setSoTimeout(MegaSpaceInvader.NETWORK_TIMEOUT);
+				
+				try {
+					new InputConnectionThread(socketClient, connectionCounterId.getAndIncrement()).start();
+				} catch(IOException e) {
+					Logger.severe("Connexion impossible avec "+socketClient.getInetAddress());
 				}
-			} catch (Exception e) {
-				Logger.warning("Plus aucune connexion ne peux être acceptée : "+e.toString());
 			}
+		} catch (Exception e) {
+			Logger.warning("Plus aucune connexion ne peux être acceptée : "+e.toString());
 		}
 	}
-	
 	
 	
 	public class InputConnectionThread extends Thread {

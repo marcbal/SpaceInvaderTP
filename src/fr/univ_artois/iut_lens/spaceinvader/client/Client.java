@@ -66,7 +66,7 @@ import javafx.stage.WindowEvent;
 public class Client extends Canvas implements NetworkReceiveListener {
 
 	public static Client instance;
-
+	
 	private Stage stage;
 	
 	private OnScreenDisplay onScreenDisplay;
@@ -343,10 +343,10 @@ public class Client extends Canvas implements NetworkReceiveListener {
 		else if (packet instanceof PacketServerDisconnectTimeout) {
 			gameRunning.set(false);
 			Logger.severe("Déconnecté par le serveur : Timeout");
-			connection.socketThread.close();
+			connection.close();
 		}
 		else if (packet instanceof PacketServerDisconnectOk) {
-			connection.socketThread.close();
+			connection.close();
 		}
 		else if (packet instanceof PacketServerLevelEnd) {
 			waitingForKeyPress.set(true);

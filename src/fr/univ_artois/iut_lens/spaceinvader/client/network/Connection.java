@@ -18,17 +18,20 @@ import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServer;
 import fr.univ_artois.iut_lens.spaceinvader.server.network.ServerConnection.InvalidClientMessage;
 import fr.univ_artois.iut_lens.spaceinvader.util.Logger;
 
-public class Connection {
+public class Connection extends Thread {
 	
 	private Socket socket;
 	private SocketAddress addr;
-	public final ClientConnectionThread socketThread;
 	private NetworkReceiveListener listener;
 	
 	
+	private Object outSynchronizer = new Object();
+	private InputStream in;
+	private OutputStream out;
 	
 	
 	public Connection(InetSocketAddress a, String name, NetworkReceiveListener l) throws IOException {
+		super("Client Net");
 		if (a == null || name == null || l == null)
 			throw new IllegalArgumentException("les arguments ne peuvent pas être null");
 		socket = new Socket();
@@ -36,108 +39,97 @@ public class Connection {
 		socket.setSendBufferSize(MegaSpaceInvader.NETWORK_TCP_BUFFER_SIZE);
 		socket.setSoTimeout(MegaSpaceInvader.NETWORK_TIMEOUT);
 		socket.connect(a);
+		
+		in = socket.getInputStream();
+		out = socket.getOutputStream();
+		
 		addr = a;
 		listener = l;
 		
 		Logger.info("Connexion au serveur à l'adresse "+addr.toString());
 		
-		socketThread = new ClientConnectionThread();
-		socketThread.setName("Client Net");
-		socketThread.start();
-		
 		PacketClientJoin joinPacket = new PacketClientJoin();
 		joinPacket.setPlayerName(name);
 		send(joinPacket);
 		
+		start();
 	}
 	
-	public class ClientConnectionThread extends Thread {
+	
+	
+	
+	@Override
+	public void run() {
 		
-		private Object outSynchronizer = new Object();
-		private InputStream in;
-		private OutputStream out;
-		
-		public ClientConnectionThread() throws IOException {
-			super("Client Net");
-			in = socket.getInputStream();
-			out = socket.getOutputStream();
-		}
-		
-		
-		@Override
-		public void run() {
-			
-			try {
-				byte[] code = new byte[1];
-				while(!socket.isClosed() && in.read(code) != -1 && Client.instance.gameRunning.get()) {
-					byte[] sizeB = new byte[4];
-					if (in.read(sizeB) != 4)
-						throw new IOException("Socket "+addr+" fermé");
-					
-					int size = ByteBuffer.wrap(sizeB).getInt();
-					
-					byte[] content = new byte[size];
-					
-					forceReadBytes(content);
-					
-					byte[] packetData = ByteBuffer.allocate(1+4+size).put(code).put(sizeB).put(content).array();
-					
-					
-					try {
-						interpreteReceivedMessage(packetData);
-					} catch (InvalidClientMessage e) {
-						Logger.severe("Message du serveur mal formé : "+e);
-					} catch (Exception e) {
-						Logger.severe("Erreur lors de la prise en charge du message par le serveur");
-						e.printStackTrace();
-					}
+		try {
+			byte[] code = new byte[1];
+			while(!socket.isClosed() && in.read(code) != -1 && Client.instance.gameRunning.get()) {
+				byte[] sizeB = new byte[4];
+				if (in.read(sizeB) != 4)
+					throw new IOException("Socket "+addr+" fermé");
+				
+				int size = ByteBuffer.wrap(sizeB).getInt();
+				
+				byte[] content = new byte[size];
+				
+				forceReadBytes(content);
+				
+				byte[] packetData = ByteBuffer.allocate(1+4+size).put(code).put(sizeB).put(content).array();
+				
+				
+				try {
+					interpreteReceivedMessage(packetData);
+				} catch (InvalidClientMessage e) {
+					Logger.severe("Message du serveur mal formé : "+e);
+				} catch (Exception e) {
+					Logger.severe("Erreur lors de la prise en charge du message par le serveur");
+					e.printStackTrace();
 				}
-				
-				
-			} catch (SocketTimeoutException e) {
-				System.err.println("Le serveur a prit trop de temps à répondre");
-			} catch (Exception e) {
-				e.printStackTrace();
 			}
-			try {
-				socket.close();
-			} catch (Exception e) { }
-			Client.instance.gameRunning.set(false);
+			
+			
+		} catch (SocketTimeoutException e) {
+			System.err.println("Le serveur a prit trop de temps à répondre");
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		
-		
-		
-		private void forceReadBytes(byte[] buff) throws IOException {
-			int pos = 0;
-			do {
-				int nbR = in.read(buff, pos, buff.length-pos);
-				if (nbR == -1)
-					throw new IOException("Can't read required amount of byte");
-				pos += nbR;
-			} while (pos < buff.length);
-		}
-		
-		public void send(PacketClient packet) throws IOException {
-			synchronized (outSynchronizer) {
-				out.write(packet.constructAndGetDataPacket());
-				out.flush();
-			}
-		}
-		
-		public void close() {
-			try {
-				socket.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		
+		try {
+			socket.close();
+		} catch (Exception e) { }
+		Client.instance.gameRunning.set(false);
 	}
 	
-
-	public void send(PacketClient packet) throws IOException {
-		socketThread.send(packet);
+	
+	
+	
+	private void forceReadBytes(byte[] buff) throws IOException {
+		int pos = 0;
+		do {
+			int nbR = in.read(buff, pos, buff.length-pos);
+			if (nbR == -1)
+				throw new IOException("Can't read required amount of byte");
+			pos += nbR;
+		} while (pos < buff.length);
 	}
+	
+	
+	public void send(PacketClient packet) throws IOException {
+		synchronized (outSynchronizer) {
+			out.write(packet.constructAndGetDataPacket());
+			out.flush();
+		}
+	}
+	
+	
+	public void close() {
+		try {
+			socket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 	public void silentSend(PacketClient packet) {
 		try {
 			send(packet);
