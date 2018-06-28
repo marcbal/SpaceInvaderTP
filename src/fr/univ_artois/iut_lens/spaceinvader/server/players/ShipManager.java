@@ -3,6 +3,7 @@ package fr.univ_artois.iut_lens.spaceinvader.server.players;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.univ_artois.iut_lens.spaceinvader.MegaSpaceInvader;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.client.PacketClientCommand;
 import fr.univ_artois.iut_lens.spaceinvader.server.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.ship.*;
@@ -29,7 +30,6 @@ public class ShipManager {
 	public ShipManager(EntitiesManager eM, Player p) {
 		entitiesManager = eM;
 		player = p;
-		
 		
 		ships.add(new EntityShipDefault(entitiesManager, this));
 		ships.add(new EntityShipPowered(entitiesManager, this));
@@ -82,6 +82,10 @@ public class ShipManager {
 		ships.add(new EntityShipFinal2(entitiesManager, this, 800, 750, 12, 2));
 		ships.add(new EntityShipFinal2(entitiesManager, this, 500, 1700, 1, 1));
 		ships.add(new EntityShipFinal(entitiesManager, this, 1000));
+		
+		if (MegaSpaceInvader.SERVER_COLLISION_STRESS_TEST) {
+			ships.set(0, new EntityShipFinal2(entitiesManager, this, 100, 20000, 12, 1));
+		}
 	}
 	
 	public EntityShip getCurrentShip() {

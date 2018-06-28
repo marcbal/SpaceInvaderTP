@@ -8,7 +8,9 @@ import org.apache.commons.collections4.queue.CircularFifoQueue;
 import fr.univ_artois.iut_lens.spaceinvader.MegaSpaceInvader;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateInfos.GameInfo;
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateInfos.GameInfo.PlayerInfo;
+import fr.univ_artois.iut_lens.spaceinvader.server.Server;
 import fr.univ_artois.iut_lens.spaceinvader.util.DataSizeUtil;
+import javafx.geometry.VPos;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
@@ -43,6 +45,11 @@ public class OnScreenDisplay {
 		GameInfo serverInfos = Client.instance.lastGameInfo.get();
 		
 		boolean displayDetails = keyHandler.isKeyToggled("infos");
+		boolean collisionDebug = keyHandler.isKeyToggled("collisionDebug");
+		
+		if (collisionDebug && Server.serverInstance != null) {
+			Server.serverInstance.entitiesManager.entities.draw(g);
+		}
 		
 		/*
 		 * Indicateur de vie énemie, en haut de l'écran
@@ -164,10 +171,13 @@ public class OnScreenDisplay {
 				? TextAlignment.RIGHT
 				: TextAlignment.CENTER;
 		
+		VPos oldP = g.getTextBaseline();
 		TextAlignment old = g.getTextAlign();
 		g.setTextAlign(align);
+		g.setTextBaseline(VPos.BOTTOM);
 		g.fillText(text, x, y);
 		g.setTextAlign(old);
+		g.setTextBaseline(oldP);
 		
 		
 		

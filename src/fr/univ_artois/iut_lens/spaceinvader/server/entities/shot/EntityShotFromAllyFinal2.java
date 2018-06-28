@@ -39,6 +39,10 @@ public class EntityShotFromAllyFinal2 extends EntityShotFromAlly {
 			setSpeed(getSpeed().add(TargettingUtil.getTargetDirection(this, target).dotProduct(0.05)));
 		
 		super.move(delta);
+		
+		if (plannedToRemoved())
+			return;
+		
 		time++;
 		if(time%duplicationInterval==0 && limitedShip.getNbShotAlive()<limitedShip.getMaxNbShot())  {
 			time = 0;

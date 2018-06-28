@@ -36,6 +36,7 @@ public class KeyInputHandler {
 		
 		keyToggle.put("pause", new KeySetting(KeyCode.ESCAPE));
 		keyToggle.put("infos", new KeySetting(KeyCode.F3));
+		keyToggle.put("collisionDebug", new KeySetting(KeyCode.F4));
 		
 		
 		keyWaitPress.put("start", new KeySetting(KeyCode.ENTER));

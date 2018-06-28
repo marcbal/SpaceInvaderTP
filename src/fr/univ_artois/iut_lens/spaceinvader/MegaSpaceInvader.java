@@ -50,9 +50,11 @@ public class MegaSpaceInvader extends Application {
 	 */
 	public static final int SERVER_NB_THREAD_FOR_ENTITY_COLLISION = Runtime.getRuntime().availableProcessors();
 	
-	public static final int SERVER_NB_MAX_ENTITY = 4000;
+	public static int SERVER_NB_MAX_ENTITY = 4000;
 	
 	public static final int SERVER_TICK_PER_SECOND = 30;
+	
+	public static final boolean SERVER_COLLISION_STRESS_TEST = true;
 	
 	
 	
@@ -83,6 +85,13 @@ public class MegaSpaceInvader extends Application {
 		Thread.currentThread().setName("Main");
 		
 		headless = GraphicsEnvironment.isHeadless();
+		
+		
+		if (SERVER_COLLISION_STRESS_TEST) {
+			SERVER_NB_MAX_ENTITY = 20000;
+		}
+		
+		
 		
 		
 		

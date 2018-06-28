@@ -1,6 +1,5 @@
 package fr.univ_artois.iut_lens.spaceinvader.server.entities;
 
-import java.awt.Rectangle;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateMap;
@@ -10,6 +9,7 @@ import fr.univ_artois.iut_lens.spaceinvader.server.EntitiesManager;
 import fr.univ_artois.iut_lens.spaceinvader.server.entities.shot.EntityShot;
 import fr.univ_artois.iut_lens.spaceinvader.sprites_manager.Sprite;
 import fr.univ_artois.iut_lens.spaceinvader.sprites_manager.SpriteStore;
+import fr.univ_artois.iut_lens.spaceinvader.util.Rectangle;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
 
 /**
@@ -123,11 +123,11 @@ public abstract class Entity {
 	
 	public Rectangle getBoundingBox()
 	{
-		return new Rectangle((int)position.x, (int)position.y, sprite.getWidth(), sprite.getHeight());
+		return new Rectangle(position.x, position.y, sprite.getWidth(), sprite.getHeight());
 	}
 	
 	public Vector2d getCenter() {
-		return new Vector2d(position.x + sprite.getWidth()/2D, position.y + sprite.getHeight()/2D);
+		return new Vector2d(position.x + sprite.getWidth() / 2D, position.y + sprite.getHeight() / 2D);
 	}
 	
 	/**
@@ -237,6 +237,11 @@ public abstract class Entity {
 	public void setDisplayName(String n) { displayName = n; }
 	public String getDisplayName() { return displayName; }
 	
+	
+	@Override
+	public String toString() {
+		return "id=" + id + " " + getClass().getSimpleName() + " " + getDisplayName();
+	}
 	
 	
 	public static enum Camp {

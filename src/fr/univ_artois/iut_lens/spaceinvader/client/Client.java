@@ -77,7 +77,7 @@ public class Client extends Canvas implements NetworkReceiveListener {
 	/** Gestion des entités */
 	public EntityRepresenterManager entityRepresenterManager = new EntityRepresenterManager();
 	
-	private KeyInputHandler keyHandler = new KeyInputHandler();
+	public KeyInputHandler keyHandler = new KeyInputHandler();
 	private AtomicBoolean waitingForKeyPress = new AtomicBoolean(true);
 	public AtomicBoolean serverSidePause = new AtomicBoolean(false);
 	

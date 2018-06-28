@@ -11,7 +11,10 @@ import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUp
 import fr.univ_artois.iut_lens.spaceinvader.network_packet.server.PacketServerUpdateMap.MapData.EntityDataUpdated;
 import fr.univ_artois.iut_lens.spaceinvader.sprites_manager.SpriteStore;
 import fr.univ_artois.iut_lens.spaceinvader.util.Vector2d;
+import javafx.geometry.VPos;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+import javafx.scene.text.TextAlignment;
 
 public class EntityRepresenterManager {
 	
@@ -79,8 +82,16 @@ public class EntityRepresenterManager {
 			slowDownCoeff = gInfo.currentTickTime/(float)defaultTickDuration;
 		// -----
 		
-		for (EntityRepresenter ent : entities.values()) {
+		for (int k : entities.keySet()) {
+			EntityRepresenter ent = entities.get(k);
 			ent.draw(g, loop_start, defaultTickDuration, slowDownCoeff);
+			
+			if (Client.instance.keyHandler.isKeyToggled("collisionDebug")) {
+				g.setTextAlign(TextAlignment.LEFT);
+				g.setTextBaseline(VPos.TOP);
+				g.setFill(Color.rgb(0, 255, 0, 0.5));
+				g.fillText(k + "", ent.getPosition().x, ent.getPosition().y);
+			}
 		}
 	}
 	
